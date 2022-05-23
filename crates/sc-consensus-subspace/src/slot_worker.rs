@@ -17,12 +17,12 @@
 
 use crate::verification::PieceCheckParams;
 use crate::{
-    find_pre_digest, subspace_err, verification, BlockSigningNotification, NewSlotInfo,
-    NewSlotNotification, SubspaceLink,
+    find_pre_digest, verification, NewSlotInfo, NewSlotNotification, RewardSigningNotification,
+    SubspaceLink,
 };
 use futures::StreamExt;
 use futures::TryFutureExt;
-use log::{debug, warn};
+use log::{debug, error, info, warn};
 use sc_consensus::block_import::{BlockImport, BlockImportParams, StateAction};
 use sc_consensus::{JustificationSyncLink, StorageChanges};
 use sc_consensus_slots::{
@@ -36,43 +36,48 @@ use sp_blockchain::{Error as ClientError, HeaderBackend, HeaderMetadata};
 use sp_consensus::{BlockOrigin, Environment, Error as ConsensusError, Proposer, SyncOracle};
 use sp_consensus_slots::Slot;
 use sp_consensus_subspace::digests::{CompatibleDigestItem, PreDigest};
-use sp_consensus_subspace::{FarmerPublicKey, SubspaceApi};
+use sp_consensus_subspace::{FarmerPublicKey, FarmerSignature, SignedVote, SubspaceApi, Vote};
 use sp_core::crypto::ByteArray;
 use sp_core::H256;
 use sp_runtime::generic::BlockId;
-use sp_runtime::traits::{AppVerify, Block as BlockT, Header, Zero};
+use sp_runtime::traits::{Block as BlockT, Header, One, Saturating, Zero};
 use sp_runtime::DigestItem;
 use std::future::Future;
 use std::{pin::Pin, sync::Arc};
 use subspace_core_primitives::{Randomness, Salt};
 
-pub(super) struct SubspaceSlotWorker<B: BlockT, C, E, I, SO, L, BS> {
-    pub(super) client: Arc<C>,
+pub(super) struct SubspaceSlotWorker<Block: BlockT, Client, E, I, SO, L, BS> {
+    pub(super) client: Arc<Client>,
     pub(super) block_import: I,
     pub(super) env: E,
     pub(super) sync_oracle: SO,
     pub(super) justification_sync_link: L,
     pub(super) force_authoring: bool,
     pub(super) backoff_authoring_blocks: Option<BS>,
-    pub(super) subspace_link: SubspaceLink<B>,
-    pub(super) signing_context: SigningContext,
+    pub(super) subspace_link: SubspaceLink<Block>,
+    pub(super) solution_signing_context: SigningContext,
+    pub(super) reward_signing_context: SigningContext,
     pub(super) block_proposal_slot_portion: SlotProportion,
     pub(super) max_block_proposal_slot_portion: Option<SlotProportion>,
     pub(super) telemetry: Option<TelemetryHandle>,
 }
 
 #[async_trait::async_trait]
-impl<B, C, E, I, Error, SO, L, BS> SimpleSlotWorker<B> for SubspaceSlotWorker<B, C, E, I, SO, L, BS>
+impl<Block, Client, E, I, Error, SO, L, BS> SimpleSlotWorker<Block>
+    for SubspaceSlotWorker<Block, Client, E, I, SO, L, BS>
 where
-    B: BlockT,
-    C: ProvideRuntimeApi<B> + HeaderBackend<B> + HeaderMetadata<B, Error = ClientError> + 'static,
-    C::Api: SubspaceApi<B>,
-    E: Environment<B, Error = Error> + Send + Sync,
-    E::Proposer: Proposer<B, Error = Error, Transaction = TransactionFor<C, B>>,
-    I: BlockImport<B, Transaction = TransactionFor<C, B>> + Send + Sync + 'static,
+    Block: BlockT,
+    Client: ProvideRuntimeApi<Block>
+        + HeaderBackend<Block>
+        + HeaderMetadata<Block, Error = ClientError>
+        + 'static,
+    Client::Api: SubspaceApi<Block, FarmerPublicKey>,
+    E: Environment<Block, Error = Error> + Send + Sync,
+    E::Proposer: Proposer<Block, Error = Error, Transaction = TransactionFor<Client, Block>>,
+    I: BlockImport<Block, Transaction = TransactionFor<Client, Block>> + Send + Sync + 'static,
     SO: SyncOracle + Send + Sync + Clone,
-    L: JustificationSyncLink<B>,
-    BS: BackoffAuthoringBlocksStrategy<NumberFor<B>> + Send + Sync,
+    L: JustificationSyncLink<Block>,
+    BS: BackoffAuthoringBlocksStrategy<NumberFor<Block>> + Send + Sync,
     Error: std::error::Error + Send + From<ConsensusError> + From<I::Error> + 'static,
 {
     type BlockImport = I;
@@ -81,7 +86,7 @@ where
     type CreateProposer =
         Pin<Box<dyn Future<Output = Result<E::Proposer, ConsensusError>> + Send + 'static>>;
     type Proposer = E::Proposer;
-    type Claim = PreDigest<FarmerPublicKey>;
+    type Claim = PreDigest<FarmerPublicKey, FarmerPublicKey>;
     type EpochData = ();
 
     fn logging_target(&self) -> &'static str {
@@ -94,7 +99,7 @@ where
 
     fn epoch_data(
         &self,
-        _parent: &B::Header,
+        _parent: &Block::Header,
         _slot: Slot,
     ) -> Result<Self::EpochData, ConsensusError> {
         Ok(())
@@ -109,7 +114,7 @@ where
 
     async fn claim_slot(
         &self,
-        parent_header: &B::Header,
+        parent_header: &Block::Header,
         slot: Slot,
         _epoch_data: &Self::EpochData,
     ) -> Option<Self::Claim> {
@@ -120,8 +125,8 @@ where
 
         let global_randomness =
             extract_global_randomness_for_block(self.client.as_ref(), &parent_block_id).ok()?;
-        let solution_range =
-            extract_solution_range_for_block(self.client.as_ref(), &parent_block_id).ok()?;
+        let (solution_range, voting_solution_range) =
+            extract_solution_ranges_for_block(self.client.as_ref(), &parent_block_id).ok()?;
         let (salt, next_salt) =
             extract_salt_for_block(self.client.as_ref(), &parent_block_id).ok()?;
 
@@ -131,6 +136,7 @@ where
             salt,
             next_salt,
             solution_range,
+            voting_solution_range,
         };
         let (solution_sender, mut solution_receiver) =
             tracing_unbounded("subspace_slot_solution_stream");
@@ -201,30 +207,42 @@ where
                 }
             };
 
-            match verification::verify_solution::<B::Header>(
-                &solution,
-                slot,
-                verification::VerifySolutionParams {
-                    global_randomness: &global_randomness,
-                    solution_range,
-                    salt,
-                    piece_check_params: Some(PieceCheckParams {
-                        records_root,
-                        position,
-                        record_size,
-                        max_plot_size,
-                        total_pieces,
-                    }),
-                    signing_context: &self.signing_context,
-                },
-            ) {
-                Ok(_) => {
-                    debug!(target: "subspace", "Claimed slot {}", slot);
+            let solution_verification_result =
+                verification::verify_solution::<Block::Header, FarmerPublicKey>(
+                    &solution,
+                    slot,
+                    verification::VerifySolutionParams {
+                        global_randomness: &global_randomness,
+                        solution_range: voting_solution_range,
+                        salt,
+                        piece_check_params: Some(PieceCheckParams {
+                            records_root,
+                            position,
+                            record_size,
+                            max_plot_size,
+                            total_pieces,
+                        }),
+                        solution_signing_context: &self.solution_signing_context,
+                    },
+                );
 
-                    return Some(PreDigest { solution, slot });
-                }
-                Err(error) => {
-                    warn!(target: "subspace", "Invalid solution received for slot {}: {:?}", slot, error);
+            if let Err(error) = solution_verification_result {
+                warn!(target: "subspace", "Invalid solution received for slot {slot}: {error:?}");
+            } else {
+                let pre_digest = PreDigest { solution, slot };
+
+                // If solution is of high enough quality, block reward is claimed
+                if verification::is_within_solution_range(&pre_digest.solution, solution_range) {
+                    info!(target: "subspace", "🚜 Claimed block at slot {slot}");
+
+                    return Some(pre_digest);
+                } else if !parent_header.number().is_zero() {
+                    // Not sending vote on top of genesis bloc since root blocks since piece
+                    // verification wouldn't be possible due to empty records root
+                    info!(target: "subspace", "🗳️ Claimed vote at slot {slot}");
+
+                    self.create_vote(pre_digest, parent_header, &parent_block_id)
+                        .await;
                 }
             }
         }
@@ -238,62 +256,38 @@ where
 
     async fn block_import_params(
         &self,
-        header: B::Header,
-        header_hash: &B::Hash,
-        body: Vec<B::Extrinsic>,
-        storage_changes: sc_consensus_slots::StorageChanges<I::Transaction, B>,
+        header: Block::Header,
+        header_hash: &Block::Hash,
+        body: Vec<Block::Extrinsic>,
+        storage_changes: sc_consensus_slots::StorageChanges<I::Transaction, Block>,
         pre_digest: Self::Claim,
         _epoch_data: Self::EpochData,
-    ) -> Result<BlockImportParams<B, I::Transaction>, ConsensusError> {
-        let (signature_sender, mut signature_receiver) =
-            tracing_unbounded("subspace_signature_signing_stream");
+    ) -> Result<BlockImportParams<Block, I::Transaction>, ConsensusError> {
+        let signature = self
+            .sign_reward(
+                H256::from_slice(header_hash.as_ref()),
+                &pre_digest.solution.public_key,
+            )
+            .await?;
 
-        // Sign the pre-sealed header of the block and then add it to a digest item.
-        self.subspace_link
-            .block_signing_notification_sender
-            .notify(|| BlockSigningNotification {
-                header_hash: H256::from_slice(header_hash.as_ref()),
-                public_key: pre_digest.solution.public_key.clone(),
-                signature_sender,
-            });
+        let digest_item = DigestItem::subspace_seal(signature);
 
-        while let Some(signature) = signature_receiver.next().await {
-            if !signature.verify(header_hash.as_ref(), &pre_digest.solution.public_key) {
-                warn!(
-                    target: "subspace",
-                    "Received invalid signature for block header {:?}",
-                    header_hash
-                );
-                continue;
-            }
+        let mut import_block = BlockImportParams::new(BlockOrigin::Own, header);
+        import_block.post_digests.push(digest_item);
+        import_block.body = Some(body);
+        import_block.state_action =
+            StateAction::ApplyChanges(StorageChanges::Changes(storage_changes));
 
-            let digest_item = DigestItem::subspace_seal(signature);
-
-            let mut import_block = BlockImportParams::new(BlockOrigin::Own, header);
-            import_block.post_digests.push(digest_item);
-            import_block.body = Some(body);
-            import_block.state_action =
-                StateAction::ApplyChanges(StorageChanges::Changes(storage_changes));
-
-            return Ok(import_block);
-        }
-
-        Err(ConsensusError::CannotSign(
-            pre_digest.solution.public_key.to_raw_vec(),
-            "Farmer didn't sign header".to_string(),
-        ))
+        Ok(import_block)
     }
 
     fn force_authoring(&self) -> bool {
         self.force_authoring
     }
 
-    fn should_backoff(&self, slot: Slot, chain_head: &B::Header) -> bool {
+    fn should_backoff(&self, slot: Slot, chain_head: &Block::Header) -> bool {
         if let Some(ref strategy) = self.backoff_authoring_blocks {
-            if let Ok(chain_head_slot) = find_pre_digest(chain_head)
-                .map(|digest| digest.slot)
-                .map_err(subspace_err)
-            {
+            if let Ok(chain_head_slot) = find_pre_digest(chain_head).map(|digest| digest.slot) {
                 return strategy.should_backoff(
                     *chain_head.number(),
                     chain_head_slot,
@@ -314,7 +308,7 @@ where
         &mut self.justification_sync_link
     }
 
-    fn proposer(&mut self, block: &B::Header) -> Self::CreateProposer {
+    fn proposer(&mut self, block: &Block::Header) -> Self::CreateProposer {
         Box::pin(
             self.env
                 .init(block)
@@ -326,11 +320,8 @@ where
         self.telemetry.clone()
     }
 
-    fn proposing_remaining_duration(&self, slot_info: &SlotInfo<B>) -> std::time::Duration {
-        let parent_slot = find_pre_digest(&slot_info.chain_head)
-            .map_err(subspace_err)
-            .ok()
-            .map(|d| d.slot);
+    fn proposing_remaining_duration(&self, slot_info: &SlotInfo<Block>) -> std::time::Duration {
+        let parent_slot = find_pre_digest(&slot_info.chain_head).ok().map(|d| d.slot);
 
         sc_consensus_slots::proposing_remaining_duration(
             parent_slot,
@@ -343,6 +334,109 @@ where
     }
 }
 
+impl<Block, Client, E, I, Error, SO, L, BS> SubspaceSlotWorker<Block, Client, E, I, SO, L, BS>
+where
+    Block: BlockT,
+    Client: ProvideRuntimeApi<Block>
+        + HeaderBackend<Block>
+        + HeaderMetadata<Block, Error = ClientError>
+        + 'static,
+    Client::Api: SubspaceApi<Block, FarmerPublicKey>,
+    E: Environment<Block, Error = Error> + Send + Sync,
+    E::Proposer: Proposer<Block, Error = Error, Transaction = TransactionFor<Client, Block>>,
+    I: BlockImport<Block, Transaction = TransactionFor<Client, Block>> + Send + Sync + 'static,
+    SO: SyncOracle + Send + Sync + Clone,
+    L: JustificationSyncLink<Block>,
+    BS: BackoffAuthoringBlocksStrategy<NumberFor<Block>> + Send + Sync,
+    Error: std::error::Error + Send + From<ConsensusError> + From<I::Error> + 'static,
+{
+    async fn create_vote(
+        &self,
+        pre_digest: PreDigest<FarmerPublicKey, FarmerPublicKey>,
+        parent_header: &Block::Header,
+        parent_block_id: &BlockId<Block>,
+    ) {
+        let slot = pre_digest.slot;
+        let runtime_api = self.client.runtime_api();
+
+        if self.should_backoff(slot, parent_header) {
+            return;
+        }
+
+        // Vote doesn't have extrinsics or state, hence dummy values
+        let vote = Vote::V0 {
+            height: parent_header.number().saturating_add(One::one()),
+            parent_hash: parent_header.hash(),
+            slot,
+            solution: pre_digest.solution.clone(),
+        };
+
+        let signature = match self
+            .sign_reward(vote.hash(), &pre_digest.solution.public_key)
+            .await
+        {
+            Ok(signature) => signature,
+            Err(error) => {
+                error!(
+                    target: "subspace",
+                    "Failed to submit vote at slot {slot}: {error:?}",
+                );
+                return;
+            }
+        };
+
+        let signed_vote = SignedVote { vote, signature };
+
+        if let Err(error) = runtime_api.submit_vote_extrinsic(parent_block_id, signed_vote) {
+            error!(
+                target: "subspace",
+                "Failed to submit vote at slot {slot}: {error:?}",
+            );
+        }
+    }
+
+    async fn sign_reward(
+        &self,
+        hash: H256,
+        public_key: &FarmerPublicKey,
+    ) -> Result<FarmerSignature, ConsensusError> {
+        let (signature_sender, mut signature_receiver) =
+            tracing_unbounded("subspace_signature_signing_stream");
+
+        self.subspace_link
+            .reward_signing_notification_sender
+            .notify(|| RewardSigningNotification {
+                hash,
+                public_key: public_key.clone(),
+                signature_sender,
+            });
+
+        while let Some(signature) = signature_receiver.next().await {
+            if verification::check_reward_signature(
+                hash.as_ref(),
+                &signature,
+                public_key,
+                &self.reward_signing_context,
+            )
+            .is_err()
+            {
+                warn!(
+                    target: "subspace",
+                    "Received invalid signature for reward hash {hash:?}"
+                );
+                continue;
+            }
+
+            return Ok(signature);
+        }
+
+        Err(ConsensusError::CannotSign(
+            public_key.to_raw_vec(),
+            "Farmer didn't sign reward".to_string(),
+        ))
+    }
+}
+
 /// Extract global randomness for block, given ID of the parent block.
 pub(crate) fn extract_global_randomness_for_block<Block, Client>(
     client: &Client,
@@ -351,7 +445,7 @@ pub(crate) fn extract_global_randomness_for_block<Block, Client>(
 where
     Block: BlockT,
     Client: ProvideRuntimeApi<Block>,
-    Client::Api: SubspaceApi<Block>,
+    Client::Api: SubspaceApi<Block, FarmerPublicKey>,
 {
     client
         .runtime_api()
@@ -359,20 +453,27 @@ where
         .map(|randomnesses| randomnesses.next.unwrap_or(randomnesses.current))
 }
 
-/// Extract solution range for block, given ID of the parent block.
-pub(crate) fn extract_solution_range_for_block<Block, Client>(
+/// Extract solution ranges for block and votes, given ID of the parent block.
+pub(crate) fn extract_solution_ranges_for_block<Block, Client>(
     client: &Client,
     parent_block_id: &BlockId<Block>,
-) -> Result<u64, ApiError>
+) -> Result<(u64, u64), ApiError>
 where
     Block: BlockT,
     Client: ProvideRuntimeApi<Block>,
-    Client::Api: SubspaceApi<Block>,
+    Client::Api: SubspaceApi<Block, FarmerPublicKey>,
 {
     client
         .runtime_api()
         .solution_ranges(parent_block_id)
-        .map(|solution_ranges| solution_ranges.next.unwrap_or(solution_ranges.current))
+        .map(|solution_ranges| {
+            (
+                solution_ranges.next.unwrap_or(solution_ranges.current),
+                solution_ranges
+                    .voting_next
+                    .unwrap_or(solution_ranges.voting_current),
+            )
+        })
 }
 
 /// Extract salt and next salt for block, given ID of the parent block.
@@ -383,7 +484,7 @@ pub(crate) fn extract_salt_for_block<Block, Client>(
 where
     Block: BlockT,
     Client: ProvideRuntimeApi<Block>,
-    Client::Api: SubspaceApi<Block>,
+    Client::Api: SubspaceApi<Block, FarmerPublicKey>,
 {
     client.runtime_api().salts(parent_block_id).map(|salts| {
         if salts.switch_next_block {

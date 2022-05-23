@@ -21,6 +21,7 @@
 
 use sp_runtime::traits::{IdentifyAccount, Verify};
 use sp_runtime::MultiSignature;
+use sp_std::vec::Vec;
 pub use subspace_core_primitives::BlockNumber;
 use subspace_core_primitives::{PIECE_SIZE, SHA256_HASH_SIZE};
 
@@ -156,9 +157,13 @@ pub mod opaque {
 }
 
 /// A trait for finding the address for a block reward based on the `PreRuntime` digests contained within it.
-pub trait FindBlockRewardAddress<Address> {
+pub trait FindBlockRewardAddress<RewardAddress> {
     /// Find the address for a block rewards based on the pre-runtime digests.
-    fn find_block_reward_address<'a, I>(digests: I) -> Option<Address>
-    where
-        I: 'a + IntoIterator<Item = (sp_runtime::ConsensusEngineId, &'a [u8])>;
+    fn find_block_reward_address() -> Option<RewardAddress>;
+}
+
+/// A trait for finding the addresses for voting reward based on transactions found in the block.
+pub trait FindVotingRewardAddresses<RewardAddress> {
+    /// Find the addresses for voting rewards based on transactions found in the block.
+    fn find_voting_reward_addresses() -> Vec<RewardAddress>;
 }
