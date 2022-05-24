@@ -904,16 +904,14 @@ impl<T: Config> Pallet<T> {
         eon_index: u64,
         randomness: &Randomness,
     ) -> subspace_core_primitives::Salt {
-        crypto::sha256_hash({
-            let mut input =
-                [0u8; SALT_HASHING_PREFIX_LEN + RANDOMNESS_LENGTH + mem::size_of::<u64>()];
-            input[..SALT_HASHING_PREFIX_LEN].copy_from_slice(SALT_HASHING_PREFIX);
-            input[SALT_HASHING_PREFIX_LEN..SALT_HASHING_PREFIX_LEN + RANDOMNESS_LENGTH]
-                .copy_from_slice(randomness);
-            input[SALT_HASHING_PREFIX_LEN + RANDOMNESS_LENGTH..]
-                .copy_from_slice(&eon_index.to_le_bytes());
-            input
-        })[..SALT_SIZE]
+        let mut input = [0u8; SALT_HASHING_PREFIX_LEN + RANDOMNESS_LENGTH + mem::size_of::<u64>()];
+        input[..SALT_HASHING_PREFIX_LEN].copy_from_slice(SALT_HASHING_PREFIX);
+        input[SALT_HASHING_PREFIX_LEN..SALT_HASHING_PREFIX_LEN + RANDOMNESS_LENGTH]
+            .copy_from_slice(randomness);
+        input[SALT_HASHING_PREFIX_LEN + RANDOMNESS_LENGTH..]
+            .copy_from_slice(&eon_index.to_le_bytes());
+
+        crypto::sha256_hash(&input)[..SALT_SIZE]
             .try_into()
             .expect("Slice has exactly the size needed; qed")
     }
@@ -1173,9 +1171,10 @@ fn check_vote<T: Config>(
         .expect("Above check for block number ensures that this value is always present");
 
     if pre_dispatch {
-        // New time slot is already set, whatever time slot is in the vote it must be smaller
+        // New time slot is already set, whatever time slot is in the vote it must be smaller or the
+        // same (for votes produced locally)
         let current_slot = Pallet::<T>::current_slot();
-        if slot >= current_slot {
+        if slot > current_slot {
             debug!(
                 target: "runtime::subspace",
                 "Vote slot {slot:?} must be before current slot {current_slot:?}",
