@@ -185,6 +185,7 @@ version: "3.7"
 services:
   node:
     # Replace `snapshot-DATE` with latest release (like `snapshot-2022-apr-29`)
+    # For running on Aarch64 add `-aarch64` after `DATE`
     image: ghcr.io/subspace/node:snapshot-DATE
     volumes:
 # Instead of specifying volume (which will store data in `/var/lib/docker`), you can
