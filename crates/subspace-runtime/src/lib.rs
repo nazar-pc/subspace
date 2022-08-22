@@ -139,11 +139,11 @@ const ERA_DURATION_IN_BLOCKS: BlockNumber = 2016;
 
 const EQUIVOCATION_REPORT_LONGEVITY: BlockNumber = 256;
 
-/// Eon duration is 7 days
-const EON_DURATION_IN_SLOTS: u64 = 3600 * 24 * 7;
-/// Reveal next eon salt 1 day before eon end
+/// Eon duration is 1 day
+const EON_DURATION_IN_SLOTS: u64 = 3600 * 24;
+/// Reveal next eon salt 12 hours before eon end
 const EON_NEXT_SALT_REVEAL: u64 = EON_DURATION_IN_SLOTS
-    .checked_sub(3600 * 24)
+    .checked_sub(3600 * 12)
     .expect("Offset is smaller than eon duration; qed");
 
 // We assume initial plot size starts with the a single recorded history segment (which is erasure
