@@ -14,6 +14,13 @@ use subspace_networking::{Config, RelayMode};
 use tokio::signal;
 use tracing::{info, trace, warn};
 
+const LAMDA_2513_GENESIS_HASH: [u8; 32] = [
+    0x5b, 0xd6, 0x13, 0xc2, 0x64, 0x0b, 0x79, 0x3c, 0xfc, 0x81, 0x61, 0x0d, 0x04, 0x27, 0xa6, 0xb9,
+    0xa8, 0xeb, 0x91, 0x1c, 0x76, 0x7b, 0xd6, 0xaa, 0xa2, 0xb3, 0xb7, 0xdb, 0x91, 0xd3, 0xcc, 0x65,
+];
+// 100GiB
+const LAMDA_2513_MAX_ALLOCATED_SIZE: u64 = 100 * 1024 * 1024 * 1024;
+
 struct CallOnDrop<F>(Option<F>)
 where
     F: FnOnce() + Send + 'static;
@@ -131,7 +138,7 @@ pub(crate) async fn farm_multi_disk(
 
     // TODO: Check plot and metadata sizes to ensure there is enough space for farmer to not
     //  fail later (note that multiple farms can use the same location for metadata)
-    for disk_farm in disk_farms {
+    for (farm_index, mut disk_farm) in disk_farms.into_iter().enumerate() {
         if disk_farm.allocated_plotting_space < 1024 * 1024 {
             return Err(anyhow::anyhow!(
                 "Plot size is too low ({0} bytes). Did you mean {0}G or {0}T?",
@@ -147,6 +154,22 @@ pub(crate) async fn farm_multi_disk(
             .farmer_protocol_info()
             .await
             .map_err(|error| anyhow!(error))?;
+
+        if farmer_protocol_info.genesis_hash == LAMDA_2513_GENESIS_HASH {
+            if farm_index > 0 {
+                warn!("This chain only supports one disk farm");
+                break;
+            }
+
+            if disk_farm.allocated_plotting_space > LAMDA_2513_MAX_ALLOCATED_SIZE {
+                warn!(
+                    "This chain only supports up to 100GiB of allocated space, force-limiting \
+                    allocated space to 100GiB"
+                );
+
+                disk_farm.allocated_plotting_space = LAMDA_2513_MAX_ALLOCATED_SIZE;
+            }
+        }
 
         if let Some(max_plot_size) = max_plot_size {
             let max_plot_size = max_plot_size.as_u64();

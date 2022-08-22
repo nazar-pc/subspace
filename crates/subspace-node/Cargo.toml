@@ -41,6 +41,7 @@ sc-tracing = { version = "4.0.0-dev", git = "https://github.com/subspace/substra
 serde = "1.0.143"
 serde_json = "1.0.83"
 sp-consensus = { version = "0.10.0-dev", git = "https://github.com/subspace/substrate", rev = "6b8553511112afd5ae7e8e6877dc2f467850f155" }
+sp-consensus-subspace = { version = "0.1.0", path = "../sp-consensus-subspace" }
 sp-core = { version = "6.0.0", git = "https://github.com/subspace/substrate", rev = "6b8553511112afd5ae7e8e6877dc2f467850f155" }
 sp-executor = { version = "0.1.0", path = "../sp-executor" }
 sp-runtime = { version = "6.0.0", git = "https://github.com/subspace/substrate", rev = "6b8553511112afd5ae7e8e6877dc2f467850f155" }
