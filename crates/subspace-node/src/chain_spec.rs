@@ -83,10 +83,10 @@ pub fn lamda_2513_compiled(
 ) -> Result<ConsensusChainSpec<GenesisConfig, ExecutionGenesisConfig>, String> {
     Ok(ConsensusChainSpec::from_genesis(
         // Name
-        "Lamda 2513",
+        "Lamda 2513-2",
         // ID
-        "Lamda_2513",
-        ChainType::Custom("Lamda 2513".to_string()),
+        "Lamda_2513_2",
+        ChainType::Custom("Lamda 2513-2".to_string()),
         || {
             let sudo_account =
                 AccountId::from_ss58check("5CXTmJEusve5ixyJufqHThmy4qUrrm6FyLCR7QfE4bbyMTNC")
@@ -167,7 +167,7 @@ pub fn lamda_2513_compiled(
             .map_err(|error| error.to_string())?,
         ),
         // Protocol ID
-        Some("lamda-2513"),
+        Some("lamda-2513-2"),
         None,
         // Properties
         Some(chain_spec_properties()),
