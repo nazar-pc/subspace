@@ -53,7 +53,7 @@ Installing OpenCL GPU drivers or using farmer executable without `opencl` in fil
 .\NODE_FILE_NAME.exe `
 --chain lamda-2513 `
 --execution wasm `
---state-pruning archive-canonical `
+--state-pruning archive `
 --validator `
 --name INSERT_YOUR_ID
 ```
@@ -121,7 +121,7 @@ GPU is not required generally for farmer to work and is not used at all after in
 ./NODE_FILE_NAME \
   --chain lamda-2513 \
   --execution wasm \
-  --state-pruning archive-canonical \
+  --state-pruning archive \
   --validator \
   --name INSERT_YOUR_ID
 ```
@@ -173,7 +173,7 @@ After this, simply repeat the step you prompted for (step 4 or 6). This time, cl
 ./NODE_FILE_NAME \
   --chain lamda-2513 \
   --execution wasm \
-  --state-pruning archive-canonical \
+  --state-pruning archive \
   --validator \
   --name INSERT_YOUR_ID
 ```
@@ -233,7 +233,7 @@ services:
       "--chain", "lamda-2513",
       "--base-path", "/var/subspace",
       "--execution", "wasm",
-      "--state-pruning", "archive-canonical",
+      "--state-pruning", "archive",
       "--port", "30333",
       "--rpc-cors", "all",
       "--rpc-methods", "safe",
