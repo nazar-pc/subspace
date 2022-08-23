@@ -263,12 +263,42 @@ async fn main() -> Result<()> {
 
     match command.subcommand {
         Subcommand::Wipe => {
-            if command.farm.is_empty() {
+            let disk_farms = if command.farm.is_empty() {
+                if !base_path.exists() {
+                    info!("Done");
+
+                    return Ok(());
+                }
+
+                // TODO: Remove following line, it is only here for backwards compatibility
                 commands::wipe(&base_path)?;
+
+                vec![DiskFarm {
+                    plot_directory: base_path.clone(),
+                    metadata_directory: base_path,
+                    allocated_plotting_space: get_usable_plot_space(0),
+                }]
             } else {
                 for farm in &command.farm {
-                    SingleDiskFarm::wipe(&farm.plot_directory, &farm.metadata_directory)?;
+                    if !farm.plot_directory.exists() {
+                        panic!(
+                            "Plot directory {} doesn't exist",
+                            farm.plot_directory.display()
+                        );
+                    }
+                    if !farm.metadata_directory.exists() {
+                        panic!(
+                            "Metadata directory {} doesn't exist",
+                            farm.metadata_directory.display()
+                        );
+                    }
                 }
+
+                command.farm
+            };
+
+            for farm in &disk_farms {
+                SingleDiskFarm::wipe(&farm.plot_directory, &farm.metadata_directory)?;
             }
 
             info!("Done");
