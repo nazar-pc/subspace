@@ -67,7 +67,7 @@ where
         // This allows slot worker to produce blocks even when it is offline, which according to
         // modified Substrate fork will happen when node is offline or connected to non-synced peers
         // (default state)
-        self.inner.is_major_syncing() && !self.force_authoring
+        !self.force_authoring && self.inner.is_major_syncing()
     }
 
     fn is_offline(&self) -> bool {

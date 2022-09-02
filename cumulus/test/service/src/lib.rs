@@ -301,7 +301,12 @@ impl TestNodeBuilder {
     }
 
     /// Build the [`TestNode`].
-    pub async fn build(self, role: Role, force_authoring: bool, force_synced: bool) -> TestNode {
+    pub async fn build(
+        self,
+        role: Role,
+        primary_force_authoring: bool,
+        primary_force_synced: bool,
+    ) -> TestNode {
         let secondary_chain_config = node_config(
             self.tokio_handle.clone(),
             self.key,
@@ -316,8 +321,8 @@ impl TestNodeBuilder {
             self.key,
             self.primary_nodes,
             false,
-            force_authoring,
-            force_synced,
+            primary_force_authoring,
+            primary_force_synced,
         );
 
         primary_chain_config.network.node_name =
