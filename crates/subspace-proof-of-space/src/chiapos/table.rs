@@ -686,7 +686,6 @@ where
     {
         let left_bucket = &mut cache.left_bucket;
         let right_bucket = &mut cache.right_bucket;
-        let rmap_scratch = &mut cache.rmap_scratch;
         let left_targets = &cache.left_targets;
 
         // Clear input variables just in case
@@ -699,6 +698,7 @@ where
 
         // Experimentally found that this value seems reasonable
         let mut buckets = Vec::with_capacity(usize::from(PARAM_BC) / (1 << PARAM_EXT) * 3);
+        buckets.push(left_bucket.clone());
         for (position, &y) in last_table.ys().iter().enumerate() {
             let bucket_index = usize::from(&y) / usize::from(PARAM_BC);
 
@@ -713,11 +713,7 @@ where
                 continue;
             }
 
-            buckets.push((
-                left_bucket.clone(),
-                right_bucket.clone(),
-                rmap_scratch.clone(),
-            ));
+            buckets.push(right_bucket.clone());
 
             if bucket_index == right_bucket.bucket_index + 1 {
                 // Move right bucket into left bucket while reusing existing allocations
@@ -740,29 +736,27 @@ where
             }
         }
         // Iteration stopped, but we did not store the last bucket yet
-        buckets.push((
-            left_bucket.clone(),
-            right_bucket.clone(),
-            rmap_scratch.clone(),
-        ));
+        buckets.push(right_bucket.clone());
 
         let num_values = 1 << K;
         let mut t_n = Vec::with_capacity(num_values);
-        t_n.par_extend(buckets.par_iter_mut().flat_map_iter(
-            |(left_bucket, right_bucket, rmap_scratch)| {
-                let mut t_n = Vec::with_capacity(num_values);
-                match_and_compute_fn(
-                    last_table,
-                    left_bucket,
-                    right_bucket,
-                    rmap_scratch,
-                    left_targets,
-                )
-                .collect_into(&mut t_n);
-
-                t_n.into_iter()
-            },
-        ));
+        let mut rmap_scratches = vec![vec![]; buckets.len() - 1];
+        t_n.par_extend(
+            buckets
+                .par_windows(2)
+                .zip(&mut rmap_scratches)
+                .flat_map_iter(|(buckets, rmap_scratch)| {
+                    match_and_compute_fn(
+                        last_table,
+                        &buckets[0],
+                        &buckets[1],
+                        rmap_scratch,
+                        left_targets,
+                    )
+                }),
+        );
+        drop(buckets);
+        drop(rmap_scratches);
 
         t_n.par_sort_unstable_by_key(|(y, ..)| *y);
 
