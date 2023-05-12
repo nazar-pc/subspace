@@ -748,14 +748,14 @@ where
 
         let num_values = 1 << K;
         let mut t_n = Vec::with_capacity(num_values);
-        t_n.par_extend(buckets.into_par_iter().flat_map_iter(
-            |(left_bucket, right_bucket, mut rmap_scratch)| {
+        t_n.par_extend(buckets.par_iter_mut().flat_map_iter(
+            |(left_bucket, right_bucket, rmap_scratch)| {
                 let mut t_n = Vec::with_capacity(num_values);
                 match_and_compute_fn(
                     last_table,
-                    &left_bucket,
-                    &right_bucket,
-                    &mut rmap_scratch,
+                    left_bucket,
+                    right_bucket,
+                    rmap_scratch,
                     left_targets,
                 )
                 .collect_into(&mut t_n);
