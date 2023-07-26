@@ -2,6 +2,7 @@
 
 mod clock_master;
 mod gossip;
+mod node_client;
 mod state_manager;
 mod utils;
 
@@ -12,6 +13,7 @@ use subspace_proof_of_time::ProofOfTime;
 
 pub use clock_master::{BootstrapParams, ClockMaster};
 pub use gossip::{pot_gossip_peers_set_config, PotGossip};
+pub use node_client::PotClient;
 
 #[derive(Debug, Clone)]
 pub struct PotConfig {
