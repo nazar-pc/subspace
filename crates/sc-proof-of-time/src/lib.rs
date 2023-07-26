@@ -1,8 +1,17 @@
 //! Subspace proof of time implementation.
 
+mod clock_master;
+mod gossip;
 mod state_manager;
+mod utils;
 
+use crate::state_manager::PotProtocolState;
+use std::sync::Arc;
 use subspace_core_primitives::{BlockNumber, SlotNumber};
+use subspace_proof_of_time::ProofOfTime;
+
+pub use clock_master::{BootstrapParams, ClockMaster};
+pub use gossip::{pot_gossip_peers_set_config, PotGossip};
 
 #[derive(Debug, Clone)]
 pub struct PotConfig {
@@ -36,7 +45,8 @@ pub struct PotConfig {
 
 impl Default for PotConfig {
     fn default() -> Self {
-        // TODO: fill proper values
+        // TODO: fill proper values. These are set to produce
+        // approximately 1 proof/sec during testing.
         Self {
             randomness_update_interval_blocks: 18,
             injection_depth_blocks: 90,
@@ -47,4 +57,13 @@ impl Default for PotConfig {
             checkpoint_iterations: 200_000,
         }
     }
+}
+
+/// Components initialized during the new_partial() phase of set up.
+pub struct PotComponents {
+    /// Proof of time implementation.
+    proof_of_time: Arc<ProofOfTime>,
+
+    /// Protocol state.
+    protocol_state: Arc<dyn PotProtocolState>,
 }
