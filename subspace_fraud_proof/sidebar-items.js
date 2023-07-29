@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ExecutionProver","Creates storage proof for verifying an execution without owning the whole state."],["ProofVerifier","Fraud proof verifier."]]});
+window.SIDEBAR_ITEMS = {"fn":["validate_fraud_proof_in_tx_pool"],"mod":["invalid_state_transition_proof","invalid_transaction_proof","verifier_api"],"struct":["ProofVerifier"],"trait":["VerifyFraudProof"]};

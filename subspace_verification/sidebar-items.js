@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Error"],"fn":["calculate_block_weight","check_reward_signature","derive_next_solution_range","derive_randomness","is_within_solution_range","verify_solution"],"struct":["PieceCheckParams","VerifySolutionParams"]};

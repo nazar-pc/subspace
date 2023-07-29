@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["SLOT_DURATION"],"enum":["CheckTxValidityError","MultiAccountId","VerifyTxValidityError"],"mod":["opaque"],"struct":["AccountIdConverter"],"trait":["DomainCoreApi","InherentExtrinsicApi","Signer","TryConvertBack"],"type":["AccountId","Address","Balance","BlockNumber","Hash","Index","Signature"]};

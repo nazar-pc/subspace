@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"trait":["InherentExtrinsicConstructor","SetCodeConstructor","SignerExtractor","StateRootExtractor"],"type":["ExtractSignerResult","ExtractedStateRoots"]};

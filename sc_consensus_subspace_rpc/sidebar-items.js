@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["gen_client","The generated client module."]],"struct":[["SubspaceRpcApiClient","The Client."],["SubspaceRpcHandler","Implements the [`SubspaceRpcApi`] trait for interacting with Subspace."]],"trait":[["SubspaceRpcApi","Provides rpc methods for interacting with Subspace."]]});
+window.SIDEBAR_ITEMS = {"struct":["SubspaceRpc"],"trait":["PieceProvider","SubspaceRpcApiClient","SubspaceRpcApiServer"]};

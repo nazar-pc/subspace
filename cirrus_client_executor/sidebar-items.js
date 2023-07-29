@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["GossipMessageError","Error type for cirrus gossip handling."]],"struct":[["Executor","The implementation of the Cirrus `Executor`."],["ExecutorSlotInfo","Data required to produce bundles on executor node."]]});

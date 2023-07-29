@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["hmac_sha256","Hmac with Sha2-256 hash function."],["sha256_hash","Simple Sha2-256 hashing."],["sha256_hash_pair","Simple Sha2-256 hashing of a pair of values."]]});
+window.SIDEBAR_ITEMS = {"fn":["blake2b_256_254_hash","blake2b_256_254_hash_to_scalar","blake2b_256_hash","blake2b_256_hash_list","blake2b_256_hash_with_key"],"mod":["kzg"],"struct":["Scalar"]};

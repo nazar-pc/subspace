@@ -1,3 +1,4 @@
-(function() {var implementors = {};
-implementors["pallet_subspace"] = [{"text":"impl&lt;T:&nbsp;<a class=\"trait\" href=\"pallet_subspace/trait.Config.html\" title=\"trait pallet_subspace::Config\">Config</a>&gt; FindAuthor&lt;&lt;T as Config&gt;::AccountId&gt; for <a class=\"struct\" href=\"pallet_subspace/struct.Pallet.html\" title=\"struct pallet_subspace::Pallet\">Pallet</a>&lt;T&gt;","synthetic":false,"types":["pallet_subspace::pallet::Pallet"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
+(function() {var implementors = {
+"evm_domain_runtime":[["impl FindAuthor&lt;H160&gt; for <a class=\"struct\" href=\"evm_domain_runtime/struct.FindAuthorTruncated.html\" title=\"struct evm_domain_runtime::FindAuthorTruncated\">FindAuthorTruncated</a>"]],
+"evm_domain_test_runtime":[["impl FindAuthor&lt;H160&gt; for <a class=\"struct\" href=\"evm_domain_test_runtime/struct.FindAuthorTruncated.html\" title=\"struct evm_domain_test_runtime::FindAuthorTruncated\">FindAuthorTruncated</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
