@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-archiving/src/archiver.rs`."><title>archiver.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="subspace_archiving" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../subspace_archiving/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-archiving/src/archiver.rs`."><title>archiver.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="subspace_archiving" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -907,17 +907,32 @@
 <a href="#907" id="907">907</a>
 <a href="#908" id="908">908</a>
 <a href="#909" id="909">909</a>
+<a href="#910" id="910">910</a>
+<a href="#911" id="911">911</a>
+<a href="#912" id="912">912</a>
+<a href="#913" id="913">913</a>
+<a href="#914" id="914">914</a>
+<a href="#915" id="915">915</a>
+<a href="#916" id="916">916</a>
+<a href="#917" id="917">917</a>
+<a href="#918" id="918">918</a>
+<a href="#919" id="919">919</a>
+<a href="#920" id="920">920</a>
+<a href="#921" id="921">921</a>
+<a href="#922" id="922">922</a>
+<a href="#923" id="923">923</a>
+<a href="#924" id="924">924</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2021 Subspace Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
 // 	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
@@ -930,22 +945,23 @@
     update_record_commitments, IncrementalRecordCommitmentsState,
 };
 <span class="kw">use </span>alloc::collections::VecDeque;
-<span class="kw">use </span>alloc::string::String;
-<span class="kw">use </span>alloc::vec;
-<span class="kw">use </span>alloc::vec::Vec;
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::vec;
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::cmp::Ordering;
-<span class="kw">use </span>core::num::NonZeroUsize;
 <span class="kw">use </span>parity_scale_codec::{Compact, CompactLen, Decode, Encode, Input, Output};
-<span class="attr">#[cfg(feature = <span class="string">&quot;parallel&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
 </span><span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>subspace_core_primitives::crypto::kzg::{Kzg, Witness};
-<span class="kw">use </span>subspace_core_primitives::crypto::{blake2b_256_254_hash_to_scalar, Scalar};
+<span class="kw">use </span>subspace_core_primitives::crypto::kzg::{Commitment, Kzg, Witness};
+<span class="kw">use </span>subspace_core_primitives::crypto::{blake3_254_hash_to_scalar, Scalar};
 <span class="kw">use </span>subspace_core_primitives::objects::{
-    BlockObject, BlockObjectMapping, PieceObject, PieceObjectMapping,
+    BlockObject, BlockObjectMapping, GlobalObject, PieceObject, PieceObjectMapping,
 };
 <span class="kw">use </span>subspace_core_primitives::{
-    ArchivedBlockProgress, ArchivedHistorySegment, Blake2b256Hash, BlockNumber, LastArchivedBlock,
-    PieceArray, RawRecord, RecordedHistorySegment, SegmentCommitment, SegmentHeader, SegmentIndex,
+    ArchivedBlockProgress, ArchivedHistorySegment, Blake3Hash, BlockNumber, LastArchivedBlock,
+    PieceArray, RawRecord, RecordWitness, RecordedHistorySegment, SegmentCommitment, SegmentHeader,
+    SegmentIndex,
 };
 <span class="kw">use </span>subspace_erasure_coding::ErasureCoding;
 
@@ -975,7 +991,7 @@
         RecordedHistorySegment::SIZE
     }
 
-    <span class="kw">fn </span>encode_to&lt;T: Output + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, dest: <span class="kw-2">&amp;mut </span>T) {
+    <span class="kw">fn </span>encode_to&lt;O: Output + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, dest: <span class="kw-2">&amp;mut </span>O) {
         <span class="kw">match </span><span class="self">self </span>{
             Segment::V0 { items } =&gt; {
                 dest.push_byte(<span class="number">0</span>);
@@ -991,7 +1007,7 @@
     <span class="kw">fn </span>decode&lt;I: Input&gt;(input: <span class="kw-2">&amp;mut </span>I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, parity_scale_codec::Error&gt; {
         <span class="kw">let </span>variant = input
             .read_byte()
-            .map_err(|e| e.chain(<span class="string">&quot;Could not decode `Segment`, failed to read variant byte&quot;</span>))<span class="question-mark">?</span>;
+            .map_err(|e| e.chain(<span class="string">"Could not decode `Segment`, failed to read variant byte"</span>))<span class="question-mark">?</span>;
         <span class="kw">match </span>variant {
             <span class="number">0 </span>=&gt; {
                 <span class="kw">let </span><span class="kw-2">mut </span>items = Vec::new();
@@ -1005,7 +1021,7 @@
                         </span>}
                         <span class="prelude-val">None </span>=&gt; {
                             <span class="kw">return </span><span class="prelude-val">Err</span>(
-                                <span class="string">&quot;Source doesn&#39;t report remaining length, decoding not possible&quot;
+                                <span class="string">"Source doesn't report remaining length, decoding not possible"
                                     </span>.into(),
                             );
                         }
@@ -1016,14 +1032,14 @@
                             items.push(item);
                         }
                         <span class="prelude-val">Err</span>(error) =&gt; {
-                            <span class="kw">return </span><span class="prelude-val">Err</span>(error.chain(<span class="string">&quot;Could not decode `Segment::V0::items`&quot;</span>));
+                            <span class="kw">return </span><span class="prelude-val">Err</span>(error.chain(<span class="string">"Could not decode `Segment::V0::items`"</span>));
                         }
                     }
                 }
 
                 <span class="prelude-val">Ok</span>(Segment::V0 { items })
             }
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="string">&quot;Could not decode `Segment`, variant doesn&#39;t exist&quot;</span>.into()),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(<span class="string">"Could not decode `Segment`, variant doesn't exist"</span>.into()),
         }
     }
 }
@@ -1078,9 +1094,7 @@
 
 <span class="doccomment">/// Newly archived segment as a combination of segment header hash, segment index and corresponding
 /// archived history segment containing pieces
-</span><span class="attr">#[derive(Debug, Clone, Eq, PartialEq, Decode, Encode)]
-#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, serde(rename_all = <span class="string">&quot;camelCase&quot;</span>))]
+</span><span class="attr">#[derive(Debug, Clone, Eq, PartialEq)]
 </span><span class="kw">pub struct </span>NewArchivedSegment {
     <span class="doccomment">/// Segment header
     </span><span class="kw">pub </span>segment_header: SegmentHeader,
@@ -1092,26 +1106,44 @@
     </span><span class="kw">pub </span>object_mapping: Vec&lt;PieceObjectMapping&gt;,
 }
 
+<span class="kw">impl </span>NewArchivedSegment {
+    <span class="doccomment">/// Returns all the object mappings in this archived segment as a lazy iterator.
+    </span><span class="kw">pub fn </span>global_object_mappings(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>Iterator&lt;Item = GlobalObject&gt; + <span class="lifetime">'static </span>{
+        <span class="comment">// Save memory by only returning the necessary parts of NewArchivedSegment
+        </span><span class="kw">let </span>object_mapping = <span class="self">self</span>.object_mapping.clone();
+        <span class="kw">let </span>piece_indexes = <span class="self">self
+            </span>.segment_header
+            .segment_index()
+            .segment_piece_indexes_source_first();
+
+        <span class="comment">// Iterate through the object mapping vector for each piece
+        </span>object_mapping.into_iter().zip(piece_indexes).flat_map(
+            <span class="kw">move </span>|(piece_mappings, piece_index)| {
+                <span class="comment">// And then through each individual object mapping in the piece
+                </span><span class="kw">let </span>piece_mappings = piece_mappings.objects().to_vec();
+
+                piece_mappings
+                    .into_iter()
+                    .map(<span class="kw">move </span>|piece_object| GlobalObject::new(piece_index, <span class="kw-2">&amp;</span>piece_object))
+            },
+        )
+    }
+}
+
 <span class="doccomment">/// Archiver instantiation error
 </span><span class="attr">#[derive(Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
-#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, derive(thiserror::Error))]
+#[cfg_attr(feature = <span class="string">"thiserror"</span>, derive(thiserror::Error))]
 </span><span class="kw">pub enum </span>ArchiverInstantiationError {
-    <span class="doccomment">/// Failed to initialize erasure coding
-    </span><span class="attr">#[cfg_attr(
-        feature = <span class="string">&quot;thiserror&quot;</span>,
-        error(<span class="string">&quot;Failed to initialize erasure coding: {0}&quot;</span>)
-    )]
-    </span>FailedToInitializeErasureCoding(String),
     <span class="doccomment">/// Invalid last archived block, its size is the same as encoded block
     </span><span class="attr">#[cfg_attr(
-        feature = <span class="string">&quot;thiserror&quot;</span>,
-        error(<span class="string">&quot;Invalid last archived block, its size {0} bytes is the same as encoded block&quot;</span>)
+        feature = <span class="string">"thiserror"</span>,
+        error(<span class="string">"Invalid last archived block, its size {0} bytes is the same as encoded block"</span>)
     )]
     </span>InvalidLastArchivedBlock(BlockNumber),
     <span class="doccomment">/// Invalid block, its size is smaller than already archived number of bytes
     </span><span class="attr">#[cfg_attr(
-        feature = <span class="string">&quot;thiserror&quot;</span>,
-        error(<span class="string">&quot;Invalid block, its size {block_bytes} bytes is smaller than already archived {archived_block_bytes} bytes&quot;</span>)
+    feature = <span class="string">"thiserror"</span>,
+    error(<span class="string">"Invalid block, its size {block_bytes} bytes is smaller than already archived {archived_block_bytes} bytes"</span>)
     )]
     </span>InvalidBlockSmallSize {
         <span class="doccomment">/// Full block size
@@ -1130,7 +1162,7 @@
 /// corresponding segment header header.
 ///
 /// ## Panics
-/// Panics when operating on blocks, whose length doesn&#39;t fit into u32 (should never be the case in
+/// Panics when operating on blocks, whose length doesn't fit into u32 (should never be the case in
 /// blockchain context anyway).
 </span><span class="attr">#[derive(Debug, Clone)]
 </span><span class="kw">pub struct </span>Archiver {
@@ -1146,28 +1178,15 @@
     <span class="doccomment">/// An index of the current segment
     </span>segment_index: SegmentIndex,
     <span class="doccomment">/// Hash of the segment header of the previous segment
-    </span>prev_segment_header_hash: Blake2b256Hash,
+    </span>prev_segment_header_hash: Blake3Hash,
     <span class="doccomment">/// Last archived block
     </span>last_archived_block: LastArchivedBlock,
 }
 
 <span class="kw">impl </span>Archiver {
-    <span class="comment">// TODO: Make erasure coding an explicit argument
-    </span><span class="doccomment">/// Create a new instance with specified record size and recorded history segment size.
-    ///
-    /// Note: this is the only way to instantiate object archiver, while block archiver can be
-    /// instantiated with `BlockArchiver::with_initial_state()` in case of restarts.
-    </span><span class="kw">pub fn </span>new(kzg: Kzg) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ArchiverInstantiationError&gt; {
-        <span class="comment">// TODO: Check if KZG can process number configured number of elements and update proof
-        //  message in `.expect()`
-
-        </span><span class="kw">let </span>erasure_coding = ErasureCoding::new(
-            NonZeroUsize::new(ArchivedHistorySegment::NUM_PIECES.ilog2() <span class="kw">as </span>usize)
-                .expect(<span class="string">&quot;Archived history segment contains at very least one piece; qed&quot;</span>),
-        )
-        .map_err(ArchiverInstantiationError::FailedToInitializeErasureCoding)<span class="question-mark">?</span>;
-
-        <span class="prelude-val">Ok</span>(<span class="self">Self </span>{
+    <span class="doccomment">/// Create a new instance
+    </span><span class="kw">pub fn </span>new(kzg: Kzg, erasure_coding: ErasureCoding) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
             buffer: VecDeque::default(),
             incremental_record_commitments: IncrementalRecordCommitmentsState::with_capacity(
                 RecordedHistorySegment::NUM_RAW_RECORDS,
@@ -1175,9 +1194,9 @@
             erasure_coding,
             kzg,
             segment_index: SegmentIndex::ZERO,
-            prev_segment_header_hash: Blake2b256Hash::default(),
+            prev_segment_header_hash: Blake3Hash::default(),
             last_archived_block: INITIAL_LAST_ARCHIVED_BLOCK,
-        })
+        }
     }
 
     <span class="doccomment">/// Create a new instance of the archiver with initial state in case of restart.
@@ -1185,11 +1204,12 @@
     /// `block` corresponds to `last_archived_block` and will be processed accordingly to its state.
     </span><span class="kw">pub fn </span>with_initial_state(
         kzg: Kzg,
+        erasure_coding: ErasureCoding,
         segment_header: SegmentHeader,
         encoded_block: <span class="kw-2">&amp;</span>[u8],
         <span class="kw-2">mut </span>object_mapping: BlockObjectMapping,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, ArchiverInstantiationError&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>archiver = <span class="self">Self</span>::new(kzg)<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>archiver = <span class="self">Self</span>::new(kzg, erasure_coding);
 
         archiver.segment_index = segment_header.segment_index() + SegmentIndex::ONE;
         archiver.prev_segment_header_hash = segment_header.hash();
@@ -1202,7 +1222,7 @@
 
         <span class="kw">if let </span><span class="prelude-val">Some</span>(archived_block_bytes) = archiver.last_archived_block.partial_archived() {
             <span class="kw">let </span>encoded_block_bytes = u32::try_from(encoded_block.len())
-                .expect(<span class="string">&quot;Blocks length is never bigger than u32; qed&quot;</span>);
+                .expect(<span class="string">"Blocks length is never bigger than u32; qed"</span>);
 
             <span class="kw">match </span>encoded_block_bytes.cmp(<span class="kw-2">&amp;</span>archived_block_bytes) {
                 Ordering::Less =&gt; {
@@ -1217,14 +1237,13 @@
                     ));
                 }
                 Ordering::Greater =&gt; {
-                    <span class="comment">// Take part of the encoded block that wasn&#39;t archived yet and push to the
+                    <span class="comment">// Take part of the encoded block that wasn't archived yet and push to the
                     // buffer and block continuation
                     </span>object_mapping
-                        .objects
+                        .objects_mut()
                         .retain_mut(|block_object: <span class="kw-2">&amp;mut </span>BlockObject| {
-                            <span class="kw">let </span>current_offset = block_object.offset();
-                            <span class="kw">if </span>current_offset &gt;= archived_block_bytes {
-                                block_object.set_offset(current_offset - archived_block_bytes);
+                            <span class="kw">if </span>block_object.offset &gt;= archived_block_bytes {
+                                block_object.offset -= archived_block_bytes;
                                 <span class="bool-val">true
                             </span>} <span class="kw">else </span>{
                                 <span class="bool-val">false
@@ -1250,11 +1269,15 @@
         </span>}
     }
 
-    <span class="doccomment">/// Adds new block to internal buffer, potentially producing pieces and segment header headers
+    <span class="doccomment">/// Adds new block to internal buffer, potentially producing pieces and segment header headers.
+    ///
+    /// Incremental archiving can be enabled if amortized block addition cost is preferred over
+    /// throughput.
     </span><span class="kw">pub fn </span>add_block(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         bytes: Vec&lt;u8&gt;,
         object_mapping: BlockObjectMapping,
+        incremental: bool,
     ) -&gt; Vec&lt;NewArchivedSegment&gt; {
         <span class="comment">// Append new block to the buffer
         </span><span class="self">self</span>.buffer.push_back(SegmentItem::Block {
@@ -1264,7 +1287,7 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>archived_segments = Vec::new();
 
-        <span class="kw">while let </span><span class="prelude-val">Some</span>(segment) = <span class="self">self</span>.produce_segment() {
+        <span class="kw">while let </span><span class="prelude-val">Some</span>(segment) = <span class="self">self</span>.produce_segment(incremental) {
             archived_segments.push(<span class="self">self</span>.produce_archived_segment(segment));
         }
 
@@ -1273,7 +1296,7 @@
 
     <span class="doccomment">/// Try to slice buffer contents into segments if there is enough data, producing one segment at
     /// a time
-    </span><span class="kw">fn </span>produce_segment(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Segment&gt; {
+    </span><span class="kw">fn </span>produce_segment(<span class="kw-2">&amp;mut </span><span class="self">self</span>, incremental: bool) -&gt; <span class="prelude-ty">Option</span>&lt;Segment&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>segment = Segment::V0 {
             items: Vec::with_capacity(<span class="self">self</span>.buffer.len()),
         };
@@ -1291,8 +1314,8 @@
                     <span class="kw">let </span>existing_commitments = <span class="self">self</span>.incremental_record_commitments.len();
                     <span class="kw">let </span>bytes_committed_to = existing_commitments * RawRecord::SIZE;
                     <span class="comment">// Run incremental archiver only when there is at least two records to archive,
-                    // otherwise we&#39;re wasting CPU cycles encoding segment over and over again
-                    </span><span class="kw">if </span>segment_size - bytes_committed_to &gt;= RawRecord::SIZE * <span class="number">2 </span>{
+                    // otherwise we're wasting CPU cycles encoding segment over and over again
+                    </span><span class="kw">if </span>incremental &amp;&amp; segment_size - bytes_committed_to &gt;= RawRecord::SIZE * <span class="number">2 </span>{
                         update_record_commitments(
                             <span class="kw-2">&amp;mut </span><span class="self">self</span>.incremental_record_commitments,
                             <span class="kw-2">&amp;</span>segment,
@@ -1301,7 +1324,7 @@
                     }
 
                     <span class="kw">let </span>Segment::V0 { items } = segment;
-                    <span class="comment">// Push all of the items back into the buffer, we don&#39;t have enough data yet
+                    <span class="comment">// Push all of the items back into the buffer, we don't have enough data yet
                     </span><span class="kw">for </span>segment_item <span class="kw">in </span>items.into_iter().rev() {
                         <span class="self">self</span>.buffer.push_front(segment_item);
                     }
@@ -1325,17 +1348,17 @@
                 // trying to cut segment item internal bytes.
                 </span><span class="kw">let </span>inner_bytes_size = <span class="kw">match </span><span class="kw-2">&amp;</span>segment_item {
                     SegmentItem::Padding =&gt; {
-                        <span class="macro">unreachable!</span>(<span class="string">&quot;Buffer never contains SegmentItem::Padding; qed&quot;</span>);
+                        <span class="macro">unreachable!</span>(<span class="string">"Buffer never contains SegmentItem::Padding; qed"</span>);
                     }
                     SegmentItem::Block { bytes, .. } =&gt; bytes.len(),
                     SegmentItem::BlockStart { .. } =&gt; {
-                        <span class="macro">unreachable!</span>(<span class="string">&quot;Buffer never contains SegmentItem::BlockStart; qed&quot;</span>);
+                        <span class="macro">unreachable!</span>(<span class="string">"Buffer never contains SegmentItem::BlockStart; qed"</span>);
                     }
                     SegmentItem::BlockContinuation { bytes, .. } =&gt; bytes.len(),
                     SegmentItem::ParentSegmentHeader(<span class="kw">_</span>) =&gt; {
                         <span class="macro">unreachable!</span>(
-                            <span class="string">&quot;SegmentItem::SegmentHeader is always the first element in the buffer \
-                            and fits into the segment; qed&quot;</span>,
+                            <span class="string">"SegmentItem::SegmentHeader is always the first element in the buffer \
+                            and fits into the segment; qed"</span>,
                         );
                     }
                 };
@@ -1349,7 +1372,7 @@
 
             <span class="kw">match </span><span class="kw-2">&amp;</span>segment_item {
                 SegmentItem::Padding =&gt; {
-                    <span class="macro">unreachable!</span>(<span class="string">&quot;Buffer never contains SegmentItem::Padding; qed&quot;</span>);
+                    <span class="macro">unreachable!</span>(<span class="string">"Buffer never contains SegmentItem::Padding; qed"</span>);
                 }
                 SegmentItem::Block { .. } =&gt; {
                     <span class="comment">// Skip block number increase in case of the very first block
@@ -1361,20 +1384,20 @@
                     last_archived_block.set_complete();
                 }
                 SegmentItem::BlockStart { .. } =&gt; {
-                    <span class="macro">unreachable!</span>(<span class="string">&quot;Buffer never contains SegmentItem::BlockStart; qed&quot;</span>);
+                    <span class="macro">unreachable!</span>(<span class="string">"Buffer never contains SegmentItem::BlockStart; qed"</span>);
                 }
                 SegmentItem::BlockContinuation { bytes, .. } =&gt; {
                     <span class="comment">// Same block, but assume for now that the whole block was archived, but
-                    // also store the number of bytes as opposed to `None`, we&#39;ll transform
+                    // also store the number of bytes as opposed to `None`, we'll transform
                     // it into `None` if needed later
                     </span><span class="kw">let </span>archived_bytes = last_archived_block.partial_archived().expect(
-                        <span class="string">&quot;Block continuation implies that there are some bytes \
-                            archived already; qed&quot;</span>,
+                        <span class="string">"Block continuation implies that there are some bytes \
+                            archived already; qed"</span>,
                     );
                     last_archived_block.set_partial_archived(
                         archived_bytes
                             + u32::try_from(bytes.len())
-                                .expect(<span class="string">&quot;Blocks length is never bigger than u32; qed&quot;</span>),
+                                .expect(<span class="string">"Blocks length is never bigger than u32; qed"</span>),
                     );
                 }
                 SegmentItem::ParentSegmentHeader(<span class="kw">_</span>) =&gt; {
@@ -1394,11 +1417,11 @@
             <span class="kw">let </span>Segment::V0 { items } = <span class="kw-2">&amp;mut </span>segment;
             <span class="kw">let </span>segment_item = items
                 .pop()
-                .expect(<span class="string">&quot;Segment over segment size always has at least one item; qed&quot;</span>);
+                .expect(<span class="string">"Segment over segment size always has at least one item; qed"</span>);
 
             <span class="kw">let </span>segment_item = <span class="kw">match </span>segment_item {
                 SegmentItem::Padding =&gt; {
-                    <span class="macro">unreachable!</span>(<span class="string">&quot;Buffer never contains SegmentItem::Padding; qed&quot;</span>);
+                    <span class="macro">unreachable!</span>(<span class="string">"Buffer never contains SegmentItem::Padding; qed"</span>);
                 }
                 SegmentItem::Block {
                     <span class="kw-2">mut </span>bytes,
@@ -1409,13 +1432,12 @@
 
                     bytes.truncate(split_point);
 
-                    <span class="kw">let </span>continuation_object_mapping = BlockObjectMapping {
+                    <span class="kw">let </span>continuation_object_mapping = BlockObjectMapping::V0 {
                         objects: object_mapping
-                            .objects
+                            .objects_mut()
                             .extract_if(|block_object: <span class="kw-2">&amp;mut </span>BlockObject| {
-                                <span class="kw">let </span>current_offset = block_object.offset();
-                                <span class="kw">if </span>current_offset &gt;= split_point <span class="kw">as </span>u32 {
-                                    block_object.set_offset(current_offset - split_point <span class="kw">as </span>u32);
+                                <span class="kw">if </span>block_object.offset &gt;= split_point <span class="kw">as </span>u32 {
+                                    block_object.offset -= split_point <span class="kw">as </span>u32;
                                     <span class="bool-val">true
                                 </span>} <span class="kw">else </span>{
                                     <span class="bool-val">false
@@ -1427,7 +1449,7 @@
                     <span class="comment">// Update last archived block to include partial archiving info
                     </span>last_archived_block.set_partial_archived(
                         u32::try_from(bytes.len())
-                            .expect(<span class="string">&quot;Blocks length is never bigger than u32; qed&quot;</span>),
+                            .expect(<span class="string">"Blocks length is never bigger than u32; qed"</span>),
                     );
 
                     <span class="comment">// Push continuation element back into the buffer where removed segment item was
@@ -1442,7 +1464,7 @@
                     }
                 }
                 SegmentItem::BlockStart { .. } =&gt; {
-                    <span class="macro">unreachable!</span>(<span class="string">&quot;Buffer never contains SegmentItem::BlockStart; qed&quot;</span>);
+                    <span class="macro">unreachable!</span>(<span class="string">"Buffer never contains SegmentItem::BlockStart; qed"</span>);
                 }
                 SegmentItem::BlockContinuation {
                     <span class="kw-2">mut </span>bytes,
@@ -1453,13 +1475,12 @@
 
                     bytes.truncate(split_point);
 
-                    <span class="kw">let </span>continuation_object_mapping = BlockObjectMapping {
+                    <span class="kw">let </span>continuation_object_mapping = BlockObjectMapping::V0 {
                         objects: object_mapping
-                            .objects
+                            .objects_mut()
                             .extract_if(|block_object: <span class="kw-2">&amp;mut </span>BlockObject| {
-                                <span class="kw">let </span>current_offset = block_object.offset();
-                                <span class="kw">if </span>current_offset &gt;= split_point <span class="kw">as </span>u32 {
-                                    block_object.set_offset(current_offset - split_point <span class="kw">as </span>u32);
+                                <span class="kw">if </span>block_object.offset &gt;= split_point <span class="kw">as </span>u32 {
+                                    block_object.offset -= split_point <span class="kw">as </span>u32;
                                     <span class="bool-val">true
                                 </span>} <span class="kw">else </span>{
                                     <span class="bool-val">false
@@ -1471,13 +1492,13 @@
                     <span class="comment">// Above code assumed that block was archived fully, now remove spilled-over
                     // bytes from the size
                     </span><span class="kw">let </span>archived_bytes = last_archived_block.partial_archived().expect(
-                        <span class="string">&quot;Block continuation implies that there are some bytes archived \
-                        already; qed&quot;</span>,
+                        <span class="string">"Block continuation implies that there are some bytes archived \
+                        already; qed"</span>,
                     );
                     last_archived_block.set_partial_archived(
                         archived_bytes
                             - u32::try_from(spill_over)
-                                .expect(<span class="string">&quot;Blocks length is never bigger than u32; qed&quot;</span>),
+                                .expect(<span class="string">"Blocks length is never bigger than u32; qed"</span>),
                     );
 
                     <span class="comment">// Push continuation element back into the buffer where removed segment item was
@@ -1493,8 +1514,8 @@
                 }
                 SegmentItem::ParentSegmentHeader(<span class="kw">_</span>) =&gt; {
                     <span class="macro">unreachable!</span>(
-                        <span class="string">&quot;SegmentItem::SegmentHeader is always the first element in the buffer and \
-                        fits into the segment; qed&quot;</span>,
+                        <span class="string">"SegmentItem::SegmentHeader is always the first element in the buffer and \
+                        fits into the segment; qed"</span>,
                     );
                 }
             };
@@ -1525,7 +1546,7 @@
                 <span class="kw">match </span>segment_item {
                     SegmentItem::Padding =&gt; {
                         <span class="macro">unreachable!</span>(
-                            <span class="string">&quot;Segment during archiving never contains SegmentItem::Padding; qed&quot;
+                            <span class="string">"Segment during archiving never contains SegmentItem::Padding; qed"
                         </span>);
                     }
                     SegmentItem::Block {
@@ -1540,22 +1561,22 @@
                         bytes,
                         object_mapping,
                     } =&gt; {
-                        <span class="kw">for </span>block_object <span class="kw">in </span><span class="kw-2">&amp;</span>object_mapping.objects {
+                        <span class="kw">for </span>block_object <span class="kw">in </span>object_mapping.objects() {
                             <span class="comment">// `+1` corresponds to `SegmentItem::X {}` enum variant encoding
                             </span><span class="kw">let </span>offset_in_segment = base_offset_in_segment
                                 + <span class="number">1
                                 </span>+ Compact::compact_len(<span class="kw-2">&amp;</span>(bytes.len() <span class="kw">as </span>u32))
-                                + block_object.offset() <span class="kw">as </span>usize;
-                            <span class="kw">let </span>offset = (offset_in_segment % RawRecord::SIZE).try_into().expect(
-                                <span class="string">&quot;Offset within piece should always fit in 16-bit integer; qed&quot;</span>,
-                            );
-
+                                + block_object.offset <span class="kw">as </span>usize;
+                            <span class="kw">let </span>raw_piece_offset =
+                                (offset_in_segment % RawRecord::SIZE).try_into().expect(
+                                    <span class="string">"Offset within piece should always fit in 32-bit integer; qed"</span>,
+                                );
                             <span class="kw">if let </span><span class="prelude-val">Some</span>(piece_object_mapping) = corrected_object_mapping
                                 .get_mut(offset_in_segment / RawRecord::SIZE)
                             {
-                                piece_object_mapping.objects.push(PieceObject::V0 {
-                                    hash: block_object.hash(),
-                                    offset,
+                                piece_object_mapping.objects_mut().push(PieceObject {
+                                    hash: block_object.hash,
+                                    offset: raw_piece_offset,
                                 });
                             }
                         }
@@ -1586,7 +1607,7 @@
             </span><span class="kw">let </span><span class="kw-2">mut </span>tmp_source_shards_scalars =
                 Vec::&lt;Scalar&gt;::with_capacity(RecordedHistorySegment::NUM_RAW_RECORDS);
             <span class="comment">// Iterate over the chunks of `Scalar::SAFE_BYTES` bytes of all records
-            </span><span class="kw">for </span>record_offset <span class="kw">in </span><span class="number">0</span>..RawRecord::SIZE / Scalar::SAFE_BYTES {
+            </span><span class="kw">for </span>record_offset <span class="kw">in </span><span class="number">0</span>..RawRecord::NUM_CHUNKS {
                 <span class="comment">// Collect chunks of each record at the same offset
                 </span>raw_record_shards
                     .array_chunks::&lt;{ RawRecord::SIZE }&gt;()
@@ -1594,7 +1615,7 @@
                         record_bytes
                             .array_chunks::&lt;{ Scalar::SAFE_BYTES }&gt;()
                             .nth(record_offset)
-                            .expect(<span class="string">&quot;Statically known to exist in a record; qed&quot;</span>)
+                            .expect(<span class="string">"Statically known to exist in a record; qed"</span>)
                     })
                     .map(Scalar::from)
                     .collect_into(<span class="kw-2">&amp;mut </span>tmp_source_shards_scalars);
@@ -1604,8 +1625,8 @@
                     </span>.erasure_coding
                     .extend(<span class="kw-2">&amp;</span>tmp_source_shards_scalars)
                     .expect(
-                        <span class="string">&quot;Erasure coding instance is deliberately configured to support this \
-                        input; qed&quot;</span>,
+                        <span class="string">"Erasure coding instance is deliberately configured to support this \
+                        input; qed"</span>,
                     );
 
                 <span class="kw">let </span>interleaved_input_chunks = tmp_source_shards_scalars
@@ -1615,9 +1636,8 @@
                 <span class="kw">let </span>output_chunks = pieces.iter_mut().map(|piece| {
                     piece
                         .record_mut()
-                        .iter_mut()
-                        .nth(record_offset)
-                        .expect(<span class="string">&quot;Statically known to exist in a record; qed&quot;</span>)
+                        .get_mut(record_offset)
+                        .expect(<span class="string">"Statically known to exist in a record; qed"</span>)
                 });
 
                 interleaved_input_chunks
@@ -1631,43 +1651,41 @@
         <span class="kw">let </span>existing_commitments = <span class="self">self</span>.incremental_record_commitments.len();
         <span class="comment">// Add commitments for pieces that were not created incrementally
         </span>{
-            <span class="attr">#[cfg(not(feature = <span class="string">&quot;parallel&quot;</span>))]
+            <span class="attr">#[cfg(not(feature = <span class="string">"parallel"</span>))]
             </span><span class="kw">let </span>source_pieces = pieces.source();
-            <span class="attr">#[cfg(feature = <span class="string">&quot;parallel&quot;</span>)]
+            <span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
             </span><span class="kw">let </span>source_pieces = pieces.par_source();
 
-            <span class="kw">let </span>iter = source_pieces
-                .skip(existing_commitments)
-                .map(|piece| {
-                    piece.record().iter().map(|scalar_bytes| {
-                        Scalar::try_from(scalar_bytes).expect(
-                            <span class="string">&quot;Source pieces were just created and are guaranteed to contain \
-                            valid scalars; qed&quot;</span>,
-                        )
-                    })
-                })
-                .map(|record_chunks| {
-                    <span class="kw">let </span>number_of_chunks = record_chunks.len();
-                    <span class="kw">let </span><span class="kw-2">mut </span>scalars = Vec::with_capacity(number_of_chunks.next_power_of_two());
-
-                    record_chunks.collect_into(<span class="kw-2">&amp;mut </span>scalars);
-
-                    <span class="comment">// Number of scalars for KZG must be a power of two elements
-                    </span>scalars.resize(scalars.capacity(), Scalar::default());
-
-                    <span class="kw">let </span>polynomial = <span class="self">self</span>.kzg.poly(<span class="kw-2">&amp;</span>scalars).expect(
-                        <span class="string">&quot;KZG instance must be configured to support this many scalars; qed&quot;</span>,
-                    );
-                    <span class="self">self</span>.kzg
-                        .commit(<span class="kw-2">&amp;</span>polynomial)
-                        .expect(<span class="string">&quot;KZG instance must be configured to support this many scalars; qed&quot;</span>)
+            <span class="kw">let </span>iter = source_pieces.skip(existing_commitments).map(|piece| {
+                <span class="kw">let </span>record_chunks = piece.record().iter().map(|scalar_bytes| {
+                    Scalar::try_from(scalar_bytes).expect(
+                        <span class="string">"Source pieces were just created and are guaranteed to contain \
+                            valid scalars; qed"</span>,
+                    )
                 });
 
-            <span class="attr">#[cfg(not(feature = <span class="string">&quot;parallel&quot;</span>))]
+                <span class="kw">let </span>number_of_chunks = record_chunks.len();
+                <span class="kw">let </span><span class="kw-2">mut </span>scalars = Vec::with_capacity(number_of_chunks.next_power_of_two());
+
+                record_chunks.collect_into(<span class="kw-2">&amp;mut </span>scalars);
+
+                <span class="comment">// Number of scalars for KZG must be a power of two elements
+                </span>scalars.resize(scalars.capacity(), Scalar::default());
+
+                <span class="kw">let </span>polynomial = <span class="self">self
+                    </span>.kzg
+                    .poly(<span class="kw-2">&amp;</span>scalars)
+                    .expect(<span class="string">"KZG instance must be configured to support this many scalars; qed"</span>);
+                <span class="self">self</span>.kzg
+                    .commit(<span class="kw-2">&amp;</span>polynomial)
+                    .expect(<span class="string">"KZG instance must be configured to support this many scalars; qed"</span>)
+            });
+
+            <span class="attr">#[cfg(not(feature = <span class="string">"parallel"</span>))]
             </span>iter.collect_into(<span class="kw-2">&amp;mut *</span><span class="self">self</span>.incremental_record_commitments);
             <span class="comment">// TODO: `collect_into_vec()`, unfortunately, truncates input, which is not what we want
             //  can be unified when https://github.com/rayon-rs/rayon/issues/1039 is resolved
-            </span><span class="attr">#[cfg(feature = <span class="string">&quot;parallel&quot;</span>)]
+            </span><span class="attr">#[cfg(feature = <span class="string">"parallel"</span>)]
             </span><span class="self">self</span>.incremental_record_commitments.par_extend(iter);
         }
         <span class="comment">// Collect hashes to commitments from all records
@@ -1675,7 +1693,7 @@
             </span>.erasure_coding
             .extend_commitments(<span class="kw-2">&amp;</span><span class="self">self</span>.incremental_record_commitments)
             .expect(
-                <span class="string">&quot;Erasure coding instance is deliberately configured to support this input; qed&quot;</span>,
+                <span class="string">"Erasure coding instance is deliberately configured to support this input; qed"</span>,
             );
         <span class="self">self</span>.incremental_record_commitments.clear();
 
@@ -1684,15 +1702,16 @@
             .poly(
                 <span class="kw-2">&amp;</span>record_commitments
                     .iter()
-                    .map(|commitment| blake2b_256_254_hash_to_scalar(<span class="kw-2">&amp;</span>commitment.to_bytes()))
+                    .map(|commitment| blake3_254_hash_to_scalar(<span class="kw-2">&amp;</span>commitment.to_bytes()))
                     .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;(),
             )
-            .expect(<span class="string">&quot;Internally produced values must never fail; qed&quot;</span>);
+            .expect(<span class="string">"Internally produced values must never fail; qed"</span>);
 
-        <span class="kw">let </span>segment_commitment = <span class="self">self
-            </span>.kzg
-            .commit(<span class="kw-2">&amp;</span>polynomial)
-            .expect(<span class="string">&quot;Internally produced values must never fail; qed&quot;</span>);
+        <span class="kw">let </span>segment_commitment = SegmentCommitment::from(
+            <span class="self">self</span>.kzg
+                .commit(<span class="kw-2">&amp;</span>polynomial)
+                .expect(<span class="string">"Internally produced values must never fail; qed"</span>),
+        );
 
         <span class="comment">// Create witness for every record and write it to corresponding piece.
         </span>pieces
@@ -1712,7 +1731,7 @@
                             ArchivedHistorySegment::NUM_PIECES,
                             position <span class="kw">as </span>u32,
                         )
-                        .expect(<span class="string">&quot;Position is statically known to be valid; qed&quot;</span>)
+                        .expect(<span class="string">"Position is statically known to be valid; qed"</span>)
                         .to_bytes(),
                 );
             });
@@ -1730,13 +1749,13 @@
         <span class="self">self</span>.prev_segment_header_hash = segment_header.hash();
 
         <span class="comment">// Add segment header to the beginning of the buffer to be the first thing included in the
-        //  nextsegment
+        // next segment
         </span><span class="self">self</span>.buffer
             .push_front(SegmentItem::ParentSegmentHeader(segment_header));
 
         NewArchivedSegment {
             segment_header,
-            pieces,
+            pieces: pieces.to_shared(),
             object_mapping,
         }
     }
@@ -1789,10 +1808,14 @@
         <span class="kw">return </span><span class="bool-val">false</span>;
     }
 
-    <span class="kw">let </span>commitment_hash = blake2b_256_254_hash_to_scalar(commitment.as_ref());
+    <span class="kw">let </span><span class="prelude-val">Ok</span>(segment_commitment) = Commitment::try_from(segment_commitment) <span class="kw">else </span>{
+        <span class="kw">return </span><span class="bool-val">false</span>;
+    };
+
+    <span class="kw">let </span>commitment_hash = blake3_254_hash_to_scalar(commitment.as_ref());
 
     kzg.verify(
-        segment_commitment,
+        <span class="kw-2">&amp;</span>segment_commitment,
         ArchivedHistorySegment::NUM_PIECES,
         position,
         <span class="kw-2">&amp;</span>commitment_hash,
@@ -1805,15 +1828,22 @@
     kzg: <span class="kw-2">&amp;</span>Kzg,
     record_commitment_hash: <span class="kw-2">&amp;</span>Scalar,
     commitment: <span class="kw-2">&amp;</span>SegmentCommitment,
-    witness: <span class="kw-2">&amp;</span>Witness,
+    witness: <span class="kw-2">&amp;</span>RecordWitness,
     position: u32,
 ) -&gt; bool {
+    <span class="kw">let </span><span class="prelude-val">Ok</span>(commitment) = Commitment::try_from(commitment) <span class="kw">else </span>{
+        <span class="kw">return </span><span class="bool-val">false</span>;
+    };
+    <span class="kw">let </span><span class="prelude-val">Ok</span>(witness) = Witness::try_from(witness) <span class="kw">else </span>{
+        <span class="kw">return </span><span class="bool-val">false</span>;
+    };
+
     kzg.verify(
-        commitment,
+        <span class="kw-2">&amp;</span>commitment,
         ArchivedHistorySegment::NUM_PIECES,
         position,
         record_commitment_hash,
-        witness,
+        <span class="kw-2">&amp;</span>witness,
     )
 }
 </code></pre></div></section></main></body></html>

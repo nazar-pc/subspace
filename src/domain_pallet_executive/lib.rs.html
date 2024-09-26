@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/pallets/executive/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_pallet_executive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../domain_pallet_executive/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/pallets/executive/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_pallet_executive" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -463,19 +463,156 @@
 <a href="#463" id="463">463</a>
 <a href="#464" id="464">464</a>
 <a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
+<a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
+<a href="#479" id="479">479</a>
+<a href="#480" id="480">480</a>
+<a href="#481" id="481">481</a>
+<a href="#482" id="482">482</a>
+<a href="#483" id="483">483</a>
+<a href="#484" id="484">484</a>
+<a href="#485" id="485">485</a>
+<a href="#486" id="486">486</a>
+<a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
+<a href="#489" id="489">489</a>
+<a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
+<a href="#496" id="496">496</a>
+<a href="#497" id="497">497</a>
+<a href="#498" id="498">498</a>
+<a href="#499" id="499">499</a>
+<a href="#500" id="500">500</a>
+<a href="#501" id="501">501</a>
+<a href="#502" id="502">502</a>
+<a href="#503" id="503">503</a>
+<a href="#504" id="504">504</a>
+<a href="#505" id="505">505</a>
+<a href="#506" id="506">506</a>
+<a href="#507" id="507">507</a>
+<a href="#508" id="508">508</a>
+<a href="#509" id="509">509</a>
+<a href="#510" id="510">510</a>
+<a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is part of Substrate.
 
 // Copyright (C) 2017-2022 Parity Technologies (UK) Ltd.
 // SPDX-License-Identifier: Apache-2.0
 
-// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
 // 	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
@@ -486,22 +623,41 @@
 //! collecting the intermediate storage roots in the block execution required for
 //! the fraud proof of decoupled execution in Subspace.
 
-</span><span class="attr">#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
+</span><span class="attr">#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
 
-</span><span class="kw">use </span>codec::Codec;
-<span class="kw">use </span>frame_support::dispatch::{DispatchClass, DispatchInfo, GetDispatchInfo, PostDispatchInfo};
-<span class="kw">use </span>frame_support::traits::{
-    EnsureInherentsAreFirst, ExecuteBlock, Get, OffchainWorker, OnFinalize, OnIdle, OnInitialize,
-    OnRuntimeUpgrade,
+#[cfg(feature = <span class="string">"runtime-benchmarks"</span>)]
+</span><span class="kw">mod </span>benchmarking;
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>mock;
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>tests;
+<span class="kw">pub mod </span>weights;
+
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">extern crate </span>alloc;
+
+<span class="kw">use </span>codec::{Codec, Encode};
+<span class="kw">use </span>frame_support::dispatch::{
+    DispatchClass, DispatchErrorWithPostInfo, DispatchInfo, GetDispatchInfo, Pays, PostDispatchInfo,
 };
-<span class="kw">use </span>frame_support::weights::Weight;
+<span class="kw">use </span>frame_support::storage::with_storage_layer;
+<span class="kw">use </span>frame_support::traits::fungible::{Inspect, Mutate};
+<span class="kw">use </span>frame_support::traits::tokens::{Fortitude, Precision, Preservation};
+<span class="kw">use </span>frame_support::traits::{
+    BeforeAllRuntimeMigrations, EnsureInherentsAreFirst, ExecuteBlock, Get, OffchainWorker,
+    OnFinalize, OnIdle, OnInitialize, OnPoll, OnRuntimeUpgrade,
+};
+<span class="kw">use </span>frame_support::weights::{Weight, WeightToFee};
+<span class="kw">use </span>frame_system::pallet_prelude::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>pallet::<span class="kw-2">*</span>;
 <span class="kw">use </span>sp_runtime::traits::{
-    <span class="self">self</span>, Applyable, CheckEqual, Checkable, Dispatchable, Header, NumberFor, One, ValidateUnsigned,
-    Zero,
+    Applyable, Block <span class="kw">as </span>BlockT, CheckEqual, Checkable, Dispatchable, Header, NumberFor, One,
+    ValidateUnsigned, Zero,
 };
-<span class="kw">use </span>sp_runtime::transaction_validity::{TransactionSource, TransactionValidity};
-<span class="kw">use </span>sp_runtime::ApplyExtrinsicResult;
+<span class="kw">use </span>sp_runtime::transaction_validity::{
+    InvalidTransaction, TransactionSource, TransactionValidity, TransactionValidityError,
+};
+<span class="kw">use </span>sp_runtime::{ApplyExtrinsicResult, DispatchError, ExtrinsicInclusionMode};
 <span class="kw">use </span>sp_std::marker::PhantomData;
 <span class="kw">use </span>sp_std::prelude::<span class="kw-2">*</span>;
 
@@ -509,23 +665,45 @@
 <span class="kw">pub type </span>CallOf&lt;E, C&gt; = &lt;CheckedOf&lt;E, C&gt; <span class="kw">as </span>Applyable&gt;::Call;
 <span class="kw">pub type </span>OriginOf&lt;E, C&gt; = &lt;CallOf&lt;E, C&gt; <span class="kw">as </span>Dispatchable&gt;::RuntimeOrigin;
 
+<span class="doccomment">/// Trait trait used to charge the extrinsic storage.
+</span><span class="kw">pub trait </span>ExtrinsicStorageFees&lt;T: Config&gt; {
+    <span class="doccomment">/// Extracts signer from given extrinsic and its dispatch info.
+    </span><span class="kw">fn </span>extract_signer(xt: ExtrinsicOf&lt;T&gt;) -&gt; (<span class="prelude-ty">Option</span>&lt;AccountIdOf&lt;T&gt;&gt;, DispatchInfo);
+    <span class="doccomment">/// Hook to note operator rewards for charged storage fees.
+    </span><span class="kw">fn </span>on_storage_fees_charged(
+        charged_fees: BalanceOf&lt;T&gt;,
+        tx_size: u32,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), TransactionValidityError&gt;;
+}
+
+<span class="kw">type </span>AccountIdOf&lt;T&gt; = &lt;T <span class="kw">as </span>frame_system::Config&gt;::AccountId;
+<span class="kw">type </span>BalanceOf&lt;T&gt; = &lt;&lt;T <span class="kw">as </span>Config&gt;::Currency <span class="kw">as </span>Inspect&lt;AccountIdOf&lt;T&gt;&gt;&gt;::Balance;
+<span class="kw">type </span>ExtrinsicOf&lt;T&gt; = &lt;BlockOf&lt;T&gt; <span class="kw">as </span>BlockT&gt;::Extrinsic;
+<span class="kw">type </span>BlockOf&lt;T&gt; = &lt;T <span class="kw">as </span>frame_system::Config&gt;::Block;
+<span class="kw">type </span>BlockHashOf&lt;T&gt; = &lt;BlockOf&lt;T&gt; <span class="kw">as </span>BlockT&gt;::Hash;
+
 <span class="comment">// TODO: not store the intermediate storage root in the state but
 // calculate the storage root outside the runtime after executing the extrinsic directly.
 </span><span class="attr">#[frame_support::pallet]
 </span><span class="kw">mod </span>pallet {
-    <span class="kw">use </span>frame_support::dispatch::GetDispatchInfo;
+    <span class="kw">use </span><span class="kw">crate</span>::weights::WeightInfo;
+    <span class="kw">use crate</span>::{BalanceOf, ExtrinsicStorageFees};
+    <span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+    </span><span class="kw">use </span>alloc::vec::Vec;
     <span class="kw">use </span>frame_support::pallet_prelude::<span class="kw-2">*</span>;
-    <span class="kw">use </span>frame_support::traits::UnfilteredDispatchable;
+    <span class="kw">use </span>frame_support::traits::fungible::Mutate;
+    <span class="kw">use </span>frame_support::weights::WeightToFee;
     <span class="kw">use </span>frame_system::pallet_prelude::<span class="kw-2">*</span>;
-    <span class="kw">use </span>sp_std::boxed::Box;
-    <span class="kw">use </span>sp_std::vec::Vec;
+    <span class="kw">use </span>frame_system::SetCode;
+    <span class="kw">use </span>sp_executive::{InherentError, InherentType, INHERENT_IDENTIFIER};
 
     <span class="attr">#[pallet::config]
     </span><span class="kw">pub trait </span>Config: frame_system::Config {
         <span class="kw">type </span>RuntimeEvent: From&lt;Event&lt;<span class="self">Self</span>&gt;&gt; + IsType&lt;&lt;<span class="self">Self </span><span class="kw">as </span>frame_system::Config&gt;::RuntimeEvent&gt;;
-        <span class="kw">type </span>RuntimeCall: Parameter
-            + UnfilteredDispatchable&lt;RuntimeOrigin = <span class="self">Self</span>::RuntimeOrigin&gt;
-            + GetDispatchInfo;
+        <span class="kw">type </span>WeightInfo: WeightInfo;
+        <span class="kw">type </span>Currency: Mutate&lt;<span class="self">Self</span>::AccountId&gt;;
+        <span class="kw">type </span>LengthToFee: WeightToFee&lt;Balance = BalanceOf&lt;<span class="self">Self</span>&gt;&gt;;
+        <span class="kw">type </span>ExtrinsicStorageFees: ExtrinsicStorageFees&lt;<span class="self">Self</span>&gt;;
     }
 
     <span class="attr">#[pallet::pallet]
@@ -534,35 +712,76 @@
 
     <span class="attr">#[pallet::call]
     </span><span class="kw">impl</span>&lt;T: Config&gt; Pallet&lt;T&gt; {
-        <span class="comment">// TODO: this call may be moved to other places if this pallet is no longer necessary.
-        </span><span class="doccomment">/// Unsigned version of `frame_sudo::sudo_unchecked_weight`.
-        </span><span class="attr">#[allow(clippy::boxed_local)]
-        #[pallet::call_index(<span class="number">0</span>)]
-        #[pallet::weight((<span class="kw-2">*</span>_weight, call.get_dispatch_info().class, Pays::No))]
-        </span><span class="kw">pub fn </span>sudo_unchecked_weight_unsigned(
-            origin: OriginFor&lt;T&gt;,
-            call: Box&lt;&lt;T <span class="kw">as </span>Config&gt;::RuntimeCall&gt;,
-            _weight: Weight,
-        ) -&gt; DispatchResult {
+        <span class="doccomment">/// Sets new runtime code after doing necessary checks.
+        /// Same as frame_system::Call::set_code but without root origin.
+        </span><span class="attr">#[pallet::call_index(<span class="number">0</span>)]
+        #[pallet::weight((T::WeightInfo::set_code(), DispatchClass::Mandatory))]
+        </span><span class="kw">pub fn </span>set_code(origin: OriginFor&lt;T&gt;, code: Vec&lt;u8&gt;) -&gt; DispatchResult {
             ensure_none(origin)<span class="question-mark">?</span>;
-            <span class="kw">let </span>res = call.dispatch_bypass_filter(frame_system::RawOrigin::Root.into());
-            <span class="self">Self</span>::deposit_event(Event::Sudid {
-                sudo_result: res.map(|<span class="kw">_</span>| ()).map_err(|e| e.error),
-            });
+            &lt;frame_system::pallet::Pallet&lt;T&gt;&gt;::can_set_code(<span class="kw-2">&amp;</span>code)<span class="question-mark">?</span>;
+            &lt;T <span class="kw">as </span>frame_system::Config&gt;::OnSetCode::set_code(code)<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(())
         }
     }
 
-    <span class="attr">#[pallet::event]
-    #[pallet::generate_deposit(<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>deposit_event)]
-    </span><span class="kw">pub enum </span>Event&lt;T: Config&gt; {
-        <span class="doccomment">/// A sudo just took place.
-        </span>Sudid { sudo_result: DispatchResult },
+    <span class="attr">#[pallet::inherent]
+    </span><span class="kw">impl</span>&lt;T: Config&gt; ProvideInherent <span class="kw">for </span>Pallet&lt;T&gt; {
+        <span class="kw">type </span>Call = Call&lt;T&gt;;
+        <span class="kw">type </span>Error = InherentError;
+        <span class="kw">const </span>INHERENT_IDENTIFIER: InherentIdentifier = INHERENT_IDENTIFIER;
+
+        <span class="kw">fn </span>create_inherent(data: <span class="kw-2">&amp;</span>InherentData) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Call&gt; {
+            <span class="kw">let </span>inherent_data = data
+                .get_data::&lt;InherentType&gt;(<span class="kw-2">&amp;</span>INHERENT_IDENTIFIER)
+                .expect(<span class="string">"Executive inherent data not correctly encoded"</span>)
+                .expect(<span class="string">"Executive inherent data must be provided"</span>);
+
+            inherent_data.maybe_code.map(|code| Call::set_code { code })
+        }
+
+        <span class="kw">fn </span>is_inherent_required(data: <span class="kw-2">&amp;</span>InherentData) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Error&gt;, <span class="self">Self</span>::Error&gt; {
+            <span class="kw">let </span>inherent_data = data
+                .get_data::&lt;InherentType&gt;(<span class="kw-2">&amp;</span>INHERENT_IDENTIFIER)
+                .expect(<span class="string">"Executive inherent data not correctly encoded"</span>)
+                .expect(<span class="string">"Executive inherent data must be provided"</span>);
+
+            <span class="prelude-val">Ok</span>(<span class="kw">if </span>inherent_data.maybe_code.is_none() {
+                <span class="prelude-val">None
+            </span>} <span class="kw">else </span>{
+                <span class="prelude-val">Some</span>(InherentError::MissingRuntimeCode)
+            })
+        }
+
+        <span class="kw">fn </span>check_inherent(call: <span class="kw-2">&amp;</span><span class="self">Self</span>::Call, data: <span class="kw-2">&amp;</span>InherentData) -&gt; <span class="prelude-ty">Result</span>&lt;(), <span class="self">Self</span>::Error&gt; {
+            <span class="kw">let </span>inherent_data = data
+                .get_data::&lt;InherentType&gt;(<span class="kw-2">&amp;</span>INHERENT_IDENTIFIER)
+                .expect(<span class="string">"Executive inherent data not correctly encoded"</span>)
+                .expect(<span class="string">"Executive inherent data must be provided"</span>);
+
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(provided_code) = inherent_data.maybe_code {
+                <span class="kw">if let </span>Call::set_code { code } = call {
+                    <span class="kw">if </span>code != <span class="kw-2">&amp;</span>provided_code {
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(InherentError::IncorrectRuntimeCode);
+                    }
+                }
+            } <span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">Err</span>(InherentError::MissingRuntimeCode);
+            }
+
+            <span class="prelude-val">Ok</span>(())
+        }
+
+        <span class="kw">fn </span>is_inherent(call: <span class="kw-2">&amp;</span><span class="self">Self</span>::Call) -&gt; bool {
+            <span class="macro">matches!</span>(call, Call::set_code { .. })
+        }
     }
+
+    <span class="attr">#[pallet::event]
+    </span><span class="kw">pub enum </span>Event&lt;T: Config&gt; {}
 
     <span class="attr">#[pallet::hooks]
     </span><span class="kw">impl</span>&lt;T: Config&gt; Hooks&lt;BlockNumberFor&lt;T&gt;&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
-        <span class="kw">fn </span>on_initialize(_block_number: T::BlockNumber) -&gt; Weight {
+        <span class="kw">fn </span>on_initialize(_block_number: BlockNumberFor&lt;T&gt;) -&gt; Weight {
             <span class="comment">// Reset the intermediate storage roots from last block.
             </span>IntermediateRoots::&lt;T&gt;::kill();
             <span class="comment">// TODO: Probably needs a different value
@@ -580,7 +799,7 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>push_root(root: Vec&lt;u8&gt;) {
         IntermediateRoots::&lt;T&gt;::append(
             TryInto::&lt;[u8; <span class="number">32</span>]&gt;::try_into(root)
-                .expect(<span class="string">&quot;root is a SCALE encoded hash which uses H256; qed&quot;</span>),
+                .expect(<span class="string">"root is a SCALE encoded hash which uses H256; qed"</span>),
         );
     }
 }
@@ -590,109 +809,93 @@
 /// One extra generic parameter:
 /// - `ExecutiveConfig`: Something that implements `domain_pallet_executive::Config`.
 </span><span class="kw">pub struct </span>Executive&lt;
-    System,
-    Block,
+    ExecutiveConfig,
     Context,
     UnsignedValidator,
     AllPalletsWithSystem,
-    ExecutiveConfig,
     OnRuntimeUpgrade = (),
 &gt;(
     PhantomData&lt;(
-        System,
-        Block,
+        ExecutiveConfig,
         Context,
         UnsignedValidator,
         AllPalletsWithSystem,
-        ExecutiveConfig,
         OnRuntimeUpgrade,
     )&gt;,
 );
 
 <span class="kw">impl</span>&lt;
-        System: frame_system::Config + EnsureInherentsAreFirst&lt;Block&gt;,
-        Block: traits::Block&lt;Header = System::Header, Hash = System::Hash&gt;,
+        ExecutiveConfig: Config + frame_system::Config + EnsureInherentsAreFirst&lt;BlockOf&lt;ExecutiveConfig&gt;&gt;,
         Context: Default,
         UnsignedValidator,
         AllPalletsWithSystem: OnRuntimeUpgrade
-            + OnInitialize&lt;System::BlockNumber&gt;
-            + OnIdle&lt;System::BlockNumber&gt;
-            + OnFinalize&lt;System::BlockNumber&gt;
-            + OffchainWorker&lt;System::BlockNumber&gt;,
-        ExecutiveConfig: Config,
+            + BeforeAllRuntimeMigrations
+            + OnInitialize&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;
+            + OnIdle&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;
+            + OnFinalize&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;
+            + OffchainWorker&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;
+            + OnPoll&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;,
         COnRuntimeUpgrade: OnRuntimeUpgrade,
-    &gt; ExecuteBlock&lt;Block&gt;
+    &gt; ExecuteBlock&lt;BlockOf&lt;ExecutiveConfig&gt;&gt;
     <span class="kw">for </span>Executive&lt;
-        System,
-        Block,
+        ExecutiveConfig,
         Context,
         UnsignedValidator,
         AllPalletsWithSystem,
-        ExecutiveConfig,
         COnRuntimeUpgrade,
     &gt;
 <span class="kw">where
-    </span>Block::Extrinsic: Checkable&lt;Context&gt; + Codec,
-    CheckedOf&lt;Block::Extrinsic, Context&gt;: Applyable + GetDispatchInfo,
-    CallOf&lt;Block::Extrinsic, Context&gt;:
+    </span>ExtrinsicOf&lt;ExecutiveConfig&gt;: Checkable&lt;Context&gt; + Codec,
+    CheckedOf&lt;ExtrinsicOf&lt;ExecutiveConfig&gt;, Context&gt;: Applyable + GetDispatchInfo,
+    CallOf&lt;ExtrinsicOf&lt;ExecutiveConfig&gt;, Context&gt;:
         Dispatchable&lt;Info = DispatchInfo, PostInfo = PostDispatchInfo&gt;,
-    OriginOf&lt;Block::Extrinsic, Context&gt;: From&lt;<span class="prelude-ty">Option</span>&lt;System::AccountId&gt;&gt;,
-    UnsignedValidator: ValidateUnsigned&lt;Call = CallOf&lt;Block::Extrinsic, Context&gt;&gt;,
+    OriginOf&lt;ExtrinsicOf&lt;ExecutiveConfig&gt;, Context&gt;: From&lt;<span class="prelude-ty">Option</span>&lt;AccountIdOf&lt;ExecutiveConfig&gt;&gt;&gt;,
+    UnsignedValidator: ValidateUnsigned&lt;Call = CallOf&lt;ExtrinsicOf&lt;ExecutiveConfig&gt;, Context&gt;&gt;,
 {
-    <span class="kw">fn </span>execute_block(block: Block) {
+    <span class="kw">fn </span>execute_block(block: BlockOf&lt;ExecutiveConfig&gt;) {
         Executive::&lt;
-            System,
-            Block,
+            ExecutiveConfig,
             Context,
             UnsignedValidator,
             AllPalletsWithSystem,
-            ExecutiveConfig,
             COnRuntimeUpgrade,
         &gt;::execute_block(block);
     }
 }
 
 <span class="kw">impl</span>&lt;
-        System: frame_system::Config + EnsureInherentsAreFirst&lt;Block&gt;,
-        Block: traits::Block&lt;Header = System::Header, Hash = System::Hash&gt;,
+        ExecutiveConfig: Config + frame_system::Config + EnsureInherentsAreFirst&lt;BlockOf&lt;ExecutiveConfig&gt;&gt;,
         Context: Default,
         UnsignedValidator,
         AllPalletsWithSystem: OnRuntimeUpgrade
-            + OnInitialize&lt;System::BlockNumber&gt;
-            + OnIdle&lt;System::BlockNumber&gt;
-            + OnFinalize&lt;System::BlockNumber&gt;
-            + OffchainWorker&lt;System::BlockNumber&gt;,
-        ExecutiveConfig: Config,
+            + BeforeAllRuntimeMigrations
+            + OnInitialize&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;
+            + OnIdle&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;
+            + OnFinalize&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;
+            + OffchainWorker&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;
+            + OnPoll&lt;BlockNumberFor&lt;ExecutiveConfig&gt;&gt;,
         COnRuntimeUpgrade: OnRuntimeUpgrade,
     &gt;
-    Executive&lt;
-        System,
-        Block,
-        Context,
-        UnsignedValidator,
-        AllPalletsWithSystem,
-        ExecutiveConfig,
-        COnRuntimeUpgrade,
-    &gt;
+    Executive&lt;ExecutiveConfig, Context, UnsignedValidator, AllPalletsWithSystem, COnRuntimeUpgrade&gt;
 <span class="kw">where
-    </span>Block::Extrinsic: Checkable&lt;Context&gt; + Codec,
-    CheckedOf&lt;Block::Extrinsic, Context&gt;: Applyable + GetDispatchInfo,
-    CallOf&lt;Block::Extrinsic, Context&gt;:
+    </span>ExtrinsicOf&lt;ExecutiveConfig&gt;: Checkable&lt;Context&gt; + Codec,
+    CheckedOf&lt;ExtrinsicOf&lt;ExecutiveConfig&gt;, Context&gt;: Applyable + GetDispatchInfo,
+    CallOf&lt;ExtrinsicOf&lt;ExecutiveConfig&gt;, Context&gt;:
         Dispatchable&lt;Info = DispatchInfo, PostInfo = PostDispatchInfo&gt;,
-    OriginOf&lt;Block::Extrinsic, Context&gt;: From&lt;<span class="prelude-ty">Option</span>&lt;System::AccountId&gt;&gt;,
-    UnsignedValidator: ValidateUnsigned&lt;Call = CallOf&lt;Block::Extrinsic, Context&gt;&gt;,
+    OriginOf&lt;ExtrinsicOf&lt;ExecutiveConfig&gt;, Context&gt;: From&lt;<span class="prelude-ty">Option</span>&lt;AccountIdOf&lt;ExecutiveConfig&gt;&gt;&gt;,
+    UnsignedValidator: ValidateUnsigned&lt;Call = CallOf&lt;ExtrinsicOf&lt;ExecutiveConfig&gt;, Context&gt;&gt;,
 {
     <span class="doccomment">/// Returns the latest storage root.
     </span><span class="kw">pub fn </span>storage_root() -&gt; Vec&lt;u8&gt; {
-        <span class="kw">let </span>version = System::Version::get().state_version();
+        <span class="kw">let </span>version = &lt;ExecutiveConfig <span class="kw">as </span>frame_system::Config&gt;::Version::get().state_version();
         sp_io::storage::root(version)
     }
 
     <span class="doccomment">/// Wrapped `frame_executive::Executive::execute_on_runtime_upgrade`.
     </span><span class="kw">pub fn </span>execute_on_runtime_upgrade() -&gt; Weight {
         frame_executive::Executive::&lt;
-            System,
-            Block,
+            ExecutiveConfig,
+            BlockOf&lt;ExecutiveConfig&gt;,
             Context,
             UnsignedValidator,
             AllPalletsWithSystem,
@@ -701,11 +904,11 @@
     }
 
     <span class="doccomment">/// Wrapped `frame_executive::Executive::execute_block_no_check`.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;try-runtime&quot;</span>)]
-    </span><span class="kw">pub fn </span>execute_block_no_check(block: Block) -&gt; Weight {
+    </span><span class="attr">#[cfg(feature = <span class="string">"try-runtime"</span>)]
+    </span><span class="kw">pub fn </span>execute_block_no_check(block: BlockOf&lt;ExecutiveConfig&gt;) -&gt; Weight {
         frame_executive::Executive::&lt;
-            System,
-            Block,
+            ExecutiveConfig,
+            BlockOf&lt;ExecutiveConfig&gt;,
             Context,
             UnsignedValidator,
             AllPalletsWithSystem,
@@ -714,11 +917,11 @@
     }
 
     <span class="doccomment">/// Wrapped `frame_executive::Executive::try_runtime_upgrade`.
-    </span><span class="attr">#[cfg(feature = <span class="string">&quot;try-runtime&quot;</span>)]
-    </span><span class="kw">pub fn </span>try_runtime_upgrade() -&gt; <span class="prelude-ty">Result</span>&lt;Weight, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str&gt; {
+    </span><span class="attr">#[cfg(feature = <span class="string">"try-runtime"</span>)]
+    </span><span class="kw">pub fn </span>try_runtime_upgrade() -&gt; <span class="prelude-ty">Result</span>&lt;Weight, <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str&gt; {
         frame_executive::Executive::&lt;
-            System,
-            Block,
+            ExecutiveConfig,
+            BlockOf&lt;ExecutiveConfig&gt;,
             Context,
             UnsignedValidator,
             AllPalletsWithSystem,
@@ -729,33 +932,34 @@
     <span class="doccomment">/// Wrapped `frame_executive::Executive::initialize_block`.
     ///
     /// Note the storage root in the end.
-    </span><span class="kw">pub fn </span>initialize_block(header: <span class="kw-2">&amp;</span>System::Header) {
+    </span><span class="kw">pub fn </span>initialize_block(header: <span class="kw-2">&amp;</span>HeaderFor&lt;ExecutiveConfig&gt;) -&gt; ExtrinsicInclusionMode {
         frame_executive::Executive::&lt;
-            System,
-            Block,
+            ExecutiveConfig,
+            BlockOf&lt;ExecutiveConfig&gt;,
             Context,
             UnsignedValidator,
             AllPalletsWithSystem,
             COnRuntimeUpgrade,
-        &gt;::initialize_block(header);
+        &gt;::initialize_block(header)
     }
 
     <span class="comment">// TODO: https://github.com/paritytech/substrate/issues/10711
-    </span><span class="kw">fn </span>initial_checks(block: <span class="kw-2">&amp;</span>Block) {
-        <span class="macro">sp_tracing::enter_span!</span>(sp_tracing::Level::TRACE, <span class="string">&quot;initial_checks&quot;</span>);
+    </span><span class="kw">fn </span>initial_checks(block: <span class="kw-2">&amp;</span>BlockOf&lt;ExecutiveConfig&gt;) {
+        <span class="macro">sp_tracing::enter_span!</span>(sp_tracing::Level::TRACE, <span class="string">"initial_checks"</span>);
         <span class="kw">let </span>header = block.header();
 
         <span class="comment">// Check that `parent_hash` is correct.
         </span><span class="kw">let </span>n = <span class="kw-2">*</span>header.number();
         <span class="macro">assert!</span>(
-            n &gt; System::BlockNumber::zero()
-                &amp;&amp; &lt;frame_system::Pallet&lt;System&gt;&gt;::block_hash(n - System::BlockNumber::one())
-                    == <span class="kw-2">*</span>header.parent_hash(),
-            <span class="string">&quot;Parent hash should be valid.&quot;</span>,
+            n &gt; BlockNumberFor::&lt;ExecutiveConfig&gt;::zero()
+                &amp;&amp; &lt;frame_system::Pallet&lt;ExecutiveConfig&gt;&gt;::block_hash(
+                    n - BlockNumberFor::&lt;ExecutiveConfig&gt;::one()
+                ) == <span class="kw-2">*</span>header.parent_hash(),
+            <span class="string">"Parent hash should be valid."</span>,
         );
 
-        <span class="kw">if let </span><span class="prelude-val">Err</span>(i) = System::ensure_inherents_are_first(block) {
-            <span class="macro">panic!</span>(<span class="string">&quot;Invalid inherent position for extrinsic at index {i}&quot;</span>);
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(i) = ExecutiveConfig::ensure_inherents_are_first(block) {
+            <span class="macro">panic!</span>(<span class="string">"Invalid inherent position for extrinsic at index {i}"</span>);
         }
     }
 
@@ -763,10 +967,10 @@
     ///
     /// The purpose is to use our custom [`Executive::initialize_block`] and
     /// [`Executive::apply_extrinsic`].
-    </span><span class="kw">pub fn </span>execute_block(block: Block) {
+    </span><span class="kw">pub fn </span>execute_block(block: BlockOf&lt;ExecutiveConfig&gt;) {
         sp_io::init_tracing();
-        <span class="macro">sp_tracing::within_span! </span>{
-            <span class="macro">sp_tracing::info_span!</span>(<span class="string">&quot;execute_block&quot;</span>, <span class="question-mark">?</span>block);
+        <span class="macro">sp_tracing::within_span!</span> {
+            <span class="macro">sp_tracing::info_span!</span>(<span class="string">"execute_block"</span>, <span class="question-mark">?</span>block);
 
             <span class="self">Self</span>::initialize_block(block.header());
 
@@ -782,33 +986,33 @@
 
     <span class="doccomment">/// Exactly same with `frame_executive::executive::execute_extrinsics_with_book_keeping`.
     </span><span class="kw">fn </span>execute_extrinsics_with_book_keeping(
-        extrinsics: Vec&lt;Block::Extrinsic&gt;,
-        block_number: NumberFor&lt;Block&gt;,
+        extrinsics: Vec&lt;ExtrinsicOf&lt;ExecutiveConfig&gt;&gt;,
+        block_number: NumberFor&lt;BlockOf&lt;ExecutiveConfig&gt;&gt;,
     ) {
         extrinsics.into_iter().for_each(|e| {
             <span class="kw">if let </span><span class="prelude-val">Err</span>(e) = <span class="self">Self</span>::apply_extrinsic(e) {
-                <span class="kw">let </span>err: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str = e.into();
-                <span class="macro">panic!</span>(<span class="string">&quot;{}&quot;</span>, err)
+                <span class="kw">let </span>err: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str = e.into();
+                <span class="macro">panic!</span>(<span class="string">"{}"</span>, err)
             }
         });
 
         <span class="comment">// Note the storage root before finalizing the block so that the block imported during the
-        // syncing processs produces the same storage root with the one processed based on
+        // syncing process produces the same storage root with the one processed based on
         // the consensus block.
         </span>Pallet::&lt;ExecutiveConfig&gt;::push_root(<span class="self">Self</span>::storage_root());
 
         <span class="comment">// post-extrinsics book-keeping
-        </span>&lt;frame_system::Pallet&lt;System&gt;&gt;::note_finished_extrinsics();
+        </span>&lt;frame_system::Pallet&lt;ExecutiveConfig&gt;&gt;::note_finished_extrinsics();
 
         <span class="self">Self</span>::idle_and_finalize_hook(block_number);
     }
 
     <span class="doccomment">/// Wrapped `frame_executive::Executive::finalize_block`.
-    </span><span class="kw">pub fn </span>finalize_block() -&gt; System::Header {
+    </span><span class="kw">pub fn </span>finalize_block() -&gt; HeaderFor&lt;ExecutiveConfig&gt; {
         Pallet::&lt;ExecutiveConfig&gt;::push_root(<span class="self">Self</span>::storage_root());
         frame_executive::Executive::&lt;
-            System,
-            Block,
+            ExecutiveConfig,
+            BlockOf&lt;ExecutiveConfig&gt;,
             Context,
             UnsignedValidator,
             AllPalletsWithSystem,
@@ -817,61 +1021,131 @@
     }
 
     <span class="comment">// TODO: https://github.com/paritytech/substrate/issues/10711
-    </span><span class="kw">fn </span>idle_and_finalize_hook(block_number: NumberFor&lt;Block&gt;) {
-        <span class="kw">let </span>weight = &lt;frame_system::Pallet&lt;System&gt;&gt;::block_weight();
-        <span class="kw">let </span>max_weight = &lt;System::BlockWeights <span class="kw">as </span>frame_support::traits::Get&lt;<span class="kw">_</span>&gt;&gt;::get().max_block;
+    </span><span class="kw">fn </span>idle_and_finalize_hook(block_number: NumberFor&lt;BlockOf&lt;ExecutiveConfig&gt;&gt;) {
+        <span class="kw">let </span>weight = &lt;frame_system::Pallet&lt;ExecutiveConfig&gt;&gt;::block_weight();
+        <span class="kw">let </span>max_weight = &lt;&lt;ExecutiveConfig <span class="kw">as </span>frame_system::Config&gt;::BlockWeights <span class="kw">as </span>frame_support::traits::Get&lt;<span class="kw">_</span>&gt;&gt;::get().max_block;
         <span class="kw">let </span>remaining_weight = max_weight.saturating_sub(weight.total());
 
         <span class="kw">if </span>remaining_weight.all_gt(Weight::zero()) {
-            <span class="kw">let </span>used_weight = &lt;AllPalletsWithSystem <span class="kw">as </span>OnIdle&lt;System::BlockNumber&gt;&gt;::on_idle(
-                block_number,
-                remaining_weight,
-            );
-            &lt;frame_system::Pallet&lt;System&gt;&gt;::register_extra_weight_unchecked(
+            <span class="kw">let </span>used_weight = AllPalletsWithSystem::on_idle(block_number, remaining_weight);
+            &lt;frame_system::Pallet&lt;ExecutiveConfig&gt;&gt;::register_extra_weight_unchecked(
                 used_weight,
                 DispatchClass::Mandatory,
             );
         }
 
-        &lt;AllPalletsWithSystem <span class="kw">as </span>OnFinalize&lt;System::BlockNumber&gt;&gt;::on_finalize(block_number);
+        AllPalletsWithSystem::on_finalize(block_number);
     }
 
     <span class="doccomment">/// Wrapped `frame_executive::Executive::apply_extrinsic`.
     ///
     /// Note the storage root in the end.
-    </span><span class="kw">pub fn </span>apply_extrinsic(uxt: Block::Extrinsic) -&gt; ApplyExtrinsicResult {
+    </span><span class="kw">pub fn </span>apply_extrinsic(uxt: ExtrinsicOf&lt;ExecutiveConfig&gt;) -&gt; ApplyExtrinsicResult {
         Pallet::&lt;ExecutiveConfig&gt;::push_root(<span class="self">Self</span>::storage_root());
-        <span class="kw">let </span>res = frame_executive::Executive::&lt;
-            System,
-            Block,
-            Context,
-            UnsignedValidator,
-            AllPalletsWithSystem,
-            COnRuntimeUpgrade,
-        &gt;::apply_extrinsic(uxt);
+
+        <span class="comment">// apply the extrinsic within another transaction so that changes can be reverted.
+        </span><span class="kw">let </span>res = with_storage_layer(|| {
+            frame_executive::Executive::&lt;
+                ExecutiveConfig,
+                BlockOf&lt;ExecutiveConfig&gt;,
+                Context,
+                UnsignedValidator,
+                AllPalletsWithSystem,
+                COnRuntimeUpgrade,
+            &gt;::apply_extrinsic(uxt.clone())
+            .map_err(|err| DispatchError::Other(err.into()))
+        });
+
+        <span class="comment">// apply extrinsic failed with transaction validity error
+        // this could happen for following scenarios
+        // - Bad extrinsic Signature
+        //      This extrinsic will be ignored by the operators during the bundle check
+        //      and marks such bundle as Invalid.
+        // - Extrinsic execution failed
+        //      There are multiple scenarios why this can happen
+        //      - Inherent extrinsic failed. If this happens, we should fail to apply extrinsic
+        //      - Pre and Post dispatch fails. Check the test `test_domain_block_builder_include_ext_with_failed_predispatch`
+        //        why this could happen. If it fail due to this, then we revert the inner storage changes
+        //        but still include extrinsic so that we can clear inconsistency between block body and trace roots.
+        </span><span class="kw">let </span>res = <span class="kw">match </span>res {
+            <span class="prelude-val">Ok</span>(dispatch_outcome) =&gt; <span class="prelude-val">Ok</span>(dispatch_outcome),
+            <span class="prelude-val">Err</span>(err) =&gt; {
+                <span class="kw">let </span>encoded = uxt.encode();
+                <span class="kw">let </span>(maybe_signer, dispatch_info) =
+                    ExecutiveConfig::ExtrinsicStorageFees::extract_signer(uxt);
+                <span class="comment">// if this is mandatory extrinsic, then transaction should not execute
+                // we should fail here.
+                </span><span class="kw">if </span>dispatch_info.class == DispatchClass::Mandatory {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(TransactionValidityError::Invalid(
+                        InvalidTransaction::MandatoryValidation,
+                    ));
+                }
+
+                <span class="comment">// charge signer for extrinsic storage
+                </span><span class="kw">if let </span><span class="prelude-val">Some</span>(signer) = maybe_signer {
+                    <span class="kw">let </span>storage_fees = ExecutiveConfig::LengthToFee::weight_to_fee(
+                        <span class="kw-2">&amp;</span>Weight::from_parts(encoded.len() <span class="kw">as </span>u64, <span class="number">0</span>),
+                    );
+
+                    <span class="comment">// best effort to charge the fees to signer.
+                    // if signer does not have enough balance, we continue
+                    </span><span class="kw">let </span>maybe_charged_fees = ExecutiveConfig::Currency::burn_from(
+                        <span class="kw-2">&amp;</span>signer,
+                        storage_fees,
+                        Preservation::Expendable,
+                        Precision::BestEffort,
+                        Fortitude::Force,
+                    );
+
+                    <span class="kw">if let </span><span class="prelude-val">Ok</span>(charged_fees) = maybe_charged_fees {
+                        ExecutiveConfig::ExtrinsicStorageFees::on_storage_fees_charged(
+                            charged_fees,
+                            encoded.len() <span class="kw">as </span>u32,
+                        )<span class="question-mark">?</span>;
+                    }
+                }
+
+                <span class="comment">// note the extrinsic into system storage
+                </span>&lt;frame_system::Pallet&lt;ExecutiveConfig&gt;&gt;::note_extrinsic(encoded);
+
+                <span class="comment">// note extrinsic applied. it pays no fees since there was no execution.
+                // we also set the weight to zero since there was no execution done.
+                </span><span class="kw">let </span>r = <span class="prelude-val">Err</span>(DispatchErrorWithPostInfo {
+                    post_info: PostDispatchInfo {
+                        actual_weight: <span class="prelude-val">None</span>,
+                        pays_fee: Pays::No,
+                    },
+                    error: err,
+                });
+
+                &lt;frame_system::Pallet&lt;ExecutiveConfig&gt;&gt;::note_applied_extrinsic(<span class="kw-2">&amp;</span>r, dispatch_info);
+                <span class="prelude-val">Ok</span>(<span class="prelude-val">Err</span>(err))
+            }
+        };
+
         <span class="comment">// TODO: Critical!!! https://github.com/paritytech/substrate/pull/10922#issuecomment-1068997467
-        </span><span class="macro">frame_support::log::info!</span>(
-            target: <span class="string">&quot;domain::runtime::executive&quot;</span>,
-            <span class="string">&quot;[apply_extrinsic] after: {:?}&quot;</span>,
+        </span><span class="macro">log::debug!</span>(
+            target: <span class="string">"domain::runtime::executive"</span>,
+            <span class="string">"[apply_extrinsic] after: {:?}"</span>,
             {
                 <span class="kw">use </span>codec::Decode;
-                Block::Hash::decode(<span class="kw-2">&amp;mut </span><span class="self">Self</span>::storage_root().as_slice()).unwrap()
+                BlockHashOf::&lt;ExecutiveConfig&gt;::decode(<span class="kw-2">&amp;mut </span><span class="self">Self</span>::storage_root().as_slice()).unwrap()
             }
         );
         res
     }
 
     <span class="comment">// TODO: https://github.com/paritytech/substrate/issues/10711
-    </span><span class="kw">fn </span>final_checks(header: <span class="kw-2">&amp;</span>System::Header) {
-        <span class="macro">sp_tracing::enter_span!</span>(sp_tracing::Level::TRACE, <span class="string">&quot;final_checks&quot;</span>);
+    </span><span class="kw">fn </span>final_checks(header: <span class="kw-2">&amp;</span>HeaderFor&lt;ExecutiveConfig&gt;) {
+        <span class="macro">sp_tracing::enter_span!</span>(sp_tracing::Level::TRACE, <span class="string">"final_checks"</span>);
         <span class="comment">// remove temporaries
-        </span><span class="kw">let </span>new_header = &lt;frame_system::Pallet&lt;System&gt;&gt;::finalize();
+        </span><span class="kw">let </span>new_header = &lt;frame_system::Pallet&lt;ExecutiveConfig&gt;&gt;::finalize();
 
         <span class="comment">// check digest
         </span><span class="macro">assert_eq!</span>(
             header.digest().logs().len(),
             new_header.digest().logs().len(),
-            <span class="string">&quot;Number of digest items must match that calculated.&quot;
+            <span class="string">"Number of digest items must match that calculated."
         </span>);
         <span class="kw">let </span>items_zip = header
             .digest()
@@ -882,7 +1156,7 @@
             header_item.check_equal(computed_item);
             <span class="macro">assert_eq!</span>(
                 header_item, computed_item,
-                <span class="string">&quot;Digest item must match that calculated.&quot;
+                <span class="string">"Digest item must match that calculated."
             </span>);
         }
 
@@ -891,24 +1165,24 @@
         header.state_root().check_equal(storage_root);
         <span class="macro">assert!</span>(
             header.state_root() == storage_root,
-            <span class="string">&quot;Storage root must match that calculated.&quot;
+            <span class="string">"Storage root must match that calculated."
         </span>);
 
         <span class="macro">assert!</span>(
             header.extrinsics_root() == new_header.extrinsics_root(),
-            <span class="string">&quot;Transaction trie root must be valid.&quot;</span>,
+            <span class="string">"Transaction trie root must be valid."</span>,
         );
     }
 
     <span class="doccomment">/// Wrapped `frame_executive::Executive::validate_transaction`.
     </span><span class="kw">pub fn </span>validate_transaction(
         source: TransactionSource,
-        uxt: Block::Extrinsic,
-        block_hash: Block::Hash,
+        uxt: ExtrinsicOf&lt;ExecutiveConfig&gt;,
+        block_hash: BlockHashOf&lt;ExecutiveConfig&gt;,
     ) -&gt; TransactionValidity {
         frame_executive::Executive::&lt;
-            System,
-            Block,
+            ExecutiveConfig,
+            BlockOf&lt;ExecutiveConfig&gt;,
             Context,
             UnsignedValidator,
             AllPalletsWithSystem,
@@ -917,10 +1191,10 @@
     }
 
     <span class="doccomment">/// Wrapped `frame_executive::Executive::offchain_worker`.
-    </span><span class="kw">pub fn </span>offchain_worker(header: <span class="kw-2">&amp;</span>System::Header) {
+    </span><span class="kw">pub fn </span>offchain_worker(header: <span class="kw-2">&amp;</span>HeaderFor&lt;ExecutiveConfig&gt;) {
         frame_executive::Executive::&lt;
-            System,
-            Block,
+            ExecutiveConfig,
+            BlockOf&lt;ExecutiveConfig&gt;,
             Context,
             UnsignedValidator,
             AllPalletsWithSystem,

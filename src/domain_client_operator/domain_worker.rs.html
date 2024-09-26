@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/domain-operator/src/domain_worker.rs`."><title>domain_worker.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_client_operator" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../domain_client_operator/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/domain-operator/src/domain_worker.rs`."><title>domain_worker.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_client_operator" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -261,267 +261,377 @@
 <a href="#261" id="261">261</a>
 <a href="#262" id="262">262</a>
 <a href="#263" id="263">263</a>
-</pre></div><pre class="rust"><code><span class="doccomment">//! Shared domain worker functions.
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+</pre></div><pre class="rust"><code><span class="comment">// Copyright 2020 Parity Technologies (UK) Ltd.
+// This file is part of Polkadot.
 
-</span><span class="kw">use </span><span class="kw">crate</span>::utils::{to_number_primitive, BlockInfo, OperatorSlotInfo};
+// Polkadot is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// Polkadot is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with Polkadot.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+
+</span><span class="kw">use </span><span class="kw">crate</span>::bundle_processor::BundleProcessor;
+<span class="kw">use </span><span class="kw">crate</span>::domain_bundle_producer::{DomainBundleProducer, DomainProposal};
+<span class="kw">use </span><span class="kw">crate</span>::utils::{BlockInfo, OperatorSlotInfo};
+<span class="kw">use crate</span>::{NewSlotNotification, OperatorStreams};
 <span class="kw">use </span>futures::channel::mpsc;
 <span class="kw">use </span>futures::{SinkExt, Stream, StreamExt};
-<span class="kw">use </span>sc_client_api::{BlockBackend, BlockImportNotification, BlockchainEvents};
-<span class="kw">use </span>sp_api::{ApiError, BlockT, ProvideRuntimeApi};
-<span class="kw">use </span>sp_blockchain::{HashAndNumber, HeaderBackend};
-<span class="kw">use </span>sp_core::traits::SpawnEssentialNamed;
-<span class="kw">use </span>sp_domains::{DomainsApi, OpaqueBundle};
-<span class="kw">use </span>sp_runtime::traits::{Header <span class="kw">as </span>HeaderT, NumberFor, One, Saturating};
-<span class="kw">use </span>std::collections::hash_map::Entry;
-<span class="kw">use </span>std::collections::HashMap;
-<span class="kw">use </span>std::future::Future;
-<span class="kw">use </span>std::pin::Pin;
+<span class="kw">use </span>sc_client_api::{
+    AuxStore, BlockBackend, BlockImportNotification, BlockchainEvents, Finalizer, ProofProvider,
+};
+<span class="kw">use </span>sc_transaction_pool_api::OffchainTransactionPoolFactory;
+<span class="kw">use </span>sp_api::{ApiExt, ProvideRuntimeApi};
+<span class="kw">use </span>sp_block_builder::BlockBuilder;
+<span class="kw">use </span>sp_blockchain::{HeaderBackend, HeaderMetadata};
+<span class="kw">use </span>sp_core::traits::{CodeExecutor, SpawnEssentialNamed};
+<span class="kw">use </span>sp_core::H256;
+<span class="kw">use </span>sp_domains::core_api::DomainCoreApi;
+<span class="kw">use </span>sp_domains::{BundleProducerElectionApi, DomainsApi, OpaqueBundle, OperatorId};
+<span class="kw">use </span>sp_domains_fraud_proof::FraudProofApi;
+<span class="kw">use </span>sp_messenger::MessengerApi;
+<span class="kw">use </span>sp_mmr_primitives::MmrApi;
+<span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, Header <span class="kw">as </span>HeaderT, NumberFor};
+<span class="kw">use </span>sp_transaction_pool::runtime_api::TaggedTransactionQueue;
+<span class="kw">use </span>std::pin::pin;
+<span class="kw">use </span>std::sync::Arc;
 <span class="kw">use </span>subspace_runtime_primitives::Balance;
+<span class="kw">use </span>tracing::{info, Instrument};
 
-<span class="kw">type </span>OpaqueBundleFor&lt;Block, CBlock&gt; = OpaqueBundle&lt;
-    NumberFor&lt;CBlock&gt;,
-    &lt;CBlock <span class="kw">as </span>BlockT&gt;::Hash,
-    NumberFor&lt;Block&gt;,
-    &lt;Block <span class="kw">as </span>BlockT&gt;::Hash,
-    Balance,
-&gt;;
+<span class="kw">pub type </span>OpaqueBundleFor&lt;Block, CBlock&gt; =
+    OpaqueBundle&lt;NumberFor&lt;CBlock&gt;, &lt;CBlock <span class="kw">as </span>BlockT&gt;::Hash, &lt;Block <span class="kw">as </span>BlockT&gt;::Header, Balance&gt;;
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>handle_slot_notifications&lt;Block, CBlock, CClient, BundlerFn&gt;(
-    consensus_client: <span class="kw-2">&amp;</span>CClient,
-    bundler: BundlerFn,
-    <span class="kw-2">mut </span>slots: <span class="kw">impl </span>Stream&lt;Item = (OperatorSlotInfo, <span class="prelude-ty">Option</span>&lt;mpsc::Sender&lt;()&gt;&gt;)&gt; + Unpin,
+<span class="attr">#[allow(clippy::type_complexity, clippy::too_many_arguments)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">async fn </span>start_worker&lt;
+    Block,
+    CBlock,
+    Client,
+    CClient,
+    TransactionPool,
+    Backend,
+    IBNS,
+    CIBNS,
+    NSNS,
+    ASS,
+    E,
+&gt;(
+    spawn_essential: Box&lt;<span class="kw">dyn </span>SpawnEssentialNamed&gt;,
+    consensus_client: Arc&lt;CClient&gt;,
+    consensus_offchain_tx_pool_factory: OffchainTransactionPoolFactory&lt;CBlock&gt;,
+    maybe_operator_id: <span class="prelude-ty">Option</span>&lt;OperatorId&gt;,
+    <span class="kw-2">mut </span>bundle_producer: DomainBundleProducer&lt;Block, CBlock, Client, CClient, TransactionPool&gt;,
+    bundle_processor: BundleProcessor&lt;Block, CBlock, Client, CClient, Backend, E&gt;,
+    operator_streams: OperatorStreams&lt;CBlock, IBNS, CIBNS, NSNS, ASS&gt;,
 ) <span class="kw">where
     </span>Block: BlockT,
+    Block::Hash: Into&lt;H256&gt;,
     CBlock: BlockT,
-    CClient: HeaderBackend&lt;CBlock&gt; + ProvideRuntimeApi&lt;CBlock&gt;,
-    CClient::Api: DomainsApi&lt;CBlock, NumberFor&lt;Block&gt;, Block::Hash&gt;,
-    BundlerFn: Fn(
-            HashAndNumber&lt;CBlock&gt;,
-            OperatorSlotInfo,
-        ) -&gt; Pin&lt;Box&lt;<span class="kw">dyn </span>Future&lt;Output = <span class="prelude-ty">Option</span>&lt;OpaqueBundleFor&lt;Block, CBlock&gt;&gt;&gt; + Send&gt;&gt;
-        + Send
-        + Sync,
+    NumberFor&lt;CBlock&gt;: From&lt;NumberFor&lt;Block&gt;&gt; + Into&lt;NumberFor&lt;Block&gt;&gt;,
+    CBlock::Hash: From&lt;Block::Hash&gt;,
+    Client: HeaderBackend&lt;Block&gt;
+        + BlockBackend&lt;Block&gt;
+        + AuxStore
+        + ProvideRuntimeApi&lt;Block&gt;
+        + ProofProvider&lt;Block&gt;
+        + Finalizer&lt;Block, Backend&gt;
+        + <span class="lifetime">'static</span>,
+    Client::Api: DomainCoreApi&lt;Block&gt;
+        + MessengerApi&lt;Block, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + BlockBuilder&lt;Block&gt;
+        + sp_api::ApiExt&lt;Block&gt;
+        + TaggedTransactionQueue&lt;Block&gt;,
+    CClient: HeaderBackend&lt;CBlock&gt;
+        + HeaderMetadata&lt;CBlock, Error = sp_blockchain::Error&gt;
+        + BlockBackend&lt;CBlock&gt;
+        + ProofProvider&lt;CBlock&gt;
+        + ProvideRuntimeApi&lt;CBlock&gt;
+        + BlockchainEvents&lt;CBlock&gt;
+        + <span class="lifetime">'static</span>,
+    CClient::Api: DomainsApi&lt;CBlock, Block::Header&gt;
+        + MessengerApi&lt;CBlock, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + BundleProducerElectionApi&lt;CBlock, Balance&gt;
+        + FraudProofApi&lt;CBlock, Block::Header&gt;
+        + MmrApi&lt;CBlock, H256, NumberFor&lt;CBlock&gt;&gt;,
+    TransactionPool:
+        sc_transaction_pool_api::TransactionPool&lt;Block = Block, Hash = Block::Hash&gt; + <span class="lifetime">'static</span>,
+    Backend: sc_client_api::Backend&lt;Block&gt; + <span class="lifetime">'static</span>,
+    IBNS: Stream&lt;Item = (NumberFor&lt;CBlock&gt;, mpsc::Sender&lt;()&gt;)&gt; + Send + <span class="lifetime">'static</span>,
+    CIBNS: Stream&lt;Item = BlockImportNotification&lt;CBlock&gt;&gt; + Send + <span class="lifetime">'static</span>,
+    NSNS: Stream&lt;Item = NewSlotNotification&gt; + Send + <span class="lifetime">'static</span>,
+    ASS: Stream&lt;Item = mpsc::Sender&lt;()&gt;&gt; + Send + <span class="lifetime">'static</span>,
+    E: CodeExecutor,
 {
-    <span class="kw">while let </span><span class="prelude-val">Some</span>((operator_slot_info, slot_acknowledgement_sender)) = slots.next().<span class="kw">await </span>{
-        <span class="kw">let </span>slot = operator_slot_info.slot;
-        <span class="kw">if let </span><span class="prelude-val">Err</span>(error) =
-            on_new_slot::&lt;Block, CBlock, <span class="kw">_</span>, <span class="kw">_</span>&gt;(consensus_client, <span class="kw-2">&amp;</span>bundler, operator_slot_info).<span class="kw">await
-        </span>{
-            <span class="macro">tracing::error!</span>(
-                <span class="question-mark">?</span>error,
-                <span class="string">&quot;Error occurred on producing a bundle at slot {slot}&quot;
-            </span>);
-            <span class="kw">break</span>;
+    <span class="kw">let </span>span = tracing::Span::current();
+
+    <span class="kw">let </span>OperatorStreams {
+        consensus_block_import_throttling_buffer_size,
+        block_importing_notification_stream,
+        imported_block_notification_stream,
+        new_slot_notification_stream,
+        acknowledgement_sender_stream,
+        _phantom,
+    } = operator_streams;
+
+    <span class="kw">let </span><span class="kw-2">mut </span>throttled_block_import_notification_stream =
+        throttling_block_import_notifications::&lt;Block, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
+            spawn_essential,
+            consensus_client.clone(),
+            Box::pin(block_importing_notification_stream),
+            Box::pin(imported_block_notification_stream),
+            consensus_block_import_throttling_buffer_size,
+        );
+
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(operator_id) = maybe_operator_id {
+        <span class="macro">info!</span>(<span class="string">"👷 Running as Operator[{operator_id}]..."</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>new_slot_notification_stream = <span class="macro">pin!</span>(new_slot_notification_stream);
+        <span class="kw">let </span><span class="kw-2">mut </span>acknowledgement_sender_stream = <span class="macro">pin!</span>(acknowledgement_sender_stream);
+        <span class="kw">loop </span>{
+            <span class="macro">tokio::select!</span> {
+                <span class="comment">// Ensure any new slot/block import must handle first before the `acknowledgement_sender_stream`
+                // NOTE: this is only necessary for the test.
+                </span>biased;
+
+                <span class="prelude-val">Some</span>((slot, proof_of_time)) = new_slot_notification_stream.next() =&gt; {
+                    <span class="kw">let </span>res = bundle_producer
+                        .produce_bundle(
+                            operator_id,
+                            OperatorSlotInfo {
+                                slot,
+                                proof_of_time,
+                            },
+                        )
+                        .instrument(span.clone())
+                        .<span class="kw">await</span>;
+                    <span class="kw">match </span>res {
+                        <span class="prelude-val">Err</span>(err) =&gt; {
+                            <span class="macro">tracing::error!</span>(<span class="question-mark">?</span>slot, <span class="question-mark">?</span>err, <span class="string">"Error at producing bundle."</span>);
+                        }
+                        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(domain_proposal)) =&gt; {
+                            <span class="kw">let </span>best_hash = consensus_client.info().best_hash;
+                            <span class="kw">let </span><span class="kw-2">mut </span>runtime_api = consensus_client.runtime_api();
+                            runtime_api.register_extension(consensus_offchain_tx_pool_factory.offchain_transaction_pool(best_hash));
+
+                            <span class="kw">match </span>domain_proposal {
+                                DomainProposal::Bundle(opaque_bundle) =&gt; {
+                                    <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = runtime_api.submit_bundle_unsigned(best_hash, opaque_bundle) {
+                                        <span class="macro">tracing::error!</span>(<span class="question-mark">?</span>slot, <span class="question-mark">?</span>err, <span class="string">"Error at submitting bundle."</span>);
+                                    }
+                                },
+                                DomainProposal::Receipt(singleton_receipt) =&gt; {
+                                    <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = runtime_api.submit_receipt_unsigned(best_hash, singleton_receipt) {
+                                        <span class="macro">tracing::error!</span>(<span class="question-mark">?</span>slot, <span class="question-mark">?</span>err, <span class="string">"Error at submitting receipt."</span>);
+                                    }
+                                },
+                            }
+                        }
+                        <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>) =&gt; {}
+                    }
+                }
+                <span class="prelude-val">Some</span>(maybe_block_info) = throttled_block_import_notification_stream.next() =&gt; {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(block_info) = maybe_block_info {
+                        <span class="kw">if let </span><span class="prelude-val">Err</span>(error) = bundle_processor
+                            .clone()
+                            .process_bundles((
+                                block_info.hash,
+                                block_info.number,
+                                block_info.is_new_best,
+                            ))
+                            .instrument(span.clone())
+                            .<span class="kw">await
+                        </span>{
+                            <span class="macro">tracing::error!</span>(<span class="question-mark">?</span>error, <span class="string">"Failed to process consensus block"</span>);
+                            <span class="comment">// Bring down the service as bundles processor is an essential task.
+                            // TODO: more graceful shutdown.
+                            </span><span class="kw">break</span>;
+                        }
+                    }
+                }
+                <span class="comment">// In production the `acknowledgement_sender_stream` is an empty stream, it only set to
+                // real stream in test
+                </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>acknowledgement_sender) = acknowledgement_sender_stream.next() =&gt; {
+                    <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = acknowledgement_sender.send(()).<span class="kw">await </span>{
+                        <span class="macro">tracing::error!</span>(
+                            <span class="question-mark">?</span>err,
+                            <span class="string">"Failed to send acknowledgement"
+                        </span>);
+                    }
+                }
+            }
         }
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>sender) = slot_acknowledgement_sender {
-            <span class="kw">let _ </span>= sender.send(()).<span class="kw">await</span>;
+    } <span class="kw">else </span>{
+        <span class="macro">info!</span>(<span class="string">"🧑‍ Running as Full node..."</span>);
+        drop(new_slot_notification_stream);
+        drop(acknowledgement_sender_stream);
+        <span class="kw">while let </span><span class="prelude-val">Some</span>(maybe_block_info) = throttled_block_import_notification_stream.next().<span class="kw">await </span>{
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(block_info) = maybe_block_info {
+                <span class="kw">if let </span><span class="prelude-val">Err</span>(error) = bundle_processor
+                    .clone()
+                    .process_bundles((block_info.hash, block_info.number, block_info.is_new_best))
+                    .instrument(span.clone())
+                    .<span class="kw">await
+                </span>{
+                    <span class="macro">tracing::error!</span>(<span class="question-mark">?</span>error, <span class="string">"Failed to process consensus block"</span>);
+                    <span class="comment">// Bring down the service as bundles processor is an essential task.
+                    // TODO: more graceful shutdown.
+                    </span><span class="kw">break</span>;
+                }
+            }
         }
     }
 }
 
-<span class="attr">#[allow(clippy::too_many_arguments)]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>handle_block_import_notifications&lt;
-    Block,
-    CBlock,
-    CClient,
-    ProcessorFn,
-    BlocksImporting,
-    BlocksImported,
-&gt;(
+<span class="doccomment">/// Throttle the consensus block import notification based on the `consensus_block_import_throttling_buffer_size`
+/// to pause the consensus block import in case the consensus chain runs much faster than the domain.
+///
+/// Return the throttled block import notification stream
+</span><span class="attr">#[allow(clippy::too_many_arguments)]
+</span><span class="kw">fn </span>throttling_block_import_notifications&lt;Block, CBlock, CClient, BlocksImporting, BlocksImported&gt;(
     spawn_essential: Box&lt;<span class="kw">dyn </span>SpawnEssentialNamed&gt;,
-    consensus_client: <span class="kw-2">&amp;</span>CClient,
-    best_domain_number: NumberFor&lt;Block&gt;,
-    processor: ProcessorFn,
-    <span class="kw-2">mut </span>leaves: Vec&lt;(CBlock::Hash, NumberFor&lt;CBlock&gt;, bool)&gt;,
+    consensus_client: Arc&lt;CClient&gt;,
     <span class="kw-2">mut </span>blocks_importing: BlocksImporting,
     <span class="kw-2">mut </span>blocks_imported: BlocksImported,
     consensus_block_import_throttling_buffer_size: u32,
-) <span class="kw">where
+) -&gt; mpsc::Receiver&lt;<span class="prelude-ty">Option</span>&lt;BlockInfo&lt;CBlock&gt;&gt;&gt;
+<span class="kw">where
     </span>Block: BlockT,
     CBlock: BlockT,
     CClient: HeaderBackend&lt;CBlock&gt;
         + BlockBackend&lt;CBlock&gt;
         + ProvideRuntimeApi&lt;CBlock&gt;
-        + BlockchainEvents&lt;CBlock&gt;,
-    CClient::Api: DomainsApi&lt;CBlock, NumberFor&lt;Block&gt;, Block::Hash&gt;,
-    ProcessorFn: Fn(
-            (CBlock::Hash, NumberFor&lt;CBlock&gt;, bool),
-        ) -&gt; Pin&lt;Box&lt;<span class="kw">dyn </span>Future&lt;Output = <span class="prelude-ty">Result</span>&lt;(), sp_blockchain::Error&gt;&gt; + Send&gt;&gt;
-        + Send
-        + Sync
-        + <span class="lifetime">&#39;static</span>,
-    BlocksImporting: Stream&lt;Item = (NumberFor&lt;CBlock&gt;, mpsc::Sender&lt;()&gt;)&gt; + Unpin,
-    BlocksImported: Stream&lt;Item = BlockImportNotification&lt;CBlock&gt;&gt; + Unpin,
+        + BlockchainEvents&lt;CBlock&gt;
+        + <span class="lifetime">'static</span>,
+    CClient::Api: DomainsApi&lt;CBlock, Block::Header&gt;,
+    BlocksImporting: Stream&lt;Item = (NumberFor&lt;CBlock&gt;, mpsc::Sender&lt;()&gt;)&gt; + Unpin + Send + <span class="lifetime">'static</span>,
+    BlocksImported: Stream&lt;Item = BlockImportNotification&lt;CBlock&gt;&gt; + Unpin + Send + <span class="lifetime">'static</span>,
 {
-    <span class="kw">let </span><span class="kw-2">mut </span>active_leaves = HashMap::with_capacity(leaves.len());
-
-    <span class="kw">let </span>best_domain_number = to_number_primitive(best_domain_number);
-
-    <span class="comment">// Notify about active leaves on startup before starting the loop
-    </span><span class="kw">for </span>(hash, number, is_new_best) <span class="kw">in </span>std::mem::take(<span class="kw-2">&amp;mut </span>leaves) {
-        <span class="kw">let _ </span>= active_leaves.insert(hash, number);
-        <span class="comment">// Skip the blocks that have been processed by the execution chain.
-        </span><span class="kw">if </span>number &gt; best_domain_number.into() {
-            <span class="kw">if let </span><span class="prelude-val">Err</span>(error) = processor((hash, number, is_new_best)).<span class="kw">await </span>{
-                <span class="macro">tracing::error!</span>(<span class="question-mark">?</span>error, <span class="string">&quot;Failed to process consensus block on startup&quot;</span>);
-                <span class="comment">// Bring down the service as bundles processor is an essential task.
-                // TODO: more graceful shutdown.
-                </span><span class="kw">return</span>;
-            }
-        }
-    }
-
     <span class="comment">// The consensus chain can be ahead of the domain by up to `block_import_throttling_buffer_size/2`
     // blocks, for there are two notifications per block sent to this buffer (one will be actually
     // consumed by the domain processor, the other from `sc-consensus-subspace` is used to discontinue
     // the consensus block import in case the consensus chain runs much faster than the domain.).
-    </span><span class="kw">let </span>(<span class="kw-2">mut </span>block_info_sender, <span class="kw-2">mut </span>block_info_receiver) =
-        mpsc::channel(consensus_block_import_throttling_buffer_size <span class="kw">as </span>usize);
+    </span><span class="kw">let </span>(<span class="kw-2">mut </span>block_info_sender, block_info_receiver) = mpsc::channel::&lt;<span class="prelude-ty">Option</span>&lt;BlockInfo&lt;CBlock&gt;&gt;&gt;(
+        consensus_block_import_throttling_buffer_size <span class="kw">as </span>usize,
+    );
 
-    <span class="comment">// Run the actual processor in a dedicated task, otherwise `tokio::select!` might hang forever
-    // when the throttling buffer is full.
-    </span>spawn_essential.spawn_essential_blocking(
-        <span class="string">&quot;consensus-block-processor&quot;</span>,
+    spawn_essential.spawn_essential(
+        <span class="string">"consensus-block-import-throttler"</span>,
         <span class="prelude-val">None</span>,
         Box::pin(<span class="kw">async move </span>{
-            <span class="kw">while let </span><span class="prelude-val">Some</span>(maybe_block_info) = block_info_receiver.next().<span class="kw">await </span>{
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(block_info) = maybe_block_info {
-                    <span class="kw">if let </span><span class="prelude-val">Err</span>(error) =
-                        block_imported::&lt;CBlock, <span class="kw">_</span>&gt;(<span class="kw-2">&amp;</span>processor, <span class="kw-2">&amp;mut </span>active_leaves, block_info)
-                            .<span class="kw">await
-                    </span>{
-                        <span class="macro">tracing::error!</span>(<span class="question-mark">?</span>error, <span class="string">&quot;Failed to process consensus block&quot;</span>);
-                        <span class="comment">// Bring down the service as bundles processor is an essential task.
-                        // TODO: more graceful shutdown.
-                        </span><span class="kw">break</span>;
+            <span class="kw">loop </span>{
+                <span class="macro">tokio::select!</span> {
+                    <span class="comment">// Ensure the `blocks_imported` branch will be checked before the `blocks_importing` branch.
+                    // Currently this is only necessary for the test to ensure when both `block_imported` notification
+                    // and `blocks_importing` notification are arrived, the `block_imported` notification will be processed
+                    // first, such that we can ensure when the `blocks_importing` acknowledgement is responded, the
+                    // imported block must being processed by the executor.
+                    // Please see https://github.com/autonomys/subspace/pull/1363#discussion_r1162571291 for more details.
+                    </span>biased;
+
+                    maybe_block_imported = blocks_imported.next() =&gt; {
+                        <span class="kw">let </span>block_imported = <span class="kw">match </span>maybe_block_imported {
+                            <span class="prelude-val">Some</span>(block_imported) =&gt; block_imported,
+                            <span class="prelude-val">None </span>=&gt; {
+                                <span class="comment">// Can be None on graceful shutdown.
+                                </span><span class="kw">break</span>;
+                            }
+                        };
+                        <span class="kw">let </span>header = <span class="kw">match </span>consensus_client.header(block_imported.hash) {
+                            <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(header)) =&gt; header,
+                            res =&gt; {
+                                <span class="macro">tracing::error!</span>(
+                                    result = <span class="question-mark">?</span>res,
+                                    header = <span class="question-mark">?</span>block_imported.header,
+                                    <span class="string">"Imported consensus block header not found"</span>,
+                                );
+                                <span class="kw">return</span>;
+                            }
+                        };
+                        <span class="kw">let </span>block_info = BlockInfo {
+                            hash: header.hash(),
+                            number: <span class="kw-2">*</span>header.number(),
+                            is_new_best: block_imported.is_new_best,
+                        };
+                        <span class="kw">let _ </span>= block_info_sender.feed(<span class="prelude-val">Some</span>(block_info)).<span class="kw">await</span>;
+                    }
+                    maybe_block_importing = blocks_importing.next() =&gt; {
+                        <span class="comment">// TODO: remove the `block_number` from the notification since it is not used
+                        </span><span class="kw">let </span>(_block_number, <span class="kw-2">mut </span>acknowledgement_sender) =
+                            <span class="kw">match </span>maybe_block_importing {
+                                <span class="prelude-val">Some</span>(block_importing) =&gt; block_importing,
+                                <span class="prelude-val">None </span>=&gt; {
+                                    <span class="comment">// Can be None on graceful shutdown.
+                                    </span><span class="kw">break</span>;
+                                }
+                            };
+                        <span class="comment">// Pause the consensus block import when the sink is full.
+                        </span><span class="kw">let _ </span>= block_info_sender.feed(<span class="prelude-val">None</span>).<span class="kw">await</span>;
+                        <span class="kw">let _ </span>= acknowledgement_sender.send(()).<span class="kw">await</span>;
                     }
                 }
             }
         }),
     );
 
-    <span class="kw">loop </span>{
-        <span class="macro">tokio::select! </span>{
-            <span class="comment">// Ensure the `blocks_imported` branch will be checked before the `blocks_importing` branch.
-            // Currently this is only necessary for the test to ensure when both `block_imported` notification
-            // and `blocks_importing` notification are arrived, the `block_imported` notification will be processed
-            // first, such that we can ensure when the `blocks_importing` acknowledgement is responded, the
-            // imported block must being processed by the executor.
-            // Please see https://github.com/subspace/subspace/pull/1363#discussion_r1162571291 for more details.
-            </span>biased;
-
-            maybe_block_imported = blocks_imported.next() =&gt; {
-                <span class="kw">let </span>block_imported = <span class="kw">match </span>maybe_block_imported {
-                    <span class="prelude-val">Some</span>(block_imported) =&gt; block_imported,
-                    <span class="prelude-val">None </span>=&gt; {
-                        <span class="comment">// Can be None on graceful shutdown.
-                        </span><span class="kw">break</span>;
-                    }
-                };
-                <span class="kw">let </span>header = <span class="kw">match </span>consensus_client.header(block_imported.hash) {
-                    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(header)) =&gt; header,
-                    res =&gt; {
-                        <span class="macro">tracing::error!</span>(
-                            result = <span class="question-mark">?</span>res,
-                            header = <span class="question-mark">?</span>block_imported.header,
-                            <span class="string">&quot;Imported consensus block header not found&quot;</span>,
-                        );
-                        <span class="kw">return</span>;
-                    }
-                };
-                <span class="kw">let </span>block_info = BlockInfo {
-                    hash: header.hash(),
-                    parent_hash: <span class="kw-2">*</span>header.parent_hash(),
-                    number: <span class="kw-2">*</span>header.number(),
-                    is_new_best: block_imported.is_new_best,
-                };
-                <span class="kw">let _ </span>= block_info_sender.feed(<span class="prelude-val">Some</span>(block_info)).<span class="kw">await</span>;
-            }
-            maybe_block_importing = blocks_importing.next() =&gt; {
-                <span class="kw">let </span>(_block_number, <span class="kw-2">mut </span>acknowledgement_sender) =
-                    <span class="kw">match </span>maybe_block_importing {
-                        <span class="prelude-val">Some</span>(block_importing) =&gt; block_importing,
-                        <span class="prelude-val">None </span>=&gt; {
-                            <span class="comment">// Can be None on graceful shutdown.
-                            </span><span class="kw">break</span>;
-                        }
-                    };
-                <span class="comment">// Pause the consensus block import when the sink is full.
-                </span><span class="kw">let _ </span>= block_info_sender.feed(<span class="prelude-val">None</span>).<span class="kw">await</span>;
-                <span class="kw">let _ </span>= acknowledgement_sender.send(()).<span class="kw">await</span>;
-            }
-        }
-    }
-}
-
-<span class="kw">async fn </span>on_new_slot&lt;Block, CBlock, CClient, BundlerFn&gt;(
-    consensus_client: <span class="kw-2">&amp;</span>CClient,
-    bundler: <span class="kw-2">&amp;</span>BundlerFn,
-    operator_slot_info: OperatorSlotInfo,
-) -&gt; <span class="prelude-ty">Result</span>&lt;(), ApiError&gt;
-<span class="kw">where
-    </span>Block: BlockT,
-    CBlock: BlockT,
-    CClient: HeaderBackend&lt;CBlock&gt; + ProvideRuntimeApi&lt;CBlock&gt;,
-    CClient::Api: DomainsApi&lt;CBlock, NumberFor&lt;Block&gt;, Block::Hash&gt;,
-    BundlerFn: Fn(
-            HashAndNumber&lt;CBlock&gt;,
-            OperatorSlotInfo,
-        ) -&gt; Pin&lt;Box&lt;<span class="kw">dyn </span>Future&lt;Output = <span class="prelude-ty">Option</span>&lt;OpaqueBundleFor&lt;Block, CBlock&gt;&gt;&gt; + Send&gt;&gt;
-        + Send
-        + Sync,
-{
-    <span class="kw">let </span>best_hash = consensus_client.info().best_hash;
-    <span class="kw">let </span>best_number = consensus_client.info().best_number;
-
-    <span class="kw">let </span>consensus_block_info = HashAndNumber {
-        number: best_number,
-        hash: best_hash,
-    };
-
-    <span class="kw">let </span>slot = operator_slot_info.slot;
-    <span class="kw">let </span>opaque_bundle = <span class="kw">match </span>bundler(consensus_block_info, operator_slot_info).<span class="kw">await </span>{
-        <span class="prelude-val">Some</span>(opaque_bundle) =&gt; opaque_bundle,
-        <span class="prelude-val">None </span>=&gt; {
-            <span class="macro">tracing::debug!</span>(<span class="string">&quot;No bundle produced on slot {slot}&quot;</span>);
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(());
-        }
-    };
-
-    consensus_client
-        .runtime_api()
-        .submit_bundle_unsigned(best_hash, opaque_bundle)<span class="question-mark">?</span>;
-
-    <span class="prelude-val">Ok</span>(())
-}
-
-<span class="kw">async fn </span>block_imported&lt;CBlock, ProcessorFn&gt;(
-    processor: <span class="kw-2">&amp;</span>ProcessorFn,
-    active_leaves: <span class="kw-2">&amp;mut </span>HashMap&lt;CBlock::Hash, NumberFor&lt;CBlock&gt;&gt;,
-    block_info: BlockInfo&lt;CBlock&gt;,
-) -&gt; <span class="prelude-ty">Result</span>&lt;(), ApiError&gt;
-<span class="kw">where
-    </span>CBlock: BlockT,
-    ProcessorFn: Fn(
-            (CBlock::Hash, NumberFor&lt;CBlock&gt;, bool),
-        ) -&gt; Pin&lt;Box&lt;<span class="kw">dyn </span>Future&lt;Output = <span class="prelude-ty">Result</span>&lt;(), sp_blockchain::Error&gt;&gt; + Send&gt;&gt;
-        + Send
-        + Sync,
-{
-    <span class="kw">match </span>active_leaves.entry(block_info.hash) {
-        Entry::Vacant(entry) =&gt; entry.insert(block_info.number),
-        Entry::Occupied(entry) =&gt; {
-            <span class="macro">debug_assert_eq!</span>(<span class="kw-2">*</span>entry.get(), block_info.number);
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(());
-        }
-    };
-
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(number) = active_leaves.remove(<span class="kw-2">&amp;</span>block_info.parent_hash) {
-        <span class="macro">debug_assert_eq!</span>(block_info.number.saturating_sub(One::one()), number);
-    }
-
-    processor((block_info.hash, block_info.number, block_info.is_new_best)).<span class="kw">await</span><span class="question-mark">?</span>;
-
-    <span class="prelude-val">Ok</span>(())
+    block_info_receiver
 }
 </code></pre></div></section></main></body></html>

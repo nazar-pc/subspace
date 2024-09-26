@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ReconstructorError","ReconstructorInstantiationError"],"struct":["PiecesReconstructor"]};
+window.SIDEBAR_ITEMS = {"enum":["ReconstructorError"],"struct":["PiecesReconstructor"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["object_fetcher","piece_fetcher","segment_fetcher"]};

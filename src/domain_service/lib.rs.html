@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/service/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_service" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../domain_service/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/service/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_service" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -342,10 +342,20 @@
 <a href="#342" id="342">342</a>
 <a href="#343" id="343">343</a>
 <a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Service and ServiceFactory implementation. Specialized wrapper over substrate service.
 
-</span><span class="kw">mod </span>domain;
-<span class="kw">mod </span>domain_tx_pre_validator;
+</span><span class="kw">pub mod </span>config;
+<span class="kw">mod </span>domain;
 <span class="kw">pub mod </span>providers;
 <span class="kw">pub mod </span>rpc;
 
@@ -354,9 +364,10 @@
 <span class="kw">use </span>futures::{FutureExt, StreamExt};
 <span class="kw">use </span>sc_client_api::{BlockBackend, BlockchainEvents, HeaderBackend, ProofProvider};
 <span class="kw">use </span>sc_consensus::ImportQueue;
-<span class="kw">use </span>sc_executor::NativeElseWasmExecutor;
+<span class="kw">use </span>sc_domains::RuntimeExecutor;
 <span class="kw">use </span>sc_network::config::Roles;
-<span class="kw">use </span>sc_network::NetworkService;
+<span class="kw">use </span>sc_network::{NetworkService, NetworkWorker};
+<span class="kw">use </span>sc_network_sync::block_relay_protocol::BlockDownloader;
 <span class="kw">use </span>sc_network_sync::block_request_handler::BlockRequestHandler;
 <span class="kw">use </span>sc_network_sync::engine::SyncingEngine;
 <span class="kw">use </span>sc_network_sync::service::network::NetworkServiceProvider;
@@ -364,8 +375,8 @@
 <span class="kw">use </span>sc_network_sync::SyncingService;
 <span class="kw">use </span>sc_service::config::SyncMode;
 <span class="kw">use </span>sc_service::{
-    build_system_rpc_future, BuildNetworkParams, Configuration <span class="kw">as </span>ServiceConfiguration,
-    NetworkStarter, TFullClient, TransactionPoolAdapter,
+    build_system_rpc_future, BuildNetworkParams, NetworkStarter, TFullClient,
+    TransactionPoolAdapter,
 };
 <span class="kw">use </span>sc_transaction_pool_api::MaintainedTransactionPool;
 <span class="kw">use </span>sc_utils::mpsc::{tracing_unbounded, TracingUnboundedSender};
@@ -373,20 +384,12 @@
 <span class="kw">use </span>sp_blockchain::HeaderMetadata;
 <span class="kw">use </span>sp_consensus::block_validation::{Chain, DefaultBlockAnnounceValidator};
 <span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, BlockIdTo, Zero};
-<span class="kw">use </span>std::sync::atomic::Ordering;
 <span class="kw">use </span>std::sync::Arc;
 
 <span class="doccomment">/// Domain full client.
-</span><span class="kw">pub type </span>FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt; =
-    TFullClient&lt;Block, RuntimeApi, NativeElseWasmExecutor&lt;ExecutorDispatch&gt;&gt;;
+</span><span class="kw">pub type </span>FullClient&lt;Block, RuntimeApi&gt; = TFullClient&lt;Block, RuntimeApi, RuntimeExecutor&gt;;
 
 <span class="kw">pub type </span>FullBackend&lt;Block&gt; = sc_service::TFullBackend&lt;Block&gt;;
-
-<span class="doccomment">/// Domain configuration.
-</span><span class="kw">pub struct </span>DomainConfiguration&lt;AccountId&gt; {
-    <span class="kw">pub </span>service_config: ServiceConfiguration,
-    <span class="kw">pub </span>maybe_relayer_id: <span class="prelude-ty">Option</span>&lt;AccountId&gt;,
-}
 
 <span class="doccomment">/// Build the network service, the network status sinks and an RPC sender.
 ///
@@ -394,14 +397,15 @@
 </span><span class="comment">// TODO: Struct for returned value
 </span><span class="attr">#[allow(clippy::type_complexity)]
 </span><span class="kw">pub fn </span>build_network&lt;TBl, TExPool, TImpQu, TCl&gt;(
-    params: BuildNetworkParams&lt;TBl, TExPool, TImpQu, TCl&gt;,
+    params: BuildNetworkParams&lt;TBl, NetworkWorker&lt;TBl, TBl::Hash&gt;, TExPool, TImpQu, TCl&gt;,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;
     (
-        Arc&lt;NetworkService&lt;TBl, &lt;TBl <span class="kw">as </span>BlockT&gt;::Hash&gt;&gt;,
+        Arc&lt;NetworkService&lt;TBl, TBl::Hash&gt;&gt;,
         TracingUnboundedSender&lt;sc_rpc::system::Request&lt;TBl&gt;&gt;,
-        sc_network_transactions::TransactionsHandlerController&lt;&lt;TBl <span class="kw">as </span>BlockT&gt;::Hash&gt;,
+        sc_network_transactions::TransactionsHandlerController&lt;TBl::Hash&gt;,
         NetworkStarter,
         Arc&lt;SyncingService&lt;TBl&gt;&gt;,
+        Arc&lt;<span class="kw">dyn </span>BlockDownloader&lt;TBl&gt;&gt;,
     ),
     sc_service::Error,
 &gt;
@@ -415,9 +419,9 @@
         + ProofProvider&lt;TBl&gt;
         + HeaderBackend&lt;TBl&gt;
         + BlockchainEvents&lt;TBl&gt;
-        + <span class="lifetime">&#39;static</span>,
-    TExPool: MaintainedTransactionPool&lt;Block = TBl, Hash = &lt;TBl <span class="kw">as </span>BlockT&gt;::Hash&gt; + <span class="lifetime">&#39;static</span>,
-    TImpQu: ImportQueue&lt;TBl&gt; + <span class="lifetime">&#39;static</span>,
+        + <span class="lifetime">'static</span>,
+    TExPool: MaintainedTransactionPool&lt;Block = TBl, Hash = TBl::Hash&gt; + <span class="lifetime">'static</span>,
+    TImpQu: ImportQueue&lt;TBl&gt; + <span class="lifetime">'static</span>,
 {
     <span class="kw">let </span>BuildNetworkParams {
         config,
@@ -429,19 +433,25 @@
         block_announce_validator_builder: <span class="kw">_</span>,
         warp_sync_params: <span class="kw">_</span>,
         block_relay,
+        metrics,
     } = params;
 
     <span class="kw">if </span>client.requires_full_sync() {
-        <span class="kw">match </span>config.network.sync_mode.load(Ordering::Acquire) {
+        <span class="kw">match </span>config.network.sync_mode {
             SyncMode::LightState { .. } =&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Fast sync doesn&#39;t work for archive nodes&quot;</span>.into())
+                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">"Fast sync doesn't work for archive nodes"</span>.into());
             }
-            SyncMode::Warp =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Warp sync doesn&#39;t work for archive nodes&quot;</span>.into()),
-            SyncMode::Full | SyncMode::Paused =&gt; {}
+            SyncMode::Warp =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">"Warp sync doesn't work for archive nodes"</span>.into()),
+            SyncMode::Full =&gt; {}
         }
     }
 
     <span class="kw">let </span>protocol_id = config.protocol_id();
+    <span class="kw">let </span>genesis_hash = client
+        .hash(Zero::zero())
+        .ok()
+        .flatten()
+        .expect(<span class="string">"Genesis block exists; qed"</span>);
 
     <span class="kw">let </span>(chain_sync_network_provider, chain_sync_network_handle) = NetworkServiceProvider::new();
     <span class="kw">let </span>(<span class="kw-2">mut </span>block_server, block_downloader, block_request_protocol_config) = <span class="kw">match </span>block_relay {
@@ -452,7 +462,7 @@
         ),
         <span class="prelude-val">None </span>=&gt; {
             <span class="comment">// Custom protocol was not specified, use the default block handler.
-            </span><span class="kw">let </span>params = BlockRequestHandler::new(
+            </span><span class="kw">let </span>params = BlockRequestHandler::new::&lt;NetworkWorker&lt;TBl, TBl::Hash&gt;&gt;(
                 chain_sync_network_handle.clone(),
                 <span class="kw-2">&amp;</span>protocol_id,
                 config.chain_spec.fork_id(),
@@ -467,23 +477,45 @@
             )
         }
     };
-    spawn_handle.spawn(<span class="string">&quot;block-request-handler&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;networking&quot;</span>), <span class="kw">async move </span>{
+    spawn_handle.spawn(<span class="string">"block-request-handler"</span>, <span class="prelude-val">Some</span>(<span class="string">"networking"</span>), <span class="kw">async move </span>{
         block_server.run().<span class="kw">await</span>;
     });
 
+    <span class="comment">// crate transactions protocol and add it to the list of supported protocols of `network_params`
+    </span><span class="kw">let </span>peer_store_handle = net_config.peer_store_handle();
+    <span class="kw">let </span>(transactions_handler_proto, transactions_config) =
+        sc_network_transactions::TransactionsHandlerPrototype::new::&lt;
+            <span class="kw">_</span>,
+            <span class="kw">_</span>,
+            NetworkWorker&lt;TBl, TBl::Hash&gt;,
+        &gt;(
+            protocol_id.clone(),
+            genesis_hash,
+            config.chain_spec.fork_id(),
+            metrics.clone(),
+            Arc::clone(<span class="kw-2">&amp;</span>peer_store_handle),
+        );
+    net_config.add_notification_protocol(transactions_config);
+
+    <span class="comment">// Start task for `PeerStore`
+    </span><span class="kw">let </span>peer_store = net_config.take_peer_store();
+    spawn_handle.spawn(<span class="string">"peer-store"</span>, <span class="prelude-val">Some</span>(<span class="string">"networking"</span>), peer_store.run());
+
     <span class="kw">let </span>state_request_protocol_config = {
         <span class="comment">// Allow both outgoing and incoming requests.
-        </span><span class="kw">let </span>(handler, protocol_config) = StateRequestHandler::new(
+        </span><span class="kw">let </span>(handler, protocol_config) = StateRequestHandler::new::&lt;NetworkWorker&lt;TBl, TBl::Hash&gt;&gt;(
             <span class="kw-2">&amp;</span>protocol_id,
             config.chain_spec.fork_id(),
             client.clone(),
             config.network.default_peers_set_num_full <span class="kw">as </span>usize,
         );
-        spawn_handle.spawn(<span class="string">&quot;state-request-handler&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;networking&quot;</span>), handler.run());
+        spawn_handle.spawn(<span class="string">"state-request-handler"</span>, <span class="prelude-val">Some</span>(<span class="string">"networking"</span>), handler.run());
         protocol_config
     };
 
-    <span class="kw">let </span>(tx, rx) = sc_utils::mpsc::tracing_unbounded(<span class="string">&quot;mpsc_syncing_engine_protocol&quot;</span>, <span class="number">100_000</span>);
+    net_config.add_request_response_protocol(block_request_protocol_config);
+    net_config.add_request_response_protocol(state_request_protocol_config.clone());
+
     <span class="kw">let </span>(engine, sync_service, block_announce_config) = SyncingEngine::new(
         Roles::from(<span class="kw-2">&amp;</span>config.role),
         client.clone(),
@@ -492,6 +524,7 @@
             .as_ref()
             .map(|config| config.registry.clone())
             .as_ref(),
+        metrics.clone(),
         <span class="kw-2">&amp;</span>net_config,
         protocol_id.clone(),
         <span class="kw-2">&amp;</span>config.chain_spec.fork_id().map(ToOwned::to_owned),
@@ -499,42 +532,27 @@
         <span class="prelude-val">None</span>,
         chain_sync_network_handle,
         import_queue.service(),
-        block_downloader,
+        block_downloader.clone(),
         state_request_protocol_config.name.clone(),
         <span class="prelude-val">None</span>,
-        rx,
-        config.network.force_synced,
+        peer_store_handle,
+        <span class="comment">// set to be force_synced always for domains since they relay on Consensus chain to derive and import domain blocks.
+        // If not set, each domain node will wait to be fully synced and as a result will not propagate the transactions over network.
+        // It would have been ideal to use `Consensus` chain sync service to respond to `is_major_sync` requests but this
+        // would require upstream changes and with some refactoring. This is not worth the effort at the moment since
+        // we are planning to enable domain's block request and state sync mechanism in the near future.
+        // Until such change has been made, domain's sync service needs to be in force_synced state.
+        </span><span class="bool-val">true</span>,
     )<span class="question-mark">?</span>;
     <span class="kw">let </span>sync_service_import_queue = sync_service.clone();
     <span class="kw">let </span>sync_service = Arc::new(sync_service);
 
-    <span class="kw">let </span>genesis_hash = client
-        .hash(Zero::zero())
-        .ok()
-        .flatten()
-        .expect(<span class="string">&quot;Genesis block exists; qed&quot;</span>);
-
-    <span class="comment">// crate transactions protocol and add it to the list of supported protocols of `network_params`
-    </span><span class="kw">let </span>transactions_handler_proto = sc_network_transactions::TransactionsHandlerPrototype::new(
-        protocol_id.clone(),
-        client
-            .block_hash(<span class="number">0u32</span>.into())
-            .ok()
-            .flatten()
-            .expect(<span class="string">&quot;Genesis block exists; qed&quot;</span>),
-        config.chain_spec.fork_id(),
-    );
-    net_config.add_notification_protocol(transactions_handler_proto.set_config());
-
-    net_config.add_request_response_protocol(block_request_protocol_config);
-    net_config.add_request_response_protocol(state_request_protocol_config);
-
-    <span class="kw">let </span>network_params = sc_network::config::Params::&lt;TBl&gt; {
+    <span class="kw">let </span>network_params = sc_network::config::Params::&lt;TBl, <span class="kw">_</span>, <span class="kw">_</span>&gt; {
         role: config.role.clone(),
         executor: {
             <span class="kw">let </span>spawn_handle = Clone::clone(<span class="kw-2">&amp;</span>spawn_handle);
             Box::new(<span class="kw">move </span>|fut| {
-                spawn_handle.spawn(<span class="string">&quot;libp2p-node&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;networking&quot;</span>), fut);
+                spawn_handle.spawn(<span class="string">"libp2p-node"</span>, <span class="prelude-val">Some</span>(<span class="string">"networking"</span>), fut);
             })
         },
         network_config: net_config,
@@ -546,7 +564,8 @@
             .as_ref()
             .map(|config| config.registry.clone()),
         block_announce_config,
-        tx,
+        bitswap_config: <span class="prelude-val">None</span>,
+        notification_metrics: metrics,
     };
 
     <span class="kw">let </span>has_bootnodes = !network_params
@@ -571,27 +590,27 @@
     )<span class="question-mark">?</span>;
 
     spawn_handle.spawn(
-        <span class="string">&quot;network-transactions-handler&quot;</span>,
-        <span class="prelude-val">Some</span>(<span class="string">&quot;networking&quot;</span>),
+        <span class="string">"network-transactions-handler"</span>,
+        <span class="prelude-val">Some</span>(<span class="string">"networking"</span>),
         tx_handler.run(),
     );
     spawn_handle.spawn_blocking(
-        <span class="string">&quot;chain-sync-network-service-provider&quot;</span>,
-        <span class="prelude-val">Some</span>(<span class="string">&quot;networking&quot;</span>),
+        <span class="string">"chain-sync-network-service-provider"</span>,
+        <span class="prelude-val">Some</span>(<span class="string">"networking"</span>),
         chain_sync_network_provider.run(network.clone()),
     );
     spawn_handle.spawn(
-        <span class="string">&quot;import-queue&quot;</span>,
+        <span class="string">"import-queue"</span>,
         <span class="prelude-val">None</span>,
         import_queue.run(Box::new(sync_service_import_queue)),
     );
-    spawn_handle.spawn_blocking(<span class="string">&quot;syncing&quot;</span>, <span class="prelude-val">None</span>, engine.run());
+    spawn_handle.spawn_blocking(<span class="string">"syncing"</span>, <span class="prelude-val">None</span>, engine.run());
 
-    <span class="kw">let </span>(system_rpc_tx, system_rpc_rx) = tracing_unbounded(<span class="string">&quot;mpsc_system_rpc&quot;</span>, <span class="number">10_000</span>);
+    <span class="kw">let </span>(system_rpc_tx, system_rpc_rx) = tracing_unbounded(<span class="string">"mpsc_system_rpc"</span>, <span class="number">10_000</span>);
     spawn_handle.spawn(
-        <span class="string">&quot;system-rpc-handler&quot;</span>,
-        <span class="prelude-val">Some</span>(<span class="string">&quot;networking&quot;</span>),
-        build_system_rpc_future(
+        <span class="string">"system-rpc-handler"</span>,
+        <span class="prelude-val">Some</span>(<span class="string">"networking"</span>),
+        build_system_rpc_future::&lt;<span class="kw">_</span>, <span class="kw">_</span>, TBl::Hash&gt;(
             config.role.clone(),
             network_mut.service().clone(),
             sync_service.clone(),
@@ -604,7 +623,7 @@
     <span class="kw">let </span>future = build_network_future(network_mut, client, sync_service.clone());
 
     <span class="comment">// TODO: Normally, one is supposed to pass a list of notifications protocols supported by the
-    // node through the `NetworkConfiguration` struct. But because this function doesn&#39;t know in
+    // node through the `NetworkConfiguration` struct. But because this function doesn't know in
     // advance which components, such as GrandPa or Polkadot, will be plugged on top of the
     // service, it is unfortunately not possible to do so without some deep refactoring. To bypass
     // this problem, the `NetworkService` provides a `register_notifications_protocol` method that
@@ -626,12 +645,12 @@
     // issue, and ideally we would like to fix the network future to take as little time as
     // possible, but we also take the extra harm-prevention measure to execute the networking
     // future using `spawn_blocking`.
-    </span>spawn_handle.spawn_blocking(<span class="string">&quot;network-worker&quot;</span>, <span class="prelude-val">Some</span>(<span class="string">&quot;networking&quot;</span>), <span class="kw">async move </span>{
+    </span>spawn_handle.spawn_blocking(<span class="string">"network-worker"</span>, <span class="prelude-val">Some</span>(<span class="string">"networking"</span>), <span class="kw">async move </span>{
         <span class="kw">if </span>network_start_rx.<span class="kw">await</span>.is_err() {
             <span class="macro">log::warn!</span>(
-                <span class="string">&quot;The NetworkStart returned as part of `build_network` has been silently dropped&quot;
+                <span class="string">"The NetworkStart returned as part of `build_network` has been silently dropped"
             </span>);
-            <span class="comment">// This `return` might seem unnecessary, but we don&#39;t want to make it look like
+            <span class="comment">// This `return` might seem unnecessary, but we don't want to make it look like
             // everything is working as normal even though the user is clearly misusing the API.
             </span><span class="kw">return</span>;
         }
@@ -645,6 +664,7 @@
         tx_handler_controller,
         NetworkStarter::new(network_start_tx),
         sync_service,
+        block_downloader,
     ))
 }
 
@@ -658,10 +678,10 @@
         + ProofProvider&lt;B&gt;
         + Send
         + Sync
-        + <span class="lifetime">&#39;static</span>,
+        + <span class="lifetime">'static</span>,
     H: sc_network_common::ExHashT,
 &gt;(
-    network: sc_network::NetworkWorker&lt;B, H&gt;,
+    network: NetworkWorker&lt;B, H&gt;,
     client: Arc&lt;C&gt;,
     sync_service: Arc&lt;SyncingService&lt;B&gt;&gt;,
 ) {
@@ -672,7 +692,7 @@
     <span class="macro">futures::pin_mut!</span>(network_run);
 
     <span class="kw">loop </span>{
-        <span class="macro">futures::select! </span>{
+        <span class="macro">futures::select!</span> {
             <span class="comment">// List of blocks that the client has finalized.
             </span>notification = finality_notification_stream.select_next_some() =&gt; {
                 sync_service.on_block_finalized(notification.hash, notification.header);
@@ -680,7 +700,7 @@
 
             <span class="comment">// Drive the network. Shut down the network future if `NetworkWorker` has terminated.
             </span><span class="kw">_ </span>= network_run =&gt; {
-                <span class="macro">tracing::debug!</span>(<span class="string">&quot;`NetworkWorker` has terminated, shutting down the network future.&quot;</span>);
+                <span class="macro">tracing::debug!</span>(<span class="string">"`NetworkWorker` has terminated, shutting down the network future."</span>);
                 <span class="kw">return
             </span>}
         }

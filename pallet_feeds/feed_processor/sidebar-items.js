@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["FeedObjectMapping"],"trait":["FeedProcessor"],"type":["FeedMetadata"]};

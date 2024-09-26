@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-transaction-fees/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_transaction_fees" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../pallet_transaction_fees/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-transaction-fees/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_transaction_fees" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -288,51 +288,40 @@
 <a href="#288" id="288">288</a>
 <a href="#289" id="289">289</a>
 <a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
-<a href="#307" id="307">307</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2021 Subspace Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
 // 	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
 </span><span class="doccomment">//! Pallet for charging and re-distributing transaction fees.
 
-</span><span class="attr">#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
+</span><span class="attr">#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
 #![forbid(unsafe_code)]
 #![warn(rust_2018_idioms, missing_debug_implementations)]
 
-</span><span class="kw">mod </span>default_weights;
+</span><span class="kw">pub mod </span>weights;
 
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">extern crate </span>alloc;
+
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>codec::{Codec, Decode, Encode};
 <span class="kw">use </span>frame_support::sp_runtime::traits::Zero;
 <span class="kw">use </span>frame_support::sp_runtime::SaturatedConversion;
 <span class="kw">use </span>frame_support::traits::{Currency, Get};
 <span class="kw">use </span>frame_support::weights::Weight;
+<span class="kw">use </span>frame_system::pallet_prelude::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>pallet::<span class="kw-2">*</span>;
 <span class="kw">use </span>scale_info::TypeInfo;
 <span class="kw">use </span>subspace_runtime_primitives::FindBlockRewardAddress;
@@ -348,8 +337,7 @@
 </span><span class="kw">struct </span>CollectedFees&lt;Balance: Codec&gt; {
     storage: Balance,
     compute: Balance,
-    <span class="comment">// TODO: Split tips for storage and compute proportionally?
-    </span>tips: Balance,
+    tips: Balance,
 }
 
 <span class="attr">#[frame_support::pallet]
@@ -358,7 +346,7 @@
     <span class="kw">use </span>frame_support::pallet_prelude::<span class="kw-2">*</span>;
     <span class="kw">use </span>frame_support::traits::Currency;
     <span class="kw">use </span>frame_system::pallet_prelude::<span class="kw-2">*</span>;
-    <span class="kw">use </span>subspace_runtime_primitives::FindBlockRewardAddress;
+    <span class="kw">use </span>subspace_runtime_primitives::{BlockTransactionByteFee, FindBlockRewardAddress};
 
     <span class="attr">#[pallet::config]
     </span><span class="kw">pub trait </span>Config: frame_system::Config {
@@ -369,16 +357,6 @@
         /// impacts storage fees.
         </span><span class="attr">#[pallet::constant]
         </span><span class="kw">type </span>MinReplicationFactor: Get&lt;u16&gt;;
-
-        <span class="doccomment">/// How much (ratio) of storage fees escrow should be given to farmer each block as a
-        /// reward.
-        </span><span class="attr">#[pallet::constant]
-        </span><span class="kw">type </span>StorageFeesEscrowBlockReward: Get&lt;(u64, u64)&gt;;
-
-        <span class="doccomment">/// How much (ratio) of storage fees collected in a block should be put into storage fees
-        /// escrow (with remaining issued to farmer immediately).
-        </span><span class="attr">#[pallet::constant]
-        </span><span class="kw">type </span>StorageFeesEscrowBlockTax: Get&lt;(u64, u64)&gt;;
 
         <span class="doccomment">/// How many credits there is in circulation.
         </span><span class="attr">#[pallet::constant]
@@ -397,31 +375,41 @@
 
         <span class="kw">type </span>FindBlockRewardAddress: FindBlockRewardAddress&lt;<span class="self">Self</span>::AccountId&gt;;
 
+        <span class="doccomment">/// Whether dynamic cost of storage should be used
+        </span><span class="kw">type </span>DynamicCostOfStorage: Get&lt;bool&gt;;
+
         <span class="kw">type </span>WeightInfo: WeightInfo;
     }
 
-    <span class="doccomment">/// Escrow of storage fees, a portion of it is released to the block author on every block
-    /// and portion of storage fees goes back into this pot.
+    <span class="doccomment">/// The value of `transaction_byte_fee` for both the current and the next block.
+    ///
+    /// The `next` value of `transaction_byte_fee` is updated at block finalization and used to
+    /// validate extrinsic to be included in the next block, the value is move to `current` at
+    /// block initialization and used to execute extrinsic in the current block. Together it
+    /// ensure we use the same value for both validating and executing the extrinsic.
+    ///
+    /// NOTE: both the `current` and `next` value is set to the default `Balance::max_value` in
+    /// the genesis block which means there will be no signed extrinsic included in block #1.
     </span><span class="attr">#[pallet::storage]
-    #[pallet::getter(<span class="kw">fn </span>storage_fees_escrow)]
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>CollectedStorageFeesEscrow&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, BalanceOf&lt;T&gt;, ValueQuery&gt;;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>TransactionByteFee&lt;T&gt; =
+        StorageValue&lt;<span class="kw">_</span>, BlockTransactionByteFee&lt;BalanceOf&lt;T&gt;&gt;, ValueQuery&gt;;
 
-    <span class="doccomment">/// Temporary value (cleared at block finalization) which contains cached value of
-    /// `TransactionByteFee` for current block.
+    <span class="doccomment">/// Temporary value (cleared at block finalization) used to determine if the `transaction_byte_fee`
+    /// is used to validate extrinsic or execute extrinsic.
     </span><span class="attr">#[pallet::storage]
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>TransactionByteFee&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, BalanceOf&lt;T&gt;&gt;;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>IsDuringBlockExecution&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, bool, ValueQuery&gt;;
 
     <span class="doccomment">/// Temporary value (cleared at block finalization) which contains current block author, so we
-    /// can issue rewards during block finalization.
+    /// can issue fees during block finalization.
     </span><span class="attr">#[pallet::storage]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>BlockAuthor&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, T::AccountId&gt;;
 
     <span class="doccomment">/// Temporary value (cleared at block finalization) which contains current block fees, so we can
-    /// issue rewards during block finalization.
+    /// issue fees during block finalization.
     </span><span class="attr">#[pallet::storage]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>CollectedBlockFees&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, CollectedFees&lt;BalanceOf&lt;T&gt;&gt;&gt;;
 
-    <span class="doccomment">/// Pallet rewards for issuing rewards to block producers.
+    <span class="doccomment">/// Pallet transaction fees for issuing fees to block authors.
     </span><span class="attr">#[pallet::pallet]
     #[pallet::without_storage_info]
     </span><span class="kw">pub struct </span>Pallet&lt;T&gt;(<span class="kw">_</span>);
@@ -430,33 +418,27 @@
     </span><span class="attr">#[pallet::event]
     #[pallet::generate_deposit(<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>deposit_event)]
     </span><span class="kw">pub enum </span>Event&lt;T: Config&gt; {
-        <span class="doccomment">/// Storage fees escrow change.
-        </span>StorageFeesEscrowChange {
-            <span class="doccomment">/// State of storage fees escrow before block execution.
-            </span>before: BalanceOf&lt;T&gt;,
-            <span class="doccomment">/// State of storage fees escrow after block execution.
-            </span>after: BalanceOf&lt;T&gt;,
-        },
         <span class="doccomment">/// Storage fees.
-        </span>StorageFeesReward {
-            <span class="doccomment">/// Receiver of the storage fees.
+        </span><span class="attr">#[codec(index = <span class="number">0</span>)]
+        </span>BlockFees {
+            <span class="doccomment">/// Block author that received the fees.
             </span>who: T::AccountId,
             <span class="doccomment">/// Amount of collected storage fees.
-            </span>amount: BalanceOf&lt;T&gt;,
-        },
-        <span class="doccomment">/// Compute fees.
-        </span>ComputeFeesReward {
-            <span class="doccomment">/// Receiver of the compute fees.
-            </span>who: T::AccountId,
+            </span>storage: BalanceOf&lt;T&gt;,
             <span class="doccomment">/// Amount of collected compute fees.
-            </span>amount: BalanceOf&lt;T&gt;,
-        },
-        <span class="doccomment">/// Tips.
-        </span>TipsReward {
-            <span class="doccomment">/// Receiver of the tip.
-            </span>who: T::AccountId,
+            </span>compute: BalanceOf&lt;T&gt;,
             <span class="doccomment">/// Amount of collected tips.
-            </span>amount: BalanceOf&lt;T&gt;,
+            </span>tips: BalanceOf&lt;T&gt;,
+        },
+        <span class="doccomment">/// Fees burned due to equivocated block author or rewards not enabled.
+        </span><span class="attr">#[codec(index = <span class="number">1</span>)]
+        </span>BurnedBlockFees {
+            <span class="doccomment">/// Amount of burned storage fees.
+            </span>storage: BalanceOf&lt;T&gt;,
+            <span class="doccomment">/// Amount of burned compute fees.
+            </span>compute: BalanceOf&lt;T&gt;,
+            <span class="doccomment">/// Amount of burned tips.
+            </span>tips: BalanceOf&lt;T&gt;,
         },
     }
 
@@ -480,8 +462,8 @@
 <span class="kw">where
     </span>BalanceOf&lt;T&gt;: From&lt;u64&gt;,
 {
-    <span class="kw">fn </span>do_initialize(_n: T::BlockNumber) {
-        <span class="comment">// Block author may equivocate, in which case they&#39;ll not be present here
+    <span class="kw">fn </span>do_initialize(_n: BlockNumberFor&lt;T&gt;) {
+        <span class="comment">// Block author may equivocate, in which case they'll not be present here
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(block_author) = T::FindBlockRewardAddress::find_block_reward_address() {
             BlockAuthor::&lt;T&gt;::put(block_author);
         }
@@ -491,110 +473,80 @@
             compute: BalanceOf::&lt;T&gt;::zero(),
             tips: BalanceOf::&lt;T&gt;::zero(),
         });
+
+        <span class="comment">// Update the `current` value to the `next`
+        </span>TransactionByteFee::&lt;T&gt;::mutate(|transaction_byte_fee| {
+            transaction_byte_fee.current = transaction_byte_fee.next
+        });
+        IsDuringBlockExecution::&lt;T&gt;::set(<span class="bool-val">true</span>);
     }
 
-    <span class="comment">// TODO: Fees will be split between farmers and executors in the future
-    </span><span class="kw">fn </span>do_finalize(_n: T::BlockNumber) {
-        TransactionByteFee::&lt;T&gt;::take();
+    <span class="kw">fn </span>do_finalize(_n: BlockNumberFor&lt;T&gt;) {
+        <span class="comment">// Update the value for the next `transaction_byte_fee`
+        </span>TransactionByteFee::&lt;T&gt;::mutate(|transaction_byte_fee| {
+            transaction_byte_fee.next = <span class="self">Self</span>::calculate_transaction_byte_fee()
+        });
+        IsDuringBlockExecution::&lt;T&gt;::take();
 
         <span class="kw">let </span>collected_fees = CollectedBlockFees::&lt;T&gt;::take()
-            .expect(<span class="string">&quot;`CollectedBlockFees` was set in `on_initialize`; qed&quot;</span>);
+            .expect(<span class="string">"`CollectedBlockFees` was set in `on_initialize`; qed"</span>);
 
-        <span class="comment">// Block author may equivocate, in which case they&#39;ll not be present here
-        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(block_author) = BlockAuthor::&lt;T&gt;::take() {
-            <span class="kw">let </span>original_storage_fees_escrow = CollectedStorageFeesEscrow::&lt;T&gt;::get();
-            <span class="kw">let </span><span class="kw-2">mut </span>storage_fees_escrow = original_storage_fees_escrow;
+        <span class="kw">let </span>total = collected_fees.storage + collected_fees.compute + collected_fees.tips;
 
-            <span class="comment">// Take a portion of storage fees escrow as a farmer reward.
-            </span><span class="kw">let </span>storage_fees_escrow_reward = storage_fees_escrow
-                / T::StorageFeesEscrowBlockReward::get().<span class="number">1</span>.into()
-                * T::StorageFeesEscrowBlockReward::get().<span class="number">0</span>.into();
-            storage_fees_escrow -= storage_fees_escrow_reward;
-
-            <span class="comment">// Take a portion of storage fees collected in this block as a farmer reward.
-            </span><span class="kw">let </span>collected_storage_fees_reward = collected_fees.storage
-                / T::StorageFeesEscrowBlockTax::get().<span class="number">1</span>.into()
-                * (T::StorageFeesEscrowBlockTax::get().<span class="number">1 </span>- T::StorageFeesEscrowBlockTax::get().<span class="number">0</span>)
-                    .into();
-            storage_fees_escrow += collected_fees.storage - collected_storage_fees_reward;
-
-            <span class="comment">// Update storage fees escrow.
-            </span><span class="kw">if </span>storage_fees_escrow != original_storage_fees_escrow {
-                CollectedStorageFeesEscrow::&lt;T&gt;::put(storage_fees_escrow);
-                <span class="self">Self</span>::deposit_event(Event::&lt;T&gt;::StorageFeesEscrowChange {
-                    before: original_storage_fees_escrow,
-                    after: storage_fees_escrow,
-                });
-            }
-
-            <span class="comment">// Issue storage fees reward.
-            </span><span class="kw">let </span>storage_fees_reward = storage_fees_escrow_reward + collected_storage_fees_reward;
-            <span class="kw">if </span>!storage_fees_reward.is_zero() {
-                T::Currency::deposit_creating(<span class="kw-2">&amp;</span>block_author, storage_fees_reward);
-                <span class="self">Self</span>::deposit_event(Event::&lt;T&gt;::StorageFeesReward {
+        <span class="kw">if </span>!total.is_zero() {
+            <span class="comment">// Block author may equivocate, in which case they'll not be present here
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(block_author) = BlockAuthor::&lt;T&gt;::take() {
+                <span class="kw">let </span>_imbalance = T::Currency::deposit_creating(<span class="kw-2">&amp;</span>block_author, total);
+                <span class="self">Self</span>::deposit_event(Event::&lt;T&gt;::BlockFees {
                     who: block_author.clone(),
-                    amount: storage_fees_reward,
+                    storage: collected_fees.storage,
+                    compute: collected_fees.compute,
+                    tips: collected_fees.tips,
                 });
-            }
-
-            <span class="comment">// Issue compute fees reward.
-            </span><span class="kw">if </span>!collected_fees.compute.is_zero() {
-                T::Currency::deposit_creating(<span class="kw-2">&amp;</span>block_author, collected_fees.compute);
-                <span class="self">Self</span>::deposit_event(Event::&lt;T&gt;::ComputeFeesReward {
-                    who: block_author.clone(),
-                    amount: collected_fees.compute,
-                });
-            }
-
-            <span class="comment">// Issue tips reward.
-            </span><span class="kw">if </span>!collected_fees.tips.is_zero() {
-                T::Currency::deposit_creating(<span class="kw-2">&amp;</span>block_author, collected_fees.tips);
-                <span class="self">Self</span>::deposit_event(Event::&lt;T&gt;::TipsReward {
-                    who: block_author,
-                    amount: collected_fees.tips,
-                });
-            }
-        } <span class="kw">else </span>{
-            <span class="comment">// If farmer equivocated, all fees go into storage escrow.
-            </span><span class="kw">let </span>original_storage_fees_escrow = CollectedStorageFeesEscrow::&lt;T&gt;::get();
-            <span class="kw">let </span><span class="kw-2">mut </span>storage_fees_escrow = original_storage_fees_escrow;
-
-            storage_fees_escrow += collected_fees.storage;
-            storage_fees_escrow += collected_fees.compute;
-            storage_fees_escrow += collected_fees.tips;
-
-            CollectedStorageFeesEscrow::&lt;T&gt;::put(storage_fees_escrow);
-
-            <span class="kw">if </span>original_storage_fees_escrow != storage_fees_escrow {
-                <span class="self">Self</span>::deposit_event(Event::&lt;T&gt;::StorageFeesEscrowChange {
-                    before: original_storage_fees_escrow,
-                    after: storage_fees_escrow,
-                });
+            } <span class="kw">else </span>{
+                <span class="comment">// If farmer equivocated, fees are burned
+                </span><span class="kw">let </span>amount = collected_fees.storage + collected_fees.compute + collected_fees.tips;
+                <span class="kw">if </span>!amount.is_zero() {
+                    <span class="self">Self</span>::deposit_event(Event::&lt;T&gt;::BurnedBlockFees {
+                        storage: collected_fees.storage,
+                        compute: collected_fees.compute,
+                        tips: collected_fees.tips,
+                    });
+                }
             }
         }
     }
 
-    <span class="kw">pub fn </span>transaction_byte_fee() -&gt; BalanceOf&lt;T&gt; {
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(transaction_byte_fee) = TransactionByteFee::&lt;T&gt;::get() {
-            <span class="kw">return </span>transaction_byte_fee;
+    <span class="doccomment">/// Return the current `transaction_byte_fee` value for executing extrinsic and
+    /// return the next `transaction_byte_fee` value for validating extrinsic to be
+    /// included in the next block
+    </span><span class="kw">pub fn </span>transaction_byte_fee() -&gt; BalanceOf&lt;T&gt; {
+        <span class="kw">if </span>!T::DynamicCostOfStorage::get() {
+            <span class="kw">return </span>BalanceOf::&lt;T&gt;::from(<span class="number">1</span>);
         }
 
+        <span class="kw">if </span>IsDuringBlockExecution::&lt;T&gt;::get() {
+            TransactionByteFee::&lt;T&gt;::get().current
+        } <span class="kw">else </span>{
+            TransactionByteFee::&lt;T&gt;::get().next
+        }
+    }
+
+    <span class="kw">pub fn </span>transaction_byte_fee_storage_key() -&gt; Vec&lt;u8&gt; {
+        TransactionByteFee::&lt;T&gt;::hashed_key().to_vec()
+    }
+
+    <span class="kw">pub fn </span>calculate_transaction_byte_fee() -&gt; BalanceOf&lt;T&gt; {
         <span class="kw">let </span>credit_supply = T::CreditSupply::get();
 
-        <span class="kw">let </span>transaction_byte_fee = <span class="kw">match </span>T::TotalSpacePledged::get().checked_sub(
-            T::BlockchainHistorySize::get()
-                .saturating_mul(u128::from(T::MinReplicationFactor::get())),
-        ) {
+        <span class="kw">match </span>(T::TotalSpacePledged::get() / u128::from(T::MinReplicationFactor::get()))
+            .checked_sub(T::BlockchainHistorySize::get())
+        {
             <span class="prelude-val">Some</span>(free_space) <span class="kw">if </span>free_space &gt; <span class="number">0 </span>=&gt; {
                 credit_supply / BalanceOf::&lt;T&gt;::saturated_from(free_space)
             }
             <span class="kw">_ </span>=&gt; credit_supply,
-        };
-
-        <span class="comment">// Cache value for this block.
-        </span>TransactionByteFee::&lt;T&gt;::put(transaction_byte_fee);
-
-        transaction_byte_fee
+        }
     }
 
     <span class="kw">pub fn </span>note_transaction_fees(
@@ -603,13 +555,27 @@
         tip: BalanceOf&lt;T&gt;,
     ) {
         CollectedBlockFees::&lt;T&gt;::mutate(|collected_block_fees| {
-            <span class="kw">let </span>collected_block_fees = collected_block_fees
-                .as_mut()
-                .expect(<span class="string">&quot;`CollectedBlockFees` was set in `on_initialize`; qed&quot;</span>);
-            collected_block_fees.storage += storage_fee;
-            collected_block_fees.compute += compute_fee;
-            collected_block_fees.tips += tip;
+            <span class="comment">// `CollectedBlockFees` was set in `on_initialize` if it is `None` means this
+            // function is called offchain (i.e. transaction validation) thus safe to skip
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(collected_block_fees) = collected_block_fees.as_mut() {
+                collected_block_fees.storage += storage_fee;
+                collected_block_fees.compute += compute_fee;
+                collected_block_fees.tips += tip;
+            }
         });
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Config&gt; subspace_runtime_primitives::StorageFee&lt;BalanceOf&lt;T&gt;&gt; <span class="kw">for </span>Pallet&lt;T&gt;
+<span class="kw">where
+    </span>BalanceOf&lt;T&gt;: From&lt;u64&gt;,
+{
+    <span class="kw">fn </span>transaction_byte_fee() -&gt; BalanceOf&lt;T&gt; {
+        <span class="self">Self</span>::transaction_byte_fee()
+    }
+
+    <span class="kw">fn </span>note_storage_fees(storage_fee: BalanceOf&lt;T&gt;) {
+        <span class="self">Self</span>::note_transaction_fees(storage_fee, Zero::zero(), Zero::zero())
     }
 }
 </code></pre></div></section></main></body></html>

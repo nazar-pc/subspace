@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"constant":["VESTING_LOCK_ID"],"mod":["module"],"struct":["VestingSchedule"],"trait":["WeightInfo"]};

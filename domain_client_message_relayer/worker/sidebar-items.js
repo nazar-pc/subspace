@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":["relay_system_domain_messages"]};
+window.SIDEBAR_ITEMS = {"fn":["gossip_channel_updates","start_relaying_messages"]};

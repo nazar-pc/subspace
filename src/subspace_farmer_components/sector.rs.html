@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-farmer-components/src/sector.rs`."><title>sector.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="subspace_farmer_components" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../subspace_farmer_components/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-farmer-components/src/sector.rs`."><title>sector.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="subspace_farmer_components" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -510,42 +510,149 @@
 <a href="#510" id="510">510</a>
 <a href="#511" id="511">511</a>
 <a href="#512" id="512">512</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span>bitvec::prelude::<span class="kw-2">*</span>;
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+</pre></div><pre class="rust"><code><span class="doccomment">//! Sector-related data structures
+//!
+//! Sectors and corresponding metadata created by functions in [`plotting`](crate::plotting) module
+//! have a specific structure, represented by data structured in this module.
+//!
+//! It is typically not needed to construct these data structures explicitly outside of this crate,
+//! instead they will be returned as a result of certain operations (like plotting).
+
+</span><span class="kw">use </span>bitvec::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>parity_scale_codec::{Decode, Encode};
 <span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
-<span class="kw">use </span>std::num::NonZeroU64;
+<span class="kw">use </span>std::mem::ManuallyDrop;
 <span class="kw">use </span>std::ops::{Deref, DerefMut};
 <span class="kw">use </span>std::{mem, slice};
+<span class="kw">use </span>subspace_core_primitives::checksum::Blake3Checksummed;
+<span class="kw">use </span>subspace_core_primitives::crypto::blake3_hash;
 <span class="kw">use </span>subspace_core_primitives::{
-    HistorySize, PieceOffset, Record, RecordCommitment, RecordWitness, SBucket, SectorIndex,
+    Blake3Hash, HistorySize, PieceOffset, Record, RecordCommitment, RecordWitness, SBucket,
+    SectorIndex, SegmentIndex,
 };
 <span class="kw">use </span>thiserror::Error;
+<span class="kw">use </span>tracing::debug;
 
 <span class="doccomment">/// Size of the part of the plot containing record chunks (s-buckets).
 ///
 /// Total size of the plot can be computed with [`sector_size()`].
+</span><span class="attr">#[inline]
 </span><span class="kw">pub const fn </span>sector_record_chunks_size(pieces_in_sector: u16) -&gt; usize {
     pieces_in_sector <span class="kw">as </span>usize * Record::SIZE
 }
 
-<span class="doccomment">/// Size of the part of the plot containing commitments and witnesses for records.
+<span class="doccomment">/// Size of the part of the plot containing record metadata.
 ///
 /// Total size of the plot can be computed with [`sector_size()`].
-</span><span class="kw">pub const fn </span>sector_commitments_witnesses_size(pieces_in_sector: u16) -&gt; usize {
-    pieces_in_sector <span class="kw">as </span>usize * (RecordWitness::SIZE + RecordCommitment::SIZE)
+</span><span class="attr">#[inline]
+</span><span class="kw">pub const fn </span>sector_record_metadata_size(pieces_in_sector: u16) -&gt; usize {
+    pieces_in_sector <span class="kw">as </span>usize * RecordMetadata::encoded_size()
 }
 
-<span class="doccomment">/// Exact sector plot size (sector contents map, record chunks, record commitments and witnesses).
+<span class="doccomment">/// Exact sector plot size (sector contents map, record chunks, record metadata).
 ///
 /// NOTE: Each sector also has corresponding fixed size metadata whose size can be obtained with
-/// [`SectorMetadata::encoded_size()`], size of the record chunks (s-buckets) with
+/// [`SectorMetadataChecksummed::encoded_size()`], size of the record chunks (s-buckets) with
 /// [`sector_record_chunks_size()`] and size of record commitments and witnesses with
-/// [`sector_commitments_witnesses_size()`]. This function just combines those three together for
+/// [`sector_record_metadata_size()`]. This function just combines those three together for
 /// convenience.
+</span><span class="attr">#[inline]
 </span><span class="kw">pub const fn </span>sector_size(pieces_in_sector: u16) -&gt; usize {
     sector_record_chunks_size(pieces_in_sector)
-        + sector_commitments_witnesses_size(pieces_in_sector)
+        + sector_record_metadata_size(pieces_in_sector)
         + SectorContentsMap::encoded_size(pieces_in_sector)
+        + Blake3Hash::SIZE
 }
 
 <span class="doccomment">/// Metadata of the plotted sector
@@ -564,110 +671,148 @@
 <span class="kw">impl </span>SectorMetadata {
     <span class="doccomment">/// Returns offsets of each s-bucket relatively to the beginning of the sector (in chunks)
     </span><span class="kw">pub fn </span>s_bucket_offsets(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Box&lt;[u32; Record::NUM_S_BUCKETS]&gt; {
-        <span class="comment">// TODO: Should have been just `::new()`, but https://github.com/rust-lang/rust/issues/53827
-        // SAFETY: Data structure filled with zeroes is a valid invariant
-        </span><span class="kw">let </span><span class="kw-2">mut </span>s_bucket_offsets =
-            <span class="kw">unsafe </span>{ Box::&lt;[u32; Record::NUM_S_BUCKETS]&gt;::new_zeroed().assume_init() };
-
-        <span class="self">self</span>.s_bucket_sizes
+        <span class="kw">let </span>s_bucket_offsets = <span class="self">self
+            </span>.s_bucket_sizes
             .iter()
-            .zip(s_bucket_offsets.iter_mut())
-            .for_each({
+            .map({
                 <span class="kw">let </span><span class="kw-2">mut </span>base_offset = <span class="number">0</span>;
 
-                <span class="kw">move </span>|(s_bucket_size, s_bucket_offset)| {
-                    <span class="kw-2">*</span>s_bucket_offset = base_offset;
+                <span class="kw">move </span>|s_bucket_size| {
+                    <span class="kw">let </span>offset = base_offset;
                     base_offset += u32::from(<span class="kw-2">*</span>s_bucket_size);
+                    offset
                 }
-            });
+            })
+            .collect::&lt;Box&lt;<span class="kw">_</span>&gt;&gt;();
 
-        s_bucket_offsets
+        <span class="macro">assert_eq!</span>(s_bucket_offsets.len(), Record::NUM_S_BUCKETS);
+        <span class="kw">let </span><span class="kw-2">mut </span>s_bucket_offsets = ManuallyDrop::new(s_bucket_offsets);
+        <span class="comment">// SAFETY: Original memory is not dropped, number of elements checked above
+        </span><span class="kw">unsafe </span>{ Box::from_raw(s_bucket_offsets.as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>[u32; Record::NUM_S_BUCKETS]) }
     }
+}
 
-    <span class="doccomment">/// Size of encoded sector metadata.
+<span class="doccomment">/// Same as [`SectorMetadata`], but with checksums verified during SCALE encoding/decoding
+</span><span class="attr">#[derive(Debug, Clone, Encode, Decode)]
+</span><span class="kw">pub struct </span>SectorMetadataChecksummed(Blake3Checksummed&lt;SectorMetadata&gt;);
+
+<span class="kw">impl </span>From&lt;SectorMetadata&gt; <span class="kw">for </span>SectorMetadataChecksummed {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>from(value: SectorMetadata) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(Blake3Checksummed(value))
+    }
+}
+
+<span class="kw">impl </span>Deref <span class="kw">for </span>SectorMetadataChecksummed {
+    <span class="kw">type </span>Target = SectorMetadata;
+
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0 </span>.<span class="number">0
+    </span>}
+}
+
+<span class="kw">impl </span>DerefMut <span class="kw">for </span>SectorMetadataChecksummed {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Target {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.<span class="number">0 </span>.<span class="number">0
+    </span>}
+}
+
+<span class="kw">impl </span>SectorMetadataChecksummed {
+    <span class="doccomment">/// Size of encoded checksummed sector metadata.
     ///
     /// For sector plot size use [`sector_size()`].
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>encoded_size() -&gt; usize {
-        <span class="kw">let </span>default = SectorMetadata {
+        <span class="kw">let </span>default = SectorMetadataChecksummed::from(SectorMetadata {
             sector_index: <span class="number">0</span>,
             pieces_in_sector: <span class="number">0</span>,
             <span class="comment">// TODO: Should have been just `::new()`, but https://github.com/rust-lang/rust/issues/53827
             // SAFETY: Data structure filled with zeroes is a valid invariant
             </span>s_bucket_sizes: <span class="kw">unsafe </span>{ Box::new_zeroed().assume_init() },
-            history_size: HistorySize::from(NonZeroU64::new(<span class="number">1</span>).expect(<span class="string">&quot;1 is not 0; qed&quot;</span>)),
-        };
+            history_size: HistorySize::from(SegmentIndex::ZERO),
+        });
 
         default.encoded_size()
     }
 }
 
 <span class="doccomment">/// Commitment and witness corresponding to the same record
-</span><span class="attr">#[derive(Debug, Clone, Encode, Decode)]
-</span><span class="kw">pub struct </span>RecordMetadata {
+</span><span class="attr">#[derive(Debug, Default, Clone, Encode, Decode)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>RecordMetadata {
     <span class="doccomment">/// Record commitment
-    </span><span class="kw">pub </span>commitment: RecordCommitment,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) commitment: RecordCommitment,
     <span class="doccomment">/// Record witness
-    </span><span class="kw">pub </span>witness: RecordWitness,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) witness: RecordWitness,
+    <span class="doccomment">/// Checksum (hash) of the whole piece
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) piece_checksum: Blake3Hash,
+}
+
+<span class="kw">impl </span>RecordMetadata {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>encoded_size() -&gt; usize {
+        RecordWitness::SIZE + RecordCommitment::SIZE + Blake3Hash::SIZE
+    }
 }
 
 <span class="doccomment">/// Raw sector before it is transformed and written to plot, used during plotting
 </span><span class="attr">#[derive(Debug, Clone)]
-</span><span class="kw">pub struct </span>RawSector {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>RawSector {
     <span class="doccomment">/// List of records, likely downloaded from the network
-    </span><span class="kw">pub </span>records: Vec&lt;Record&gt;,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) records: Vec&lt;Record&gt;,
     <span class="doccomment">/// Metadata (commitment and witness) corresponding to the same record
-    </span><span class="kw">pub </span>metadata: Vec&lt;RecordMetadata&gt;,
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) metadata: Vec&lt;RecordMetadata&gt;,
 }
 
 <span class="kw">impl </span>RawSector {
-    <span class="doccomment">/// Create new raw sector with internal vectors being allocated (but not filled) to be able to
-    /// store data for specified number of pieces in sector
-    </span><span class="kw">pub fn </span>new(pieces_in_sector: u16) -&gt; <span class="self">Self </span>{
+    <span class="doccomment">/// Create new raw sector with internal vectors being allocated and filled with default values
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(pieces_in_sector: u16) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            records: Vec::with_capacity(usize::from(pieces_in_sector)),
-            metadata: Vec::with_capacity(usize::from(pieces_in_sector)),
+            records: Record::new_zero_vec(usize::from(pieces_in_sector)),
+            metadata: <span class="macro">vec!</span>[RecordMetadata::default(); usize::from(pieces_in_sector)],
         }
     }
 }
 
 <span class="comment">// Bit array containing space for bits equal to the number of s-buckets in a record
 </span><span class="kw">type </span>SingleRecordBitArray = BitArray&lt;[u8; Record::NUM_S_BUCKETS / u8::BITS <span class="kw">as </span>usize]&gt;;
+
 <span class="kw">const </span>SINGLE_RECORD_BIT_ARRAY_SIZE: usize = mem::size_of::&lt;SingleRecordBitArray&gt;();
 
-<span class="comment">// TODO: I really tried to avoid `count_ones()`, but wasn&#39;t able to with safe Rust due to lifetimes
+<span class="comment">// TODO: I really tried to avoid `count_ones()`, but wasn't able to with safe Rust due to lifetimes
 </span><span class="doccomment">/// Wrapper data structure that allows to iterate mutably over encoded chunks bitfields, while
-/// maintaining up to date number of encoded chunks
+/// maintaining up-to-date number of encoded chunks
 ///
 /// ## Panics
 /// Panics on drop if too many chunks are encoded
-</span><span class="kw">pub struct </span>EncodedChunksUsed&lt;<span class="lifetime">&#39;a</span>&gt; {
-    encoded_record_chunks_used: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>SingleRecordBitArray,
-    num_encoded_record_chunks: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>SBucket,
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>EncodedChunksUsed&lt;<span class="lifetime">'a</span>&gt; {
+    encoded_record_chunks_used: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SingleRecordBitArray,
+    num_encoded_record_chunks: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>SBucket,
     potentially_updated: bool,
 }
 
-<span class="kw">impl </span>Drop <span class="kw">for </span>EncodedChunksUsed&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>Drop <span class="kw">for </span>EncodedChunksUsed&lt;<span class="lifetime">'_</span>&gt; {
     <span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">if </span><span class="self">self</span>.potentially_updated {
             <span class="kw">let </span>num_encoded_record_chunks = <span class="self">self</span>.encoded_record_chunks_used.count_ones();
             <span class="macro">assert!</span>(num_encoded_record_chunks &lt;= SBucket::MAX.into());
             <span class="kw-2">*</span><span class="self">self</span>.num_encoded_record_chunks = SBucket::try_from(num_encoded_record_chunks)
-                .expect(<span class="string">&quot;Checked with explicit assert above; qed&quot;</span>);
+                .expect(<span class="string">"Checked with explicit assert above; qed"</span>);
         }
     }
 }
 
-<span class="kw">impl </span>EncodedChunksUsed&lt;<span class="lifetime">&#39;_</span>&gt; {
+<span class="kw">impl </span>EncodedChunksUsed&lt;<span class="lifetime">'_</span>&gt; {
     <span class="doccomment">/// Produces an iterator over encoded chunks bitfields.
-    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>ExactSizeIterator&lt;Item = <span class="kw">impl </span>Deref&lt;Target = bool&gt; + <span class="lifetime">&#39;_</span>&gt; + <span class="lifetime">&#39;_ </span>{
+    </span><span class="kw">pub fn </span>iter(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw">impl </span>ExactSizeIterator&lt;Item = <span class="kw">impl </span>Deref&lt;Target = bool&gt; + <span class="lifetime">'_</span>&gt; + <span class="lifetime">'_ </span>{
         <span class="self">self</span>.encoded_record_chunks_used.iter()
     }
 
     <span class="doccomment">/// Produces a mutable iterator over encoded chunks bitfields.
     </span><span class="kw">pub fn </span>iter_mut(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-    ) -&gt; <span class="kw">impl </span>ExactSizeIterator&lt;Item = <span class="kw">impl </span>DerefMut&lt;Target = bool&gt; + <span class="lifetime">&#39;_</span>&gt; + <span class="lifetime">&#39;_ </span>{
+    ) -&gt; <span class="kw">impl </span>ExactSizeIterator&lt;Item = <span class="kw">impl </span>DerefMut&lt;Target = bool&gt; + <span class="lifetime">'_</span>&gt; + <span class="lifetime">'_ </span>{
         <span class="self">self</span>.potentially_updated = <span class="bool-val">true</span>;
         <span class="self">self</span>.encoded_record_chunks_used.iter_mut()
     }
@@ -677,7 +822,7 @@
 </span><span class="attr">#[derive(Debug, Error, Copy, Clone, Eq, PartialEq)]
 </span><span class="kw">pub enum </span>SectorContentsMapFromBytesError {
     <span class="doccomment">/// Invalid bytes length
-    </span><span class="attr">#[error(<span class="string">&quot;Invalid bytes length, expected {expected}, actual {actual}&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"Invalid bytes length, expected {expected}, actual {actual}"</span>)]
     </span>InvalidBytesLength {
         <span class="doccomment">/// Expected length
         </span>expected: usize,
@@ -685,12 +830,28 @@
         </span>actual: usize,
     },
     <span class="doccomment">/// Invalid number of encoded record chunks
-    </span><span class="attr">#[error(<span class="string">&quot;Invalid number of encoded record chunks: {actual}&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"Invalid number of encoded record chunks: {actual}"</span>)]
     </span>InvalidEncodedRecordChunks {
         <span class="doccomment">/// Actual number of encoded record chunks
         </span>actual: usize,
         <span class="doccomment">/// Max supported
         </span>max: usize,
+    },
+    <span class="doccomment">/// Checksum mismatch
+    </span><span class="attr">#[error(<span class="string">"Checksum mismatch"</span>)]
+    </span>ChecksumMismatch,
+}
+
+<span class="doccomment">/// Error happening when trying to encode [`SectorContentsMap`] into bytes
+</span><span class="attr">#[derive(Debug, Error, Copy, Clone, Eq, PartialEq)]
+</span><span class="kw">pub enum </span>SectorContentsMapEncodeIntoError {
+    <span class="doccomment">/// Invalid bytes length
+    </span><span class="attr">#[error(<span class="string">"Invalid bytes length, expected {expected}, actual {actual}"</span>)]
+    </span>InvalidBytesLength {
+        <span class="doccomment">/// Expected length
+        </span>expected: usize,
+        <span class="doccomment">/// Actual length
+        </span>actual: usize,
     },
 }
 
@@ -698,7 +859,7 @@
 </span><span class="attr">#[derive(Debug, Error, Copy, Clone, Eq, PartialEq)]
 </span><span class="kw">pub enum </span>SectorContentsMapIterationError {
     <span class="doccomment">/// S-bucket provided is out of range
-    </span><span class="attr">#[error(<span class="string">&quot;S-bucket provided {provided} is out of range, max {max}&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"S-bucket provided {provided} is out of range, max {max}"</span>)]
     </span>SBucketOutOfRange {
         <span class="doccomment">/// Provided s-bucket
         </span>provided: usize,
@@ -711,7 +872,7 @@
 /// encoded (meaning erasure coded and encoded with existing PoSpace quality) and unencoded chunks
 /// (just erasure coded) used at the same time both in records (before writing to plot) and
 /// s-buckets (written into the plot) format
-</span><span class="attr">#[derive(Debug, Clone)]
+</span><span class="attr">#[derive(Debug, Clone, Eq, PartialEq)]
 </span><span class="kw">pub struct </span>SectorContentsMap {
     <span class="doccomment">/// Number of encoded chunks used in each record.
     ///
@@ -720,22 +881,7 @@
     </span>num_encoded_record_chunks: Vec&lt;SBucket&gt;,
     <span class="doccomment">/// Bitfields for each record, each bit is `true` if encoded chunk at corresponding position was
     /// used
-    </span><span class="comment">// TODO: Vector of bit arrays since number of s-buckets is known and fixed
     </span>encoded_record_chunks_used: Vec&lt;SingleRecordBitArray&gt;,
-}
-
-<span class="kw">impl </span>AsRef&lt;[u8]&gt; <span class="kw">for </span>SectorContentsMap {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="kw">let </span>slice = <span class="self">self</span>.encoded_record_chunks_used.as_slice();
-        <span class="comment">// SAFETY: `BitArray` is a transparent data structure containing array of bytes
-        </span><span class="kw">unsafe </span>{
-            slice::from_raw_parts(
-                slice.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>u8,
-                slice.len() * SINGLE_RECORD_BIT_ARRAY_SIZE,
-            )
-        }
-    }
 }
 
 <span class="kw">impl </span>SectorContentsMap {
@@ -753,7 +899,7 @@
 
     <span class="doccomment">/// Reconstruct sector contents map from bytes.
     ///
-    /// Returns error if length of the vector doesn&#39;t match [`Self::encoded_size()`] for
+    /// Returns error if length of the vector doesn't match [`Self::encoded_size()`] for
     /// `pieces_in_sector`.
     </span><span class="kw">pub fn </span>from_bytes(
         bytes: <span class="kw-2">&amp;</span>[u8],
@@ -766,12 +912,26 @@
             });
         }
 
+        <span class="kw">let </span>(single_records_bit_arrays, expected_checksum) =
+            bytes.split_at(bytes.len() - Blake3Hash::SIZE);
+        <span class="comment">// Verify checksum
+        </span><span class="kw">let </span>actual_checksum = blake3_hash(single_records_bit_arrays);
+        <span class="kw">if </span><span class="kw-2">*</span>actual_checksum != <span class="kw-2">*</span>expected_checksum {
+            <span class="macro">debug!</span>(
+                actual_checksum = %hex::encode(actual_checksum),
+                expected_checksum = %hex::encode(expected_checksum),
+                <span class="string">"Hash doesn't match, corrupted bytes"
+            </span>);
+
+            <span class="kw">return </span><span class="prelude-val">Err</span>(SectorContentsMapFromBytesError::ChecksumMismatch);
+        }
+
         <span class="kw">let </span><span class="kw-2">mut </span>encoded_record_chunks_used =
             <span class="macro">vec!</span>[SingleRecordBitArray::default(); pieces_in_sector.into()];
 
         <span class="kw">let </span>num_encoded_record_chunks = encoded_record_chunks_used
             .iter_mut()
-            .zip(bytes.array_chunks::&lt;{ SINGLE_RECORD_BIT_ARRAY_SIZE }&gt;())
+            .zip(single_records_bit_arrays.array_chunks::&lt;{ SINGLE_RECORD_BIT_ARRAY_SIZE }&gt;())
             .map(|(encoded_record_chunks_used, bytes)| {
                 encoded_record_chunks_used
                     .as_raw_mut_slice()
@@ -785,7 +945,7 @@
                         },
                     );
                 }
-                <span class="prelude-val">Ok</span>(SBucket::try_from(num_encoded_record_chunks).expect(<span class="string">&quot;Verified above ; qed&quot;</span>))
+                <span class="prelude-val">Ok</span>(SBucket::try_from(num_encoded_record_chunks).expect(<span class="string">"Verified above; qed"</span>))
             })
             .collect::&lt;<span class="prelude-ty">Result</span>&lt;Vec&lt;<span class="kw">_</span>&gt;, <span class="kw">_</span>&gt;&gt;()<span class="question-mark">?</span>;
 
@@ -798,7 +958,32 @@
     <span class="doccomment">/// Size of sector contents map when encoded and stored in the plot for specified number of
     /// pieces in sector
     </span><span class="kw">pub const fn </span>encoded_size(pieces_in_sector: u16) -&gt; usize {
-        SINGLE_RECORD_BIT_ARRAY_SIZE * pieces_in_sector <span class="kw">as </span>usize
+        SINGLE_RECORD_BIT_ARRAY_SIZE * pieces_in_sector <span class="kw">as </span>usize + Blake3Hash::SIZE
+    }
+
+    <span class="doccomment">/// Encode internal contents into `output`
+    </span><span class="kw">pub fn </span>encode_into(<span class="kw-2">&amp;</span><span class="self">self</span>, output: <span class="kw-2">&amp;mut </span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;(), SectorContentsMapEncodeIntoError&gt; {
+        <span class="kw">if </span>output.len() != <span class="self">Self</span>::encoded_size(<span class="self">self</span>.encoded_record_chunks_used.len() <span class="kw">as </span>u16) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(SectorContentsMapEncodeIntoError::InvalidBytesLength {
+                expected: <span class="self">Self</span>::encoded_size(<span class="self">self</span>.encoded_record_chunks_used.len() <span class="kw">as </span>u16),
+                actual: output.len(),
+            });
+        }
+
+        <span class="kw">let </span>slice = <span class="self">self</span>.encoded_record_chunks_used.as_slice();
+        <span class="comment">// SAFETY: `BitArray` is a transparent data structure containing array of bytes
+        </span><span class="kw">let </span>slice = <span class="kw">unsafe </span>{
+            slice::from_raw_parts(
+                slice.as_ptr() <span class="kw">as </span><span class="kw-2">*const </span>u8,
+                slice.len() * SINGLE_RECORD_BIT_ARRAY_SIZE,
+            )
+        };
+
+        <span class="comment">// Write data and checksum
+        </span>output[..slice.len()].copy_from_slice(slice);
+        output[slice.len()..].copy_from_slice(blake3_hash(slice).as_ref());
+
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Number of encoded chunks in each record
@@ -814,7 +999,7 @@
     <span class="doccomment">/// Iterate mutably over individual record bitfields
     </span><span class="kw">pub fn </span>iter_record_bitfields_mut(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-    ) -&gt; <span class="kw">impl </span>ExactSizeIterator&lt;Item = EncodedChunksUsed&lt;<span class="lifetime">&#39;_</span>&gt;&gt; + <span class="lifetime">&#39;_ </span>{
+    ) -&gt; <span class="kw">impl </span>ExactSizeIterator&lt;Item = EncodedChunksUsed&lt;<span class="lifetime">'_</span>&gt;&gt; + <span class="lifetime">'_ </span>{
         <span class="self">self</span>.encoded_record_chunks_used
             .iter_mut()
             .zip(<span class="kw-2">&amp;mut </span><span class="self">self</span>.num_encoded_record_chunks)
@@ -829,23 +1014,21 @@
 
     <span class="doccomment">/// Returns sizes of each s-bucket
     </span><span class="kw">pub fn </span>s_bucket_sizes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Box&lt;[u16; Record::NUM_S_BUCKETS]&gt; {
-        <span class="comment">// TODO: Should have been just `::new()`, but https://github.com/rust-lang/rust/issues/53827
-        // SAFETY: Data structure filled with zeroes is a valid invariant
-        </span><span class="kw">let </span><span class="kw-2">mut </span>s_bucket_sizes =
-            <span class="kw">unsafe </span>{ Box::&lt;[u16; Record::NUM_S_BUCKETS]&gt;::new_zeroed().assume_init() };
-        <span class="comment">// Rayon doesn&#39;t support iteration over custom types yet
-        </span>(u16::from(SBucket::ZERO)..=u16::from(SBucket::MAX))
+        <span class="comment">// Rayon doesn't support iteration over custom types yet
+        </span><span class="kw">let </span>s_bucket_sizes = (u16::from(SBucket::ZERO)..=u16::from(SBucket::MAX))
             .into_par_iter()
             .map(SBucket::from)
-            .zip(s_bucket_sizes.par_iter_mut())
-            .for_each(|(s_bucket, s_bucket_size)| {
-                <span class="kw-2">*</span>s_bucket_size = <span class="self">self
-                    </span>.iter_s_bucket_records(s_bucket)
-                    .expect(<span class="string">&quot;S-bucket guaranteed to be in range; qed&quot;</span>)
-                    .count() <span class="kw">as </span>u16;
-            });
+            .map(|s_bucket| {
+                <span class="self">self</span>.iter_s_bucket_records(s_bucket)
+                    .expect(<span class="string">"S-bucket guaranteed to be in range; qed"</span>)
+                    .count() <span class="kw">as </span>u16
+            })
+            .collect::&lt;Box&lt;<span class="kw">_</span>&gt;&gt;();
 
-        s_bucket_sizes
+        <span class="macro">assert_eq!</span>(s_bucket_sizes.len(), Record::NUM_S_BUCKETS);
+        <span class="kw">let </span><span class="kw-2">mut </span>s_bucket_sizes = ManuallyDrop::new(s_bucket_sizes);
+        <span class="comment">// SAFETY: Original memory is not dropped, number of elements checked above
+        </span><span class="kw">unsafe </span>{ Box::from_raw(s_bucket_sizes.as_mut_ptr() <span class="kw">as </span><span class="kw-2">*mut </span>[u16; Record::NUM_S_BUCKETS]) }
     }
 
     <span class="doccomment">/// Creates an iterator of `(s_bucket, encoded_chunk_used, chunk_location)`, where `s_bucket` is
@@ -855,18 +1038,18 @@
     </span><span class="kw">pub fn </span>iter_record_chunk_to_plot(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         piece_offset: PieceOffset,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (SBucket, bool, usize)&gt; + <span class="lifetime">&#39;_ </span>{
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = (SBucket, bool, usize)&gt; + <span class="lifetime">'_ </span>{
         <span class="comment">// Iterate over all s-buckets
         </span>(SBucket::ZERO..=SBucket::MAX)
             <span class="comment">// In each s-bucket map all records used
             </span>.flat_map(|s_bucket| {
                 <span class="self">self</span>.iter_s_bucket_records(s_bucket)
-                    .expect(<span class="string">&quot;S-bucket guaranteed to be in range; qed&quot;</span>)
+                    .expect(<span class="string">"S-bucket guaranteed to be in range; qed"</span>)
                     .map(<span class="kw">move </span>|(current_piece_offset, encoded_chunk_used)| {
                         (s_bucket, current_piece_offset, encoded_chunk_used)
                     })
             })
-            <span class="comment">// We&#39;ve got contents of all s-buckets in a flat iterator, enumerating them so it is
+            <span class="comment">// We've got contents of all s-buckets in a flat iterator, enumerating them so it is
             // possible to find in the plot later if desired
             </span>.enumerate()
             <span class="comment">// Everything about the piece offset we care about
@@ -894,7 +1077,7 @@
     </span><span class="kw">pub fn </span>par_iter_record_chunk_to_plot(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         piece_offset: PieceOffset,
-    ) -&gt; <span class="kw">impl </span>IndexedParallelIterator&lt;Item = <span class="prelude-ty">Option</span>&lt;(usize, bool)&gt;&gt; + <span class="lifetime">&#39;_ </span>{
+    ) -&gt; <span class="kw">impl </span>IndexedParallelIterator&lt;Item = <span class="prelude-ty">Option</span>&lt;(usize, bool)&gt;&gt; + <span class="lifetime">'_ </span>{
         <span class="kw">let </span>piece_offset = usize::from(piece_offset);
         (u16::from(SBucket::ZERO)..=u16::from(SBucket::MAX))
             .into_par_iter()
@@ -932,12 +1115,11 @@
     /// corresponds to the record to which chunk belongs and `encoded_chunk_used` indicates whether
     /// it was encoded.
     ///
-    /// ## Panics
-    /// Panics if `s_bucket` is outside of [`Record::NUM_S_BUCKETS`] range.
+    /// Returns error if `s_bucket` is outside of [`Record::NUM_S_BUCKETS`] range.
     </span><span class="kw">pub fn </span>iter_s_bucket_records(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         s_bucket: SBucket,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">impl </span>Iterator&lt;Item = (PieceOffset, bool)&gt; + <span class="lifetime">&#39;_</span>, SectorContentsMapIterationError&gt;
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">impl </span>Iterator&lt;Item = (PieceOffset, bool)&gt; + <span class="lifetime">'_</span>, SectorContentsMapIterationError&gt;
     {
         <span class="kw">let </span>s_bucket = usize::from(s_bucket);
 
@@ -975,7 +1157,7 @@
     </span><span class="kw">pub fn </span>iter_s_bucket_encoded_record_chunks_used(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         s_bucket: SBucket,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">impl </span>Iterator&lt;Item = bool&gt; + <span class="lifetime">&#39;_</span>, SectorContentsMapIterationError&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw">impl </span>Iterator&lt;Item = bool&gt; + <span class="lifetime">'_</span>, SectorContentsMapIterationError&gt; {
         <span class="kw">let </span>s_bucket = usize::from(s_bucket);
 
         <span class="kw">if </span>s_bucket &gt;= Record::NUM_S_BUCKETS {
@@ -1006,7 +1188,7 @@
     } <span class="kw">else if </span>num_encoded_record_chunks == Record::NUM_CHUNKS {
         <span class="prelude-val">None
     </span>} <span class="kw">else </span>{
-        <span class="comment">// Count how many encoded chunks we before current offset
+        <span class="comment">// Count how many encoded chunks we have before current offset
         </span><span class="kw">let </span>encoded_before = record_bitfields[..s_bucket].count_ones();
         <span class="kw">let </span>unencoded_before = s_bucket - encoded_before;
         <span class="comment">// And how many unencoded we have total and how many before current offset

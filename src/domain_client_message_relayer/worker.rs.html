@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/relayer/src/worker.rs`."><title>worker.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_client_message_relayer" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../domain_client_message_relayer/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/relayer/src/worker.rs`."><title>worker.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_client_message_relayer" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -204,211 +204,209 @@
 <a href="#204" id="204">204</a>
 <a href="#205" id="205">205</a>
 <a href="#206" id="206">206</a>
-<a href="#207" id="207">207</a>
 </pre></div><pre class="rust"><code><span class="kw">use crate</span>::{BlockT, Error, GossipMessageSink, HeaderBackend, HeaderT, Relayer, LOG_TARGET};
+<span class="kw">use </span>cross_domain_message_gossip::{ChannelUpdate, Message <span class="kw">as </span>GossipMessage, MessageData};
 <span class="kw">use </span>futures::StreamExt;
-<span class="kw">use </span>parity_scale_codec::{Decode, Encode};
 <span class="kw">use </span>sc_client_api::{AuxStore, BlockchainEvents, ProofProvider};
-<span class="kw">use </span>sp_api::{ApiError, ProvideRuntimeApi};
+<span class="kw">use </span>sp_api::ProvideRuntimeApi;
 <span class="kw">use </span>sp_consensus::SyncOracle;
-<span class="kw">use </span>sp_domains::DomainId;
-<span class="kw">use </span>sp_messenger::RelayerApi;
-<span class="kw">use </span>sp_runtime::traits::{CheckedSub, NumberFor, Zero};
+<span class="kw">use </span>sp_domains::{DomainId, DomainsApi};
+<span class="kw">use </span>sp_messenger::messages::ChainId;
+<span class="kw">use </span>sp_messenger::{MessengerApi, RelayerApi};
+<span class="kw">use </span>sp_mmr_primitives::MmrApi;
+<span class="kw">use </span>sp_runtime::traits::{CheckedSub, NumberFor, One};
+<span class="kw">use </span>sp_runtime::SaturatedConversion;
 <span class="kw">use </span>std::sync::Arc;
 
-<span class="doccomment">/// Starts relaying system domain messages to other domains.
-/// If the node is in major sync, worker waits waits until the sync is finished.
-</span><span class="kw">pub async fn </span>relay_system_domain_messages&lt;Client, Block, SO, RelayerId&gt;(
-    relayer_id: RelayerId,
-    system_domain_client: Arc&lt;Client&gt;,
-    system_domain_sync_oracle: SO,
+<span class="kw">pub async fn </span>gossip_channel_updates&lt;Client, Block, CBlock, SO&gt;(
+    chain_id: ChainId,
+    client: Arc&lt;Client&gt;,
+    sync_oracle: SO,
     gossip_message_sink: GossipMessageSink,
 ) <span class="kw">where
     </span>Block: BlockT,
+    CBlock: BlockT,
     Client: BlockchainEvents&lt;Block&gt;
         + HeaderBackend&lt;Block&gt;
         + AuxStore
         + ProofProvider&lt;Block&gt;
         + ProvideRuntimeApi&lt;Block&gt;,
-    Client::Api: RelayerApi&lt;Block, RelayerId, NumberFor&lt;Block&gt;&gt;,
-    RelayerId: Encode + Decode + Clone,
+    Client::Api: RelayerApi&lt;Block, NumberFor&lt;Block&gt;, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;,
     SO: SyncOracle,
 {
-    <span class="comment">// there is not confirmation depth for relayer on system domain
-    // since all the relayers will haven embed client to known the canonical chain.
-    </span><span class="kw">let </span>result = relay_domain_messages(
-        relayer_id,
-        NumberFor::&lt;Block&gt;::zero(),
-        system_domain_client,
-        |relayer_id, client, block_hash| {
-            Relayer::submit_messages_from_system_domain(
-                relayer_id,
-                client,
-                block_hash,
-                <span class="kw-2">&amp;</span>gossip_message_sink,
-            )
-        },
-        system_domain_sync_oracle,
-        |_domain_id, _block_number| -&gt; <span class="prelude-ty">Result</span>&lt;bool, ApiError&gt; {
-            <span class="comment">// since we just need to provide a storage proof with the state root of system domain
-            // proof can always be generated for any system domain block.
-            // So we can always relay messages.
-            </span><span class="prelude-val">Ok</span>(<span class="bool-val">true</span>)
-        },
-    )
-    .<span class="kw">await</span>;
-
-    <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = result {
-        <span class="macro">tracing::error!</span>(
-            target: LOG_TARGET,
-            <span class="question-mark">?</span>err,
-            <span class="string">&quot;Failed to start relayer for system domain&quot;
-        </span>)
-    }
-}
-
-<span class="kw">async fn </span>relay_domain_messages&lt;Client, Block, MP, SO, SRM, RelayerId&gt;(
-    relayer_id: RelayerId,
-    relay_confirmation_depth: NumberFor&lt;Block&gt;,
-    domain_client: Arc&lt;Client&gt;,
-    message_processor: MP,
-    sync_oracle: SO,
-    can_relay_message_from_block: SRM,
-) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt;
-<span class="kw">where
-    </span>Block: BlockT,
-    Client: BlockchainEvents&lt;Block&gt;
-        + HeaderBackend&lt;Block&gt;
-        + AuxStore
-        + ProofProvider&lt;Block&gt;
-        + ProvideRuntimeApi&lt;Block&gt;,
-    Client::Api: RelayerApi&lt;Block, RelayerId, NumberFor&lt;Block&gt;&gt;,
-    MP: Fn(RelayerId, <span class="kw-2">&amp;</span>Arc&lt;Client&gt;, Block::Hash) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt;,
-    SO: SyncOracle,
-    SRM: Fn(DomainId, NumberFor&lt;Block&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;bool, ApiError&gt;,
-    RelayerId: Encode + Decode + Clone,
-{
-    <span class="kw">let </span>domain_id = Relayer::domain_id(<span class="kw-2">&amp;</span>domain_client)<span class="question-mark">?</span>;
     <span class="macro">tracing::info!</span>(
         target: LOG_TARGET,
-        <span class="string">&quot;Starting relayer for domain: {:?}&quot;</span>,
-        domain_id,
+        <span class="string">"Starting Channel updates for chain: {:?}"</span>,
+        chain_id,
     );
-    <span class="kw">let </span><span class="kw-2">mut </span>domain_block_import = domain_client.import_notification_stream();
-
-    <span class="comment">// from the start block, start processing all the messages assigned
-    // wait for new block import of system domain,
-    // then fetch new messages assigned to to relayer from system domain
-    // construct proof of each message to be relayed
-    // submit XDM as unsigned extrinsic.
-    </span><span class="kw">while let </span><span class="prelude-val">Some</span>(block) = domain_block_import.next().<span class="kw">await </span>{
+    <span class="kw">let </span><span class="kw-2">mut </span>chain_block_imported = client.every_import_notification_stream();
+    <span class="kw">while let </span><span class="prelude-val">Some</span>(imported_block) = chain_block_imported.next().<span class="kw">await </span>{
         <span class="comment">// if the client is in major sync, wait until sync is complete
         </span><span class="kw">if </span>sync_oracle.is_major_syncing() {
-            <span class="macro">tracing::info!</span>(target: LOG_TARGET, <span class="string">&quot;Client is in major sync. Skipping...&quot;</span>);
+            <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">"Client is in major sync. Skipping..."</span>);
             <span class="kw">continue</span>;
         }
 
-        <span class="kw">let </span>relay_block_until = <span class="kw">match </span>block.header.number().checked_sub(<span class="kw-2">&amp;</span>relay_confirmation_depth) {
-            <span class="prelude-val">None </span>=&gt; {
-                <span class="comment">// not enough confirmed blocks.
-                </span><span class="macro">tracing::info!</span>(
-                    target: LOG_TARGET,
-                    <span class="string">&quot;Not enough confirmed blocks for domain: {:?}. Skipping...&quot;</span>,
-                    domain_id
-                );
-                <span class="kw">continue</span>;
+        <span class="kw">if </span>!imported_block.is_new_best {
+            <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">"Imported non-best block. Skipping..."</span>);
+            <span class="kw">continue</span>;
+        }
+
+        <span class="kw">let </span>(block_hash, block_number) = <span class="kw">match </span>chain_id {
+            ChainId::Consensus =&gt; (
+                imported_block.header.hash(),
+                <span class="kw-2">*</span>imported_block.header.number(),
+            ),
+            ChainId::Domain(<span class="kw">_</span>) =&gt; {
+                <span class="comment">// for domains, we gossip channel updates of imported block - 1
+                // since the execution receipt of the imported block is not registered on consensus
+                // without the execution receipt, we would not be able to verify the storage proof
+                </span><span class="kw">let </span>number = <span class="kw">match </span>imported_block.header.number().checked_sub(<span class="kw-2">&amp;</span>One::one()) {
+                    <span class="prelude-val">None </span>=&gt; <span class="kw">continue</span>,
+                    <span class="prelude-val">Some</span>(number) =&gt; number,
+                };
+
+                <span class="kw">let </span>hash = <span class="kw">match </span>client.hash(number).ok().flatten() {
+                    <span class="prelude-val">Some</span>(hash) =&gt; hash,
+                    <span class="prelude-val">None </span>=&gt; {
+                        <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">"Missing block hash for number: {:?}"</span>, number);
+                        <span class="kw">continue</span>;
+                    }
+                };
+
+                (hash, number)
             }
-            <span class="prelude-val">Some</span>(confirmed_block) =&gt; confirmed_block,
         };
 
-        <span class="kw">let </span>(number, hash) = (<span class="kw-2">*</span>block.header.number(), block.header.hash());
-        <span class="kw">let </span>blocks_to_process: Vec&lt;(NumberFor&lt;Block&gt;, Block::Hash)&gt; =
-            Relayer::fetch_unprocessed_blocks_until(<span class="kw-2">&amp;</span>domain_client, domain_id, number, hash)<span class="question-mark">?
-                </span>.into_iter()
-                .filter(|(number, <span class="kw">_</span>)| <span class="kw-2">*</span>number &lt;= relay_block_until)
-                .collect();
-
-        <span class="kw">for </span>(number, hash) <span class="kw">in </span>blocks_to_process {
-            <span class="macro">tracing::info!</span>(
-                target: LOG_TARGET,
-                <span class="string">&quot;Checking messages to be submitted from domain: {domain_id:?} at block: ({number:?}, {hash:?})&quot;</span>,
-            );
-
-            <span class="comment">// check if the message is ready to be relayed.
-            // if not, the node is lagging behind and/or there is no way to generate a proof.
-            // mark this block processed and continue to next one.
-            </span><span class="kw">if </span>!can_relay_message_from_block(domain_id, number)<span class="question-mark">? </span>{
-                Relayer::store_relayed_block(<span class="kw-2">&amp;</span>domain_client, domain_id, number, hash)<span class="question-mark">?</span>;
-                <span class="macro">tracing::info!</span>(
-                    target: LOG_TARGET,
-                    <span class="string">&quot;Domain({domain_id:?}) messages in the Block ({number:?}, {hash:?}) cannot be relayed. Skipping...&quot;</span>,
-                );
-            } <span class="kw">else </span>{
-                <span class="kw">match </span>message_processor(relayer_id.clone(), <span class="kw-2">&amp;</span>domain_client, hash) {
-                    <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; {
-                        Relayer::store_relayed_block(<span class="kw-2">&amp;</span>domain_client, domain_id, number, hash)<span class="question-mark">?</span>;
-                        <span class="macro">tracing::info!</span>(
-                            target: LOG_TARGET,
-                            <span class="string">&quot;Messages from {domain_id:?} at block({number:?}, {hash:?}) are processed.&quot;
-                        </span>)
-                    }
-                    <span class="prelude-val">Err</span>(err) =&gt; {
-                        <span class="kw">match </span>err {
-                            Error::CoreDomainNonConfirmedOnSystemDomain =&gt; {
-                                <span class="macro">tracing::info!</span>(
-                                    target: LOG_TARGET,
-                                    <span class="string">&quot;Waiting for Core Domain[{domain_id:?}] block({number:?}, {hash:?}) to be confirmed on System domain.&quot;
-                                </span>)
-                            }
-                            <span class="kw">_ </span>=&gt; {
-                                <span class="macro">tracing::error!</span>(
-                                    target: LOG_TARGET,
-                                    <span class="question-mark">?</span>err,
-                                    <span class="string">&quot;Failed to submit messages from the domain {domain_id:?} at the block ({number:?}, {hash:?})&quot;
-                                </span>);
-                            }
-                        }
-                        <span class="kw">break</span>;
-                    }
-                }
-            }
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = do_gossip_channel_updates::&lt;<span class="kw">_</span>, <span class="kw">_</span>, CBlock&gt;(
+            chain_id,
+            <span class="kw-2">&amp;</span>client,
+            <span class="kw-2">&amp;</span>gossip_message_sink,
+            block_number,
+            block_hash,
+        ) {
+            <span class="macro">tracing::error!</span>(target: LOG_TARGET, <span class="question-mark">?</span>err, <span class="string">"failed to gossip channel update"</span>);
         }
+    }
+}
+
+<span class="kw">fn </span>do_gossip_channel_updates&lt;Client, Block, CBlock&gt;(
+    src_chain_id: ChainId,
+    client: <span class="kw-2">&amp;</span>Arc&lt;Client&gt;,
+    gossip_message_sink: <span class="kw-2">&amp;</span>GossipMessageSink,
+    block_number: NumberFor&lt;Block&gt;,
+    block_hash: Block::Hash,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt;
+<span class="kw">where
+    </span>Block: BlockT,
+    CBlock: BlockT,
+    Client: BlockchainEvents&lt;Block&gt;
+        + HeaderBackend&lt;Block&gt;
+        + AuxStore
+        + ProofProvider&lt;Block&gt;
+        + ProvideRuntimeApi&lt;Block&gt;,
+    Client::Api: RelayerApi&lt;Block, NumberFor&lt;Block&gt;, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;,
+{
+    <span class="kw">let </span>api = client.runtime_api();
+
+    <span class="kw">let </span>updated_channels = api.updated_channels(block_hash)<span class="question-mark">?</span>;
+
+    <span class="kw">for </span>(dst_chain_id, channel_id) <span class="kw">in </span>updated_channels {
+        <span class="kw">let </span>storage_key = api.channel_storage_key(block_hash, dst_chain_id, channel_id)<span class="question-mark">?</span>;
+        <span class="kw">let </span>proof = client
+            .read_proof(block_hash, <span class="kw-2">&amp;mut </span>[storage_key.as_ref()].into_iter())
+            .map_err(|<span class="kw">_</span>| Error::ConstructStorageProof)<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>gossip_message = GossipMessage {
+            chain_id: dst_chain_id,
+            data: MessageData::ChannelUpdate(ChannelUpdate {
+                src_chain_id,
+                channel_id,
+                block_number: block_number.saturated_into(),
+                storage_proof: proof,
+            }),
+        };
+
+        gossip_message_sink
+            .unbounded_send(gossip_message)
+            .map_err(Error::UnableToSubmitCrossDomainMessage)<span class="question-mark">?</span>;
     }
 
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="doccomment">/// Combines both system and core domain sync oracles into one.
-</span><span class="kw">struct </span>CombinedSyncOracle&lt;SDSO, CDSO&gt; {
-    system_domain_sync_oracle: SDSO,
-    core_domain_sync_oracle: CDSO,
-}
-
-<span class="kw">impl</span>&lt;SDSO, CDSO&gt; SyncOracle <span class="kw">for </span>CombinedSyncOracle&lt;SDSO, CDSO&gt;
-<span class="kw">where
-    </span>SDSO: SyncOracle,
-    CDSO: SyncOracle,
+<span class="kw">pub async fn </span>start_relaying_messages&lt;CClient, Client, CBlock, Block, SO&gt;(
+    domain_id: DomainId,
+    consensus_client: Arc&lt;CClient&gt;,
+    domain_client: Arc&lt;Client&gt;,
+    confirmation_depth_k: NumberFor&lt;CBlock&gt;,
+    sync_oracle: SO,
+    gossip_message_sink: GossipMessageSink,
+) <span class="kw">where
+    </span>Block: BlockT,
+    CBlock: BlockT,
+    Client: HeaderBackend&lt;Block&gt; + AuxStore + ProofProvider&lt;Block&gt; + ProvideRuntimeApi&lt;Block&gt;,
+    Client::Api: RelayerApi&lt;Block, NumberFor&lt;Block&gt;, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;,
+    CClient: BlockchainEvents&lt;CBlock&gt;
+        + HeaderBackend&lt;CBlock&gt;
+        + ProvideRuntimeApi&lt;CBlock&gt;
+        + ProofProvider&lt;CBlock&gt;
+        + AuxStore,
+    CClient::Api: DomainsApi&lt;CBlock, Block::Header&gt;
+        + MessengerApi&lt;CBlock, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + MmrApi&lt;CBlock, sp_core::H256, NumberFor&lt;CBlock&gt;&gt;
+        + RelayerApi&lt;CBlock, NumberFor&lt;CBlock&gt;, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;,
+    SO: SyncOracle + Send,
 {
-    <span class="doccomment">/// Returns true if either of the domains are in major sync.
-    </span><span class="kw">fn </span>is_major_syncing(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.system_domain_sync_oracle.is_major_syncing()
-            || <span class="self">self</span>.core_domain_sync_oracle.is_major_syncing()
-    }
+    <span class="macro">tracing::info!</span>(
+        target: LOG_TARGET,
+        <span class="string">"Starting relayer for domain: {domain_id:?} and the consensus chain"</span>,
+    );
+    <span class="kw">let </span><span class="kw-2">mut </span>chain_block_imported = consensus_client.every_import_notification_stream();
 
-    <span class="doccomment">/// Returns true if either of the domains are offline.
-    </span><span class="kw">fn </span>is_offline(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.system_domain_sync_oracle.is_offline() || <span class="self">self</span>.core_domain_sync_oracle.is_offline()
-    }
-}
+    <span class="comment">// from the start block, start processing all the messages assigned
+    // wait for new block finalization of the chain,
+    // then fetch new messages in the block
+    // construct proof of each message to be relayed
+    // submit XDM as unsigned extrinsic.
+    </span><span class="kw">while let </span><span class="prelude-val">Some</span>(imported_block) = chain_block_imported.next().<span class="kw">await </span>{
+        <span class="comment">// if the client is in major sync, wait until sync is complete
+        </span><span class="kw">if </span>sync_oracle.is_major_syncing() {
+            <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">"Client is in major sync. Skipping..."</span>);
+            <span class="kw">continue</span>;
+        }
 
-<span class="kw">impl</span>&lt;SDSO, CDSO&gt; CombinedSyncOracle&lt;SDSO, CDSO&gt; {
-    <span class="doccomment">/// Returns a new sync oracle that wraps system domain and core domain sync oracle.
-    </span><span class="comment">// TODO: Remove or make use of it.
-    </span><span class="attr">#[allow(unused)]
-    </span><span class="kw">fn </span>new(system_domain_sync_oracle: SDSO, core_domain_sync_oracle: CDSO) -&gt; <span class="self">Self </span>{
-        CombinedSyncOracle {
-            system_domain_sync_oracle,
-            core_domain_sync_oracle,
+        <span class="kw">if </span>!imported_block.is_new_best {
+            <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">"Imported non-best block. Skipping..."</span>);
+            <span class="kw">continue</span>;
+        }
+
+        <span class="kw">let </span><span class="prelude-val">Some</span>(confirmed_block_number) = imported_block
+            .header
+            .number()
+            .checked_sub(<span class="kw-2">&amp;</span>confirmation_depth_k)
+        <span class="kw">else </span>{
+            <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">"Not enough confirmed blocks. Skipping..."</span>);
+            <span class="kw">continue</span>;
+        };
+
+        <span class="kw">for </span>chain_id <span class="kw">in </span>[ChainId::Consensus, ChainId::Domain(domain_id)] {
+            <span class="kw">let </span>res = Relayer::construct_and_submit_xdm(
+                chain_id,
+                <span class="kw-2">&amp;</span>domain_client,
+                <span class="kw-2">&amp;</span>consensus_client,
+                confirmed_block_number,
+                <span class="kw-2">&amp;</span>gossip_message_sink,
+            );
+
+            <span class="kw">if let </span><span class="prelude-val">Err</span>(err) = res {
+                <span class="macro">tracing::error!</span>(
+                    target: LOG_TARGET,
+                    <span class="question-mark">?</span>err,
+                    <span class="string">"Failed to submit messages from the chain {chain_id:?} at the block ({confirmed_block_number:?}"
+                </span>);
+                <span class="kw">continue</span>;
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/domain-operator/src/operator.rs`."><title>operator.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_client_operator" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../domain_client_operator/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/domain-operator/src/operator.rs`."><title>operator.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_client_operator" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -241,53 +241,51 @@
 <a href="#241" id="241">241</a>
 <a href="#242" id="242">242</a>
 <a href="#243" id="243">243</a>
-<a href="#244" id="244">244</a>
-<a href="#245" id="245">245</a>
-<a href="#246" id="246">246</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bundle_processor::BundleProcessor;
 <span class="kw">use </span><span class="kw">crate</span>::domain_block_processor::{DomainBlockProcessor, ReceiptsChecker};
 <span class="kw">use </span><span class="kw">crate</span>::domain_bundle_producer::DomainBundleProducer;
 <span class="kw">use </span><span class="kw">crate</span>::domain_bundle_proposer::DomainBundleProposer;
 <span class="kw">use </span><span class="kw">crate</span>::fraud_proof::FraudProofGenerator;
-<span class="kw">use </span><span class="kw">crate</span>::parent_chain::DomainParentChain;
-<span class="kw">use crate</span>::{
-    active_leaves, DomainImportNotifications, NewSlotNotification, OperatorParams, TransactionFor,
-};
-<span class="kw">use </span>domain_runtime_primitives::{DomainCoreApi, InherentExtrinsicApi};
+<span class="kw">use crate</span>::{DomainImportNotifications, NewSlotNotification, OperatorParams};
 <span class="kw">use </span>futures::channel::mpsc;
 <span class="kw">use </span>futures::{FutureExt, Stream};
 <span class="kw">use </span>sc_client_api::{
     AuxStore, BlockBackend, BlockImportNotification, BlockchainEvents, Finalizer, ProofProvider,
-    StateBackendFor,
 };
 <span class="kw">use </span>sc_utils::mpsc::tracing_unbounded;
 <span class="kw">use </span>sp_api::ProvideRuntimeApi;
 <span class="kw">use </span>sp_blockchain::{HeaderBackend, HeaderMetadata};
-<span class="kw">use </span>sp_consensus::SelectChain;
 <span class="kw">use </span>sp_core::traits::{CodeExecutor, SpawnEssentialNamed};
+<span class="kw">use </span>sp_core::H256;
+<span class="kw">use </span>sp_domains::core_api::DomainCoreApi;
 <span class="kw">use </span>sp_domains::{BundleProducerElectionApi, DomainsApi};
+<span class="kw">use </span>sp_domains_fraud_proof::FraudProofApi;
+<span class="kw">use </span>sp_keystore::KeystorePtr;
 <span class="kw">use </span>sp_messenger::MessengerApi;
-<span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, HashFor, NumberFor};
+<span class="kw">use </span>sp_mmr_primitives::MmrApi;
+<span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, NumberFor};
+<span class="kw">use </span>sp_transaction_pool::runtime_api::TaggedTransactionQueue;
 <span class="kw">use </span>std::sync::Arc;
 <span class="kw">use </span>subspace_runtime_primitives::Balance;
 
 <span class="doccomment">/// Domain operator.
-</span><span class="kw">pub struct </span>Operator&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E, BI&gt;
+</span><span class="kw">pub struct </span>Operator&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E&gt;
 <span class="kw">where
     </span>Block: BlockT,
     CBlock: BlockT,
 {
     consensus_client: Arc&lt;CClient&gt;,
     client: Arc&lt;Client&gt;,
-    transaction_pool: Arc&lt;TransactionPool&gt;,
+    <span class="kw">pub </span>transaction_pool: Arc&lt;TransactionPool&gt;,
     backend: Arc&lt;Backend&gt;,
     fraud_proof_generator: FraudProofGenerator&lt;Block, CBlock, Client, CClient, Backend, E&gt;,
-    bundle_processor: BundleProcessor&lt;Block, CBlock, Client, CClient, Backend, E, BI&gt;,
-    domain_block_processor: DomainBlockProcessor&lt;Block, CBlock, Client, CClient, Backend, BI&gt;,
+    bundle_processor: BundleProcessor&lt;Block, CBlock, Client, CClient, Backend, E&gt;,
+    domain_block_processor: DomainBlockProcessor&lt;Block, CBlock, Client, CClient, Backend&gt;,
+    <span class="kw">pub </span>keystore: KeystorePtr,
 }
 
-<span class="kw">impl</span>&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E, BI&gt; Clone
-    <span class="kw">for </span>Operator&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E, BI&gt;
+<span class="kw">impl</span>&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E&gt; Clone
+    <span class="kw">for </span>Operator&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E&gt;
 <span class="kw">where
     </span>Block: BlockT,
     CBlock: BlockT,
@@ -301,14 +299,16 @@
             fraud_proof_generator: <span class="self">self</span>.fraud_proof_generator.clone(),
             bundle_processor: <span class="self">self</span>.bundle_processor.clone(),
             domain_block_processor: <span class="self">self</span>.domain_block_processor.clone(),
+            keystore: <span class="self">self</span>.keystore.clone(),
         }
     }
 }
 
-<span class="kw">impl</span>&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E, BI&gt;
-    Operator&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E, BI&gt;
+<span class="kw">impl</span>&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E&gt;
+    Operator&lt;Block, CBlock, Client, CClient, TransactionPool, Backend, E&gt;
 <span class="kw">where
     </span>Block: BlockT,
+    Block::Hash: Into&lt;H256&gt;,
     CBlock: BlockT,
     NumberFor&lt;CBlock&gt;: From&lt;NumberFor&lt;Block&gt;&gt; + Into&lt;NumberFor&lt;Block&gt;&gt;,
     CBlock::Hash: From&lt;Block::Hash&gt;,
@@ -318,37 +318,34 @@
         + ProvideRuntimeApi&lt;Block&gt;
         + ProofProvider&lt;Block&gt;
         + Finalizer&lt;Block, Backend&gt;
-        + <span class="lifetime">&#39;static</span>,
+        + <span class="lifetime">'static</span>,
     Client::Api: DomainCoreApi&lt;Block&gt;
-        + InherentExtrinsicApi&lt;Block&gt;
-        + MessengerApi&lt;Block, NumberFor&lt;Block&gt;&gt;
+        + MessengerApi&lt;Block, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
         + sp_block_builder::BlockBuilder&lt;Block&gt;
-        + sp_api::ApiExt&lt;Block, StateBackend = StateBackendFor&lt;Backend, Block&gt;&gt;,
+        + sp_api::ApiExt&lt;Block&gt;
+        + TaggedTransactionQueue&lt;Block&gt;,
     CClient: HeaderBackend&lt;CBlock&gt;
         + HeaderMetadata&lt;CBlock, Error = sp_blockchain::Error&gt;
         + BlockBackend&lt;CBlock&gt;
         + ProvideRuntimeApi&lt;CBlock&gt;
+        + ProofProvider&lt;CBlock&gt;
         + BlockchainEvents&lt;CBlock&gt;
         + Send
         + Sync
-        + <span class="lifetime">&#39;static</span>,
-    CClient::Api: DomainsApi&lt;CBlock, NumberFor&lt;Block&gt;, Block::Hash&gt;
-        + BundleProducerElectionApi&lt;CBlock, Balance&gt;,
-    Backend: sc_client_api::Backend&lt;Block&gt; + Send + Sync + <span class="lifetime">&#39;static</span>,
-    TransactionPool: sc_transaction_pool_api::TransactionPool&lt;Block = Block&gt; + <span class="lifetime">&#39;static</span>,
+        + <span class="lifetime">'static</span>,
+    CClient::Api: DomainsApi&lt;CBlock, Block::Header&gt;
+        + MessengerApi&lt;CBlock, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + BundleProducerElectionApi&lt;CBlock, Balance&gt;
+        + FraudProofApi&lt;CBlock, Block::Header&gt;
+        + MmrApi&lt;CBlock, H256, NumberFor&lt;CBlock&gt;&gt;,
+    Backend: sc_client_api::Backend&lt;Block&gt; + Send + Sync + <span class="lifetime">'static</span>,
+    TransactionPool:
+        sc_transaction_pool_api::TransactionPool&lt;Block = Block, Hash = Block::Hash&gt; + <span class="lifetime">'static</span>,
     E: CodeExecutor,
-    TransactionFor&lt;Backend, Block&gt;: sp_trie::HashDBT&lt;HashFor&lt;Block&gt;, sp_trie::DBValue&gt;,
-    <span class="kw">for</span>&lt;<span class="lifetime">&#39;b</span>&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>BI: sc_consensus::BlockImport&lt;
-        Block,
-        Transaction = sp_api::TransactionFor&lt;Client, Block&gt;,
-        Error = sp_consensus::Error,
-    &gt;,
-    BI: Send + Sync + <span class="lifetime">&#39;static</span>,
 {
     <span class="doccomment">/// Create a new instance.
-    </span><span class="kw">pub async fn </span>new&lt;SC, IBNS, CIBNS, NSNS&gt;(
+    </span><span class="kw">pub async fn </span>new&lt;IBNS, CIBNS, NSNS, ASS&gt;(
         spawn_essential: Box&lt;<span class="kw">dyn </span>SpawnEssentialNamed&gt;,
-        select_chain: <span class="kw-2">&amp;</span>SC,
         params: OperatorParams&lt;
             Block,
             CBlock,
@@ -360,21 +357,17 @@
             IBNS,
             CIBNS,
             NSNS,
-            BI,
+            ASS,
         &gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, sp_consensus::Error&gt;
     <span class="kw">where
-        </span>SC: SelectChain&lt;CBlock&gt;,
-        IBNS: Stream&lt;Item = (NumberFor&lt;CBlock&gt;, mpsc::Sender&lt;()&gt;)&gt; + Send + <span class="lifetime">&#39;static</span>,
-        CIBNS: Stream&lt;Item = BlockImportNotification&lt;CBlock&gt;&gt; + Send + <span class="lifetime">&#39;static</span>,
-        NSNS: Stream&lt;Item = NewSlotNotification&gt; + Send + <span class="lifetime">&#39;static</span>,
+        </span>IBNS: Stream&lt;Item = (NumberFor&lt;CBlock&gt;, mpsc::Sender&lt;()&gt;)&gt; + Send + <span class="lifetime">'static</span>,
+        CIBNS: Stream&lt;Item = BlockImportNotification&lt;CBlock&gt;&gt; + Send + <span class="lifetime">'static</span>,
+        NSNS: Stream&lt;Item = NewSlotNotification&gt; + Send + <span class="lifetime">'static</span>,
+        ASS: Stream&lt;Item = mpsc::Sender&lt;()&gt;&gt; + Send + <span class="lifetime">'static</span>,
     {
-        <span class="kw">let </span>active_leaves = active_leaves(params.consensus_client.as_ref(), select_chain).<span class="kw">await</span><span class="question-mark">?</span>;
-
-        <span class="kw">let </span>parent_chain =
-            DomainParentChain::new(params.domain_id, params.consensus_client.clone());
-
-        <span class="kw">let </span>domain_bundle_proposer = DomainBundleProposer::new(
+        <span class="kw">let </span>domain_bundle_proposer = DomainBundleProposer::&lt;Block, <span class="kw">_</span>, CBlock, <span class="kw">_</span>, <span class="kw">_</span>&gt;::new(
+            params.domain_id,
             params.client.clone(),
             params.consensus_client.clone(),
             params.transaction_pool.clone(),
@@ -384,10 +377,11 @@
             params.domain_id,
             params.consensus_client.clone(),
             params.client.clone(),
-            parent_chain.clone(),
             domain_bundle_proposer,
             params.bundle_sender,
             params.keystore.clone(),
+            params.skip_empty_bundle_production,
+            params.skip_out_of_order_slot,
         );
 
         <span class="kw">let </span>fraud_proof_generator = FraudProofGenerator::new(
@@ -399,12 +393,14 @@
 
         <span class="kw">let </span>domain_block_processor = DomainBlockProcessor {
             domain_id: params.domain_id,
+            domain_created_at: params.domain_created_at,
             client: params.client.clone(),
             consensus_client: params.consensus_client.clone(),
             backend: params.backend.clone(),
             domain_confirmation_depth: params.domain_confirmation_depth,
             block_import: params.block_import,
             import_notification_sinks: Default::default(),
+            consensus_network_sync_oracle: params.consensus_network_sync_oracle.clone(),
         };
 
         <span class="kw">let </span>receipts_checker = ReceiptsChecker {
@@ -412,9 +408,8 @@
             client: params.client.clone(),
             consensus_client: params.consensus_client.clone(),
             fraud_proof_generator: fraud_proof_generator.clone(),
-            parent_chain,
             consensus_network_sync_oracle: params.consensus_network_sync_oracle,
-            _phantom: std::marker::PhantomData,
+            consensus_offchain_tx_pool_factory: params.consensus_offchain_tx_pool_factory.clone(),
         };
 
         <span class="kw">let </span>bundle_processor = BundleProcessor::new(
@@ -422,23 +417,21 @@
             params.consensus_client.clone(),
             params.client.clone(),
             params.backend.clone(),
-            params.keystore,
             receipts_checker,
             domain_block_processor.clone(),
         );
 
         spawn_essential.spawn_essential_blocking(
-            <span class="string">&quot;domain-operator-worker&quot;</span>,
+            <span class="string">"domain-operator-worker"</span>,
             <span class="prelude-val">None</span>,
-            <span class="kw">crate</span>::domain_worker_starter::start_worker(
+            <span class="kw">crate</span>::domain_worker::start_worker(
                 spawn_essential.clone(),
                 params.consensus_client.clone(),
-                params.client.clone(),
-                params.is_authority,
+                params.consensus_offchain_tx_pool_factory.clone(),
+                params.maybe_operator_id,
                 bundle_producer,
                 bundle_processor.clone(),
                 params.operator_streams,
-                active_leaves,
             )
             .boxed(),
         );
@@ -451,6 +444,7 @@
             fraud_proof_generator,
             bundle_processor,
             domain_block_processor,
+            keystore: params.keystore,
         })
     }
 
@@ -462,10 +456,10 @@
 
     <span class="doccomment">/// Get system domain block import notification stream.
     ///
-    /// NOTE: Unlike `BlockchainEvents::import_notification_stream()`, this notification won&#39;t be
-    /// fired until the system domain block&#39;s receipt processing is done.
+    /// NOTE: Unlike `BlockchainEvents::import_notification_stream()`, this notification won't be
+    /// fired until the system domain block's receipt processing is done.
     </span><span class="kw">pub fn </span>import_notification_stream(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; DomainImportNotifications&lt;Block, CBlock&gt; {
-        <span class="kw">let </span>(sink, stream) = tracing_unbounded(<span class="string">&quot;mpsc_domain_import_notification_stream&quot;</span>, <span class="number">100</span>);
+        <span class="kw">let </span>(sink, stream) = tracing_unbounded(<span class="string">"mpsc_domain_import_notification_stream"</span>, <span class="number">100</span>);
         <span class="self">self</span>.domain_block_processor
             .import_notification_sinks
             .lock()
@@ -486,7 +480,7 @@
             .process_bundles(consensus_block_info)
             .<span class="kw">await
         </span>{
-            <span class="macro">tracing::error!</span>(<span class="question-mark">?</span>consensus_block_info, <span class="question-mark">?</span>err, <span class="string">&quot;Error at processing bundles.&quot;</span>);
+            <span class="macro">tracing::error!</span>(<span class="question-mark">?</span>consensus_block_info, <span class="question-mark">?</span>err, <span class="string">"Error at processing bundles."</span>);
         }
     }
 }

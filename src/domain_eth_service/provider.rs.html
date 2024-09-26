@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/eth-service/src/provider.rs`."><title>provider.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_eth_service" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../domain_eth_service/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/eth-service/src/provider.rs`."><title>provider.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_eth_service" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -206,46 +206,38 @@
 <a href="#206" id="206">206</a>
 <a href="#207" id="207">207</a>
 <a href="#208" id="208">208</a>
-<a href="#209" id="209">209</a>
-<a href="#210" id="210">210</a>
-<a href="#211" id="211">211</a>
-<a href="#212" id="212">212</a>
-<a href="#213" id="213">213</a>
-<a href="#214" id="214">214</a>
-<a href="#215" id="215">215</a>
-<a href="#216" id="216">216</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::rpc::{create_eth_rpc, EthDeps};
 <span class="kw">use </span><span class="kw">crate</span>::service::{
     new_frontier_partial, spawn_frontier_tasks, EthConfiguration, FrontierPartialComponents,
 };
 <span class="kw">use </span>clap::Parser;
-<span class="kw">use </span>domain_runtime_primitives::{Balance, Index};
+<span class="kw">use </span>domain_runtime_primitives::{Balance, Nonce};
 <span class="kw">use </span>domain_service::providers::{BlockImportProvider, DefaultProvider, RpcProvider};
 <span class="kw">use </span>domain_service::rpc::FullDeps;
 <span class="kw">use </span>domain_service::FullClient;
 <span class="kw">use </span>fc_consensus::FrontierBlockImport;
 <span class="kw">use </span>fc_rpc::EthConfig;
-<span class="kw">use </span>fc_storage::overrides_handle;
+<span class="kw">use </span>fc_storage::StorageOverrideHandler;
 <span class="kw">use </span>fp_rpc::{ConvertTransaction, ConvertTransactionRuntimeApi, EthereumRuntimeRPCApi};
 <span class="kw">use </span>jsonrpsee::RpcModule;
-<span class="kw">use </span>sc_client_api::{
-    AuxStore, Backend, BlockBackend, BlockchainEvents, StateBackendFor, StorageProvider,
-};
-<span class="kw">use </span>sc_executor::NativeExecutionDispatch;
+<span class="kw">use </span>parity_scale_codec::{Decode, Encode};
+<span class="kw">use </span>sc_client_api::{AuxStore, Backend, BlockBackend, BlockchainEvents, StorageProvider};
 <span class="kw">use </span>sc_rpc::{RpcSubscriptionIdProvider, SubscriptionTaskExecutor};
-<span class="kw">use </span>sc_service::{BasePath, TFullBackend};
+<span class="kw">use </span>sc_service::BasePath;
 <span class="kw">use </span>sc_transaction_pool::ChainApi;
 <span class="kw">use </span>sc_transaction_pool_api::TransactionPool;
 <span class="kw">use </span>serde::de::DeserializeOwned;
-<span class="kw">use </span>sp_api::{ApiExt, BlockT, CallApiAt, ConstructRuntimeApi, Core, ProvideRuntimeApi};
+<span class="kw">use </span>sp_api::{ApiExt, CallApiAt, ConstructRuntimeApi, Core, ProvideRuntimeApi};
 <span class="kw">use </span>sp_block_builder::BlockBuilder;
 <span class="kw">use </span>sp_blockchain::{Error <span class="kw">as </span>BlockChainError, HeaderBackend, HeaderMetadata};
 <span class="kw">use </span>sp_core::traits::SpawnEssentialNamed;
 <span class="kw">use </span>sp_core::H256;
-<span class="kw">use </span>sp_runtime::codec::{Decode, Encode};
+<span class="kw">use </span>sp_inherents::CreateInherentDataProviders;
+<span class="kw">use </span>sp_runtime::traits::Block <span class="kw">as </span>BlockT;
 <span class="kw">use </span>std::error::Error;
 <span class="kw">use </span>std::fmt::{Debug, Display};
 <span class="kw">use </span>std::marker::PhantomData;
+<span class="kw">use </span>std::path::Path;
 <span class="kw">use </span>std::sync::Arc;
 <span class="kw">use </span>substrate_frame_rpc_system::AccountNonceApi;
 
@@ -257,54 +249,44 @@
 }
 
 <span class="kw">impl</span>&lt;CT, EC&gt; EthProvider&lt;CT, EC&gt; {
-    <span class="kw">pub fn </span>new(base_path: <span class="prelude-ty">Option</span>&lt;BasePath&gt;, eth_cli: <span class="kw">impl </span>Iterator&lt;Item = String&gt;) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub fn </span>new(base_path: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Path&gt;, eth_cli: <span class="kw">impl </span>Iterator&lt;Item = String&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>eth_config = EthConfiguration::parse_from(eth_cli);
         <span class="self">Self</span>::with_configuration(base_path, eth_config)
     }
 
-    <span class="kw">pub fn </span>with_configuration(base_path: <span class="prelude-ty">Option</span>&lt;BasePath&gt;, eth_config: EthConfiguration) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub fn </span>with_configuration(base_path: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Path&gt;, eth_config: EthConfiguration) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             eth_config,
-            base_path: base_path.map(|base_path| BasePath::new(base_path.path().join(<span class="string">&quot;evm&quot;</span>))),
+            base_path: base_path.map(|base_path| BasePath::new(base_path.join(<span class="string">"evm"</span>))),
             marker: Default::default(),
         }
     }
 }
 
-<span class="kw">impl</span>&lt;Block, RuntimeApi, ExecutorDispatch, CT, EC&gt;
-    BlockImportProvider&lt;Block, FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;
+<span class="kw">impl</span>&lt;Block, RuntimeApi, CT, EC&gt; BlockImportProvider&lt;Block, FullClient&lt;Block, RuntimeApi&gt;&gt;
     <span class="kw">for </span>EthProvider&lt;CT, EC&gt;
 <span class="kw">where
     </span>Block: BlockT,
-    RuntimeApi: ConstructRuntimeApi&lt;Block, FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;
-        + Send
-        + Sync
-        + <span class="lifetime">&#39;static</span>,
-    RuntimeApi::RuntimeApi: ApiExt&lt;Block, StateBackend = StateBackendFor&lt;TFullBackend&lt;Block&gt;, Block&gt;&gt;
-        + Core&lt;Block&gt;
-        + BlockBuilder&lt;Block&gt;
-        + EthereumRuntimeRPCApi&lt;Block&gt;,
-    ExecutorDispatch: NativeExecutionDispatch + <span class="lifetime">&#39;static</span>,
+    RuntimeApi: ConstructRuntimeApi&lt;Block, FullClient&lt;Block, RuntimeApi&gt;&gt; + Send + Sync + <span class="lifetime">'static</span>,
+    RuntimeApi::RuntimeApi:
+        ApiExt&lt;Block&gt; + Core&lt;Block&gt; + BlockBuilder&lt;Block&gt; + EthereumRuntimeRPCApi&lt;Block&gt;,
 {
     <span class="kw">type </span>BI = FrontierBlockImport&lt;
         Block,
-        Arc&lt;FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;,
-        FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;,
+        Arc&lt;FullClient&lt;Block, RuntimeApi&gt;&gt;,
+        FullClient&lt;Block, RuntimeApi&gt;,
     &gt;;
 
-    <span class="kw">fn </span>block_import(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        client: Arc&lt;FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;,
-    ) -&gt; <span class="self">Self</span>::BI {
+    <span class="kw">fn </span>block_import(<span class="kw-2">&amp;</span><span class="self">self</span>, client: Arc&lt;FullClient&lt;Block, RuntimeApi&gt;&gt;) -&gt; <span class="self">Self</span>::BI {
         FrontierBlockImport::new(client.clone(), client)
     }
 }
 
-<span class="kw">impl</span>&lt;Block, Client, BE, TxPool, CA, AccountId, CT, EC&gt;
-    RpcProvider&lt;Block, Client, TxPool, CA, BE, AccountId&gt; <span class="kw">for </span>EthProvider&lt;CT, EC&gt;
+<span class="kw">impl</span>&lt;Block, Client, BE, TxPool, CA, AccountId, CT, EC, CIDP&gt;
+    RpcProvider&lt;Block, Client, TxPool, CA, BE, AccountId, CIDP&gt; <span class="kw">for </span>EthProvider&lt;CT, EC&gt;
 <span class="kw">where
     </span>Block: BlockT&lt;Hash = H256&gt;,
-    BE: Backend&lt;Block&gt; + <span class="lifetime">&#39;static</span>,
+    BE: Backend&lt;Block&gt; + <span class="lifetime">'static</span>,
     Client: ProvideRuntimeApi&lt;Block&gt;
         + BlockchainEvents&lt;Block&gt;
         + StorageProvider&lt;Block, BE&gt;
@@ -315,27 +297,28 @@
         + AuxStore
         + Send
         + Sync
-        + <span class="lifetime">&#39;static</span>,
+        + <span class="lifetime">'static</span>,
     Client::Api: pallet_transaction_payment_rpc::TransactionPaymentRuntimeApi&lt;Block, Balance&gt;
         + EthereumRuntimeRPCApi&lt;Block&gt;
-        + AccountNonceApi&lt;Block, AccountId, Index&gt;
+        + AccountNonceApi&lt;Block, AccountId, Nonce&gt;
         + ConvertTransactionRuntimeApi&lt;Block&gt;,
     Client::Api: BlockBuilder&lt;Block&gt;,
     Client::Api: EthereumRuntimeRPCApi&lt;Block&gt;,
-    CT: ConvertTransaction&lt;&lt;Block <span class="kw">as </span>BlockT&gt;::Extrinsic&gt; + Clone + Default + Send + Sync + <span class="lifetime">&#39;static</span>,
+    CT: ConvertTransaction&lt;Block::Extrinsic&gt; + Clone + Default + Send + Sync + <span class="lifetime">'static</span>,
     EC: EthConfig&lt;Block, Client&gt;,
-    TxPool: TransactionPool&lt;Block = Block&gt; + Sync + Send + <span class="lifetime">&#39;static</span>,
-    CA: ChainApi&lt;Block = Block&gt; + <span class="lifetime">&#39;static</span>,
-    AccountId: DeserializeOwned + Encode + Debug + Decode + Display + Clone + Sync + Send + <span class="lifetime">&#39;static</span>,
+    TxPool: TransactionPool&lt;Block = Block&gt; + Sync + Send + <span class="lifetime">'static</span>,
+    CA: ChainApi&lt;Block = Block&gt; + <span class="lifetime">'static</span>,
+    AccountId: DeserializeOwned + Encode + Debug + Decode + Display + Clone + Sync + Send + <span class="lifetime">'static</span>,
+    CIDP: CreateInherentDataProviders&lt;Block, ()&gt; + Send + Clone + <span class="lifetime">'static</span>,
 {
-    <span class="kw">type </span>Deps = EthDeps&lt;Client, TxPool, CA, CT, Block, BE&gt;;
+    <span class="kw">type </span>Deps = EthDeps&lt;Client, TxPool, CA, CT, Block, BE, CIDP&gt;;
 
     <span class="kw">fn </span>deps(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        full_deps: FullDeps&lt;Block, Client, TxPool, CA, BE&gt;,
+        full_deps: FullDeps&lt;Block, Client, TxPool, CA, BE, CIDP&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::Deps, sc_service::Error&gt; {
         <span class="kw">let </span>client = full_deps.client.clone();
-        <span class="kw">let </span>overrides = overrides_handle(client.clone());
+        <span class="kw">let </span>storage_override = Arc::new(StorageOverrideHandler::new(client.clone()));
         <span class="kw">let </span>base_path = <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.base_path {
             <span class="prelude-val">None </span>=&gt; BasePath::new_temp_dir()<span class="question-mark">?</span>,
             <span class="prelude-val">Some</span>(base_path) =&gt; BasePath::new(base_path.path()),
@@ -359,10 +342,10 @@
             enable_dev_signer: <span class="self">self</span>.eth_config.enable_dev_signer,
             sync: full_deps.sync.clone(),
             frontier_backend,
-            overrides: overrides.clone(),
+            storage_override: storage_override.clone(),
             block_data_cache: Arc::new(fc_rpc::EthBlockDataCacheTask::new(
                 full_deps.task_spawner.clone(),
-                overrides,
+                storage_override,
                 <span class="self">self</span>.eth_config.eth_log_block_cache,
                 <span class="self">self</span>.eth_config.eth_statuses_cache,
                 full_deps.prometheus_registry,
@@ -373,6 +356,7 @@
             fee_history_cache_limit,
             execute_gas_limit_multiplier: <span class="self">self</span>.eth_config.execute_gas_limit_multiplier,
             forced_parent_hashes: <span class="prelude-val">None</span>,
+            pending_inherent_data_provider: full_deps.create_inherent_data_provider,
         })
     }
 
@@ -405,7 +389,7 @@
         &gt; = Default::default();
         <span class="kw">let </span>pubsub_notification_sinks = Arc::new(pubsub_notification_sinks);
 
-        <span class="kw">let </span>io = create_eth_rpc::&lt;Client, BE, TxPool, CA, CT, Block, EC&gt;(
+        <span class="kw">let </span>io = create_eth_rpc::&lt;Client, BE, TxPool, CA, CT, Block, EC, CIDP&gt;(
             io,
             deps.clone(),
             subscription_task_executor,
@@ -418,7 +402,7 @@
             deps.full_deps.client,
             deps.full_deps.backend,
             deps.frontier_backend,
-            deps.overrides,
+            deps.storage_override,
             FrontierPartialComponents {
                 filter_pool: deps.filter_pool,
                 fee_history_cache: deps.fee_history_cache,

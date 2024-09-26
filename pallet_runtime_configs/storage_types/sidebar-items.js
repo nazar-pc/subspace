@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["ConfirmationDepthK","EnableDomains","EnableTransfer"]};
+window.SIDEBAR_ITEMS = {"struct":["ConfirmationDepthK","CouncilDemocracyConfig","EnableBalanceTransfers","EnableDomains","EnableDynamicCostOfStorage"]};

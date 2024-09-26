@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/cross-domain-message-gossip/src/gossip_worker.rs`."><title>gossip_worker.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cross_domain_message_gossip" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../cross_domain_message_gossip/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/cross-domain-message-gossip/src/gossip_worker.rs`."><title>gossip_worker.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="cross_domain_message_gossip" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -246,41 +246,143 @@
 <a href="#246" id="246">246</a>
 <a href="#247" id="247">247</a>
 <a href="#248" id="248">248</a>
+<a href="#249" id="249">249</a>
+<a href="#250" id="250">250</a>
+<a href="#251" id="251">251</a>
+<a href="#252" id="252">252</a>
+<a href="#253" id="253">253</a>
+<a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span>futures::{FutureExt, StreamExt};
 <span class="kw">use </span>parity_scale_codec::{Decode, Encode};
 <span class="kw">use </span>parking_lot::{Mutex, RwLock};
 <span class="kw">use </span>sc_network::config::NonDefaultSetConfig;
-<span class="kw">use </span>sc_network::PeerId;
+<span class="kw">use </span>sc_network::{NetworkPeers, NotificationService, PeerId};
 <span class="kw">use </span>sc_network_gossip::{
     GossipEngine, MessageIntent, Syncing <span class="kw">as </span>GossipSyncing, ValidationResult, Validator,
     ValidatorContext,
 };
 <span class="kw">use </span>sc_utils::mpsc::{tracing_unbounded, TracingUnboundedReceiver, TracingUnboundedSender};
+<span class="kw">use </span>sp_api::StorageProof;
+<span class="kw">use </span>sp_consensus::SyncOracle;
 <span class="kw">use </span>sp_core::twox_256;
-<span class="kw">use </span>sp_domains::DomainId;
+<span class="kw">use </span>sp_messenger::messages::{ChainId, ChannelId};
 <span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, Hash <span class="kw">as </span>HashT, Header <span class="kw">as </span>HeaderT};
 <span class="kw">use </span>std::collections::{BTreeMap, HashSet};
+<span class="kw">use </span>std::future::poll_fn;
+<span class="kw">use </span>std::pin::pin;
 <span class="kw">use </span>std::sync::Arc;
+<span class="kw">use </span>subspace_runtime_primitives::BlockNumber;
 
-<span class="kw">const </span>LOG_TARGET: <span class="kw-2">&amp;</span>str = <span class="string">&quot;cross_domain_gossip_worker&quot;</span>;
-<span class="kw">const </span>PROTOCOL_NAME: <span class="kw-2">&amp;</span>str = <span class="string">&quot;/subspace/cross-domain-messages&quot;</span>;
+<span class="kw">const </span>LOG_TARGET: <span class="kw-2">&amp;</span>str = <span class="string">"cross_chain_gossip_worker"</span>;
+<span class="kw">const </span>PROTOCOL_NAME: <span class="kw-2">&amp;</span>str = <span class="string">"/subspace/cross-chain-messages"</span>;
 
-<span class="doccomment">/// Unbounded sender to send encoded ext to listeners.
-</span><span class="kw">pub type </span>DomainTxPoolSink = TracingUnboundedSender&lt;Vec&lt;u8&gt;&gt;;
+<span class="doccomment">/// Encoded message with sender info if available.
+</span><span class="kw">pub struct </span>ChainMsg {
+    <span class="kw">pub </span>maybe_peer: <span class="prelude-ty">Option</span>&lt;PeerId&gt;,
+    <span class="kw">pub </span>data: MessageData,
+}
+
+<span class="doccomment">/// Unbounded sender to send encoded message to listeners.
+</span><span class="kw">pub type </span>ChainSink = TracingUnboundedSender&lt;ChainMsg&gt;;
 <span class="kw">type </span>MessageHash = [u8; <span class="number">32</span>];
 
-<span class="doccomment">/// A cross domain message with encoded data.
+<span class="doccomment">/// Channel update message.
+</span><span class="attr">#[derive(Debug, Encode, Decode)]
+</span><span class="kw">pub struct </span>ChannelUpdate {
+    <span class="doccomment">/// Message is coming from src_chain.
+    </span><span class="kw">pub </span>src_chain_id: ChainId,
+    <span class="doccomment">/// Channel id.
+    </span><span class="kw">pub </span>channel_id: ChannelId,
+    <span class="doccomment">/// Block number at which storage proof was generated.
+    </span><span class="kw">pub </span>block_number: BlockNumber,
+    <span class="doccomment">/// Storage proof of the channel on src_chain.
+    </span><span class="kw">pub </span>storage_proof: StorageProof,
+}
+
+<span class="doccomment">/// A type of cross chain message
+</span><span class="attr">#[derive(Debug, Encode, Decode)]
+</span><span class="kw">pub enum </span>MessageData {
+    <span class="doccomment">/// Encoded XDM message
+    </span>Xdm(Vec&lt;u8&gt;),
+    <span class="doccomment">/// Encoded channel update message.
+    </span>ChannelUpdate(ChannelUpdate),
+}
+
+<span class="doccomment">/// A cross chain message with encoded data.
 </span><span class="attr">#[derive(Debug, Encode, Decode)]
 </span><span class="kw">pub struct </span>Message {
-    <span class="kw">pub </span>domain_id: DomainId,
-    <span class="kw">pub </span>encoded_data: Vec&lt;u8&gt;,
+    <span class="kw">pub </span>chain_id: ChainId,
+    <span class="kw">pub </span>data: MessageData,
 }
 
 <span class="doccomment">/// Gossip worker builder
 </span><span class="kw">pub struct </span>GossipWorkerBuilder {
     gossip_msg_stream: TracingUnboundedReceiver&lt;Message&gt;,
     gossip_msg_sink: TracingUnboundedSender&lt;Message&gt;,
-    domain_tx_pool_sinks: BTreeMap&lt;DomainId, DomainTxPoolSink&gt;,
+    chain_sinks: BTreeMap&lt;ChainId, ChainSink&gt;,
 }
 
 <span class="kw">impl </span>GossipWorkerBuilder {
@@ -288,21 +390,22 @@
     </span><span class="attr">#[allow(clippy::new_without_default)]
     </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>(gossip_msg_sink, gossip_msg_stream) =
-            tracing_unbounded(<span class="string">&quot;cross_domain_gossip_messages&quot;</span>, <span class="number">100</span>);
+            tracing_unbounded(<span class="string">"cross_chain_gossip_messages"</span>, <span class="number">100</span>);
         <span class="self">Self </span>{
             gossip_msg_stream,
             gossip_msg_sink,
-            domain_tx_pool_sinks: BTreeMap::new(),
+            chain_sinks: BTreeMap::new(),
         }
     }
 
-    <span class="doccomment">/// Collect the domain tx pool sink that will be used by the gossip message worker later.
-    </span><span class="kw">pub fn </span>push_domain_tx_pool_sink(
-        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-        domain_id: DomainId,
-        tx_pool_sink: DomainTxPoolSink,
-    ) {
-        <span class="self">self</span>.domain_tx_pool_sinks.insert(domain_id, tx_pool_sink);
+    <span class="doccomment">/// Collect the chain sink that will be used by the gossip message worker later.
+    </span><span class="kw">pub fn </span>push_chain_sink(<span class="kw-2">&amp;mut </span><span class="self">self</span>, chain_id: ChainId, sink: ChainSink) {
+        <span class="self">self</span>.chain_sinks.insert(chain_id, sink);
+    }
+
+    <span class="comment">// Remove the chain sink
+    </span><span class="kw">pub fn </span>remove_chain_sink(<span class="kw-2">&amp;mut </span><span class="self">self</span>, chain_id: <span class="kw-2">&amp;</span>ChainId) -&gt; <span class="prelude-ty">Option</span>&lt;ChainSink&gt; {
+        <span class="self">self</span>.chain_sinks.remove(chain_id)
     }
 
     <span class="doccomment">/// Get the gossip message sink
@@ -314,23 +417,25 @@
     </span><span class="kw">pub fn </span>build&lt;Block, Network, GossipSync&gt;(
         <span class="self">self</span>,
         network: Network,
+        notification_service: Box&lt;<span class="kw">dyn </span>NotificationService&gt;,
         sync: Arc&lt;GossipSync&gt;,
-    ) -&gt; GossipWorker&lt;Block&gt;
+    ) -&gt; GossipWorker&lt;Block, Network, GossipSync&gt;
     <span class="kw">where
         </span>Block: BlockT,
-        Network: sc_network_gossip::Network&lt;Block&gt; + Send + Sync + Clone + <span class="lifetime">&#39;static</span>,
-        GossipSync: GossipSyncing&lt;Block&gt; + <span class="lifetime">&#39;static</span>,
+        Network: sc_network_gossip::Network&lt;Block&gt; + Send + Sync + Clone + <span class="lifetime">'static</span>,
+        GossipSync: GossipSyncing&lt;Block&gt; + SyncOracle + Send + <span class="lifetime">'static</span>,
     {
         <span class="kw">let </span><span class="self">Self </span>{
             gossip_msg_stream,
-            domain_tx_pool_sinks,
+            chain_sinks,
             ..
         } = <span class="self">self</span>;
 
-        <span class="kw">let </span>gossip_validator = Arc::new(GossipValidator::default());
+        <span class="kw">let </span>gossip_validator = Arc::new(GossipValidator::new(network.clone()));
         <span class="kw">let </span>gossip_engine = Arc::new(Mutex::new(GossipEngine::new(
             network,
-            sync,
+            sync.clone(),
+            notification_service,
             PROTOCOL_NAME,
             gossip_validator.clone(),
             <span class="prelude-val">None</span>,
@@ -340,72 +445,80 @@
             gossip_engine,
             gossip_validator,
             gossip_msg_stream,
-            domain_tx_pool_sinks,
+            chain_sinks,
+            sync_oracle: sync,
         }
     }
 }
 
 <span class="doccomment">/// Gossip worker to gossip incoming and outgoing messages to other peers.
-/// Also, streams the decoded extrinsics to destination domain tx pool if available.
-</span><span class="kw">pub struct </span>GossipWorker&lt;Block: BlockT&gt; {
+/// Also, streams the decoded extrinsics to destination chain tx pool if available.
+</span><span class="kw">pub struct </span>GossipWorker&lt;Block: BlockT, Network, SO&gt; {
     gossip_engine: Arc&lt;Mutex&lt;GossipEngine&lt;Block&gt;&gt;&gt;,
-    gossip_validator: Arc&lt;GossipValidator&gt;,
+    gossip_validator: Arc&lt;GossipValidator&lt;Network&gt;&gt;,
     gossip_msg_stream: TracingUnboundedReceiver&lt;Message&gt;,
-    domain_tx_pool_sinks: BTreeMap&lt;DomainId, DomainTxPoolSink&gt;,
+    chain_sinks: BTreeMap&lt;ChainId, ChainSink&gt;,
+    sync_oracle: Arc&lt;SO&gt;,
 }
 
-<span class="doccomment">/// Returns the network configuration for cross domain message gossip.
-</span><span class="kw">pub fn </span>cdm_gossip_peers_set_config() -&gt; NonDefaultSetConfig {
-    <span class="kw">let </span><span class="kw-2">mut </span>cfg = NonDefaultSetConfig::new(PROTOCOL_NAME.into(), <span class="number">5 </span>* <span class="number">1024 </span>* <span class="number">1024</span>);
+<span class="doccomment">/// Returns the network configuration for cross chain message gossip.
+</span><span class="kw">pub fn </span>xdm_gossip_peers_set_config() -&gt; (NonDefaultSetConfig, Box&lt;<span class="kw">dyn </span>NotificationService&gt;) {
+    <span class="kw">let </span>(<span class="kw-2">mut </span>cfg, notification_service) = NonDefaultSetConfig::new(
+        PROTOCOL_NAME.into(),
+        Vec::new(),
+        <span class="number">5 </span>* <span class="number">1024 </span>* <span class="number">1024</span>,
+        <span class="prelude-val">None</span>,
+        Default::default(),
+    );
     cfg.allow_non_reserved(<span class="number">25</span>, <span class="number">25</span>);
-    cfg
+    (cfg, notification_service)
 }
 
-<span class="doccomment">/// Cross domain message topic.
+<span class="doccomment">/// Cross chain message topic.
 </span><span class="kw">fn </span>topic&lt;Block: BlockT&gt;() -&gt; Block::Hash {
-    &lt;&lt;Block::Header <span class="kw">as </span>HeaderT&gt;::Hashing <span class="kw">as </span>HashT&gt;::hash(<span class="string">b&quot;cross-domain-messages&quot;</span>)
+    &lt;Block::Header <span class="kw">as </span>HeaderT&gt;::Hashing::hash(<span class="string">b"cross-chain-messages"</span>)
 }
 
-<span class="kw">impl</span>&lt;Block: BlockT&gt; GossipWorker&lt;Block&gt; {
+<span class="kw">impl</span>&lt;Block: BlockT, Network, SO: SyncOracle&gt; GossipWorker&lt;Block, Network, SO&gt; {
     <span class="doccomment">/// Starts the Gossip message worker.
     </span><span class="kw">pub async fn </span>run(<span class="kw-2">mut </span><span class="self">self</span>) {
-        <span class="kw">let </span><span class="kw-2">mut </span>incoming_cross_domain_messages = Box::pin(
-            <span class="self">self</span>.gossip_engine
-                .lock()
-                .messages_for(topic::&lt;Block&gt;())
-                .filter_map(|notification| <span class="kw">async move </span>{
-                    Message::decode(<span class="kw-2">&amp;mut &amp;</span>notification.message[..]).ok()
-                }),
-        );
+        <span class="kw">let </span>incoming_cross_chain_messages = <span class="macro">pin!</span>(<span class="self">self
+            </span>.gossip_engine
+            .lock()
+            .messages_for(topic::&lt;Block&gt;())
+            .filter_map(|notification| <span class="kw">async move </span>{
+                Message::decode(<span class="kw-2">&amp;mut &amp;</span>notification.message[..])
+                    .ok()
+                    .map(|msg| (notification.sender, msg))
+            }));
+        <span class="kw">let </span><span class="kw-2">mut </span>incoming_cross_chain_messages = incoming_cross_chain_messages.fuse();
 
         <span class="kw">loop </span>{
             <span class="kw">let </span>engine = <span class="self">self</span>.gossip_engine.clone();
-            <span class="kw">let </span>gossip_engine = futures::future::poll_fn(|cx| engine.lock().poll_unpin(cx));
+            <span class="kw">let </span><span class="kw-2">mut </span>gossip_engine = poll_fn(|cx| engine.lock().poll_unpin(cx)).fuse();
 
-            <span class="macro">futures::select! </span>{
-                cross_domain_message = incoming_cross_domain_messages.next().fuse() =&gt; {
-                    <span class="kw">if let </span><span class="prelude-val">Some</span>(msg) = cross_domain_message {
-                        <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">&quot;Incoming cross domain message for domain: {:?}&quot;</span>, msg.domain_id);
-                        <span class="self">self</span>.handle_cross_domain_message(msg);
+            <span class="macro">futures::select!</span> {
+                cross_chain_message = incoming_cross_chain_messages.next() =&gt; {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>((maybe_peer, msg)) = cross_chain_message {
+                        <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">"Incoming cross chain message for chain from Network: {:?}"</span>, msg.chain_id);
+                        <span class="self">self</span>.handle_cross_chain_message(msg, maybe_peer);
                     }
                 },
 
-                cross_domain_message = <span class="self">self</span>.gossip_msg_stream.next().fuse() =&gt; {
-                    <span class="kw">if let </span><span class="prelude-val">Some</span>(msg) = cross_domain_message {
-                        <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">&quot;Incoming cross domain message for domain: {:?}&quot;</span>, msg.domain_id);
-                        <span class="self">self</span>.handle_cross_domain_message(msg);
-                    }
+                msg = <span class="self">self</span>.gossip_msg_stream.select_next_some() =&gt; {
+                    <span class="macro">tracing::debug!</span>(target: LOG_TARGET, <span class="string">"Incoming cross chain message for chain from Relayer: {:?}"</span>, msg.chain_id);
+                    <span class="self">self</span>.handle_cross_chain_message(msg, <span class="prelude-val">None</span>);
                 }
 
-                <span class="kw">_ </span>= gossip_engine.fuse() =&gt; {
-                    <span class="macro">tracing::error!</span>(target: LOG_TARGET, <span class="string">&quot;Gossip engine has terminated.&quot;</span>);
+                <span class="kw">_ </span>= gossip_engine =&gt; {
+                    <span class="macro">tracing::error!</span>(target: LOG_TARGET, <span class="string">"Gossip engine has terminated."</span>);
                     <span class="kw">return</span>;
                 }
             }
         }
     }
 
-    <span class="kw">fn </span>handle_cross_domain_message(<span class="kw-2">&amp;mut </span><span class="self">self</span>, msg: Message) {
+    <span class="kw">fn </span>handle_cross_chain_message(<span class="kw-2">&amp;mut </span><span class="self">self</span>, msg: Message, maybe_peer: <span class="prelude-ty">Option</span>&lt;PeerId&gt;) {
         <span class="comment">// mark and rebroadcast message
         </span><span class="kw">let </span>encoded_msg = msg.encode();
         <span class="self">self</span>.gossip_validator.note_broadcast(<span class="kw-2">&amp;</span>encoded_msg);
@@ -413,17 +526,19 @@
             .lock()
             .gossip_message(topic::&lt;Block&gt;(), encoded_msg, <span class="bool-val">false</span>);
 
-        <span class="kw">let </span>Message {
-            domain_id,
-            encoded_data,
-        } = msg;
-        <span class="kw">let </span>sink = <span class="kw">match </span><span class="self">self</span>.domain_tx_pool_sinks.get(<span class="kw-2">&amp;</span>domain_id) {
+        <span class="comment">// Skip sending the message since the node unable to verify the message before synced
+        </span><span class="kw">if </span><span class="self">self</span>.sync_oracle.is_major_syncing() {
+            <span class="kw">return</span>;
+        }
+
+        <span class="kw">let </span>Message { chain_id, data } = msg;
+        <span class="kw">let </span>sink = <span class="kw">match </span><span class="self">self</span>.chain_sinks.get(<span class="kw-2">&amp;</span>chain_id) {
             <span class="prelude-val">Some</span>(sink) =&gt; sink,
             <span class="prelude-val">None </span>=&gt; <span class="kw">return</span>,
         };
 
         <span class="comment">// send the message to the open and ready channel
-        </span><span class="kw">if </span>!sink.is_closed() &amp;&amp; sink.unbounded_send(encoded_data).is_ok() {
+        </span><span class="kw">if </span>!sink.is_closed() &amp;&amp; sink.unbounded_send(ChainMsg { data, maybe_peer }).is_ok() {
             <span class="kw">return</span>;
         }
 
@@ -431,20 +546,28 @@
         // consider it closed and remove the sink.
         </span><span class="macro">tracing::error!</span>(
             target: LOG_TARGET,
-            <span class="string">&quot;Failed to send incoming domain message: {:?}&quot;</span>,
-            domain_id
+            <span class="string">"Failed to send incoming chain message: {:?}"</span>,
+            chain_id
         );
-        <span class="self">self</span>.domain_tx_pool_sinks.remove(<span class="kw-2">&amp;</span>domain_id);
+        <span class="self">self</span>.chain_sinks.remove(<span class="kw-2">&amp;</span>chain_id);
     }
 }
 
 <span class="doccomment">/// Gossip validator to retain or clean up Gossiped messages.
-</span><span class="attr">#[derive(Debug, Default)]
-</span><span class="kw">struct </span>GossipValidator {
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">struct </span>GossipValidator&lt;Network&gt; {
+    network: Network,
     should_broadcast: RwLock&lt;HashSet&lt;MessageHash&gt;&gt;,
 }
 
-<span class="kw">impl </span>GossipValidator {
+<span class="kw">impl</span>&lt;Network&gt; GossipValidator&lt;Network&gt; {
+    <span class="kw">fn </span>new(network: Network) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            network,
+            should_broadcast: Default::default(),
+        }
+    }
+
     <span class="kw">fn </span>note_broadcast(<span class="kw-2">&amp;</span><span class="self">self</span>, msg: <span class="kw-2">&amp;</span>[u8]) {
         <span class="kw">let </span>msg_hash = twox_256(msg);
         <span class="kw">let </span><span class="kw-2">mut </span>msg_set = <span class="self">self</span>.should_broadcast.write();
@@ -464,26 +587,33 @@
     }
 }
 
-<span class="kw">impl</span>&lt;Block: BlockT&gt; Validator&lt;Block&gt; <span class="kw">for </span>GossipValidator {
+<span class="kw">impl</span>&lt;Block, Network&gt; Validator&lt;Block&gt; <span class="kw">for </span>GossipValidator&lt;Network&gt;
+<span class="kw">where
+    </span>Block: BlockT,
+    Network: NetworkPeers + Send + Sync + <span class="lifetime">'static</span>,
+{
     <span class="kw">fn </span>validate(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         _context: <span class="kw-2">&amp;mut </span><span class="kw">dyn </span>ValidatorContext&lt;Block&gt;,
-        _sender: <span class="kw-2">&amp;</span>PeerId,
+        sender: <span class="kw-2">&amp;</span>PeerId,
         <span class="kw-2">mut </span>data: <span class="kw-2">&amp;</span>[u8],
     ) -&gt; ValidationResult&lt;Block::Hash&gt; {
         <span class="kw">match </span>Message::decode(<span class="kw-2">&amp;mut </span>data) {
             <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; ValidationResult::ProcessAndKeep(topic::&lt;Block&gt;()),
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; ValidationResult::Discard,
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; {
+                <span class="self">self</span>.network.report_peer(<span class="kw-2">*</span>sender, rep::GOSSIP_NOT_DECODABLE);
+                ValidationResult::Discard
+            }
         }
     }
 
-    <span class="kw">fn </span>message_expired&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>) -&gt; Box&lt;<span class="kw">dyn </span>FnMut(Block::Hash, <span class="kw-2">&amp;</span>[u8]) -&gt; bool + <span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>message_expired&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>) -&gt; Box&lt;<span class="kw">dyn </span>FnMut(Block::Hash, <span class="kw-2">&amp;</span>[u8]) -&gt; bool + <span class="lifetime">'a</span>&gt; {
         Box::new(<span class="kw">move </span>|_topic, data| !<span class="self">self</span>.should_broadcast(data))
     }
 
-    <span class="kw">fn </span>message_allowed&lt;<span class="lifetime">&#39;a</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-    ) -&gt; Box&lt;<span class="kw">dyn </span>FnMut(<span class="kw-2">&amp;</span>PeerId, MessageIntent, <span class="kw-2">&amp;</span>Block::Hash, <span class="kw-2">&amp;</span>[u8]) -&gt; bool + <span class="lifetime">&#39;a</span>&gt; {
+    <span class="kw">fn </span>message_allowed&lt;<span class="lifetime">'a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+    ) -&gt; Box&lt;<span class="kw">dyn </span>FnMut(<span class="kw-2">&amp;</span>PeerId, MessageIntent, <span class="kw-2">&amp;</span>Block::Hash, <span class="kw-2">&amp;</span>[u8]) -&gt; bool + <span class="lifetime">'a</span>&gt; {
         Box::new(<span class="kw">move </span>|_who, _intent, _topic, data| {
             <span class="kw">let </span>should_broadcast = <span class="self">self</span>.should_broadcast(data);
             <span class="kw">if </span>should_broadcast {
@@ -493,5 +623,13 @@
             should_broadcast
         })
     }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>rep {
+    <span class="kw">use </span>sc_network::ReputationChange;
+
+    <span class="doccomment">/// Reputation change when a peer sends us a gossip message that can't be decoded.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>GOSSIP_NOT_DECODABLE: ReputationChange =
+        ReputationChange::new_fatal(<span class="string">"Cross chain message: not decodable"</span>);
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-proof-of-space/src/chiapos/table.rs`."><title>table.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="subspace_proof_of_space" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../subspace_proof_of_space/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-proof-of-space/src/chiapos/table.rs`."><title>table.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="subspace_proof_of_space" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -846,30 +846,93 @@
 <a href="#846" id="846">846</a>
 <a href="#847" id="847">847</a>
 <a href="#848" id="848">848</a>
+<a href="#849" id="849">849</a>
+<a href="#850" id="850">850</a>
+<a href="#851" id="851">851</a>
+<a href="#852" id="852">852</a>
+<a href="#853" id="853">853</a>
+<a href="#854" id="854">854</a>
+<a href="#855" id="855">855</a>
+<a href="#856" id="856">856</a>
+<a href="#857" id="857">857</a>
+<a href="#858" id="858">858</a>
+<a href="#859" id="859">859</a>
+<a href="#860" id="860">860</a>
+<a href="#861" id="861">861</a>
+<a href="#862" id="862">862</a>
+<a href="#863" id="863">863</a>
+<a href="#864" id="864">864</a>
+<a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
+<a href="#872" id="872">872</a>
+<a href="#873" id="873">873</a>
+<a href="#874" id="874">874</a>
+<a href="#875" id="875">875</a>
+<a href="#876" id="876">876</a>
+<a href="#877" id="877">877</a>
+<a href="#878" id="878">878</a>
+<a href="#879" id="879">879</a>
+<a href="#880" id="880">880</a>
+<a href="#881" id="881">881</a>
+<a href="#882" id="882">882</a>
+<a href="#883" id="883">883</a>
+<a href="#884" id="884">884</a>
+<a href="#885" id="885">885</a>
+<a href="#886" id="886">886</a>
+<a href="#887" id="887">887</a>
+<a href="#888" id="888">888</a>
+<a href="#889" id="889">889</a>
+<a href="#890" id="890">890</a>
+<a href="#891" id="891">891</a>
+<a href="#892" id="892">892</a>
+<a href="#893" id="893">893</a>
+<a href="#894" id="894">894</a>
+<a href="#895" id="895">895</a>
+<a href="#896" id="896">896</a>
+<a href="#897" id="897">897</a>
+<a href="#898" id="898">898</a>
+<a href="#899" id="899">899</a>
+<a href="#900" id="900">900</a>
+<a href="#901" id="901">901</a>
+<a href="#902" id="902">902</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests;
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">mod </span>types;
 
-<span class="kw">extern crate </span>alloc;
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">extern crate </span>alloc;
 
 <span class="kw">use </span><span class="kw">crate</span>::chiapos::constants::{PARAM_B, PARAM_BC, PARAM_C, PARAM_EXT, PARAM_M};
 <span class="kw">use </span><span class="kw">crate</span>::chiapos::table::types::{Metadata, Position, X, Y};
 <span class="kw">use </span><span class="kw">crate</span>::chiapos::utils::EvaluatableUsize;
 <span class="kw">use </span><span class="kw">crate</span>::chiapos::Seed;
-<span class="kw">use </span>alloc::vec;
-<span class="kw">use </span>alloc::vec::Vec;
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::vec;
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>chacha20::cipher::{KeyIvInit, StreamCipher, StreamCipherSeek};
 <span class="kw">use </span>chacha20::{ChaCha8, Key, Nonce};
 <span class="kw">use </span>core::mem;
+<span class="kw">use </span>core::simd::num::SimdUint;
 <span class="kw">use </span>core::simd::Simd;
-<span class="attr">#[cfg(any(feature = <span class="string">&quot;parallel&quot;</span>, test))]
+<span class="attr">#[cfg(all(feature = <span class="string">"std"</span>, any(feature = <span class="string">"parallel"</span>, test)))]
+</span><span class="kw">use </span>parking_lot::Mutex;
+<span class="attr">#[cfg(any(feature = <span class="string">"parallel"</span>, test))]
 </span><span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>seq_macro::seq;
-<span class="kw">use </span>std::simd::SimdUint;
-<span class="attr">#[cfg(any(feature = <span class="string">&quot;parallel&quot;</span>, test))]
-</span><span class="kw">use </span>std::sync::mpsc;
+<span class="attr">#[cfg(all(not(feature = <span class="string">"std"</span>), any(feature = <span class="string">"parallel"</span>, test)))]
+</span><span class="kw">use </span>spin::Mutex;
+<span class="kw">use </span>static_assertions::const_assert;
+<span class="kw">use </span>subspace_core_primitives::crypto::{blake3_hash, blake3_hash_list};
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>COMPUTE_F1_SIMD_FACTOR: usize = <span class="number">8</span>;
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>FIND_MATCHES_AND_COMPUTE_UNROLL_FACTOR: usize = <span class="number">8</span>;
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const </span>HAS_MATCH_UNROLL_FACTOR: usize = <span class="number">8</span>;
 
 <span class="doccomment">/// Compute the size of `y` in bits
 </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const fn </span>y_size_bits(k: u8) -&gt; usize {
@@ -935,32 +998,35 @@
     (output, skip_bits)
 }
 
-<span class="kw">fn </span>calculate_left_targets() -&gt; Vec&lt;Vec&lt;Vec&lt;Position&gt;&gt;&gt; {
+<span class="attr">#[derive(Debug, Clone)]
+</span><span class="kw">struct </span>LeftTargets {
+    left_targets: Vec&lt;Position&gt;,
+}
+
+<span class="kw">fn </span>calculate_left_targets() -&gt; LeftTargets {
+    <span class="kw">let </span><span class="kw-2">mut </span>left_targets = Vec::with_capacity(<span class="number">2 </span>* usize::from(PARAM_BC) * usize::from(PARAM_M));
+
     <span class="kw">let </span>param_b = u32::from(PARAM_B);
     <span class="kw">let </span>param_c = u32::from(PARAM_C);
 
-    (<span class="number">0</span>..=<span class="number">1u32</span>)
-        .map(|parity| {
-            (<span class="number">0</span>..u32::from(PARAM_BC))
-                .map(|r| {
-                    <span class="kw">let </span>c = r / param_c;
+    <span class="kw">for </span>parity <span class="kw">in </span><span class="number">0</span>..=<span class="number">1u32 </span>{
+        <span class="kw">for </span>r <span class="kw">in </span><span class="number">0</span>..u32::from(PARAM_BC) {
+            <span class="kw">let </span>c = r / param_c;
 
-                    (<span class="number">0</span>..u32::from(PARAM_M))
-                        .map(|m| {
-                            <span class="kw">let </span>target = ((c + m) % param_b) * param_c
-                                + (((<span class="number">2 </span>* m + parity) * (<span class="number">2 </span>* m + parity) + r) % param_c);
-                            Position::from(target)
-                        })
-                        .collect()
-                })
-                .collect()
-        })
-        .collect()
+            <span class="kw">for </span>m <span class="kw">in </span><span class="number">0</span>..u32::from(PARAM_M) {
+                <span class="kw">let </span>target = ((c + m) % param_b) * param_c
+                    + (((<span class="number">2 </span>* m + parity) * (<span class="number">2 </span>* m + parity) + r) % param_c);
+                left_targets.push(Position::from(target));
+            }
+        }
+    }
+
+    LeftTargets { left_targets }
 }
 
-<span class="kw">fn </span>calculate_left_target_on_demand(parity: usize, r: usize, m: usize) -&gt; usize {
-    <span class="kw">let </span>param_b = usize::from(PARAM_B);
-    <span class="kw">let </span>param_c = usize::from(PARAM_C);
+<span class="kw">fn </span>calculate_left_target_on_demand(parity: u32, r: u32, m: u32) -&gt; u32 {
+    <span class="kw">let </span>param_b = u32::from(PARAM_B);
+    <span class="kw">let </span>param_c = u32::from(PARAM_C);
 
     <span class="kw">let </span>c = r / param_c;
 
@@ -972,7 +1038,7 @@
 </span><span class="kw">pub struct </span>TablesCache&lt;<span class="kw">const </span>K: u8&gt; {
     buckets: Vec&lt;Bucket&gt;,
     rmap_scratch: Vec&lt;RmapItem&gt;,
-    left_targets: Vec&lt;Vec&lt;Vec&lt;Position&gt;&gt;&gt;,
+    left_targets: LeftTargets,
 }
 
 <span class="kw">impl</span>&lt;<span class="kw">const </span>K: u8&gt; Default <span class="kw">for </span>TablesCache&lt;K&gt; {
@@ -987,7 +1053,7 @@
 }
 
 <span class="attr">#[derive(Debug)]
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>Match {
+</span><span class="kw">struct </span>Match {
     left_position: Position,
     left_y: Y,
     right_position: Position,
@@ -1042,7 +1108,7 @@
 ) -&gt; [Y; COMPUTE_F1_SIMD_FACTOR] {
     <span class="comment">// Each element contains `K` desired bits of `partial_ys` in the final offset of eventual `ys`
     // with the rest of bits being in undefined state
-    </span><span class="kw">let </span>pre_ys_bytes = Simd::from(<span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
+    </span><span class="kw">let </span>pre_ys_bytes: Simd&lt;<span class="kw">_</span>, COMPUTE_F1_SIMD_FACTOR&gt; = Simd::from(<span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
         [
         #(
         {
@@ -1060,7 +1126,7 @@
         )*
         ]
     }));
-    <span class="kw">let </span>pre_ys_right_offset = Simd::from(<span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
+    <span class="kw">let </span>pre_ys_right_offset: Simd&lt;<span class="kw">_</span>, COMPUTE_F1_SIMD_FACTOR&gt; = Simd::from(<span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
         [
         #(
         {
@@ -1082,7 +1148,8 @@
     );
 
     <span class="comment">// SAFETY: `X` is `#[repr(transparent)]` and guaranteed to have the same memory layout as `u32`
-    </span><span class="kw">let </span>xs = <span class="kw">unsafe </span>{ mem::transmute::&lt;<span class="kw">_</span>, [u32; COMPUTE_F1_SIMD_FACTOR]&gt;(xs) };
+    </span><span class="kw">let </span>xs =
+        <span class="kw">unsafe </span>{ mem::transmute::&lt;[X; COMPUTE_F1_SIMD_FACTOR], [u32; COMPUTE_F1_SIMD_FACTOR]&gt;(xs) };
     <span class="comment">// Extract `PARAM_EXT` most significant bits from `xs` and store in the final offset of
     // eventual `ys` with the rest of bits being in undefined state.
     </span><span class="kw">let </span>pre_exts = Simd::from(xs) &gt;&gt; Simd::splat(u32::from(K - PARAM_EXT));
@@ -1102,25 +1169,34 @@
 
 <span class="doccomment">/// `rmap_scratch` is just an optimization to reuse allocations between calls.
 ///
-/// For verification purposes use [`num_matches`] instead.
+/// For verification purposes use [`has_match`] instead.
 ///
 /// Returns `None` if either of buckets is empty.
-</span><span class="kw">fn </span>find_matches&lt;<span class="lifetime">&#39;a</span>&gt;(
-    left_bucket_ys: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[Y],
+</span><span class="attr">#[allow(clippy::too_many_arguments)]
+</span><span class="kw">fn </span>find_matches&lt;T, Map&gt;(
+    left_bucket_ys: <span class="kw-2">&amp;</span>[Y],
     left_bucket_start_position: Position,
-    right_bucket_ys: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[Y],
+    right_bucket_ys: <span class="kw-2">&amp;</span>[Y],
     right_bucket_start_position: Position,
-    rmap_scratch: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Vec&lt;RmapItem&gt;,
-    left_targets: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[Vec&lt;Vec&lt;Position&gt;&gt;],
-) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw">impl </span>Iterator&lt;Item = Match&gt; + <span class="lifetime">&#39;a</span>&gt; {
+    rmap_scratch: <span class="kw-2">&amp;mut </span>Vec&lt;RmapItem&gt;,
+    left_targets: <span class="kw-2">&amp;</span>LeftTargets,
+    map: Map,
+    output: <span class="kw-2">&amp;mut </span>Vec&lt;T&gt;,
+) <span class="kw">where
+    </span>Map: Fn(Match) -&gt; T,
+{
     <span class="comment">// Clear and set to correct size with zero values
     </span>rmap_scratch.clear();
     rmap_scratch.resize_with(usize::from(PARAM_BC), RmapItem::default);
     <span class="kw">let </span>rmap = rmap_scratch;
 
     <span class="comment">// Both left and right buckets can be empty
-    </span><span class="kw">let </span>first_left_bucket_y = <span class="kw-2">*</span>left_bucket_ys.first()<span class="question-mark">?</span>;
-    <span class="kw">let </span>first_right_bucket_y = <span class="kw-2">*</span>right_bucket_ys.first()<span class="question-mark">?</span>;
+    </span><span class="kw">let </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>first_left_bucket_y) = left_bucket_ys.first() <span class="kw">else </span>{
+        <span class="kw">return</span>;
+    };
+    <span class="kw">let </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>first_right_bucket_y) = right_bucket_ys.first() <span class="kw">else </span>{
+        <span class="kw">return</span>;
+    };
     <span class="comment">// Since all entries in a bucket are obtained after division by `PARAM_BC`, we can compute
     // quotient more efficiently by subtracting base value rather than computing remainder of
     // division
@@ -1129,7 +1205,7 @@
         <span class="kw">let </span>r = usize::from(y) - base;
 
         <span class="comment">// Same `y` and as the result `r` can appear in the table multiple times, in which case
-        // they&#39;ll all occupy consecutive slots in `right_bucket` and all we need to store is just
+        // they'll all occupy consecutive slots in `right_bucket` and all we need to store is just
         // the first position and number of elements.
         </span><span class="kw">if </span>rmap[r].count == Position::ZERO {
             rmap[r].start_position = right_position;
@@ -1142,48 +1218,80 @@
     // `PARAM_BC` away from the previous one in terms of divisor by `PARAM_BC`
     </span><span class="kw">let </span>base = base - usize::from(PARAM_BC);
     <span class="kw">let </span>parity = (usize::from(first_left_bucket_y) / usize::from(PARAM_BC)) % <span class="number">2</span>;
-    <span class="kw">let </span>left_targets = <span class="kw-2">&amp;</span>left_targets[parity];
+    <span class="kw">let </span>left_targets_parity = {
+        <span class="kw">let </span>(a, b) = left_targets
+            .left_targets
+            .split_at(left_targets.left_targets.len() / <span class="number">2</span>);
+        <span class="kw">if </span>parity == <span class="number">0 </span>{
+            a
+        } <span class="kw">else </span>{
+            b
+        }
+    };
 
-    <span class="prelude-val">Some</span>(
-        left_bucket_ys
-            .iter()
-            .zip(left_bucket_start_position..)
-            .flat_map(<span class="kw">move </span>|(<span class="kw-2">&amp;</span>y, left_position)| {
-                <span class="kw">let </span>r = usize::from(y) - base;
-                <span class="kw">let </span>left_targets = <span class="kw-2">&amp;</span>left_targets[r];
+    <span class="kw">for </span>(<span class="kw-2">&amp;</span>y, left_position) <span class="kw">in </span>left_bucket_ys.iter().zip(left_bucket_start_position..) {
+        <span class="kw">let </span>r = usize::from(y) - base;
+        <span class="kw">let </span>left_targets_r = left_targets_parity
+            .chunks_exact(left_targets_parity.len() / usize::from(PARAM_BC))
+            .nth(r)
+            .expect(<span class="string">"r is valid"</span>);
 
-                (<span class="number">0</span>..usize::from(PARAM_M)).flat_map(<span class="kw">move </span>|m| {
-                    <span class="kw">let </span>r_target = left_targets[m];
-                    <span class="kw">let </span>rmap_item = rmap[usize::from(r_target)];
+        <span class="macro">const_assert!</span>(PARAM_M <span class="kw">as </span>usize % FIND_MATCHES_AND_COMPUTE_UNROLL_FACTOR == <span class="number">0</span>);
 
-                    (rmap_item.start_position..rmap_item.start_position + rmap_item.count).map(
-                        <span class="kw">move </span>|right_position| Match {
+        <span class="kw">for </span>r_targets <span class="kw">in </span>left_targets_r
+            .array_chunks::&lt;{ FIND_MATCHES_AND_COMPUTE_UNROLL_FACTOR }&gt;()
+            .take(usize::from(PARAM_M) / FIND_MATCHES_AND_COMPUTE_UNROLL_FACTOR)
+        {
+            <span class="kw">let _</span>: [(); FIND_MATCHES_AND_COMPUTE_UNROLL_FACTOR] = <span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
+                [
+                #(
+                {
+                    <span class="kw">let </span>rmap_item = rmap[usize::from(r_targets[N])];
+
+                    <span class="kw">for </span>right_position <span class="kw">in
+                        </span>rmap_item.start_position..rmap_item.start_position + rmap_item.count
+                    {
+                        <span class="kw">let </span>m = Match {
                             left_position,
                             left_y: y,
                             right_position,
-                        },
-                    )
-                })
-            }),
-    )
+                        };
+                        output.push(map(m));
+                    }
+                },
+                )*
+                ]
+            });
+        }
+    }
 }
 
 <span class="doccomment">/// Simplified version of [`find_matches`] for verification purposes.
-</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>num_matches(left_y: Y, right_y: Y) -&gt; usize {
-    <span class="kw">let </span>right_r = usize::from(right_y) % usize::from(PARAM_BC);
-    <span class="kw">let </span>parity = (usize::from(left_y) / usize::from(PARAM_BC)) % <span class="number">2</span>;
-    <span class="kw">let </span>left_r = usize::from(left_y) % usize::from(PARAM_BC);
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>has_match(left_y: Y, right_y: Y) -&gt; bool {
+    <span class="kw">let </span>right_r = u32::from(right_y) % u32::from(PARAM_BC);
+    <span class="kw">let </span>parity = (u32::from(left_y) / u32::from(PARAM_BC)) % <span class="number">2</span>;
+    <span class="kw">let </span>left_r = u32::from(left_y) % u32::from(PARAM_BC);
 
-    <span class="kw">let </span><span class="kw-2">mut </span>matches = <span class="number">0</span>;
-    <span class="kw">for </span>m <span class="kw">in </span><span class="number">0</span>..usize::from(PARAM_M) {
-        <span class="kw">let </span>r_target = calculate_left_target_on_demand(parity, left_r, m);
-        <span class="kw">if </span>r_target == right_r {
-            matches += <span class="number">1</span>;
-        }
+    <span class="macro">const_assert!</span>(PARAM_M <span class="kw">as </span>usize % HAS_MATCH_UNROLL_FACTOR == <span class="number">0</span>);
+
+    <span class="kw">for </span>m <span class="kw">in </span><span class="number">0</span>..u32::from(PARAM_M) / HAS_MATCH_UNROLL_FACTOR <span class="kw">as </span>u32 {
+        <span class="kw">let _</span>: [(); HAS_MATCH_UNROLL_FACTOR] = <span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
+            [
+            #(
+            {
+                <span class="attr">#[allow(clippy::identity_op)]
+                </span><span class="kw">let </span>r_target = calculate_left_target_on_demand(parity, left_r, m * HAS_MATCH_UNROLL_FACTOR <span class="kw">as </span>u32 + N);
+                <span class="kw">if </span>r_target == right_r {
+                    <span class="kw">return </span><span class="bool-val">true</span>;
+                }
+            },
+            )*
+            ]
+        });
     }
 
-    matches
-}
+    <span class="bool-val">false
+</span>}
 
 <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>compute_fn&lt;<span class="kw">const </span>K: u8, <span class="kw">const </span>TABLE_NUMBER: u8, <span class="kw">const </span>PARENT_TABLE_NUMBER: u8&gt;(
     y: Y,
@@ -1227,27 +1335,25 @@
             <span class="kw">let </span>input_a = y_bits | left_metadata_bits | right_bits_a;
             <span class="comment">// Collect bits of `right_metadata` that will spill over into `input_b`
             </span><span class="kw">let </span>input_b = right_metadata &lt;&lt; (u128::BITS <span class="kw">as </span>usize - right_bits_pushed_into_input_b);
-            <span class="kw">let </span><span class="kw-2">mut </span>hasher = blake3::Hasher::new();
 
-            hasher.update(<span class="kw-2">&amp;</span>input_a.to_be_bytes());
-            hasher.update(
+            blake3_hash_list(<span class="kw-2">&amp;</span>[
+                <span class="kw-2">&amp;</span>input_a.to_be_bytes(),
                 <span class="kw-2">&amp;</span>input_b.to_be_bytes()
                     [..right_bits_pushed_into_input_b.div_ceil(u8::BITS <span class="kw">as </span>usize)],
-            );
-            hasher.finalize()
+            ])
         } <span class="kw">else </span>{
             <span class="kw">let </span>right_bits_a = right_metadata &lt;&lt; (right_bits_start_offset - y_and_left_bits);
             <span class="kw">let </span>input_a = y_bits | left_metadata_bits | right_bits_a;
 
-            blake3::hash(<span class="kw-2">&amp;</span>input_a.to_be_bytes()[..num_bytes_with_data])
+            blake3_hash(<span class="kw-2">&amp;</span>input_a.to_be_bytes()[..num_bytes_with_data])
         }
     };
 
     <span class="kw">let </span>y_output = Y::from(
         u32::from_be_bytes(
-            hash.as_bytes()[..mem::size_of::&lt;u32&gt;()]
+            hash[..mem::size_of::&lt;u32&gt;()]
                 .try_into()
-                .expect(<span class="string">&quot;Hash if statically guaranteed to have enough bytes; qed&quot;</span>),
+                .expect(<span class="string">"Hash if statically guaranteed to have enough bytes; qed"</span>),
         ) &gt;&gt; (u32::BITS <span class="kw">as </span>usize - y_size_bits(K)),
     );
 
@@ -1260,9 +1366,9 @@
         // We collect bytes necessary, potentially with extra bits at the start and end of the bytes
         // that will be taken care of later.
         </span><span class="kw">let </span>metadata = u128::from_be_bytes(
-            hash.as_bytes()[y_size_bits(K) / u8::BITS <span class="kw">as </span>usize..][..mem::size_of::&lt;u128&gt;()]
+            hash[y_size_bits(K) / u8::BITS <span class="kw">as </span>usize..][..mem::size_of::&lt;u128&gt;()]
                 .try_into()
-                .expect(<span class="string">&quot;Always enough bits for any K; qed&quot;</span>),
+                .expect(<span class="string">"Always enough bits for any K; qed"</span>),
         );
         <span class="comment">// Remove extra bits at the beginning
         </span><span class="kw">let </span>metadata = metadata &lt;&lt; (y_size_bits(K) % u8::BITS <span class="kw">as </span>usize);
@@ -1285,10 +1391,10 @@
 {
     <span class="kw">let </span>left_metadata = last_table
         .metadata(m.left_position)
-        .expect(<span class="string">&quot;Position resulted from matching is correct; qed&quot;</span>);
+        .expect(<span class="string">"Position resulted from matching is correct; qed"</span>);
     <span class="kw">let </span>right_metadata = last_table
         .metadata(m.right_position)
-        .expect(<span class="string">&quot;Position resulted from matching is correct; qed&quot;</span>);
+        .expect(<span class="string">"Position resulted from matching is correct; qed"</span>);
 
     <span class="kw">let </span>(y, metadata) =
         compute_fn::&lt;K, TABLE_NUMBER, PARENT_TABLE_NUMBER&gt;(m.left_y, left_metadata, right_metadata);
@@ -1296,18 +1402,18 @@
     (y, [m.left_position, m.right_position], metadata)
 }
 
-<span class="kw">fn </span>match_and_compute_fn&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>K: u8, <span class="kw">const </span>TABLE_NUMBER: u8, <span class="kw">const </span>PARENT_TABLE_NUMBER: u8&gt;(
-    last_table: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Table&lt;K, PARENT_TABLE_NUMBER&gt;,
+<span class="kw">fn </span>match_and_compute_fn&lt;<span class="lifetime">'a</span>, <span class="kw">const </span>K: u8, <span class="kw">const </span>TABLE_NUMBER: u8, <span class="kw">const </span>PARENT_TABLE_NUMBER: u8&gt;(
+    last_table: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Table&lt;K, PARENT_TABLE_NUMBER&gt;,
     left_bucket: Bucket,
     right_bucket: Bucket,
-    rmap_scratch: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Vec&lt;RmapItem&gt;,
-    left_targets: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[Vec&lt;Vec&lt;Position&gt;&gt;],
+    rmap_scratch: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Vec&lt;RmapItem&gt;,
+    left_targets: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>LeftTargets,
     results_table: <span class="kw-2">&amp;mut </span>Vec&lt;(Y, [Position; <span class="number">2</span>], Metadata&lt;K, TABLE_NUMBER&gt;)&gt;,
 ) <span class="kw">where
     </span>EvaluatableUsize&lt;{ metadata_size_bytes(K, PARENT_TABLE_NUMBER) }&gt;: Sized,
     EvaluatableUsize&lt;{ metadata_size_bytes(K, TABLE_NUMBER) }&gt;: Sized,
 {
-    <span class="kw">let </span><span class="prelude-val">Some</span>(matches) = find_matches(
+    find_matches(
         <span class="kw-2">&amp;</span>last_table.ys()[usize::from(left_bucket.start_position)..]
             [..usize::from(left_bucket.size)],
         left_bucket.start_position,
@@ -1316,13 +1422,9 @@
         right_bucket.start_position,
         rmap_scratch,
         left_targets,
-    ) <span class="kw">else </span>{
-        <span class="kw">return</span>;
-    };
-
-    matches.for_each(|m| {
-        results_table.push(match_to_result(last_table, m));
-    });
+        |m| match_to_result(last_table, m),
+        results_table,
+    )
 }
 
 <span class="attr">#[derive(Debug)]
@@ -1365,7 +1467,7 @@
                 .array_chunks::&lt;{ K <span class="kw">as </span>usize * COMPUTE_F1_SIMD_FACTOR / u8::BITS <span class="kw">as </span>usize }&gt;()
                 .copied(),
         ) {
-            <span class="kw">let </span>xs = <span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
+            <span class="kw">let </span>xs: [<span class="kw">_</span>; COMPUTE_F1_SIMD_FACTOR] = <span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
                 [
                 #(
                 <span class="attr">#[allow(clippy::erasing_op, clippy::identity_op)]
@@ -1388,7 +1490,7 @@
     }
 
     <span class="doccomment">/// Create the table, leverages available parallelism
-    </span><span class="attr">#[cfg(any(feature = <span class="string">&quot;parallel&quot;</span>, test))]
+    </span><span class="attr">#[cfg(any(feature = <span class="string">"parallel"</span>, test))]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>create_parallel(seed: Seed) -&gt; <span class="self">Self
     </span><span class="kw">where
         </span>EvaluatableUsize&lt;{ K <span class="kw">as </span>usize * COMPUTE_F1_SIMD_FACTOR / u8::BITS <span class="kw">as </span>usize }&gt;: Sized,
@@ -1401,7 +1503,7 @@
                 .array_chunks::&lt;{ K <span class="kw">as </span>usize * COMPUTE_F1_SIMD_FACTOR / u8::BITS <span class="kw">as </span>usize }&gt;()
                 .copied(),
         ) {
-            <span class="kw">let </span>xs = <span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
+            <span class="kw">let </span>xs: [<span class="kw">_</span>; COMPUTE_F1_SIMD_FACTOR] = <span class="macro">seq!</span>(N <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
                 [
                 #(
                 <span class="attr">#[allow(clippy::erasing_op, clippy::identity_op)]
@@ -1495,7 +1597,7 @@
         <span class="kw">let </span>last_y = <span class="kw-2">*</span>last_table
             .ys()
             .last()
-            .expect(<span class="string">&quot;List of y values is never empty; qed&quot;</span>);
+            .expect(<span class="string">"List of y values is never empty; qed"</span>);
         buckets.clear();
         buckets.reserve(<span class="number">1 </span>+ usize::from(last_y) / usize::from(PARAM_BC));
         last_table
@@ -1545,7 +1647,7 @@
         <span class="kw">for </span>(y, [left_position, right_position], metadata) <span class="kw">in </span>t_n {
             ys.push(y);
             positions.push([left_position, right_position]);
-            <span class="comment">// Last table doesn&#39;t have metadata
+            <span class="comment">// Last table doesn't have metadata
             </span><span class="kw">if </span>metadata_size_bits(K, TABLE_NUMBER) &gt; <span class="number">0 </span>{
                 metadatas.push(metadata);
             }
@@ -1561,8 +1663,7 @@
     <span class="doccomment">/// Almost the same as [`Self::create()`], but uses parallelism internally for better
     /// performance (though not efficiency of CPU and memory usage), if you create multiple tables
     /// in parallel, prefer [`Self::create()`] for better overall performance.
-    </span><span class="comment">// TODO: Cache more allocations in this function to improve performance further
-    </span><span class="attr">#[cfg(any(feature = <span class="string">&quot;parallel&quot;</span>, test))]
+    </span><span class="attr">#[cfg(any(feature = <span class="string">"parallel"</span>, test))]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>create_parallel&lt;<span class="kw">const </span>PARENT_TABLE_NUMBER: u8&gt;(
         last_table: <span class="kw-2">&amp;</span>Table&lt;K, PARENT_TABLE_NUMBER&gt;,
         cache: <span class="kw-2">&amp;mut </span>TablesCache&lt;K&gt;,
@@ -1570,94 +1671,101 @@
     </span><span class="kw">where
         </span>EvaluatableUsize&lt;{ metadata_size_bytes(K, PARENT_TABLE_NUMBER) }&gt;: Sized,
     {
-        <span class="kw">let </span>buckets = <span class="kw-2">&amp;mut </span>cache.buckets;
         <span class="kw">let </span>left_targets = <span class="kw-2">&amp;</span>cache.left_targets;
 
-        <span class="kw">let </span><span class="kw-2">mut </span>bucket = Bucket {
-            bucket_index: <span class="number">0</span>,
+        <span class="kw">let </span><span class="kw-2">mut </span>first_bucket = Bucket {
+            bucket_index: u32::from(last_table.ys()[<span class="number">0</span>]) / u32::from(PARAM_BC),
             start_position: Position::ZERO,
             size: Position::ZERO,
         };
+        <span class="kw">for </span><span class="kw-2">&amp;</span>y <span class="kw">in </span>last_table.ys() {
+            <span class="kw">let </span>bucket_index = u32::from(y) / u32::from(PARAM_BC);
 
-        <span class="kw">let </span>last_y = <span class="kw-2">*</span>last_table
-            .ys()
-            .last()
-            .expect(<span class="string">&quot;List of y values is never empty; qed&quot;</span>);
-        buckets.clear();
-        buckets.reserve(<span class="number">1 </span>+ usize::from(last_y) / usize::from(PARAM_BC));
-        last_table
-            .ys()
-            .iter()
-            .zip(Position::ZERO..)
-            .for_each(|(<span class="kw-2">&amp;</span>y, position)| {
-                <span class="kw">let </span>bucket_index = u32::from(y) / u32::from(PARAM_BC);
+            <span class="kw">if </span>bucket_index == first_bucket.bucket_index {
+                first_bucket.size += Position::ONE;
+            } <span class="kw">else </span>{
+                <span class="kw">break</span>;
+            }
+        }
 
-                <span class="kw">if </span>bucket_index == bucket.bucket_index {
-                    bucket.size += Position::ONE;
-                    <span class="kw">return</span>;
+        <span class="kw">let </span>previous_bucket = Mutex::new(first_bucket);
+
+        <span class="kw">let </span>t_n = rayon::broadcast(|_ctx| {
+            <span class="kw">let </span><span class="kw-2">mut </span>entries = Vec::new();
+            <span class="kw">let </span><span class="kw-2">mut </span>rmap_scratch = Vec::new();
+
+            <span class="kw">loop </span>{
+                <span class="kw">let </span>left_bucket;
+                <span class="kw">let </span>right_bucket;
+                {
+                    <span class="kw">let </span><span class="kw-2">mut </span>previous_bucket = previous_bucket.lock();
+
+                    <span class="kw">let </span>right_bucket_start_position =
+                        previous_bucket.start_position + previous_bucket.size;
+                    <span class="kw">let </span>right_bucket_index = <span class="kw">match </span>last_table
+                        .ys()
+                        .get(usize::from(right_bucket_start_position))
+                    {
+                        <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>y) =&gt; u32::from(y) / u32::from(PARAM_BC),
+                        <span class="prelude-val">None </span>=&gt; {
+                            <span class="kw">break</span>;
+                        }
+                    };
+                    <span class="kw">let </span><span class="kw-2">mut </span>right_bucket_size = Position::ZERO;
+
+                    <span class="kw">for </span><span class="kw-2">&amp;</span>y <span class="kw">in </span><span class="kw-2">&amp;</span>last_table.ys()[usize::from(right_bucket_start_position)..] {
+                        <span class="kw">let </span>bucket_index = u32::from(y) / u32::from(PARAM_BC);
+
+                        <span class="kw">if </span>bucket_index == right_bucket_index {
+                            right_bucket_size += Position::ONE;
+                        } <span class="kw">else </span>{
+                            <span class="kw">break</span>;
+                        }
+                    }
+
+                    right_bucket = Bucket {
+                        bucket_index: right_bucket_index,
+                        start_position: right_bucket_start_position,
+                        size: right_bucket_size,
+                    };
+
+                    left_bucket = <span class="kw-2">*</span>previous_bucket;
+                    <span class="kw-2">*</span>previous_bucket = right_bucket;
                 }
 
-                buckets.push(bucket);
-
-                bucket = Bucket {
-                    bucket_index,
-                    start_position: position,
-                    size: Position::ONE,
-                };
-            });
-        <span class="comment">// Iteration stopped, but we did not store the last bucket yet
-        </span>buckets.push(bucket);
-
-        <span class="kw">let </span>(entries_sender, entries_receiver) = mpsc::sync_channel(<span class="number">1</span>);
-
-        <span class="kw">let </span>t_n_handle = std::thread::spawn(<span class="kw">move </span>|| {
-            <span class="kw">let </span>num_values = <span class="number">1 </span>&lt;&lt; K;
-            <span class="kw">let </span><span class="kw-2">mut </span>t_n = Vec::with_capacity(num_values);
-
-            <span class="kw">while let </span><span class="prelude-val">Ok</span>(entries) = entries_receiver.recv() {
-                t_n.extend(entries);
+                match_and_compute_fn::&lt;K, TABLE_NUMBER, PARENT_TABLE_NUMBER&gt;(
+                    last_table,
+                    left_bucket,
+                    right_bucket,
+                    <span class="kw-2">&amp;mut </span>rmap_scratch,
+                    left_targets,
+                    <span class="kw-2">&amp;mut </span>entries,
+                );
             }
 
-            t_n
+            entries
         });
 
-        buckets
-            .par_windows(<span class="number">2</span>)
-            .fold(
-                || (Vec::new(), Vec::new()),
-                |(<span class="kw-2">mut </span>entries, <span class="kw-2">mut </span>rmap_scratch), buckets| {
-                    match_and_compute_fn::&lt;K, TABLE_NUMBER, PARENT_TABLE_NUMBER&gt;(
-                        last_table,
-                        buckets[<span class="number">0</span>],
-                        buckets[<span class="number">1</span>],
-                        <span class="kw-2">&amp;mut </span>rmap_scratch,
-                        left_targets,
-                        <span class="kw-2">&amp;mut </span>entries,
-                    );
-                    (entries, rmap_scratch)
-                },
-            )
-            .for_each(<span class="kw">move </span>|(entries, _rmap_scratch)| {
-                entries_sender
-                    .send(entries)
-                    .expect(<span class="string">&quot;Receiver is waiting until sender is exhausted; qed&quot;</span>);
-            });
-
-        <span class="kw">let </span><span class="kw-2">mut </span>t_n = t_n_handle.join().expect(<span class="string">&quot;Not joining itself; qed&quot;</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>t_n = t_n.into_iter().flatten().collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         t_n.par_sort_unstable();
 
-        <span class="kw">let </span><span class="kw-2">mut </span>ys = <span class="macro">vec!</span>[Default::default(); t_n.len()];
-        <span class="kw">let </span><span class="kw-2">mut </span>positions = <span class="macro">vec!</span>[Default::default(); t_n.len()];
-        <span class="kw">let </span><span class="kw-2">mut </span>metadatas = <span class="macro">vec!</span>[Default::default(); t_n.len()];
+        <span class="kw">let </span><span class="kw-2">mut </span>ys = Vec::with_capacity(t_n.len());
+        <span class="kw">let </span><span class="kw-2">mut </span>positions = Vec::with_capacity(t_n.len());
+        <span class="kw">let </span><span class="kw-2">mut </span>metadatas = Vec::with_capacity(t_n.len());
 
-        <span class="comment">// Going in parallel saves a bit of time
-        </span>t_n.into_par_iter()
-            .zip(ys.par_iter_mut().zip(<span class="kw-2">&amp;mut </span>positions).zip(<span class="kw-2">&amp;mut </span>metadatas))
-            .for_each(|(input, output)| {
-                <span class="kw-2">*</span>output.<span class="number">0 </span>.<span class="number">0 </span>= input.<span class="number">0</span>;
-                <span class="kw-2">*</span>output.<span class="number">0 </span>.<span class="number">1 </span>= input.<span class="number">1</span>;
-                <span class="kw-2">*</span>output.<span class="number">1 </span>= input.<span class="number">2</span>;
-            });
+        <span class="kw">for </span>(y, [left_position, right_position], metadata) <span class="kw">in </span>t_n.drain(..) {
+            ys.push(y);
+            positions.push([left_position, right_position]);
+            <span class="comment">// Last table doesn't have metadata
+            </span><span class="kw">if </span>metadata_size_bits(K, TABLE_NUMBER) &gt; <span class="number">0 </span>{
+                metadatas.push(metadata);
+            }
+        }
+
+        <span class="comment">// Drop from a background thread, which typically helps with overall concurrency
+        </span>rayon::spawn(<span class="kw">move </span>|| {
+            drop(t_n);
+        });
 
         <span class="self">Self</span>::Other {
             ys,

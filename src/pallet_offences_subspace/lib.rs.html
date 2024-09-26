@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-offences-subspace/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_offences_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../pallet_offences_subspace/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-offences-subspace/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_offences_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -257,14 +257,14 @@
 // Copyright (C) 2021 Subspace Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
 // 	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
@@ -273,8 +273,8 @@
 //!
 //! Tracks reported offences
 
-</span><span class="comment">// Ensure we&#39;re `no_std` when compiling for Wasm.
-</span><span class="attr">#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
+</span><span class="comment">// Ensure we're `no_std` when compiling for Wasm.
+</span><span class="attr">#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
 
 </span><span class="kw">mod </span>mock;
 <span class="kw">mod </span>tests;
@@ -284,9 +284,9 @@
 <span class="kw">use </span>sp_consensus_subspace::offence::{
     Offence, OffenceDetails, OffenceError, OnOffenceHandler, ReportOffence,
 };
-<span class="kw">use </span>sp_consensus_subspace::FarmerPublicKey;
 <span class="kw">use </span>sp_runtime::traits::Hash;
 <span class="kw">use </span>sp_std::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>subspace_core_primitives::PublicKey;
 
 <span class="doccomment">/// A binary blob which represents a SCALE codec-encoded `O::TimeSlot`.
 </span><span class="kw">type </span>OpaqueTimeSlot = Vec&lt;u8&gt;;
@@ -299,27 +299,27 @@
     <span class="kw">use super</span>::{OpaqueTimeSlot, ReportIdOf};
     <span class="kw">use </span>frame_support::pallet_prelude::<span class="kw-2">*</span>;
     <span class="kw">use </span>sp_consensus_subspace::offence::{Kind, OffenceDetails, OnOffenceHandler};
-    <span class="kw">use </span>sp_consensus_subspace::FarmerPublicKey;
     <span class="kw">use </span>sp_std::prelude::<span class="kw-2">*</span>;
+    <span class="kw">use </span>subspace_core_primitives::PublicKey;
 
     <span class="attr">#[pallet::pallet]
     #[pallet::without_storage_info]
     </span><span class="kw">pub struct </span>Pallet&lt;T&gt;(<span class="kw">_</span>);
 
-    <span class="doccomment">/// The pallet&#39;s config trait.
+    <span class="doccomment">/// The pallet's config trait.
     </span><span class="attr">#[pallet::config]
     </span><span class="kw">pub trait </span>Config: frame_system::Config {
         <span class="doccomment">/// The overarching event type.
         </span><span class="kw">type </span>RuntimeEvent: From&lt;Event&gt; + IsType&lt;&lt;<span class="self">Self </span><span class="kw">as </span>frame_system::Config&gt;::RuntimeEvent&gt;;
         <span class="doccomment">/// A handler called for every offence report.
-        </span><span class="kw">type </span>OnOffenceHandler: OnOffenceHandler&lt;FarmerPublicKey&gt;;
+        </span><span class="kw">type </span>OnOffenceHandler: OnOffenceHandler&lt;PublicKey&gt;;
     }
 
     <span class="doccomment">/// The primary structure that holds all offence records keyed by report identifiers.
     </span><span class="attr">#[pallet::storage]
     #[pallet::getter(<span class="kw">fn </span>reports)]
     </span><span class="kw">pub type </span>Reports&lt;T: Config&gt; =
-        StorageMap&lt;<span class="kw">_</span>, Twox64Concat, ReportIdOf&lt;T&gt;, OffenceDetails&lt;FarmerPublicKey&gt;&gt;;
+        StorageMap&lt;<span class="kw">_</span>, Twox64Concat, ReportIdOf&lt;T&gt;, OffenceDetails&lt;PublicKey&gt;&gt;;
 
     <span class="doccomment">/// A vector of reports of the same kind that happened at the same time slot.
     </span><span class="attr">#[pallet::storage]
@@ -362,7 +362,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T: Config, O: Offence&lt;FarmerPublicKey&gt;&gt; ReportOffence&lt;FarmerPublicKey, O&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
+<span class="kw">impl</span>&lt;T: Config, O: Offence&lt;PublicKey&gt;&gt; ReportOffence&lt;PublicKey, O&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
     <span class="kw">fn </span>report_offence(offence: O) -&gt; <span class="prelude-ty">Result</span>&lt;(), OffenceError&gt; {
         <span class="kw">let </span>offenders = offence.offenders();
         <span class="kw">let </span>time_slot = offence.time_slot();
@@ -388,7 +388,7 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn </span>is_known_offence(offenders: <span class="kw-2">&amp;</span>[FarmerPublicKey], time_slot: <span class="kw-2">&amp;</span>O::TimeSlot) -&gt; bool {
+    <span class="kw">fn </span>is_known_offence(offenders: <span class="kw-2">&amp;</span>[PublicKey], time_slot: <span class="kw-2">&amp;</span>O::TimeSlot) -&gt; bool {
         <span class="kw">let </span>any_unknown = offenders.iter().any(|offender| {
             <span class="kw">let </span>report_id = <span class="self">Self</span>::report_id::&lt;O&gt;(time_slot, offender);
             !&lt;Reports&lt;T&gt;&gt;::contains_key(report_id)
@@ -402,18 +402,18 @@
     <span class="doccomment">/// Compute the ID for the given report properties.
     ///
     /// The report id depends on the offence kind, time slot and the id of offender.
-    </span><span class="kw">fn </span>report_id&lt;O: Offence&lt;FarmerPublicKey&gt;&gt;(
+    </span><span class="kw">fn </span>report_id&lt;O: Offence&lt;PublicKey&gt;&gt;(
         time_slot: <span class="kw-2">&amp;</span>O::TimeSlot,
-        offender: <span class="kw-2">&amp;</span>FarmerPublicKey,
+        offender: <span class="kw-2">&amp;</span>PublicKey,
     ) -&gt; ReportIdOf&lt;T&gt; {
         (O::ID, time_slot.encode(), offender).using_encoded(T::Hashing::hash)
     }
 
     <span class="doccomment">/// Triages the offence report and returns the set of offenders that was involved in unique
     /// reports along with the list of the concurrent offences.
-    </span><span class="kw">fn </span>triage_offence_report&lt;O: Offence&lt;FarmerPublicKey&gt;&gt;(
+    </span><span class="kw">fn </span>triage_offence_report&lt;O: Offence&lt;PublicKey&gt;&gt;(
         time_slot: <span class="kw-2">&amp;</span>O::TimeSlot,
-        offenders: Vec&lt;FarmerPublicKey&gt;,
+        offenders: Vec&lt;PublicKey&gt;,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;TriageOutcome&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>storage = ReportIndexStorage::&lt;T, O&gt;::load(time_slot);
 
@@ -450,7 +450,7 @@
 
 <span class="kw">struct </span>TriageOutcome {
     <span class="doccomment">/// Other reports for the same report kinds.
-    </span>concurrent_offenders: Vec&lt;OffenceDetails&lt;FarmerPublicKey&gt;&gt;,
+    </span>concurrent_offenders: Vec&lt;OffenceDetails&lt;PublicKey&gt;&gt;,
 }
 
 <span class="doccomment">/// An auxiliary struct for working with storage of indexes localized for a specific offence
@@ -458,14 +458,14 @@
 ///
 /// This struct is responsible for aggregating storage writes and the underlying storage should not
 /// accessed directly meanwhile.
-</span><span class="attr">#[must_use = <span class="string">&quot;The changes are not saved without called `save`&quot;</span>]
-</span><span class="kw">struct </span>ReportIndexStorage&lt;T: Config, O: Offence&lt;FarmerPublicKey&gt;&gt; {
+</span><span class="attr">#[must_use = <span class="string">"The changes are not saved without called `save`"</span>]
+</span><span class="kw">struct </span>ReportIndexStorage&lt;T: Config, O: Offence&lt;PublicKey&gt;&gt; {
     opaque_time_slot: OpaqueTimeSlot,
     concurrent_reports: Vec&lt;ReportIdOf&lt;T&gt;&gt;,
     same_kind_reports: Vec&lt;(O::TimeSlot, ReportIdOf&lt;T&gt;)&gt;,
 }
 
-<span class="kw">impl</span>&lt;T: Config, O: Offence&lt;FarmerPublicKey&gt;&gt; ReportIndexStorage&lt;T, O&gt; {
+<span class="kw">impl</span>&lt;T: Config, O: Offence&lt;PublicKey&gt;&gt; ReportIndexStorage&lt;T, O&gt; {
     <span class="doccomment">/// Preload indexes from the storage for the specific `time_slot` and the kind of the offence.
     </span><span class="kw">fn </span>load(time_slot: <span class="kw-2">&amp;</span>O::TimeSlot) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>opaque_time_slot = time_slot.encode();

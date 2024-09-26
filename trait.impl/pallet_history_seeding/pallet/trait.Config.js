@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"subspace_runtime":[["impl <a class=\"trait\" href=\"pallet_history_seeding/pallet/trait.Config.html\" title=\"trait pallet_history_seeding::pallet::Config\">Config</a> for <a class=\"struct\" href=\"subspace_runtime/struct.Runtime.html\" title=\"struct subspace_runtime::Runtime\">Runtime</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

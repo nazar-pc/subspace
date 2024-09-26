@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/domain-operator/src/bundle_processor.rs`."><title>bundle_processor.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_client_operator" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../domain_client_operator/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/client/domain-operator/src/bundle_processor.rs`."><title>bundle_processor.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_client_operator" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -265,38 +265,150 @@
 <a href="#265" id="265">265</a>
 <a href="#266" id="266">266</a>
 <a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
+<a href="#285" id="285">285</a>
+<a href="#286" id="286">286</a>
+<a href="#287" id="287">287</a>
+<a href="#288" id="288">288</a>
+<a href="#289" id="289">289</a>
+<a href="#290" id="290">290</a>
+<a href="#291" id="291">291</a>
+<a href="#292" id="292">292</a>
+<a href="#293" id="293">293</a>
+<a href="#294" id="294">294</a>
+<a href="#295" id="295">295</a>
+<a href="#296" id="296">296</a>
+<a href="#297" id="297">297</a>
+<a href="#298" id="298">298</a>
+<a href="#299" id="299">299</a>
+<a href="#300" id="300">300</a>
+<a href="#301" id="301">301</a>
+<a href="#302" id="302">302</a>
+<a href="#303" id="303">303</a>
+<a href="#304" id="304">304</a>
+<a href="#305" id="305">305</a>
+<a href="#306" id="306">306</a>
+<a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
+<a href="#310" id="310">310</a>
+<a href="#311" id="311">311</a>
+<a href="#312" id="312">312</a>
+<a href="#313" id="313">313</a>
+<a href="#314" id="314">314</a>
+<a href="#315" id="315">315</a>
+<a href="#316" id="316">316</a>
+<a href="#317" id="317">317</a>
+<a href="#318" id="318">318</a>
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::domain_block_processor::{
     DomainBlockProcessor, PendingConsensusBlocks, ReceiptsChecker,
 };
-<span class="kw">use crate</span>::{DomainParentChain, TransactionFor};
-<span class="kw">use </span>domain_block_preprocessor::runtime_api_full::RuntimeApiFull;
-<span class="kw">use </span>domain_block_preprocessor::{DomainBlockPreprocessor, PreprocessResult};
-<span class="kw">use </span>domain_runtime_primitives::{DomainCoreApi, InherentExtrinsicApi};
-<span class="kw">use </span>sc_client_api::{AuxStore, BlockBackend, Finalizer, StateBackendFor};
-<span class="kw">use </span>sc_consensus::{BlockImport, BlockImportParams, ForkChoiceStrategy, StateAction};
-<span class="kw">use </span>sp_api::{NumberFor, ProvideRuntimeApi};
+<span class="kw">use </span><span class="kw">crate</span>::ExecutionReceiptFor;
+<span class="kw">use </span>domain_block_preprocessor::DomainBlockPreprocessor;
+<span class="kw">use </span>sc_client_api::{AuxStore, BlockBackend, Finalizer, ProofProvider};
+<span class="kw">use </span>sc_consensus::{BlockImportParams, ForkChoiceStrategy, StateAction};
+<span class="kw">use </span>sp_api::ProvideRuntimeApi;
 <span class="kw">use </span>sp_blockchain::{HeaderBackend, HeaderMetadata};
 <span class="kw">use </span>sp_consensus::BlockOrigin;
 <span class="kw">use </span>sp_core::traits::CodeExecutor;
-<span class="kw">use </span>sp_domains::{DomainId, DomainsApi};
-<span class="kw">use </span>sp_keystore::KeystorePtr;
+<span class="kw">use </span>sp_core::H256;
+<span class="kw">use </span>sp_domain_digests::AsPredigest;
+<span class="kw">use </span>sp_domains::core_api::DomainCoreApi;
+<span class="kw">use </span>sp_domains::{DomainId, DomainsApi, ReceiptValidity};
+<span class="kw">use </span>sp_domains_fraud_proof::FraudProofApi;
 <span class="kw">use </span>sp_messenger::MessengerApi;
-<span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, HashFor};
-<span class="kw">use </span>sp_runtime::Digest;
+<span class="kw">use </span>sp_mmr_primitives::MmrApi;
+<span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, NumberFor, Zero};
+<span class="kw">use </span>sp_runtime::{Digest, DigestItem};
+<span class="kw">use </span>sp_weights::constants::WEIGHT_REF_TIME_PER_MILLIS;
 <span class="kw">use </span>std::sync::Arc;
+<span class="kw">use </span>std::time::Instant;
 
-<span class="kw">type </span>DomainReceiptsChecker&lt;Block, CBlock, Client, CClient, Backend, E&gt; = ReceiptsChecker&lt;
-    Block,
-    Client,
-    CBlock,
-    CClient,
-    Backend,
-    E,
-    DomainParentChain&lt;Block, CBlock, CClient&gt;,
-    CBlock,
-&gt;;
+<span class="comment">// The slow log threshold for consensus block preprocessing
+</span><span class="kw">const </span>SLOW_PREPROCESS_MILLIS: u64 = <span class="number">500</span>;
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>BundleProcessor&lt;Block, CBlock, Client, CClient, Backend, E, BI&gt;
+<span class="comment">// The slow log threshold for domain block execution: `reference_duration_ms * 1.2 + 200ms`,
+// where `reference_duration_ms * 0.2` as buffer of the slow extrinsic execution (i.e. slower
+// machine than the reference machine) and 200ms as buffer of the rest of the processing.
+</span><span class="kw">fn </span>slow_domain_block_execution_threshold(reference_duration_ms: u64) -&gt; u64 {
+    reference_duration_ms + (reference_duration_ms / <span class="number">5</span>) + <span class="number">200
+</span>}
+
+<span class="comment">// The slow log threshold for post domain block execution
+</span><span class="kw">const </span>SLOW_POST_DOMAIN_BLOCK_EXECUTION_MILLIS: u64 = <span class="number">250</span>;
+
+<span class="kw">type </span>DomainReceiptsChecker&lt;Block, CBlock, Client, CClient, Backend, E&gt; =
+    ReceiptsChecker&lt;Block, Client, CBlock, CClient, Backend, E&gt;;
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>BundleProcessor&lt;Block, CBlock, Client, CClient, Backend, E&gt;
 <span class="kw">where
     </span>Block: BlockT,
     CBlock: BlockT,
@@ -305,15 +417,14 @@
     consensus_client: Arc&lt;CClient&gt;,
     client: Arc&lt;Client&gt;,
     backend: Arc&lt;Backend&gt;,
-    keystore: KeystorePtr,
     domain_receipts_checker: DomainReceiptsChecker&lt;Block, CBlock, Client, CClient, Backend, E&gt;,
     domain_block_preprocessor:
-        DomainBlockPreprocessor&lt;Block, CBlock, Client, CClient, RuntimeApiFull&lt;Client&gt;&gt;,
-    domain_block_processor: DomainBlockProcessor&lt;Block, CBlock, Client, CClient, Backend, BI&gt;,
+        DomainBlockPreprocessor&lt;Block, CBlock, Client, CClient, ReceiptValidator&lt;Client&gt;&gt;,
+    domain_block_processor: DomainBlockProcessor&lt;Block, CBlock, Client, CClient, Backend&gt;,
 }
 
-<span class="kw">impl</span>&lt;Block, CBlock, Client, CClient, Backend, E, BI&gt; Clone
-    <span class="kw">for </span>BundleProcessor&lt;Block, CBlock, Client, CClient, Backend, E, BI&gt;
+<span class="kw">impl</span>&lt;Block, CBlock, Client, CClient, Backend, E&gt; Clone
+    <span class="kw">for </span>BundleProcessor&lt;Block, CBlock, Client, CClient, Backend, E&gt;
 <span class="kw">where
     </span>Block: BlockT,
     CBlock: BlockT,
@@ -324,7 +435,6 @@
             consensus_client: <span class="self">self</span>.consensus_client.clone(),
             client: <span class="self">self</span>.client.clone(),
             backend: <span class="self">self</span>.backend.clone(),
-            keystore: <span class="self">self</span>.keystore.clone(),
             domain_receipts_checker: <span class="self">self</span>.domain_receipts_checker.clone(),
             domain_block_preprocessor: <span class="self">self</span>.domain_block_preprocessor.clone(),
             domain_block_processor: <span class="self">self</span>.domain_block_processor.clone(),
@@ -332,10 +442,60 @@
     }
 }
 
-<span class="kw">impl</span>&lt;Block, CBlock, Client, CClient, Backend, E, BI&gt;
-    BundleProcessor&lt;Block, CBlock, Client, CClient, Backend, E, BI&gt;
+<span class="kw">struct </span>ReceiptValidator&lt;Client&gt; {
+    client: Arc&lt;Client&gt;,
+}
+
+<span class="kw">impl</span>&lt;Client&gt; Clone <span class="kw">for </span>ReceiptValidator&lt;Client&gt; {
+    <span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            client: <span class="self">self</span>.client.clone(),
+        }
+    }
+}
+
+<span class="kw">impl</span>&lt;Client&gt; ReceiptValidator&lt;Client&gt; {
+    <span class="kw">pub fn </span>new(client: Arc&lt;Client&gt;) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{ client }
+    }
+}
+
+<span class="kw">impl</span>&lt;Block, CBlock, Client&gt; domain_block_preprocessor::ValidateReceipt&lt;Block, CBlock&gt;
+    <span class="kw">for </span>ReceiptValidator&lt;Client&gt;
 <span class="kw">where
     </span>Block: BlockT,
+    CBlock: BlockT,
+    Client: AuxStore,
+{
+    <span class="kw">fn </span>validate_receipt(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        receipt: <span class="kw-2">&amp;</span>ExecutionReceiptFor&lt;Block, CBlock&gt;,
+    ) -&gt; sp_blockchain::Result&lt;ReceiptValidity&gt; {
+        <span class="comment">// Skip genesis receipt as it has been already verified by the consensus chain.
+        </span><span class="kw">if </span>receipt.domain_block_number.is_zero() {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(ReceiptValidity::Valid);
+        }
+
+        <span class="kw">let </span>consensus_block_hash = receipt.consensus_block_hash;
+        <span class="kw">let </span>_local_receipt = <span class="kw">crate</span>::aux_schema::load_execution_receipt::&lt;<span class="kw">_</span>, Block, CBlock&gt;(
+            <span class="kw-2">&amp;*</span><span class="self">self</span>.client,
+            consensus_block_hash,
+        )<span class="question-mark">?
+        </span>.ok_or_else(|| {
+            sp_blockchain::Error::Backend(<span class="macro">format!</span>(
+                <span class="string">"Receipt for consensus block {consensus_block_hash} not found"
+            </span>))
+        })<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(ReceiptValidity::Valid)
+    }
+}
+
+<span class="kw">impl</span>&lt;Block, CBlock, Client, CClient, Backend, E&gt;
+    BundleProcessor&lt;Block, CBlock, Client, CClient, Backend, E&gt;
+<span class="kw">where
+    </span>Block: BlockT,
+    Block::Hash: Into&lt;H256&gt;,
     CBlock: BlockT,
     NumberFor&lt;CBlock&gt;: From&lt;NumberFor&lt;Block&gt;&gt; + Into&lt;NumberFor&lt;Block&gt;&gt;,
     CBlock::Hash: From&lt;Block::Hash&gt;,
@@ -343,26 +503,25 @@
         + BlockBackend&lt;Block&gt;
         + AuxStore
         + ProvideRuntimeApi&lt;Block&gt;
+        + ProofProvider&lt;Block&gt;
         + Finalizer&lt;Block, Backend&gt;
-        + <span class="lifetime">&#39;static</span>,
+        + <span class="lifetime">'static</span>,
     Client::Api: DomainCoreApi&lt;Block&gt;
-        + MessengerApi&lt;Block, NumberFor&lt;Block&gt;&gt;
-        + InherentExtrinsicApi&lt;Block&gt;
+        + MessengerApi&lt;Block, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
         + sp_block_builder::BlockBuilder&lt;Block&gt;
-        + sp_api::ApiExt&lt;Block, StateBackend = StateBackendFor&lt;Backend, Block&gt;&gt;,
-    <span class="kw">for</span>&lt;<span class="lifetime">&#39;b</span>&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>BI: BlockImport&lt;
-        Block,
-        Transaction = sp_api::TransactionFor&lt;Client, Block&gt;,
-        Error = sp_consensus::Error,
-    &gt;,
+        + sp_api::ApiExt&lt;Block&gt;,
     CClient: HeaderBackend&lt;CBlock&gt;
         + HeaderMetadata&lt;CBlock, Error = sp_blockchain::Error&gt;
         + BlockBackend&lt;CBlock&gt;
+        + ProofProvider&lt;CBlock&gt;
         + ProvideRuntimeApi&lt;CBlock&gt;
-        + <span class="lifetime">&#39;static</span>,
-    CClient::Api: DomainsApi&lt;CBlock, NumberFor&lt;Block&gt;, Block::Hash&gt; + <span class="lifetime">&#39;static</span>,
-    Backend: sc_client_api::Backend&lt;Block&gt; + <span class="lifetime">&#39;static</span>,
-    TransactionFor&lt;Backend, Block&gt;: sp_trie::HashDBT&lt;HashFor&lt;Block&gt;, sp_trie::DBValue&gt;,
+        + <span class="lifetime">'static</span>,
+    CClient::Api: DomainsApi&lt;CBlock, Block::Header&gt;
+        + MessengerApi&lt;CBlock, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + FraudProofApi&lt;CBlock, Block::Header&gt;
+        + MmrApi&lt;CBlock, H256, NumberFor&lt;CBlock&gt;&gt;
+        + <span class="lifetime">'static</span>,
+    Backend: sc_client_api::Backend&lt;Block&gt; + <span class="lifetime">'static</span>,
     E: CodeExecutor,
 {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(
@@ -370,37 +529,41 @@
         consensus_client: Arc&lt;CClient&gt;,
         client: Arc&lt;Client&gt;,
         backend: Arc&lt;Backend&gt;,
-        keystore: KeystorePtr,
         domain_receipts_checker: DomainReceiptsChecker&lt;Block, CBlock, Client, CClient, Backend, E&gt;,
-        domain_block_processor: DomainBlockProcessor&lt;Block, CBlock, Client, CClient, Backend, BI&gt;,
+        domain_block_processor: DomainBlockProcessor&lt;Block, CBlock, Client, CClient, Backend&gt;,
     ) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>domain_block_preprocessor = DomainBlockPreprocessor::new(
             domain_id,
             client.clone(),
             consensus_client.clone(),
-            RuntimeApiFull::new(client.clone()),
+            ReceiptValidator::new(client.clone()),
         );
         <span class="self">Self </span>{
             domain_id,
             consensus_client,
             client,
             backend,
-            keystore,
             domain_receipts_checker,
             domain_block_preprocessor,
             domain_block_processor,
         }
     }
 
-    <span class="comment">// TODO: Handle the returned error properly, ref to https://github.com/subspace/subspace/pull/695#discussion_r926721185
+    <span class="comment">// TODO: Handle the returned error properly, ref to https://github.com/autonomys/subspace/pull/695#discussion_r926721185
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">async fn </span>process_bundles(
         <span class="self">self</span>,
         consensus_block_info: (CBlock::Hash, NumberFor&lt;CBlock&gt;, bool),
     ) -&gt; sp_blockchain::Result&lt;()&gt; {
         <span class="kw">let </span>(consensus_block_hash, consensus_block_number, is_new_best) = consensus_block_info;
 
+        <span class="comment">// Skip processing the blocks of the non-canonical chain, these blocks will be processed if
+        // the chain becomes canonical later
+        </span><span class="kw">if </span>!is_new_best {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+        }
+
         <span class="macro">tracing::debug!</span>(
-            <span class="string">&quot;Processing consensus block #{consensus_block_number},{consensus_block_hash}&quot;
+            <span class="string">"Processing consensus block #{consensus_block_number},{consensus_block_hash}"
         </span>);
 
         <span class="kw">let </span>maybe_pending_consensus_blocks = <span class="self">self
@@ -415,7 +578,7 @@
             <span class="macro">tracing::trace!</span>(
                 <span class="question-mark">?</span>initial_parent,
                 <span class="question-mark">?</span>consensus_imports,
-                <span class="string">&quot;Pending consensus blocks to process&quot;
+                <span class="string">"Pending consensus blocks to process"
             </span>);
 
             <span class="kw">let </span><span class="kw-2">mut </span>domain_parent = initial_parent;
@@ -431,17 +594,28 @@
 
             <span class="comment">// The domain branch driving from the best consensus branch should also be the best domain branch even
             // if it is no the longest domain branch. Thus re-import the tip of the best domain branch to make it
-            // the new best block if it isn&#39;t.
+            // the new best block if it isn't.
             //
             // Note: this may cause the best domain fork switch to a shorter fork or in some case the best domain
             // block become the ancestor block of the current best block.
             </span><span class="kw">let </span>domain_tip = domain_parent.<span class="number">0</span>;
-            <span class="kw">if </span>is_new_best &amp;&amp; <span class="self">self</span>.client.info().best_hash != domain_tip {
+            <span class="kw">if </span><span class="self">self</span>.client.info().best_hash != domain_tip {
                 <span class="kw">let </span>header = <span class="self">self</span>.client.header(domain_tip)<span class="question-mark">?</span>.ok_or_else(|| {
-                    sp_blockchain::Error::Backend(<span class="macro">format!</span>(<span class="string">&quot;Header for #{:?} not found&quot;</span>, domain_tip))
+                    sp_blockchain::Error::Backend(<span class="macro">format!</span>(<span class="string">"Header for #{:?} not found"</span>, domain_tip))
                 })<span class="question-mark">?</span>;
+                <span class="kw">let </span>block_origin = <span class="kw">if </span><span class="self">self
+                    </span>.domain_block_processor
+                    .consensus_network_sync_oracle
+                    .is_major_syncing()
+                {
+                    <span class="comment">// The domain block is derived from the consensus block, if the consensus chain is
+                    // in major sync then we should also consider the domain block is `NetworkInitialSync`
+                    </span>BlockOrigin::NetworkInitialSync
+                } <span class="kw">else </span>{
+                    BlockOrigin::Own
+                };
                 <span class="kw">let </span>block_import_params = {
-                    <span class="kw">let </span><span class="kw-2">mut </span>import_block = BlockImportParams::new(BlockOrigin::Own, header);
+                    <span class="kw">let </span><span class="kw-2">mut </span>import_block = BlockImportParams::new(block_origin, header);
                     import_block.import_existing = <span class="bool-val">true</span>;
                     import_block.fork_choice = <span class="prelude-val">Some</span>(ForkChoiceStrategy::Custom(<span class="bool-val">true</span>));
                     import_block.state_action = StateAction::Skip;
@@ -452,6 +626,11 @@
                     .<span class="kw">await</span><span class="question-mark">?</span>;
                 <span class="macro">assert_eq!</span>(domain_tip, <span class="self">self</span>.client.info().best_hash);
             }
+
+            <span class="comment">// Check the ER submitted to consensus chain and submit fraud proof if there is bad ER
+            // NOTE: this have to be done after the recorrect of the best domain fork happen above
+            </span><span class="self">self</span>.domain_receipts_checker
+                .maybe_submit_fraud_proof(consensus_block_hash)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -464,38 +643,37 @@
     ) -&gt; sp_blockchain::Result&lt;<span class="prelude-ty">Option</span>&lt;(Block::Hash, NumberFor&lt;Block&gt;)&gt;&gt; {
         <span class="kw">let </span>(consensus_block_hash, consensus_block_number) = consensus_block_info;
         <span class="kw">let </span>(parent_hash, parent_number) = parent_info;
+        <span class="kw">let </span>start = Instant::now();
 
         <span class="macro">tracing::debug!</span>(
-            <span class="string">&quot;Building a new domain block from consensus block #{consensus_block_number},{consensus_block_hash} \
-            on top of parent block #{parent_number},{parent_hash}&quot;
+            <span class="string">"Building a new domain block from consensus block #{consensus_block_number},{consensus_block_hash} \
+            on top of parent block #{parent_number},{parent_hash}"
         </span>);
 
-        <span class="kw">let </span>head_receipt_number = <span class="self">self
-            </span>.consensus_client
-            .runtime_api()
-            .head_receipt_number(consensus_block_hash, <span class="self">self</span>.domain_id)<span class="question-mark">?
-            </span>.into();
-
-        <span class="kw">let </span>PreprocessResult {
-            extrinsics,
-            extrinsics_roots,
-        } = <span class="kw">match </span><span class="self">self
+        <span class="kw">let </span>maybe_preprocess_result = <span class="self">self
             </span>.domain_block_preprocessor
-            .preprocess_consensus_block(consensus_block_hash, parent_hash)<span class="question-mark">?
-        </span>{
-            <span class="prelude-val">Some</span>(exts) =&gt; exts,
-            <span class="prelude-val">None </span>=&gt; {
-                <span class="macro">tracing::debug!</span>(
-                    <span class="string">&quot;Skip building new domain block, no bundles and runtime upgrade for this domain \
-                    in consensus block #{consensus_block_number:?},{consensus_block_hash}&quot;
-                </span>);
-                <span class="self">self</span>.domain_block_processor.on_consensus_block_processed(
-                    consensus_block_hash,
-                    <span class="prelude-val">None</span>,
-                    head_receipt_number,
-                )<span class="question-mark">?</span>;
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
-            }
+            .preprocess_consensus_block(consensus_block_hash, (parent_hash, parent_number))<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>preprocess_took = start.elapsed().as_millis();
+        <span class="kw">if </span>preprocess_took &gt;= SLOW_PREPROCESS_MILLIS.into() {
+            <span class="macro">tracing::warn!</span>(
+                <span class="question-mark">?</span>consensus_block_info,
+                <span class="string">"Slow consensus block preprocessing, took {preprocess_took}ms"
+            </span>);
+        }
+
+        <span class="kw">let </span><span class="prelude-val">Some</span>(preprocess_result) = maybe_preprocess_result <span class="kw">else </span>{
+            <span class="macro">tracing::debug!</span>(
+                <span class="string">"Skip building new domain block, no bundles and runtime upgrade for this domain \
+                    in consensus block #{consensus_block_number:?},{consensus_block_hash}"
+            </span>);
+            <span class="self">self</span>.domain_block_processor
+                .on_consensus_block_processed(consensus_block_hash, <span class="prelude-val">None</span>)<span class="question-mark">?</span>;
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
+        };
+
+        <span class="kw">let </span>inherent_digests = Digest {
+            logs: <span class="macro">vec!</span>[DigestItem::consensus_block_info(consensus_block_hash)],
         };
 
         <span class="kw">let </span>domain_block_result = <span class="self">self
@@ -503,16 +681,19 @@
             .process_domain_block(
                 (consensus_block_hash, consensus_block_number),
                 (parent_hash, parent_number),
-                extrinsics,
-                extrinsics_roots,
-                Digest::default(),
+                preprocess_result,
+                inherent_digests,
             )
             .<span class="kw">await</span><span class="question-mark">?</span>;
 
+        <span class="kw">let </span>head_receipt_number = <span class="self">self
+            </span>.consensus_client
+            .runtime_api()
+            .head_receipt_number(consensus_block_hash, <span class="self">self</span>.domain_id)<span class="question-mark">?</span>;
         <span class="macro">assert!</span>(
             domain_block_result.header_number &gt; head_receipt_number,
-            <span class="string">&quot;Domain chain number must larger than the head number of the receipt chain \
-            (which is maintained on the consensus chain) by at least 1&quot;
+            <span class="string">"Domain chain number must larger than the head number of the receipt chain \
+            (which is maintained on the consensus chain) by at least 1"
         </span>);
 
         <span class="kw">let </span>built_block_info = (
@@ -520,14 +701,39 @@
             domain_block_result.header_number,
         );
 
-        <span class="self">self</span>.domain_block_processor.on_consensus_block_processed(
-            consensus_block_hash,
-            <span class="prelude-val">Some</span>(domain_block_result),
-            head_receipt_number,
-        )<span class="question-mark">?</span>;
+        <span class="kw">let </span>block_execution_took = start.elapsed().as_millis().saturating_sub(preprocess_took);
 
-        <span class="self">self</span>.domain_receipts_checker
-            .check_state_transition(consensus_block_hash)<span class="question-mark">?</span>;
+        <span class="kw">let </span>reference_block_execution_duration_ms = <span class="self">self
+            </span>.client
+            .runtime_api()
+            .block_weight(domain_block_result.header_hash)<span class="question-mark">?
+            </span>.ref_time()
+            / WEIGHT_REF_TIME_PER_MILLIS;
+        <span class="kw">if </span>block_execution_took
+            &gt;= slow_domain_block_execution_threshold(reference_block_execution_duration_ms).into()
+        {
+            <span class="macro">tracing::warn!</span>(
+                <span class="question-mark">?</span>consensus_block_info,
+                <span class="question-mark">?</span>built_block_info,
+                <span class="question-mark">?</span>reference_block_execution_duration_ms,
+                <span class="string">"Slow domain block execution, took {block_execution_took}ms"
+            </span>);
+        }
+
+        <span class="self">self</span>.domain_block_processor
+            .on_consensus_block_processed(consensus_block_hash, <span class="prelude-val">Some</span>(domain_block_result))<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>post_block_execution_took = start
+            .elapsed()
+            .as_millis()
+            .saturating_sub(preprocess_took + block_execution_took);
+        <span class="kw">if </span>post_block_execution_took &gt;= SLOW_POST_DOMAIN_BLOCK_EXECUTION_MILLIS.into() {
+            <span class="macro">tracing::warn!</span>(
+                <span class="question-mark">?</span>consensus_block_info,
+                <span class="question-mark">?</span>built_block_info,
+                <span class="string">"Slow post domain block execution, took {post_block_execution_took}ms"
+            </span>);
+        }
 
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(built_block_info))
     }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/sp-consensus-subspace/src/digests.rs`."><title>digests.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="sp_consensus_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../sp_consensus_subspace/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/sp-consensus-subspace/src/digests.rs`."><title>digests.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="sp_consensus_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -781,72 +781,146 @@
 <a href="#781" id="781">781</a>
 <a href="#782" id="782">782</a>
 <a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2019-2021 Parity Technologies (UK) Ltd.
 // Copyright (C) 2021 Subspace Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
 // 	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
 </span><span class="doccomment">//! Private implementation details of Subspace consensus digests.
 
-</span><span class="kw">use crate</span>::{ConsensusLog, FarmerPublicKey, FarmerSignature, SUBSPACE_ENGINE_ID};
+</span><span class="kw">use crate</span>::{ConsensusLog, PotParametersChange, SUBSPACE_ENGINE_ID};
 <span class="kw">use </span>codec::{Decode, Encode};
 <span class="kw">use </span>log::trace;
-<span class="kw">use </span>sp_api::HeaderT;
 <span class="kw">use </span>sp_consensus_slots::Slot;
-<span class="kw">use </span>sp_core::crypto::UncheckedFrom;
-<span class="kw">use </span>sp_runtime::traits::{One, Zero};
+<span class="kw">use </span>sp_runtime::traits::{Header <span class="kw">as </span>HeaderT, One, Zero};
 <span class="kw">use </span>sp_runtime::DigestItem;
 <span class="kw">use </span>sp_std::collections::btree_map::{BTreeMap, Entry};
 <span class="kw">use </span>sp_std::fmt;
+<span class="kw">use </span>sp_std::num::NonZeroU32;
 <span class="kw">use </span>subspace_core_primitives::{
-    Randomness, SegmentCommitment, SegmentIndex, Solution, SolutionRange,
+    PotOutput, PublicKey, RewardSignature, SegmentCommitment, SegmentIndex, Solution, SolutionRange,
 };
-<span class="kw">use </span>subspace_verification::derive_randomness;
 
 <span class="doccomment">/// A Subspace pre-runtime digest. This contains all data required to validate a block and for the
 /// Subspace runtime module.
 </span><span class="attr">#[derive(Debug, Clone, Encode, Decode)]
-</span><span class="kw">pub struct </span>PreDigest&lt;PublicKey, RewardAddress&gt; {
+</span><span class="kw">pub enum </span>PreDigest&lt;RewardAddress&gt; {
+    <span class="doccomment">/// Initial version of the pre-digest
+    </span><span class="attr">#[codec(index = <span class="number">0</span>)]
+    </span>V0 {
+        <span class="doccomment">/// Slot
+        </span>slot: Slot,
+        <span class="doccomment">/// Solution (includes PoR)
+        </span>solution: Solution&lt;RewardAddress&gt;,
+        <span class="doccomment">/// Proof of time information
+        </span>pot_info: PreDigestPotInfo,
+    },
+}
+
+<span class="kw">impl</span>&lt;RewardAddress&gt; PreDigest&lt;RewardAddress&gt; {
     <span class="doccomment">/// Slot
-    </span><span class="kw">pub </span>slot: Slot,
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>slot(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Slot {
+        <span class="kw">let </span><span class="self">Self</span>::V0 { slot, .. } = <span class="self">self</span>;
+        <span class="kw-2">*</span>slot
+    }
+
     <span class="doccomment">/// Solution (includes PoR)
-    </span><span class="kw">pub </span>solution: Solution&lt;PublicKey, RewardAddress&gt;,
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>solution(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Solution&lt;RewardAddress&gt; {
+        <span class="kw">let </span><span class="self">Self</span>::V0 { solution, .. } = <span class="self">self</span>;
+        solution
+    }
+
+    <span class="doccomment">/// Proof of time information
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>pot_info(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>PreDigestPotInfo {
+        <span class="kw">let </span><span class="self">Self</span>::V0 { pot_info, .. } = <span class="self">self</span>;
+        pot_info
+    }
+}
+
+<span class="doccomment">/// Proof of time information in pre-digest
+</span><span class="attr">#[derive(Debug, Clone, Encode, Decode)]
+</span><span class="kw">pub enum </span>PreDigestPotInfo {
+    <span class="doccomment">/// Initial version of proof of time information
+    </span><span class="attr">#[codec(index = <span class="number">0</span>)]
+    </span>V0 {
+        <span class="doccomment">/// Proof of time for this slot
+        </span>proof_of_time: PotOutput,
+        <span class="doccomment">/// Future proof of time
+        </span>future_proof_of_time: PotOutput,
+    },
+}
+
+<span class="kw">impl </span>PreDigestPotInfo {
+    <span class="doccomment">/// Proof of time for this slot
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>proof_of_time(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PotOutput {
+        <span class="kw">let </span><span class="self">Self</span>::V0 { proof_of_time, .. } = <span class="self">self</span>;
+        <span class="kw-2">*</span>proof_of_time
+    }
+
+    <span class="doccomment">/// Future proof of time
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>future_proof_of_time(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PotOutput {
+        <span class="kw">let </span><span class="self">Self</span>::V0 {
+            future_proof_of_time,
+            ..
+        } = <span class="self">self</span>;
+        <span class="kw-2">*</span>future_proof_of_time
+    }
 }
 
 <span class="doccomment">/// A digest item which is usable with Subspace consensus.
 </span><span class="kw">pub trait </span>CompatibleDigestItem: Sized {
     <span class="doccomment">/// Construct a digest item which contains a Subspace pre-digest.
-    </span><span class="kw">fn </span>subspace_pre_digest&lt;AccountId: Encode&gt;(
-        pre_digest: <span class="kw-2">&amp;</span>PreDigest&lt;FarmerPublicKey, AccountId&gt;,
-    ) -&gt; <span class="self">Self</span>;
+    </span><span class="kw">fn </span>subspace_pre_digest&lt;AccountId: Encode&gt;(pre_digest: <span class="kw-2">&amp;</span>PreDigest&lt;AccountId&gt;) -&gt; <span class="self">Self</span>;
 
     <span class="doccomment">/// If this item is an Subspace pre-digest, return it.
-    </span><span class="kw">fn </span>as_subspace_pre_digest&lt;AccountId: Decode&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-    ) -&gt; <span class="prelude-ty">Option</span>&lt;PreDigest&lt;FarmerPublicKey, AccountId&gt;&gt;;
+    </span><span class="kw">fn </span>as_subspace_pre_digest&lt;AccountId: Decode&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;PreDigest&lt;AccountId&gt;&gt;;
 
     <span class="doccomment">/// Construct a digest item which contains a Subspace seal.
-    </span><span class="kw">fn </span>subspace_seal(signature: FarmerSignature) -&gt; <span class="self">Self</span>;
+    </span><span class="kw">fn </span>subspace_seal(signature: RewardSignature) -&gt; <span class="self">Self</span>;
 
     <span class="doccomment">/// If this item is a Subspace signature, return the signature.
-    </span><span class="kw">fn </span>as_subspace_seal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;FarmerSignature&gt;;
+    </span><span class="kw">fn </span>as_subspace_seal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;RewardSignature&gt;;
 
-    <span class="doccomment">/// Construct a digest item which contains a global randomness.
-    </span><span class="kw">fn </span>global_randomness(global_randomness: Randomness) -&gt; <span class="self">Self</span>;
+    <span class="doccomment">/// Number of iterations for proof of time per slot, corresponds to slot that directly follows
+    /// parent block's slot and can change before slot for which block is produced
+    </span><span class="kw">fn </span>pot_slot_iterations(pot_slot_iterations: NonZeroU32) -&gt; <span class="self">Self</span>;
 
-    <span class="doccomment">/// If this item is a Subspace global randomness, return it.
-    </span><span class="kw">fn </span>as_global_randomness(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Randomness&gt;;
+    <span class="doccomment">/// If this item is a Subspace proof of time slot iterations, return it.
+    </span><span class="kw">fn </span>as_pot_slot_iterations(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;NonZeroU32&gt;;
 
     <span class="doccomment">/// Construct a digest item which contains a solution range.
     </span><span class="kw">fn </span>solution_range(solution_range: SolutionRange) -&gt; <span class="self">Self</span>;
@@ -854,11 +928,11 @@
     <span class="doccomment">/// If this item is a Subspace solution range, return it.
     </span><span class="kw">fn </span>as_solution_range(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;SolutionRange&gt;;
 
-    <span class="doccomment">/// Construct a digest item which contains next global randomness.
-    </span><span class="kw">fn </span>next_global_randomness(global_randomness: Randomness) -&gt; <span class="self">Self</span>;
+    <span class="doccomment">/// Change of parameters to apply to PoT chain
+    </span><span class="kw">fn </span>pot_parameters_change(pot_parameters_change: PotParametersChange) -&gt; <span class="self">Self</span>;
 
-    <span class="doccomment">/// If this item is a Subspace next global randomness, return it.
-    </span><span class="kw">fn </span>as_next_global_randomness(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Randomness&gt;;
+    <span class="doccomment">/// If this item is a Subspace proof of time change of parameters, return it.
+    </span><span class="kw">fn </span>as_pot_parameters_change(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;PotParametersChange&gt;;
 
     <span class="doccomment">/// Construct a digest item which contains next solution range.
     </span><span class="kw">fn </span>next_solution_range(solution_range: SolutionRange) -&gt; <span class="self">Self</span>;
@@ -885,45 +959,41 @@
     /// range, return it.
     </span><span class="kw">fn </span>as_enable_solution_range_adjustment_and_override(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;SolutionRange&gt;&gt;;
 
-    <span class="doccomment">/// Construct digest item than indicates update of root plot public key.
-    </span><span class="kw">fn </span>root_plot_public_key_update(root_plot_public_key: <span class="prelude-ty">Option</span>&lt;FarmerPublicKey&gt;) -&gt; <span class="self">Self</span>;
+    <span class="doccomment">/// Construct digest item that indicates update of root plot public key.
+    </span><span class="kw">fn </span>root_plot_public_key_update(root_plot_public_key: <span class="prelude-ty">Option</span>&lt;PublicKey&gt;) -&gt; <span class="self">Self</span>;
 
     <span class="doccomment">/// If this item is a Subspace update of root plot public key, return it.
-    </span><span class="kw">fn </span>as_root_plot_public_key_update(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;FarmerPublicKey&gt;&gt;;
+    </span><span class="kw">fn </span>as_root_plot_public_key_update(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;PublicKey&gt;&gt;;
 }
 
 <span class="kw">impl </span>CompatibleDigestItem <span class="kw">for </span>DigestItem {
-    <span class="kw">fn </span>subspace_pre_digest&lt;RewardAddress: Encode&gt;(
-        pre_digest: <span class="kw-2">&amp;</span>PreDigest&lt;FarmerPublicKey, RewardAddress&gt;,
-    ) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>subspace_pre_digest&lt;RewardAddress: Encode&gt;(pre_digest: <span class="kw-2">&amp;</span>PreDigest&lt;RewardAddress&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::PreRuntime(SUBSPACE_ENGINE_ID, pre_digest.encode())
     }
 
-    <span class="kw">fn </span>as_subspace_pre_digest&lt;RewardAddress: Decode&gt;(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-    ) -&gt; <span class="prelude-ty">Option</span>&lt;PreDigest&lt;FarmerPublicKey, RewardAddress&gt;&gt; {
+    <span class="kw">fn </span>as_subspace_pre_digest&lt;RewardAddress: Decode&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;PreDigest&lt;RewardAddress&gt;&gt; {
         <span class="self">self</span>.pre_runtime_try_to(<span class="kw-2">&amp;</span>SUBSPACE_ENGINE_ID)
     }
 
-    <span class="kw">fn </span>subspace_seal(signature: FarmerSignature) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>subspace_seal(signature: RewardSignature) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::Seal(SUBSPACE_ENGINE_ID, signature.encode())
     }
 
-    <span class="kw">fn </span>as_subspace_seal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;FarmerSignature&gt; {
+    <span class="kw">fn </span>as_subspace_seal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;RewardSignature&gt; {
         <span class="self">self</span>.seal_try_to(<span class="kw-2">&amp;</span>SUBSPACE_ENGINE_ID)
     }
 
-    <span class="kw">fn </span>global_randomness(global_randomness: Randomness) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>pot_slot_iterations(pot_slot_iterations: NonZeroU32) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::Consensus(
             SUBSPACE_ENGINE_ID,
-            ConsensusLog::GlobalRandomness(global_randomness).encode(),
+            ConsensusLog::PotSlotIterations(pot_slot_iterations).encode(),
         )
     }
 
-    <span class="kw">fn </span>as_global_randomness(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Randomness&gt; {
+    <span class="kw">fn </span>as_pot_slot_iterations(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;NonZeroU32&gt; {
         <span class="self">self</span>.consensus_try_to(<span class="kw-2">&amp;</span>SUBSPACE_ENGINE_ID).and_then(|c| {
-            <span class="kw">if let </span>ConsensusLog::GlobalRandomness(global_randomness) = c {
-                <span class="prelude-val">Some</span>(global_randomness)
+            <span class="kw">if let </span>ConsensusLog::PotSlotIterations(pot_slot_iterations) = c {
+                <span class="prelude-val">Some</span>(pot_slot_iterations)
             } <span class="kw">else </span>{
                 <span class="prelude-val">None
             </span>}
@@ -947,17 +1017,17 @@
         })
     }
 
-    <span class="kw">fn </span>next_global_randomness(global_randomness: Randomness) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>pot_parameters_change(pot_parameters_change: PotParametersChange) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::Consensus(
             SUBSPACE_ENGINE_ID,
-            ConsensusLog::NextGlobalRandomness(global_randomness).encode(),
+            ConsensusLog::PotParametersChange(pot_parameters_change).encode(),
         )
     }
 
-    <span class="kw">fn </span>as_next_global_randomness(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Randomness&gt; {
+    <span class="kw">fn </span>as_pot_parameters_change(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;PotParametersChange&gt; {
         <span class="self">self</span>.consensus_try_to(<span class="kw-2">&amp;</span>SUBSPACE_ENGINE_ID).and_then(|c| {
-            <span class="kw">if let </span>ConsensusLog::NextGlobalRandomness(global_randomness) = c {
-                <span class="prelude-val">Some</span>(global_randomness)
+            <span class="kw">if let </span>ConsensusLog::PotParametersChange(pot_parameters_change) = c {
+                <span class="prelude-val">Some</span>(pot_parameters_change)
             } <span class="kw">else </span>{
                 <span class="prelude-val">None
             </span>}
@@ -1024,14 +1094,14 @@
         })
     }
 
-    <span class="kw">fn </span>root_plot_public_key_update(root_plot_public_key: <span class="prelude-ty">Option</span>&lt;FarmerPublicKey&gt;) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>root_plot_public_key_update(root_plot_public_key: <span class="prelude-ty">Option</span>&lt;PublicKey&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::Consensus(
             SUBSPACE_ENGINE_ID,
             ConsensusLog::RootPlotPublicKeyUpdate(root_plot_public_key).encode(),
         )
     }
 
-    <span class="kw">fn </span>as_root_plot_public_key_update(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;FarmerPublicKey&gt;&gt; {
+    <span class="kw">fn </span>as_root_plot_public_key_update(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;PublicKey&gt;&gt; {
         <span class="self">self</span>.consensus_try_to(<span class="kw-2">&amp;</span>SUBSPACE_ENGINE_ID).and_then(|c| {
             <span class="kw">if let </span>ConsensusLog::RootPlotPublicKeyUpdate(root_plot_public_key) = c {
                 <span class="prelude-val">Some</span>(root_plot_public_key)
@@ -1049,12 +1119,12 @@
     </span>PreDigest,
     <span class="doccomment">/// Seal (signature)
     </span>Seal,
-    <span class="doccomment">/// Global randomness
-    </span>GlobalRandomness,
+    <span class="doccomment">/// Number of iterations for proof of time per slot
+    </span>PotSlotIterations,
     <span class="doccomment">/// Solution range
     </span>SolutionRange,
-    <span class="doccomment">/// Next global randomness
-    </span>NextGlobalRandomness,
+    <span class="doccomment">/// Change of parameters to apply to PoT chain
+    </span>PotParametersChange,
     <span class="doccomment">/// Next solution range
     </span>NextSolutionRange,
     <span class="doccomment">/// Segment commitment
@@ -1068,37 +1138,37 @@
 }
 
 <span class="kw">impl </span>fmt::Display <span class="kw">for </span>ErrorDigestType {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; fmt::Result {
         <span class="kw">match </span><span class="self">self </span>{
             ErrorDigestType::PreDigest =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;PreDigest&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"PreDigest"</span>)
             }
             ErrorDigestType::Seal =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;Seal&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"Seal"</span>)
             }
-            ErrorDigestType::GlobalRandomness =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;GlobalRandomness&quot;</span>)
+            ErrorDigestType::PotSlotIterations =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">"PotSlotIterations"</span>)
             }
             ErrorDigestType::SolutionRange =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;SolutionRange&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"SolutionRange"</span>)
             }
-            ErrorDigestType::NextGlobalRandomness =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;NextGlobalRandomness&quot;</span>)
+            ErrorDigestType::PotParametersChange =&gt; {
+                <span class="macro">write!</span>(f, <span class="string">"PotParametersChange"</span>)
             }
             ErrorDigestType::NextSolutionRange =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;NextSolutionRange&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"NextSolutionRange"</span>)
             }
             ErrorDigestType::SegmentCommitment =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;SegmentCommitment&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"SegmentCommitment"</span>)
             }
             ErrorDigestType::Consensus =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;Consensus&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"Consensus"</span>)
             }
             ErrorDigestType::EnableSolutionRangeAdjustmentAndOverride =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;EnableSolutionRangeAdjustmentAndOverride&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"EnableSolutionRangeAdjustmentAndOverride"</span>)
             }
             ErrorDigestType::RootPlotPublicKeyUpdate =&gt; {
-                <span class="macro">write!</span>(f, <span class="string">&quot;RootPlotPublicKeyUpdate&quot;</span>)
+                <span class="macro">write!</span>(f, <span class="string">"RootPlotPublicKeyUpdate"</span>)
             }
         }
     }
@@ -1106,40 +1176,40 @@
 
 <span class="doccomment">/// Digest error
 </span><span class="attr">#[derive(Debug, PartialEq, Eq)]
-#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, derive(thiserror::Error))]
+#[cfg_attr(feature = <span class="string">"thiserror"</span>, derive(thiserror::Error))]
 </span><span class="kw">pub enum </span>Error {
     <span class="doccomment">/// Subspace digest missing
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Subspace {0} digest not found&quot;</span>))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"thiserror"</span>, error(<span class="string">"Subspace {0} digest not found"</span>))]
     </span>Missing(ErrorDigestType),
     <span class="doccomment">/// Failed to decode Subspace digest
     </span><span class="attr">#[cfg_attr(
-        feature = <span class="string">&quot;thiserror&quot;</span>,
-        error(<span class="string">&quot;Failed to decode Subspace {0} digest: {1}&quot;</span>)
+        feature = <span class="string">"thiserror"</span>,
+        error(<span class="string">"Failed to decode Subspace {0} digest: {1}"</span>)
     )]
     </span>FailedToDecode(ErrorDigestType, codec::Error),
     <span class="doccomment">/// Duplicate Subspace digests
     </span><span class="attr">#[cfg_attr(
-        feature = <span class="string">&quot;thiserror&quot;</span>,
-        error(<span class="string">&quot;Duplicate Subspace {0} digests, rejecting!&quot;</span>)
+        feature = <span class="string">"thiserror"</span>,
+        error(<span class="string">"Duplicate Subspace {0} digests, rejecting!"</span>)
     )]
     </span>Duplicate(ErrorDigestType),
 
     <span class="doccomment">/// Error when deriving next digests
     </span><span class="attr">#[cfg_attr(
-        feature = <span class="string">&quot;thiserror&quot;</span>,
-        error(<span class="string">&quot;Failed to derive next {0} digest, rejecting!&quot;</span>)
+        feature = <span class="string">"thiserror"</span>,
+        error(<span class="string">"Failed to derive next {0} digest, rejecting!"</span>)
     )]
     </span>NextDigestDerivationError(ErrorDigestType),
 
     <span class="doccomment">/// Error when verifying next digests
     </span><span class="attr">#[cfg_attr(
-        feature = <span class="string">&quot;thiserror&quot;</span>,
-        error(<span class="string">&quot;Failed to verify next {0} digest, rejecting!&quot;</span>)
+        feature = <span class="string">"thiserror"</span>,
+        error(<span class="string">"Failed to verify next {0} digest, rejecting!"</span>)
     )]
     </span>NextDigestVerificationError(ErrorDigestType),
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl </span>From&lt;Error&gt; <span class="kw">for </span>String {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>from(error: Error) -&gt; String {
@@ -1149,17 +1219,18 @@
 
 <span class="doccomment">/// Digest items extracted from a header into convenient form
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span>SubspaceDigestItems&lt;PublicKey, RewardAddress, Signature&gt; {
+</span><span class="kw">pub struct </span>SubspaceDigestItems&lt;RewardAddress&gt; {
     <span class="doccomment">/// Pre-runtime digest
-    </span><span class="kw">pub </span>pre_digest: PreDigest&lt;PublicKey, RewardAddress&gt;,
+    </span><span class="kw">pub </span>pre_digest: PreDigest&lt;RewardAddress&gt;,
     <span class="doccomment">/// Signature (seal) if present
-    </span><span class="kw">pub </span>signature: <span class="prelude-ty">Option</span>&lt;Signature&gt;,
-    <span class="doccomment">/// Global randomness
-    </span><span class="kw">pub </span>global_randomness: Randomness,
+    </span><span class="kw">pub </span>signature: <span class="prelude-ty">Option</span>&lt;RewardSignature&gt;,
+    <span class="doccomment">/// Number of iterations for proof of time per slot, corresponds to slot that directly follows
+    /// parent block's slot and can change before slot for which block is produced
+    </span><span class="kw">pub </span>pot_slot_iterations: NonZeroU32,
     <span class="doccomment">/// Solution range
     </span><span class="kw">pub </span>solution_range: SolutionRange,
-    <span class="doccomment">/// Next global randomness
-    </span><span class="kw">pub </span>next_global_randomness: <span class="prelude-ty">Option</span>&lt;Randomness&gt;,
+    <span class="doccomment">/// Change of parameters to apply to PoT chain
+    </span><span class="kw">pub </span>pot_parameters_change: <span class="prelude-ty">Option</span>&lt;PotParametersChange&gt;,
     <span class="doccomment">/// Next solution range
     </span><span class="kw">pub </span>next_solution_range: <span class="prelude-ty">Option</span>&lt;SolutionRange&gt;,
     <span class="doccomment">/// Segment commitments
@@ -1167,24 +1238,22 @@
     <span class="doccomment">/// Enable solution range adjustment and Override solution range
     </span><span class="kw">pub </span>enable_solution_range_adjustment_and_override: <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;SolutionRange&gt;&gt;,
     <span class="doccomment">/// Root plot public key was updated
-    </span><span class="kw">pub </span>root_plot_public_key_update: <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;FarmerPublicKey&gt;&gt;,
+    </span><span class="kw">pub </span>root_plot_public_key_update: <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Option</span>&lt;PublicKey&gt;&gt;,
 }
 
 <span class="doccomment">/// Extract the Subspace global randomness from the given header.
-</span><span class="kw">pub fn </span>extract_subspace_digest_items&lt;Header, PublicKey, RewardAddress, Signature&gt;(
+</span><span class="kw">pub fn </span>extract_subspace_digest_items&lt;Header, RewardAddress&gt;(
     header: <span class="kw-2">&amp;</span>Header,
-) -&gt; <span class="prelude-ty">Result</span>&lt;SubspaceDigestItems&lt;PublicKey, RewardAddress, Signature&gt;, Error&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;SubspaceDigestItems&lt;RewardAddress&gt;, Error&gt;
 <span class="kw">where
     </span>Header: HeaderT,
-    PublicKey: Decode,
     RewardAddress: Decode,
-    Signature: Decode,
 {
     <span class="kw">let </span><span class="kw-2">mut </span>maybe_pre_digest = <span class="prelude-val">None</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>maybe_seal = <span class="prelude-val">None</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>maybe_global_randomness = <span class="prelude-val">None</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>maybe_pot_slot_iterations = <span class="prelude-val">None</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>maybe_solution_range = <span class="prelude-val">None</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>maybe_next_global_randomness = <span class="prelude-val">None</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>maybe_pot_parameters_change = <span class="prelude-val">None</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>maybe_next_solution_range = <span class="prelude-val">None</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>segment_commitments = BTreeMap::new();
     <span class="kw">let </span><span class="kw-2">mut </span>maybe_enable_and_override_solution_range = <span class="prelude-val">None</span>;
@@ -1197,10 +1266,8 @@
                     <span class="kw">continue</span>;
                 }
 
-                <span class="kw">let </span>pre_digest = PreDigest::&lt;PublicKey, RewardAddress&gt;::decode(
-                    <span class="kw-2">&amp;mut </span>data.as_slice(),
-                )
-                .map_err(|error| Error::FailedToDecode(ErrorDigestType::PreDigest, error))<span class="question-mark">?</span>;
+                <span class="kw">let </span>pre_digest = PreDigest::&lt;RewardAddress&gt;::decode(<span class="kw-2">&amp;mut </span>data.as_slice())
+                    .map_err(|error| Error::FailedToDecode(ErrorDigestType::PreDigest, error))<span class="question-mark">?</span>;
 
                 <span class="kw">match </span>maybe_pre_digest {
                     <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; {
@@ -1220,13 +1287,13 @@
                     .map_err(|error| Error::FailedToDecode(ErrorDigestType::Consensus, error))<span class="question-mark">?</span>;
 
                 <span class="kw">match </span>consensus {
-                    ConsensusLog::GlobalRandomness(global_randomness) =&gt; {
-                        <span class="kw">match </span>maybe_global_randomness {
+                    ConsensusLog::PotSlotIterations(pot_slot_iterations) =&gt; {
+                        <span class="kw">match </span>maybe_pot_slot_iterations {
                             <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; {
-                                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Duplicate(ErrorDigestType::GlobalRandomness));
+                                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Duplicate(ErrorDigestType::PotSlotIterations));
                             }
                             <span class="prelude-val">None </span>=&gt; {
-                                maybe_global_randomness.replace(global_randomness);
+                                maybe_pot_slot_iterations.replace(pot_slot_iterations);
                             }
                         }
                     }
@@ -1238,15 +1305,13 @@
                             maybe_solution_range.replace(solution_range);
                         }
                     },
-                    ConsensusLog::NextGlobalRandomness(global_randomness) =&gt; {
-                        <span class="kw">match </span>maybe_next_global_randomness {
+                    ConsensusLog::PotParametersChange(pot_parameters_change) =&gt; {
+                        <span class="kw">match </span>maybe_pot_parameters_change {
                             <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; {
-                                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Duplicate(
-                                    ErrorDigestType::NextGlobalRandomness,
-                                ));
+                                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Duplicate(ErrorDigestType::PotParametersChange));
                             }
                             <span class="prelude-val">None </span>=&gt; {
-                                maybe_next_global_randomness.replace(global_randomness);
+                                maybe_pot_parameters_change.replace(pot_parameters_change);
                             }
                         }
                     }
@@ -1270,26 +1335,26 @@
                     ConsensusLog::EnableSolutionRangeAdjustmentAndOverride(
                         override_solution_range,
                     ) =&gt; <span class="kw">match </span>maybe_enable_and_override_solution_range {
-                        <span class="prelude-val">None </span>=&gt; {
-                            maybe_enable_and_override_solution_range
-                                .replace(override_solution_range);
-                        }
                         <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; {
                             <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Duplicate(
                                 ErrorDigestType::EnableSolutionRangeAdjustmentAndOverride,
                             ));
                         }
+                        <span class="prelude-val">None </span>=&gt; {
+                            maybe_enable_and_override_solution_range
+                                .replace(override_solution_range);
+                        }
                     },
                     ConsensusLog::RootPlotPublicKeyUpdate(root_plot_public_key_update) =&gt; {
-                        <span class="kw">match </span>maybe_enable_and_override_solution_range {
-                            <span class="prelude-val">None </span>=&gt; {
-                                maybe_root_plot_public_key_update
-                                    .replace(root_plot_public_key_update);
-                            }
+                        <span class="kw">match </span>maybe_root_plot_public_key_update {
                             <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; {
                                 <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Duplicate(
                                     ErrorDigestType::EnableSolutionRangeAdjustmentAndOverride,
                                 ));
+                            }
+                            <span class="prelude-val">None </span>=&gt; {
+                                maybe_root_plot_public_key_update
+                                    .replace(root_plot_public_key_update);
                             }
                         }
                     }
@@ -1300,7 +1365,7 @@
                     <span class="kw">continue</span>;
                 }
 
-                <span class="kw">let </span>seal = Signature::decode(<span class="kw-2">&amp;mut </span>data.as_slice())
+                <span class="kw">let </span>seal = RewardSignature::decode(<span class="kw-2">&amp;mut </span>data.as_slice())
                     .map_err(|error| Error::FailedToDecode(ErrorDigestType::Seal, error))<span class="question-mark">?</span>;
 
                 <span class="kw">match </span>maybe_seal {
@@ -1324,11 +1389,11 @@
     <span class="prelude-val">Ok</span>(SubspaceDigestItems {
         pre_digest: maybe_pre_digest.ok_or(Error::Missing(ErrorDigestType::PreDigest))<span class="question-mark">?</span>,
         signature: maybe_seal,
-        global_randomness: maybe_global_randomness
-            .ok_or(Error::Missing(ErrorDigestType::GlobalRandomness))<span class="question-mark">?</span>,
+        pot_slot_iterations: maybe_pot_slot_iterations
+            .ok_or(Error::Missing(ErrorDigestType::PotSlotIterations))<span class="question-mark">?</span>,
         solution_range: maybe_solution_range
             .ok_or(Error::Missing(ErrorDigestType::SolutionRange))<span class="question-mark">?</span>,
-        next_global_randomness: maybe_next_global_randomness,
+        pot_parameters_change: maybe_pot_parameters_change,
         next_solution_range: maybe_next_solution_range,
         segment_commitments,
         enable_solution_range_adjustment_and_override: maybe_enable_and_override_solution_range,
@@ -1338,30 +1403,32 @@
 
 <span class="doccomment">/// Extract the Subspace pre digest from the given header. Pre-runtime digests are mandatory, the
 /// function will return `Err` if none is found.
-</span><span class="kw">pub fn </span>extract_pre_digest&lt;Header&gt;(
-    header: <span class="kw-2">&amp;</span>Header,
-) -&gt; <span class="prelude-ty">Result</span>&lt;PreDigest&lt;FarmerPublicKey, FarmerPublicKey&gt;, Error&gt;
+</span><span class="kw">pub fn </span>extract_pre_digest&lt;Header&gt;(header: <span class="kw-2">&amp;</span>Header) -&gt; <span class="prelude-ty">Result</span>&lt;PreDigest&lt;PublicKey&gt;, Error&gt;
 <span class="kw">where
     </span>Header: HeaderT,
 {
-    <span class="comment">// genesis block doesn&#39;t contain a pre digest so let&#39;s generate a
+    <span class="comment">// genesis block doesn't contain a pre digest so let's generate a
     // dummy one to not break any invariants in the rest of the code
     </span><span class="kw">if </span>header.number().is_zero() {
-        <span class="kw">return </span><span class="prelude-val">Ok</span>(PreDigest {
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(PreDigest::V0 {
             slot: Slot::from(<span class="number">0</span>),
             solution: Solution::genesis_solution(
-                FarmerPublicKey::unchecked_from([<span class="number">0u8</span>; <span class="number">32</span>]),
-                FarmerPublicKey::unchecked_from([<span class="number">0u8</span>; <span class="number">32</span>]),
+                PublicKey::from([<span class="number">0u8</span>; <span class="number">32</span>]),
+                PublicKey::from([<span class="number">0u8</span>; <span class="number">32</span>]),
             ),
+            pot_info: PreDigestPotInfo::V0 {
+                proof_of_time: Default::default(),
+                future_proof_of_time: Default::default(),
+            },
         });
     }
 
     <span class="kw">let </span><span class="kw-2">mut </span>pre_digest = <span class="prelude-val">None</span>;
     <span class="kw">for </span>log <span class="kw">in </span>header.digest().logs() {
-        <span class="macro">trace!</span>(target: <span class="string">&quot;subspace&quot;</span>, <span class="string">&quot;Checking log {:?}, looking for pre runtime digest&quot;</span>, log);
+        <span class="macro">trace!</span>(target: <span class="string">"subspace"</span>, <span class="string">"Checking log {:?}, looking for pre runtime digest"</span>, log);
         <span class="kw">match </span>(log.as_subspace_pre_digest(), pre_digest.is_some()) {
             (<span class="prelude-val">Some</span>(<span class="kw">_</span>), <span class="bool-val">true</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(Error::Duplicate(ErrorDigestType::PreDigest)),
-            (<span class="prelude-val">None</span>, <span class="kw">_</span>) =&gt; <span class="macro">trace!</span>(target: <span class="string">&quot;subspace&quot;</span>, <span class="string">&quot;Ignoring digest not meant for us&quot;</span>),
+            (<span class="prelude-val">None</span>, <span class="kw">_</span>) =&gt; <span class="macro">trace!</span>(target: <span class="string">"subspace"</span>, <span class="string">"Ignoring digest not meant for us"</span>),
             (s, <span class="bool-val">false</span>) =&gt; pre_digest = s,
         }
     }
@@ -1369,22 +1436,6 @@
 }
 
 <span class="kw">type </span>NumberOf&lt;T&gt; = &lt;T <span class="kw">as </span>HeaderT&gt;::Number;
-
-<span class="doccomment">/// Returns the next global randomness if interval is met.
-</span><span class="kw">pub fn </span>derive_next_global_randomness&lt;Header: HeaderT&gt;(
-    number: NumberOf&lt;Header&gt;,
-    global_randomness_interval: NumberOf&lt;Header&gt;,
-    pre_digest: <span class="kw-2">&amp;</span>PreDigest&lt;FarmerPublicKey, FarmerPublicKey&gt;,
-) -&gt; <span class="prelude-ty">Option</span>&lt;Randomness&gt; {
-    <span class="kw">if </span>number % global_randomness_interval != Zero::zero() {
-        <span class="kw">return </span><span class="prelude-val">None</span>;
-    }
-
-    <span class="prelude-val">Some</span>(derive_randomness(
-        <span class="kw-2">&amp;</span>pre_digest.solution,
-        pre_digest.slot.into(),
-    ))
-}
 
 <span class="doccomment">/// Params used to derive the next solution range.
 </span><span class="kw">pub struct </span>DeriveNextSolutionRangeParams&lt;Header: HeaderT&gt; {
@@ -1439,7 +1490,7 @@
             current_solution_range,
             era_duration
                 .try_into()
-                .unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">&quot;Era duration is always within u64; qed&quot;</span>)),
+                .unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">"Era duration is always within u64; qed"</span>)),
         )
     };
 
@@ -1447,13 +1498,11 @@
 }
 
 <span class="doccomment">/// Type that holds the parameters to derive and verify next digest items.
-</span><span class="kw">pub struct </span>NextDigestsVerificationParams&lt;<span class="lifetime">&#39;a</span>, Header: HeaderT&gt; {
+</span><span class="kw">pub struct </span>NextDigestsVerificationParams&lt;<span class="lifetime">'a</span>, Header: HeaderT&gt; {
     <span class="doccomment">/// Header number for which we are verifying the digests.
     </span><span class="kw">pub </span>number: NumberOf&lt;Header&gt;,
     <span class="doccomment">/// Digests present in the header that corresponds to number above.
-    </span><span class="kw">pub </span>header_digests: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>SubspaceDigestItems&lt;FarmerPublicKey, FarmerPublicKey, FarmerSignature&gt;,
-    <span class="doccomment">/// Randomness interval at which next randomness is derived.
-    </span><span class="kw">pub </span>global_randomness_interval: NumberOf&lt;Header&gt;,
+    </span><span class="kw">pub </span>header_digests: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>SubspaceDigestItems&lt;PublicKey&gt;,
     <span class="doccomment">/// Era duration at which solution range is updated.
     </span><span class="kw">pub </span>era_duration: NumberOf&lt;Header&gt;,
     <span class="doccomment">/// Slot probability.
@@ -1462,13 +1511,13 @@
     </span><span class="kw">pub </span>era_start_slot: Slot,
     <span class="doccomment">/// Should the solution range be adjusted on era change.
     /// If the digest logs indicate that solution range adjustment has been enabled, value is updated.
-    </span><span class="kw">pub </span>should_adjust_solution_range: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>bool,
+    </span><span class="kw">pub </span>should_adjust_solution_range: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>bool,
     <span class="doccomment">/// Next Solution range override.
     /// If the digest logs indicate that solution range override is provided, value is updated.
-    </span><span class="kw">pub </span>maybe_next_solution_range_override: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="prelude-ty">Option</span>&lt;SolutionRange&gt;,
+    </span><span class="kw">pub </span>maybe_next_solution_range_override: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="prelude-ty">Option</span>&lt;SolutionRange&gt;,
     <span class="doccomment">/// Root plot public key.
     /// Value is updated when digest items contain an update.
-    </span><span class="kw">pub </span>maybe_root_plot_public_key: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><span class="prelude-ty">Option</span>&lt;FarmerPublicKey&gt;,
+    </span><span class="kw">pub </span>maybe_root_plot_public_key: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><span class="prelude-ty">Option</span>&lt;PublicKey&gt;,
 }
 
 <span class="doccomment">/// Derives and verifies next digest items based on their respective intervals.
@@ -1478,7 +1527,6 @@
     <span class="kw">let </span>NextDigestsVerificationParams {
         number,
         header_digests,
-        global_randomness_interval,
         era_duration,
         slot_probability,
         era_start_slot,
@@ -1486,18 +1534,6 @@
         maybe_next_solution_range_override,
         maybe_root_plot_public_key: root_plot_public_key,
     } = params;
-
-    <span class="comment">// verify if the randomness is supposed to derived at this block header
-    </span><span class="kw">let </span>expected_next_randomness = derive_next_global_randomness::&lt;Header&gt;(
-        number,
-        global_randomness_interval,
-        <span class="kw-2">&amp;</span>header_digests.pre_digest,
-    );
-    <span class="kw">if </span>expected_next_randomness != header_digests.next_global_randomness {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(Error::NextDigestVerificationError(
-            ErrorDigestType::NextGlobalRandomness,
-        ));
-    }
 
     <span class="comment">// verify solution range adjustment and override
     // if the adjustment is already enabled, then error out
@@ -1524,7 +1560,7 @@
             number,
             era_duration,
             slot_probability,
-            current_slot: header_digests.pre_digest.slot,
+            current_slot: header_digests.pre_digest.slot(),
             current_solution_range: header_digests.solution_range,
             era_start_slot,
             should_adjust_solution_range: <span class="kw-2">*</span>should_adjust_solution_range,
@@ -1541,15 +1577,15 @@
         ));
     }
 
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(updated_root_plot_public_key) = <span class="kw-2">&amp;</span>header_digests.root_plot_public_key_update {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(updated_root_plot_public_key) = header_digests.root_plot_public_key_update {
         <span class="kw">match </span>updated_root_plot_public_key {
             <span class="prelude-val">Some</span>(updated_root_plot_public_key) =&gt; {
                 <span class="kw">if </span>number.is_one()
                     &amp;&amp; root_plot_public_key.is_none()
-                    &amp;&amp; <span class="kw-2">&amp;</span>header_digests.pre_digest.solution.public_key
+                    &amp;&amp; header_digests.pre_digest.solution().public_key
                         == updated_root_plot_public_key
                 {
-                    root_plot_public_key.replace(updated_root_plot_public_key.clone());
+                    root_plot_public_key.replace(updated_root_plot_public_key);
                 } <span class="kw">else </span>{
                     <span class="kw">return </span><span class="prelude-val">Err</span>(Error::NextDigestVerificationError(
                         ErrorDigestType::RootPlotPublicKeyUpdate,

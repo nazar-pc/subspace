@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-verification/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="subspace_verification" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../subspace_verification/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-verification/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="subspace_verification" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -343,28 +343,6 @@
 <a href="#343" id="343">343</a>
 <a href="#344" id="344">344</a>
 <a href="#345" id="345">345</a>
-<a href="#346" id="346">346</a>
-<a href="#347" id="347">347</a>
-<a href="#348" id="348">348</a>
-<a href="#349" id="349">349</a>
-<a href="#350" id="350">350</a>
-<a href="#351" id="351">351</a>
-<a href="#352" id="352">352</a>
-<a href="#353" id="353">353</a>
-<a href="#354" id="354">354</a>
-<a href="#355" id="355">355</a>
-<a href="#356" id="356">356</a>
-<a href="#357" id="357">357</a>
-<a href="#358" id="358">358</a>
-<a href="#359" id="359">359</a>
-<a href="#360" id="360">360</a>
-<a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a>
-<a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2021 Subspace Labs, Inc.
 // SPDX-License-Identifier: GPL-3.0-or-later WITH Classpath-exception-2.0
 
@@ -385,21 +363,20 @@
 </span><span class="attr">#![forbid(unsafe_code)]
 #![warn(rust_2018_idioms, missing_debug_implementations, missing_docs)]
 #![feature(array_chunks, portable_simd)]
-#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
+#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
 
 </span><span class="kw">use </span>codec::{Decode, Encode, MaxEncodedLen};
 <span class="kw">use </span>core::mem;
 <span class="kw">use </span>core::simd::Simd;
 <span class="kw">use </span>schnorrkel::context::SigningContext;
 <span class="kw">use </span>schnorrkel::SignatureError;
-<span class="kw">use </span>sp_arithmetic::traits::SaturatedConversion;
 <span class="kw">use </span>subspace_archiving::archiver;
-<span class="kw">use </span>subspace_core_primitives::crypto::kzg::Kzg;
+<span class="kw">use </span>subspace_core_primitives::crypto::kzg::{Commitment, Kzg, Witness};
 <span class="kw">use </span>subspace_core_primitives::crypto::{
-    blake2b_256_254_hash_to_scalar, blake2b_256_hash_list, blake2b_256_hash_with_key,
+    blake3_254_hash_to_scalar, blake3_hash_list, blake3_hash_with_key, Scalar,
 };
 <span class="kw">use </span>subspace_core_primitives::{
-    Blake2b256Hash, BlockNumber, BlockWeight, HistorySize, PublicKey, Randomness, Record,
+    Blake3Hash, BlockNumber, BlockWeight, HistorySize, PotOutput, PublicKey, Record,
     RewardSignature, SectorId, SectorSlotChallenge, SegmentCommitment, SlotNumber, Solution,
     SolutionRange,
 };
@@ -407,10 +384,10 @@
 
 <span class="doccomment">/// Errors encountered by the Subspace consensus primitives.
 </span><span class="attr">#[derive(Debug, Eq, PartialEq)]
-#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, derive(thiserror::Error))]
+#[cfg_attr(feature = <span class="string">"thiserror"</span>, derive(thiserror::Error))]
 </span><span class="kw">pub enum </span>Error {
     <span class="doccomment">/// Invalid piece offset
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Piece verification failed&quot;</span>))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"thiserror"</span>, error(<span class="string">"Piece verification failed"</span>))]
     </span>InvalidPieceOffset {
         <span class="doccomment">/// Index of the piece that failed verification
         </span>piece_offset: u16,
@@ -418,7 +395,7 @@
         </span>max_pieces_in_sector: u16,
     },
     <span class="doccomment">/// Sector expired
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Sector expired&quot;</span>))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"thiserror"</span>, error(<span class="string">"Sector expired"</span>))]
     </span>SectorExpired {
         <span class="doccomment">/// Expiration history size
         </span>expiration_history_size: HistorySize,
@@ -426,14 +403,14 @@
         </span>current_history_size: HistorySize,
     },
     <span class="doccomment">/// Piece verification failed
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Piece verification failed&quot;</span>))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"thiserror"</span>, error(<span class="string">"Piece verification failed"</span>))]
     </span>InvalidPiece,
     <span class="doccomment">/// Solution is outside of challenge range
     </span><span class="attr">#[cfg_attr(
-        feature = <span class="string">&quot;thiserror&quot;</span>,
+        feature = <span class="string">"thiserror"</span>,
         error(
-            <span class="string">&quot;Solution distance {solution_distance} is outside of solution range \
-            {half_solution_range} (half of actual solution range)&quot;
+            <span class="string">"Solution distance {solution_distance} is outside of solution range \
+            {half_solution_range} (half of actual solution range)"
         </span>)
     )]
     </span>OutsideSolutionRange {
@@ -443,16 +420,16 @@
         </span>solution_distance: SolutionRange,
     },
     <span class="doccomment">/// Invalid proof of space
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Invalid proof of space&quot;</span>))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"thiserror"</span>, error(<span class="string">"Invalid proof of space"</span>))]
     </span>InvalidProofOfSpace,
     <span class="doccomment">/// Invalid audit chunk offset
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Invalid audit chunk offset&quot;</span>))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"thiserror"</span>, error(<span class="string">"Invalid audit chunk offset"</span>))]
     </span>InvalidAuditChunkOffset,
     <span class="doccomment">/// Invalid chunk witness
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Invalid chunk witness&quot;</span>))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"thiserror"</span>, error(<span class="string">"Invalid chunk witness"</span>))]
     </span>InvalidChunkWitness,
     <span class="doccomment">/// Invalid history size
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Invalid history size&quot;</span>))]
+    </span><span class="attr">#[cfg_attr(feature = <span class="string">"thiserror"</span>, error(<span class="string">"Invalid history size"</span>))]
     </span>InvalidHistorySize,
 }
 
@@ -471,41 +448,41 @@
 <span class="doccomment">/// Calculates solution distance for given parameters, is used as a primitive to check whether
 /// solution distance is within solution range (see [`is_within_solution_range()`]).
 </span><span class="kw">fn </span>calculate_solution_distance(
-    global_challenge: <span class="kw-2">&amp;</span>Blake2b256Hash,
-    audit_chunk: SolutionRange,
+    global_challenge: <span class="kw-2">&amp;</span>Blake3Hash,
+    chunk: <span class="kw-2">&amp;</span>[u8; <span class="number">32</span>],
     sector_slot_challenge: <span class="kw-2">&amp;</span>SectorSlotChallenge,
 ) -&gt; SolutionRange {
+    <span class="kw">let </span>audit_chunk = blake3_hash_with_key(sector_slot_challenge, chunk);
+    <span class="kw">let </span>audit_chunk_as_solution_range: SolutionRange = SolutionRange::from_le_bytes(
+        <span class="kw-2">*</span>audit_chunk
+            .array_chunks::&lt;{ mem::size_of::&lt;SolutionRange&gt;() }&gt;()
+            .next()
+            .expect(<span class="string">"Solution range is smaller in size than global challenge; qed"</span>),
+    );
     <span class="kw">let </span>global_challenge_as_solution_range: SolutionRange = SolutionRange::from_le_bytes(
         <span class="kw-2">*</span>global_challenge
             .array_chunks::&lt;{ mem::size_of::&lt;SolutionRange&gt;() }&gt;()
             .next()
-            .expect(<span class="string">&quot;Solution range is smaller in size than global challenge; qed&quot;</span>),
+            .expect(<span class="string">"Solution range is smaller in size than global challenge; qed"</span>),
     );
-    <span class="kw">let </span>sector_slot_challenge_with_audit_chunk =
-        blake2b_256_hash_with_key(sector_slot_challenge.as_ref(), <span class="kw-2">&amp;</span>audit_chunk.to_le_bytes());
-    <span class="kw">let </span>sector_slot_challenge_with_audit_chunk_as_solution_range: SolutionRange =
-        SolutionRange::from_le_bytes(
-            <span class="kw-2">*</span>sector_slot_challenge_with_audit_chunk
-                .array_chunks::&lt;{ mem::size_of::&lt;SolutionRange&gt;() }&gt;()
-                .next()
-                .expect(<span class="string">&quot;Solution range is smaller in size than blake2b-256 hash; qed&quot;</span>),
-        );
     subspace_core_primitives::bidirectional_distance(
         <span class="kw-2">&amp;</span>global_challenge_as_solution_range,
-        <span class="kw-2">&amp;</span>sector_slot_challenge_with_audit_chunk_as_solution_range,
+        <span class="kw-2">&amp;</span>audit_chunk_as_solution_range,
     )
 }
 
-<span class="doccomment">/// Returns true if solution distance is within the solution range for provided parameters.
+<span class="doccomment">/// Returns `Some(solution_distance)` if solution distance is within the solution range for provided
+/// parameters.
 </span><span class="kw">pub fn </span>is_within_solution_range(
-    global_challenge: <span class="kw-2">&amp;</span>Blake2b256Hash,
-    audit_chunk: SolutionRange,
+    global_challenge: <span class="kw-2">&amp;</span>Blake3Hash,
+    chunk: <span class="kw-2">&amp;</span>[u8; <span class="number">32</span>],
     sector_slot_challenge: <span class="kw-2">&amp;</span>SectorSlotChallenge,
     solution_range: SolutionRange,
-) -&gt; bool {
-    calculate_solution_distance(global_challenge, audit_chunk, sector_slot_challenge)
-        &lt;= solution_range / <span class="number">2
-</span>}
+) -&gt; <span class="prelude-ty">Option</span>&lt;SolutionRange&gt; {
+    <span class="kw">let </span>solution_distance =
+        calculate_solution_distance(global_challenge, chunk, sector_slot_challenge);
+    (solution_distance &lt;= solution_range / <span class="number">2</span>).then_some(solution_distance)
+}
 
 <span class="doccomment">/// Parameters for checking piece validity
 </span><span class="attr">#[derive(Debug, Clone, Encode, Decode, MaxEncodedLen)]
@@ -514,9 +491,9 @@
     </span><span class="kw">pub </span>max_pieces_in_sector: u16,
     <span class="doccomment">/// Segment commitment of segment to which piece belongs
     </span><span class="kw">pub </span>segment_commitment: SegmentCommitment,
-    <span class="doccomment">/// Number of latest archived segments that are considered &quot;recent history&quot;
+    <span class="doccomment">/// Number of latest archived segments that are considered "recent history"
     </span><span class="kw">pub </span>recent_segments: HistorySize,
-    <span class="doccomment">/// Fraction of pieces from the &quot;recent history&quot; (`recent_segments`) in each sector
+    <span class="doccomment">/// Fraction of pieces from the "recent history" (`recent_segments`) in each sector
     </span><span class="kw">pub </span>recent_history_fraction: (HistorySize, HistorySize),
     <span class="doccomment">/// Minimum lifetime of a plotted sector, measured in archived segment
     </span><span class="kw">pub </span>min_sector_lifetime: HistorySize,
@@ -529,8 +506,8 @@
 <span class="doccomment">/// Parameters for solution verification
 </span><span class="attr">#[derive(Debug, Clone, Encode, Decode, MaxEncodedLen)]
 </span><span class="kw">pub struct </span>VerifySolutionParams {
-    <span class="doccomment">/// Global randomness
-    </span><span class="kw">pub </span>global_randomness: Randomness,
+    <span class="doccomment">/// Proof of time for which solution is built
+    </span><span class="kw">pub </span>proof_of_time: PotOutput,
     <span class="doccomment">/// Solution range
     </span><span class="kw">pub </span>solution_range: SolutionRange,
     <span class="doccomment">/// Parameters for checking piece validity.
@@ -546,58 +523,43 @@
 
 <span class="doccomment">/// Verify whether solution is valid, returns solution distance that is `&lt;= solution_range/2` on
 /// success.
-</span><span class="kw">pub fn </span>verify_solution&lt;<span class="lifetime">&#39;a</span>, PosTable, FarmerPublicKey, RewardAddress&gt;(
-    solution: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Solution&lt;FarmerPublicKey, RewardAddress&gt;,
+</span><span class="kw">pub fn </span>verify_solution&lt;<span class="lifetime">'a</span>, PosTable, RewardAddress&gt;(
+    solution: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Solution&lt;RewardAddress&gt;,
     slot: SlotNumber,
-    params: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>VerifySolutionParams,
-    kzg: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Kzg,
+    params: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>VerifySolutionParams,
+    kzg: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Kzg,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;SolutionRange, Error&gt;
 <span class="kw">where
     </span>PosTable: Table,
-    PublicKey: From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>FarmerPublicKey&gt;,
 {
     <span class="kw">let </span>VerifySolutionParams {
-        global_randomness,
+        proof_of_time,
         solution_range,
         piece_check_params,
     } = params;
 
-    <span class="kw">let </span>sector_id = SectorId::new(
-        PublicKey::from(<span class="kw-2">&amp;</span>solution.public_key).hash(),
-        solution.sector_index,
-    );
+    <span class="kw">let </span>sector_id = SectorId::new(solution.public_key.hash(), solution.sector_index);
 
+    <span class="kw">let </span>global_randomness = proof_of_time.derive_global_randomness();
     <span class="kw">let </span>global_challenge = global_randomness.derive_global_challenge(slot);
     <span class="kw">let </span>sector_slot_challenge = sector_id.derive_sector_slot_challenge(<span class="kw-2">&amp;</span>global_challenge);
     <span class="kw">let </span>s_bucket_audit_index = sector_slot_challenge.s_bucket_audit_index();
 
     <span class="comment">// Check that proof of space is valid
-    </span><span class="kw">if </span>PosTable::is_proof_valid(
+    </span><span class="kw">if </span>!PosTable::is_proof_valid(
         <span class="kw-2">&amp;</span>sector_id.derive_evaluation_seed(solution.piece_offset, solution.history_size),
         s_bucket_audit_index.into(),
         <span class="kw-2">&amp;</span>solution.proof_of_space,
-    )
-    .is_none()
-    {
+    ) {
         <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidProofOfSpace);
     };
 
     <span class="kw">let </span>masked_chunk = (Simd::from(solution.chunk.to_bytes())
-        ^ Simd::from(solution.proof_of_space.hash()))
+        ^ Simd::from(<span class="kw-2">*</span>solution.proof_of_space.hash()))
     .to_array();
-    <span class="comment">// Extract audit chunk from masked chunk
-    </span><span class="kw">let </span>audit_chunk = <span class="kw">match </span>masked_chunk
-        .array_chunks::&lt;{ mem::size_of::&lt;SolutionRange&gt;() }&gt;()
-        .nth(usize::from(solution.audit_chunk_offset))
-    {
-        <span class="prelude-val">Some</span>(audit_chunk) =&gt; SolutionRange::from_le_bytes(<span class="kw-2">*</span>audit_chunk),
-        <span class="prelude-val">None </span>=&gt; {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidAuditChunkOffset);
-        }
-    };
 
     <span class="kw">let </span>solution_distance =
-        calculate_solution_distance(<span class="kw-2">&amp;</span>global_challenge, audit_chunk, <span class="kw-2">&amp;</span>sector_slot_challenge);
+        calculate_solution_distance(<span class="kw-2">&amp;</span>global_challenge, <span class="kw-2">&amp;</span>masked_chunk, <span class="kw-2">&amp;</span>sector_slot_challenge);
 
     <span class="comment">// Check that solution is within solution range
     </span><span class="kw">if </span>solution_distance &gt; solution_range / <span class="number">2 </span>{
@@ -609,18 +571,17 @@
 
     <span class="comment">// Check that chunk belongs to the record
     </span><span class="kw">if </span>!kzg.verify(
-        <span class="kw-2">&amp;</span>solution.record_commitment,
+        <span class="kw-2">&amp;</span>Commitment::try_from(solution.record_commitment)
+            .map_err(|_error| Error::InvalidChunkWitness)<span class="question-mark">?</span>,
         Record::NUM_S_BUCKETS,
         s_bucket_audit_index.into(),
         <span class="kw-2">&amp;</span>solution.chunk,
-        <span class="kw-2">&amp;</span>solution.chunk_witness,
+        <span class="kw-2">&amp;</span>Witness::try_from(solution.chunk_witness).map_err(|_error| Error::InvalidChunkWitness)<span class="question-mark">?</span>,
     ) {
         <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidChunkWitness);
     }
 
-    <span class="comment">// TODO: Check if sector already expired once we have such notion
-
-    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(PieceCheckParams {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(PieceCheckParams {
         max_pieces_in_sector,
         segment_commitment,
         recent_segments,
@@ -650,7 +611,7 @@
                 }
             };
 
-            <span class="kw">if </span>expiration_history_size &gt;= <span class="kw-2">*</span>current_history_size {
+            <span class="kw">if </span>expiration_history_size &lt;= <span class="kw-2">*</span>current_history_size {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(Error::SectorExpired {
                     expiration_history_size,
                     current_history_size: <span class="kw-2">*</span>current_history_size,
@@ -671,7 +632,7 @@
         <span class="comment">// Check that piece is part of the blockchain history
         </span><span class="kw">if </span>!archiver::is_record_commitment_hash_valid(
             kzg,
-            <span class="kw-2">&amp;</span>blake2b_256_254_hash_to_scalar(<span class="kw-2">&amp;</span>solution.record_commitment.to_bytes()),
+            <span class="kw-2">&amp;</span>blake3_254_hash_to_scalar(solution.record_commitment.as_ref()),
             segment_commitment,
             <span class="kw-2">&amp;</span>solution.record_witness,
             position,
@@ -683,15 +644,9 @@
     <span class="prelude-val">Ok</span>(solution_distance)
 }
 
-<span class="doccomment">/// Derive on-chain randomness from solution.
-</span><span class="kw">pub fn </span>derive_randomness&lt;PublicKey, RewardAddress&gt;(
-    solution: <span class="kw-2">&amp;</span>Solution&lt;PublicKey, RewardAddress&gt;,
-    slot: SlotNumber,
-) -&gt; Randomness {
-    Randomness::from(blake2b_256_hash_list(<span class="kw-2">&amp;</span>[
-        <span class="kw-2">&amp;</span>solution.chunk.to_bytes(),
-        <span class="kw-2">&amp;</span>slot.to_le_bytes(),
-    ]))
+<span class="doccomment">/// Derive proof of time entropy from chunk and proof of time for injection purposes.
+</span><span class="kw">pub fn </span>derive_pot_entropy(chunk: Scalar, proof_of_time: PotOutput) -&gt; Blake3Hash {
+    blake3_hash_list(<span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span>chunk.to_bytes(), proof_of_time.as_ref()])
 }
 
 <span class="doccomment">/// Derives next solution range based on the total era slots and slot probability
@@ -720,13 +675,14 @@
     // next_solution_range =
     //     (solution_ranges.current as f64 * adjustment_factor).round() as u64;
     // ```
-    </span>u64::saturated_from(
+    </span>u64::try_from(
         u128::from(current_solution_range)
             .saturating_mul(u128::from(era_slot_count))
             .saturating_mul(u128::from(slot_probability.<span class="number">0</span>))
             / u128::from(era_duration)
             / u128::from(slot_probability.<span class="number">1</span>),
     )
+    .unwrap_or(u64::MAX)
     .clamp(
         current_solution_range / <span class="number">4</span>,
         current_solution_range.saturating_mul(<span class="number">4</span>),

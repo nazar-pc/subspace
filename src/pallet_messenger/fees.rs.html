@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/pallets/messenger/src/fees.rs`."><title>fees.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_messenger" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../pallet_messenger/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/pallets/messenger/src/fees.rs`."><title>fees.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_messenger" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -91,97 +91,151 @@
 <a href="#91" id="91">91</a>
 <a href="#92" id="92">92</a>
 <a href="#93" id="93">93</a>
-</pre></div><pre class="rust"><code><span class="kw">use crate</span>::{BalanceOf, Config, Pallet, Relayers};
-<span class="kw">use </span>frame_support::traits::ExistenceRequirement::AllowDeath;
-<span class="kw">use </span>frame_support::traits::{Currency, ExistenceRequirement, WithdrawReasons};
-<span class="kw">use </span>frame_support::PalletId;
-<span class="kw">use </span>sp_messenger::messages::FeeModel;
-<span class="kw">use </span>sp_runtime::traits::{AccountIdConversion, CheckedDiv, CheckedSub};
-<span class="kw">use </span>sp_runtime::{ArithmeticError, DispatchResult};
-
-<span class="doccomment">/// Messenger Id used to store deposits and fees.
-</span><span class="kw">const </span>MESSENGER_PALLET_ID: PalletId = PalletId(<span class="kw-2">*</span><span class="string">b&quot;messengr&quot;</span>);
+<a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
+<a href="#100" id="100">100</a>
+<a href="#101" id="101">101</a>
+<a href="#102" id="102">102</a>
+<a href="#103" id="103">103</a>
+<a href="#104" id="104">104</a>
+<a href="#105" id="105">105</a>
+<a href="#106" id="106">106</a>
+<a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
+<a href="#110" id="110">110</a>
+<a href="#111" id="111">111</a>
+<a href="#112" id="112">112</a>
+<a href="#113" id="113">113</a>
+<a href="#114" id="114">114</a>
+<a href="#115" id="115">115</a>
+<a href="#116" id="116">116</a>
+<a href="#117" id="117">117</a>
+<a href="#118" id="118">118</a>
+<a href="#119" id="119">119</a>
+<a href="#120" id="120">120</a>
+</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::pallet::{InboxFee, InboxResponses, MessageWeightTags, OutboxFee};
+<span class="kw">use crate</span>::{BalanceOf, Config, Error, Pallet};
+<span class="kw">use </span>frame_support::traits::fungible::Mutate;
+<span class="kw">use </span>frame_support::traits::tokens::{Fortitude, Precision, Preservation};
+<span class="kw">use </span>frame_support::weights::WeightToFee;
+<span class="kw">use </span>sp_messenger::endpoint::Endpoint;
+<span class="kw">use </span>sp_messenger::messages::{ChainId, ChannelId, FeeModel, MessageId, Nonce};
+<span class="kw">use </span>sp_messenger::OnXDMRewards;
+<span class="kw">use </span>sp_runtime::traits::CheckedAdd;
+<span class="kw">use </span>sp_runtime::DispatchResult;
 
 <span class="kw">impl</span>&lt;T: Config&gt; Pallet&lt;T&gt; {
-    <span class="doccomment">/// Returns the account_id to holds fees and and acts as treasury for messenger.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>messenger_account_id() -&gt; T::AccountId {
-        MESSENGER_PALLET_ID.into_account_truncating()
-    }
-
     <span class="doccomment">/// Ensures the fees from the sender per FeeModel provided for a single request for a response.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>ensure_fees_for_outbox_message(
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>collect_fees_for_message(
         sender: <span class="kw-2">&amp;</span>T::AccountId,
+        message_id: (ChainId, MessageId),
         fee_model: <span class="kw-2">&amp;</span>FeeModel&lt;BalanceOf&lt;T&gt;&gt;,
+        endpoint: <span class="kw-2">&amp;</span>Endpoint,
     ) -&gt; DispatchResult {
-        <span class="kw">let </span>msgr_acc_id = <span class="self">Self</span>::messenger_account_id();
-        <span class="comment">// reserve outbox fee by transferring it to the messenger account.
-        // we will use the funds to pay the relayers once the response is received.
-        </span><span class="kw">let </span>outbox_fee = fee_model.outbox_fee().ok_or(ArithmeticError::Overflow)<span class="question-mark">?</span>;
-        T::Currency::withdraw(
-            sender,
-            outbox_fee,
-            WithdrawReasons::TRANSACTION_PAYMENT,
-            AllowDeath,
-        )<span class="question-mark">?</span>;
-        T::Currency::deposit_creating(<span class="kw-2">&amp;</span>msgr_acc_id, outbox_fee);
+        <span class="kw">let </span>handler = T::get_endpoint_handler(endpoint).ok_or(Error::&lt;T&gt;::NoMessageHandler)<span class="question-mark">?</span>;
 
-        <span class="comment">// burn the fees that need to be paid on the dst_domain
-        </span><span class="kw">let </span>inbox_fee = fee_model.inbox_fee().ok_or(ArithmeticError::Overflow)<span class="question-mark">?</span>;
-        T::Currency::withdraw(
+        <span class="comment">// fees need to be paid for following
+        // - Execution on dst_chain + Relay Fee. This is burned here and minted on dst_chain
+        </span><span class="kw">let </span>dst_chain_inbox_execution_fee =
+            T::WeightToFee::weight_to_fee(<span class="kw-2">&amp;</span>handler.message_weight());
+        <span class="kw">let </span>dst_chain_fee = dst_chain_inbox_execution_fee
+            .checked_add(<span class="kw-2">&amp;</span>fee_model.relay_fee)
+            .ok_or(Error::&lt;T&gt;::BalanceOverflow)<span class="question-mark">?</span>;
+
+        <span class="comment">// - Execution of response on src_chain + relay fee.
+        // - This is collected and given to operators once response is received.
+        </span><span class="kw">let </span>src_chain_outbox_response_execution_fee =
+            T::WeightToFee::weight_to_fee(<span class="kw-2">&amp;</span>handler.message_response_weight());
+        <span class="kw">let </span>src_chain_fee = src_chain_outbox_response_execution_fee
+            .checked_add(<span class="kw-2">&amp;</span>fee_model.relay_fee)
+            .ok_or(Error::&lt;T&gt;::BalanceOverflow)<span class="question-mark">?</span>;
+        OutboxFee::&lt;T&gt;::insert(message_id, src_chain_fee);
+
+        <span class="comment">// burn the total fees
+        </span><span class="kw">let </span>total_fees = dst_chain_fee
+            .checked_add(<span class="kw-2">&amp;</span>src_chain_fee)
+            .ok_or(Error::&lt;T&gt;::BalanceOverflow)<span class="question-mark">?</span>;
+        T::Currency::burn_from(
             sender,
-            inbox_fee,
-            WithdrawReasons::TRANSACTION_PAYMENT,
-            AllowDeath,
+            total_fees,
+            Preservation::Preserve,
+            Precision::Exact,
+            Fortitude::Polite,
         )<span class="question-mark">?</span>;
+
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Ensures the fee paid by the sender on the src_domain are minted here and paid to
-    /// relayer set when the acknowledgments are received.
+    <span class="doccomment">/// Ensures the fee paid by the sender on the src_chain for execution on this chain are stored as operator rewards
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>ensure_fees_for_inbox_message(
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>store_fees_for_inbox_message(
+        message_id: (ChainId, MessageId),
         fee_model: <span class="kw-2">&amp;</span>FeeModel&lt;BalanceOf&lt;T&gt;&gt;,
+        endpoint: <span class="kw-2">&amp;</span>Endpoint,
     ) -&gt; DispatchResult {
-        <span class="kw">let </span>inbox_fee = fee_model.inbox_fee().ok_or(ArithmeticError::Overflow)<span class="question-mark">?</span>;
-        <span class="kw">let </span>msngr_acc_id = <span class="self">Self</span>::messenger_account_id();
-        T::Currency::deposit_creating(<span class="kw-2">&amp;</span>msngr_acc_id, inbox_fee);
+        <span class="kw">let </span>handler = T::get_endpoint_handler(endpoint).ok_or(Error::&lt;T&gt;::NoMessageHandler)<span class="question-mark">?</span>;
+        <span class="kw">let </span>inbox_execution_fee = T::WeightToFee::weight_to_fee(<span class="kw-2">&amp;</span>handler.message_weight());
+        <span class="kw">let </span>inbox_fee = inbox_execution_fee
+            .checked_add(<span class="kw-2">&amp;</span>fee_model.relay_fee)
+            .ok_or(Error::&lt;T&gt;::BalanceOverflow)<span class="question-mark">?</span>;
+
+        InboxFee::&lt;T&gt;::insert(message_id, inbox_fee);
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Distribute the rewards to the relayers.
-    /// Operation is no-op if there is not enough balance to pay.
-    /// Operation is no-op if there are no relayers.
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>distribute_reward_to_relayers(reward: BalanceOf&lt;T&gt;) -&gt; DispatchResult {
-        <span class="kw">let </span>relayers = Relayers::&lt;T&gt;::get();
-        <span class="kw">let </span>relayer_count: BalanceOf&lt;T&gt; = (relayers.len() <span class="kw">as </span>u32).into();
-        <span class="kw">let </span>reward_per_relayer = <span class="kw">match </span>reward.checked_div(<span class="kw-2">&amp;</span>relayer_count) {
-            <span class="comment">// no relayers yet.
-            </span><span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(()),
-            <span class="prelude-val">Some</span>(reward) =&gt; reward,
-        };
+    <span class="doccomment">/// Rewards operators for executing an inbox message since src_chain signalled that responses are delivered.
+    /// Removes messages responses from Inbox responses.
+    /// All the messages with nonce &lt;= latest_confirmed_nonce are deleted.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>reward_operators_for_inbox_execution(
+        dst_chain_id: ChainId,
+        channel_id: ChannelId,
+        latest_confirmed_nonce: <span class="prelude-ty">Option</span>&lt;Nonce&gt;,
+    ) -&gt; DispatchResult {
+        <span class="kw">let </span><span class="kw-2">mut </span>current_nonce = latest_confirmed_nonce;
 
-        <span class="comment">// ensure we have enough to pay but maintain minimum existential deposit
-        </span><span class="kw">let </span>msngr_acc_id = <span class="self">Self</span>::messenger_account_id();
-        <span class="kw">if </span>!T::Currency::free_balance(<span class="kw-2">&amp;</span>msngr_acc_id)
-            .checked_sub(<span class="kw-2">&amp;</span>T::Currency::minimum_balance())
-            .map(|usable| usable &gt;= reward)
-            .unwrap_or(<span class="bool-val">false</span>)
-        {
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+        <span class="kw">while let </span><span class="prelude-val">Some</span>(nonce) = current_nonce {
+            <span class="comment">// clear weight tags for inbox response messages
+            </span>MessageWeightTags::&lt;T&gt;::mutate(|maybe_messages| {
+                <span class="kw">let </span><span class="kw-2">mut </span>messages = maybe_messages.as_mut().cloned().unwrap_or_default();
+                messages
+                    .inbox_responses
+                    .remove(<span class="kw-2">&amp;</span>(dst_chain_id, (channel_id, nonce)));
+                <span class="kw-2">*</span>maybe_messages = <span class="prelude-val">Some</span>(messages)
+            });
+
+            <span class="comment">// for every inbox response we take, distribute the reward to the operators.
+            </span><span class="kw">if </span>InboxResponses::&lt;T&gt;::take((dst_chain_id, channel_id, nonce)).is_none() {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+            }
+
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(inbox_fee) = InboxFee::&lt;T&gt;::take((dst_chain_id, (channel_id, nonce))) {
+                <span class="self">Self</span>::reward_operators(inbox_fee);
+            }
+
+            current_nonce = nonce.checked_sub(Nonce::one())
         }
 
-        <span class="comment">// distribute reward to relayers
-        </span><span class="kw">for </span>relayer <span class="kw">in </span>relayers.into_iter() {
-            <span class="comment">// ensure msngr account is still kept alive after transfer.
-            </span>T::Currency::transfer(
-                <span class="kw-2">&amp;</span>msngr_acc_id,
-                <span class="kw-2">&amp;</span>relayer,
-                reward_per_relayer,
-                ExistenceRequirement::KeepAlive,
-            )<span class="question-mark">?</span>;
-        }
         <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>reward_operators_for_outbox_execution(
+        dst_chain_id: ChainId,
+        message_id: MessageId,
+    ) {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(fee) = OutboxFee::&lt;T&gt;::take((dst_chain_id, message_id)) {
+            <span class="self">Self</span>::reward_operators(fee);
+        }
+    }
+
+    <span class="doccomment">/// Increments the current block's relayer rewards.
+    </span><span class="kw">fn </span>reward_operators(reward: BalanceOf&lt;T&gt;) {
+        T::OnXDMRewards::on_xdm_rewards(reward)
     }
 }
 </code></pre></div></section></main></body></html>

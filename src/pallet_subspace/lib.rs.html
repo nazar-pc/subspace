@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-subspace/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../pallet_subspace/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-subspace/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1648,26 +1648,302 @@
 <a href="#1648" id="1648">1648</a>
 <a href="#1649" id="1649">1649</a>
 <a href="#1650" id="1650">1650</a>
-</pre></div><pre class="rust"><code><span class="attr">#![feature(assert_matches, const_option)]
-</span><span class="comment">// Copyright (C) 2019-2021 Parity Technologies (UK) Ltd.
+<a href="#1651" id="1651">1651</a>
+<a href="#1652" id="1652">1652</a>
+<a href="#1653" id="1653">1653</a>
+<a href="#1654" id="1654">1654</a>
+<a href="#1655" id="1655">1655</a>
+<a href="#1656" id="1656">1656</a>
+<a href="#1657" id="1657">1657</a>
+<a href="#1658" id="1658">1658</a>
+<a href="#1659" id="1659">1659</a>
+<a href="#1660" id="1660">1660</a>
+<a href="#1661" id="1661">1661</a>
+<a href="#1662" id="1662">1662</a>
+<a href="#1663" id="1663">1663</a>
+<a href="#1664" id="1664">1664</a>
+<a href="#1665" id="1665">1665</a>
+<a href="#1666" id="1666">1666</a>
+<a href="#1667" id="1667">1667</a>
+<a href="#1668" id="1668">1668</a>
+<a href="#1669" id="1669">1669</a>
+<a href="#1670" id="1670">1670</a>
+<a href="#1671" id="1671">1671</a>
+<a href="#1672" id="1672">1672</a>
+<a href="#1673" id="1673">1673</a>
+<a href="#1674" id="1674">1674</a>
+<a href="#1675" id="1675">1675</a>
+<a href="#1676" id="1676">1676</a>
+<a href="#1677" id="1677">1677</a>
+<a href="#1678" id="1678">1678</a>
+<a href="#1679" id="1679">1679</a>
+<a href="#1680" id="1680">1680</a>
+<a href="#1681" id="1681">1681</a>
+<a href="#1682" id="1682">1682</a>
+<a href="#1683" id="1683">1683</a>
+<a href="#1684" id="1684">1684</a>
+<a href="#1685" id="1685">1685</a>
+<a href="#1686" id="1686">1686</a>
+<a href="#1687" id="1687">1687</a>
+<a href="#1688" id="1688">1688</a>
+<a href="#1689" id="1689">1689</a>
+<a href="#1690" id="1690">1690</a>
+<a href="#1691" id="1691">1691</a>
+<a href="#1692" id="1692">1692</a>
+<a href="#1693" id="1693">1693</a>
+<a href="#1694" id="1694">1694</a>
+<a href="#1695" id="1695">1695</a>
+<a href="#1696" id="1696">1696</a>
+<a href="#1697" id="1697">1697</a>
+<a href="#1698" id="1698">1698</a>
+<a href="#1699" id="1699">1699</a>
+<a href="#1700" id="1700">1700</a>
+<a href="#1701" id="1701">1701</a>
+<a href="#1702" id="1702">1702</a>
+<a href="#1703" id="1703">1703</a>
+<a href="#1704" id="1704">1704</a>
+<a href="#1705" id="1705">1705</a>
+<a href="#1706" id="1706">1706</a>
+<a href="#1707" id="1707">1707</a>
+<a href="#1708" id="1708">1708</a>
+<a href="#1709" id="1709">1709</a>
+<a href="#1710" id="1710">1710</a>
+<a href="#1711" id="1711">1711</a>
+<a href="#1712" id="1712">1712</a>
+<a href="#1713" id="1713">1713</a>
+<a href="#1714" id="1714">1714</a>
+<a href="#1715" id="1715">1715</a>
+<a href="#1716" id="1716">1716</a>
+<a href="#1717" id="1717">1717</a>
+<a href="#1718" id="1718">1718</a>
+<a href="#1719" id="1719">1719</a>
+<a href="#1720" id="1720">1720</a>
+<a href="#1721" id="1721">1721</a>
+<a href="#1722" id="1722">1722</a>
+<a href="#1723" id="1723">1723</a>
+<a href="#1724" id="1724">1724</a>
+<a href="#1725" id="1725">1725</a>
+<a href="#1726" id="1726">1726</a>
+<a href="#1727" id="1727">1727</a>
+<a href="#1728" id="1728">1728</a>
+<a href="#1729" id="1729">1729</a>
+<a href="#1730" id="1730">1730</a>
+<a href="#1731" id="1731">1731</a>
+<a href="#1732" id="1732">1732</a>
+<a href="#1733" id="1733">1733</a>
+<a href="#1734" id="1734">1734</a>
+<a href="#1735" id="1735">1735</a>
+<a href="#1736" id="1736">1736</a>
+<a href="#1737" id="1737">1737</a>
+<a href="#1738" id="1738">1738</a>
+<a href="#1739" id="1739">1739</a>
+<a href="#1740" id="1740">1740</a>
+<a href="#1741" id="1741">1741</a>
+<a href="#1742" id="1742">1742</a>
+<a href="#1743" id="1743">1743</a>
+<a href="#1744" id="1744">1744</a>
+<a href="#1745" id="1745">1745</a>
+<a href="#1746" id="1746">1746</a>
+<a href="#1747" id="1747">1747</a>
+<a href="#1748" id="1748">1748</a>
+<a href="#1749" id="1749">1749</a>
+<a href="#1750" id="1750">1750</a>
+<a href="#1751" id="1751">1751</a>
+<a href="#1752" id="1752">1752</a>
+<a href="#1753" id="1753">1753</a>
+<a href="#1754" id="1754">1754</a>
+<a href="#1755" id="1755">1755</a>
+<a href="#1756" id="1756">1756</a>
+<a href="#1757" id="1757">1757</a>
+<a href="#1758" id="1758">1758</a>
+<a href="#1759" id="1759">1759</a>
+<a href="#1760" id="1760">1760</a>
+<a href="#1761" id="1761">1761</a>
+<a href="#1762" id="1762">1762</a>
+<a href="#1763" id="1763">1763</a>
+<a href="#1764" id="1764">1764</a>
+<a href="#1765" id="1765">1765</a>
+<a href="#1766" id="1766">1766</a>
+<a href="#1767" id="1767">1767</a>
+<a href="#1768" id="1768">1768</a>
+<a href="#1769" id="1769">1769</a>
+<a href="#1770" id="1770">1770</a>
+<a href="#1771" id="1771">1771</a>
+<a href="#1772" id="1772">1772</a>
+<a href="#1773" id="1773">1773</a>
+<a href="#1774" id="1774">1774</a>
+<a href="#1775" id="1775">1775</a>
+<a href="#1776" id="1776">1776</a>
+<a href="#1777" id="1777">1777</a>
+<a href="#1778" id="1778">1778</a>
+<a href="#1779" id="1779">1779</a>
+<a href="#1780" id="1780">1780</a>
+<a href="#1781" id="1781">1781</a>
+<a href="#1782" id="1782">1782</a>
+<a href="#1783" id="1783">1783</a>
+<a href="#1784" id="1784">1784</a>
+<a href="#1785" id="1785">1785</a>
+<a href="#1786" id="1786">1786</a>
+<a href="#1787" id="1787">1787</a>
+<a href="#1788" id="1788">1788</a>
+<a href="#1789" id="1789">1789</a>
+<a href="#1790" id="1790">1790</a>
+<a href="#1791" id="1791">1791</a>
+<a href="#1792" id="1792">1792</a>
+<a href="#1793" id="1793">1793</a>
+<a href="#1794" id="1794">1794</a>
+<a href="#1795" id="1795">1795</a>
+<a href="#1796" id="1796">1796</a>
+<a href="#1797" id="1797">1797</a>
+<a href="#1798" id="1798">1798</a>
+<a href="#1799" id="1799">1799</a>
+<a href="#1800" id="1800">1800</a>
+<a href="#1801" id="1801">1801</a>
+<a href="#1802" id="1802">1802</a>
+<a href="#1803" id="1803">1803</a>
+<a href="#1804" id="1804">1804</a>
+<a href="#1805" id="1805">1805</a>
+<a href="#1806" id="1806">1806</a>
+<a href="#1807" id="1807">1807</a>
+<a href="#1808" id="1808">1808</a>
+<a href="#1809" id="1809">1809</a>
+<a href="#1810" id="1810">1810</a>
+<a href="#1811" id="1811">1811</a>
+<a href="#1812" id="1812">1812</a>
+<a href="#1813" id="1813">1813</a>
+<a href="#1814" id="1814">1814</a>
+<a href="#1815" id="1815">1815</a>
+<a href="#1816" id="1816">1816</a>
+<a href="#1817" id="1817">1817</a>
+<a href="#1818" id="1818">1818</a>
+<a href="#1819" id="1819">1819</a>
+<a href="#1820" id="1820">1820</a>
+<a href="#1821" id="1821">1821</a>
+<a href="#1822" id="1822">1822</a>
+<a href="#1823" id="1823">1823</a>
+<a href="#1824" id="1824">1824</a>
+<a href="#1825" id="1825">1825</a>
+<a href="#1826" id="1826">1826</a>
+<a href="#1827" id="1827">1827</a>
+<a href="#1828" id="1828">1828</a>
+<a href="#1829" id="1829">1829</a>
+<a href="#1830" id="1830">1830</a>
+<a href="#1831" id="1831">1831</a>
+<a href="#1832" id="1832">1832</a>
+<a href="#1833" id="1833">1833</a>
+<a href="#1834" id="1834">1834</a>
+<a href="#1835" id="1835">1835</a>
+<a href="#1836" id="1836">1836</a>
+<a href="#1837" id="1837">1837</a>
+<a href="#1838" id="1838">1838</a>
+<a href="#1839" id="1839">1839</a>
+<a href="#1840" id="1840">1840</a>
+<a href="#1841" id="1841">1841</a>
+<a href="#1842" id="1842">1842</a>
+<a href="#1843" id="1843">1843</a>
+<a href="#1844" id="1844">1844</a>
+<a href="#1845" id="1845">1845</a>
+<a href="#1846" id="1846">1846</a>
+<a href="#1847" id="1847">1847</a>
+<a href="#1848" id="1848">1848</a>
+<a href="#1849" id="1849">1849</a>
+<a href="#1850" id="1850">1850</a>
+<a href="#1851" id="1851">1851</a>
+<a href="#1852" id="1852">1852</a>
+<a href="#1853" id="1853">1853</a>
+<a href="#1854" id="1854">1854</a>
+<a href="#1855" id="1855">1855</a>
+<a href="#1856" id="1856">1856</a>
+<a href="#1857" id="1857">1857</a>
+<a href="#1858" id="1858">1858</a>
+<a href="#1859" id="1859">1859</a>
+<a href="#1860" id="1860">1860</a>
+<a href="#1861" id="1861">1861</a>
+<a href="#1862" id="1862">1862</a>
+<a href="#1863" id="1863">1863</a>
+<a href="#1864" id="1864">1864</a>
+<a href="#1865" id="1865">1865</a>
+<a href="#1866" id="1866">1866</a>
+<a href="#1867" id="1867">1867</a>
+<a href="#1868" id="1868">1868</a>
+<a href="#1869" id="1869">1869</a>
+<a href="#1870" id="1870">1870</a>
+<a href="#1871" id="1871">1871</a>
+<a href="#1872" id="1872">1872</a>
+<a href="#1873" id="1873">1873</a>
+<a href="#1874" id="1874">1874</a>
+<a href="#1875" id="1875">1875</a>
+<a href="#1876" id="1876">1876</a>
+<a href="#1877" id="1877">1877</a>
+<a href="#1878" id="1878">1878</a>
+<a href="#1879" id="1879">1879</a>
+<a href="#1880" id="1880">1880</a>
+<a href="#1881" id="1881">1881</a>
+<a href="#1882" id="1882">1882</a>
+<a href="#1883" id="1883">1883</a>
+<a href="#1884" id="1884">1884</a>
+<a href="#1885" id="1885">1885</a>
+<a href="#1886" id="1886">1886</a>
+<a href="#1887" id="1887">1887</a>
+<a href="#1888" id="1888">1888</a>
+<a href="#1889" id="1889">1889</a>
+<a href="#1890" id="1890">1890</a>
+<a href="#1891" id="1891">1891</a>
+<a href="#1892" id="1892">1892</a>
+<a href="#1893" id="1893">1893</a>
+<a href="#1894" id="1894">1894</a>
+<a href="#1895" id="1895">1895</a>
+<a href="#1896" id="1896">1896</a>
+<a href="#1897" id="1897">1897</a>
+<a href="#1898" id="1898">1898</a>
+<a href="#1899" id="1899">1899</a>
+<a href="#1900" id="1900">1900</a>
+<a href="#1901" id="1901">1901</a>
+<a href="#1902" id="1902">1902</a>
+<a href="#1903" id="1903">1903</a>
+<a href="#1904" id="1904">1904</a>
+<a href="#1905" id="1905">1905</a>
+<a href="#1906" id="1906">1906</a>
+<a href="#1907" id="1907">1907</a>
+<a href="#1908" id="1908">1908</a>
+<a href="#1909" id="1909">1909</a>
+<a href="#1910" id="1910">1910</a>
+<a href="#1911" id="1911">1911</a>
+<a href="#1912" id="1912">1912</a>
+<a href="#1913" id="1913">1913</a>
+<a href="#1914" id="1914">1914</a>
+<a href="#1915" id="1915">1915</a>
+<a href="#1916" id="1916">1916</a>
+<a href="#1917" id="1917">1917</a>
+<a href="#1918" id="1918">1918</a>
+<a href="#1919" id="1919">1919</a>
+<a href="#1920" id="1920">1920</a>
+<a href="#1921" id="1921">1921</a>
+<a href="#1922" id="1922">1922</a>
+<a href="#1923" id="1923">1923</a>
+<a href="#1924" id="1924">1924</a>
+<a href="#1925" id="1925">1925</a>
+</pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2019-2021 Parity Technologies (UK) Ltd.
 // Copyright (C) 2021 Subspace Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
 // 	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-</span><span class="attr">#![doc = <span class="macro">include_str!</span>(<span class="string">&quot;../README.md&quot;</span>)]
-#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
-#![warn(unused_must_use, unsafe_code, unused_variables, unused_must_use)]
+</span><span class="attr">#![doc = <span class="macro">include_str!</span>(<span class="string">"../README.md"</span>)]
+#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
+#![feature(array_chunks, assert_matches, const_option, let_chains, portable_simd)]
+#![warn(unused_must_use, unsafe_code, unused_variables)]
 
+#[cfg(not(feature = <span class="string">"std"</span>))]
 </span><span class="kw">extern crate </span>alloc;
 
 <span class="kw">pub mod </span>equivocation;
@@ -1677,31 +1953,33 @@
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests;
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;runtime-benchmarks&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"runtime-benchmarks"</span>)]
 </span><span class="kw">mod </span>benchmarking;
 
 <span class="kw">pub mod </span>weights;
 
-<span class="kw">use </span>alloc::string::String;
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::string::String;
 <span class="kw">use </span>codec::{Decode, Encode, MaxEncodedLen};
 <span class="kw">use </span>core::num::NonZeroU64;
 <span class="kw">use </span>equivocation::{HandleEquivocation, SubspaceEquivocationOffence};
 <span class="kw">use </span>frame_support::dispatch::{DispatchResult, DispatchResultWithPostInfo, Pays};
-<span class="kw">use </span>frame_support::traits::{Get, OnTimestampSet};
+<span class="kw">use </span>frame_support::traits::Get;
 <span class="kw">use </span>frame_system::offchain::{SendTransactionTypes, SubmitTransaction};
+<span class="kw">use </span>frame_system::pallet_prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>log::{debug, error, warn};
 <span class="kw">pub use </span>pallet::<span class="kw-2">*</span>;
 <span class="kw">use </span>scale_info::TypeInfo;
 <span class="kw">use </span>schnorrkel::SignatureError;
 <span class="kw">use </span>sp_consensus_slots::Slot;
-<span class="kw">use </span>sp_consensus_subspace::consensus::verify_solution;
+<span class="kw">use </span>sp_consensus_subspace::consensus::{is_proof_of_time_valid, verify_solution};
 <span class="kw">use </span>sp_consensus_subspace::digests::CompatibleDigestItem;
 <span class="kw">use </span>sp_consensus_subspace::offence::{OffenceDetails, OffenceError, OnOffenceHandler};
 <span class="kw">use </span>sp_consensus_subspace::{
-    ChainConstants, EquivocationProof, FarmerPublicKey, FarmerSignature, SignedVote, Vote,
+    EquivocationProof, PotParameters, PotParametersChange, SignedVote, Vote, WrappedPotOutput,
 };
 <span class="kw">use </span>sp_runtime::generic::DigestItem;
-<span class="kw">use </span>sp_runtime::traits::{BlockNumberProvider, Hash, One, SaturatedConversion, Saturating, Zero};
+<span class="kw">use </span>sp_runtime::traits::{BlockNumberProvider, CheckedSub, Hash, One, Zero};
 <span class="kw">use </span>sp_runtime::transaction_validity::{
     InvalidTransaction, TransactionPriority, TransactionSource, TransactionValidity,
     TransactionValidityError, ValidTransaction,
@@ -1711,46 +1989,27 @@
 <span class="kw">use </span>sp_std::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>subspace_core_primitives::crypto::Scalar;
 <span class="kw">use </span>subspace_core_primitives::{
-    ArchivedHistorySegment, HistorySize, PublicKey, Randomness, RewardSignature, SectorId,
-    SectorIndex, SegmentHeader, SegmentIndex, SolutionRange,
+    ArchivedHistorySegment, BlockHash, HistorySize, PieceOffset, PublicKey, RewardSignature,
+    SectorId, SectorIndex, SegmentHeader, SegmentIndex, SlotNumber, SolutionRange,
+    REWARD_SIGNING_CONTEXT,
 };
-<span class="kw">use </span>subspace_solving::REWARD_SIGNING_CONTEXT;
 <span class="kw">use </span>subspace_verification::{
-    check_reward_signature, derive_next_solution_range, derive_randomness, PieceCheckParams,
+    check_reward_signature, derive_next_solution_range, derive_pot_entropy, PieceCheckParams,
     VerifySolutionParams,
 };
-
-<span class="doccomment">/// Trigger global randomness every interval.
-</span><span class="kw">pub trait </span>GlobalRandomnessIntervalTrigger {
-    <span class="doccomment">/// Trigger a global randomness update. This should be called during every block, after
-    /// initialization is done.
-    </span><span class="kw">fn </span>trigger&lt;T: Config&gt;(block_number: T::BlockNumber, por_randomness: Randomness);
-}
-
-<span class="doccomment">/// A type signifying to Subspace that it should perform a global randomness update with an internal
-/// trigger.
-</span><span class="kw">pub struct </span>NormalGlobalRandomnessInterval;
-
-<span class="kw">impl </span>GlobalRandomnessIntervalTrigger <span class="kw">for </span>NormalGlobalRandomnessInterval {
-    <span class="kw">fn </span>trigger&lt;T: Config&gt;(block_number: T::BlockNumber, por_randomness: Randomness) {
-        <span class="kw">if </span>&lt;Pallet&lt;T&gt;&gt;::should_update_global_randomness(block_number) {
-            &lt;Pallet&lt;T&gt;&gt;::enact_update_global_randomness(block_number, por_randomness);
-        }
-    }
-}
 
 <span class="doccomment">/// Trigger an era change, if any should take place.
 </span><span class="kw">pub trait </span>EraChangeTrigger {
     <span class="doccomment">/// Trigger an era change, if any should take place. This should be called
     /// during every block, after initialization is done.
-    </span><span class="kw">fn </span>trigger&lt;T: Config&gt;(block_number: T::BlockNumber);
+    </span><span class="kw">fn </span>trigger&lt;T: Config&gt;(block_number: BlockNumberFor&lt;T&gt;);
 }
 
 <span class="doccomment">/// A type signifying to Subspace that it should perform era changes with an internal trigger.
 </span><span class="kw">pub struct </span>NormalEraChange;
 
 <span class="kw">impl </span>EraChangeTrigger <span class="kw">for </span>NormalEraChange {
-    <span class="kw">fn </span>trigger&lt;T: Config&gt;(block_number: T::BlockNumber) {
+    <span class="kw">fn </span>trigger&lt;T: Config&gt;(block_number: BlockNumberFor&lt;T&gt;) {
         <span class="kw">if </span>&lt;Pallet&lt;T&gt;&gt;::should_era_change(block_number) {
             &lt;Pallet&lt;T&gt;&gt;::enact_era_change();
         }
@@ -1759,23 +2018,16 @@
 
 <span class="attr">#[derive(Copy, Clone, Eq, PartialEq, Encode, Decode, MaxEncodedLen, TypeInfo)]
 </span><span class="kw">struct </span>VoteVerificationData {
-    global_randomness: Randomness,
-    solution_range: SolutionRange,
+    <span class="doccomment">/// Block solution range, vote must not reach it
+    </span>solution_range: SolutionRange,
+    vote_solution_range: SolutionRange,
     current_slot: Slot,
     parent_slot: Slot,
 }
 
-<span class="doccomment">/// Simple wrapper for chunk offset in a sector for readability purposes
-</span><span class="attr">#[derive(
-    Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Encode, Decode, MaxEncodedLen, TypeInfo,
-)]
-</span><span class="kw">struct </span>AuditChunkOffset(u8);
-
 <span class="attr">#[frame_support::pallet]
-</span><span class="kw">mod </span>pallet {
-    <span class="kw">use super</span>::{
-        AuditChunkOffset, EraChangeTrigger, GlobalRandomnessIntervalTrigger, VoteVerificationData,
-    };
+</span><span class="kw">pub mod </span>pallet {
+    <span class="kw">use super</span>::{EraChangeTrigger, VoteVerificationData};
     <span class="kw">use </span><span class="kw">crate</span>::equivocation::HandleEquivocation;
     <span class="kw">use </span><span class="kw">crate</span>::weights::WeightInfo;
     <span class="kw">use </span>frame_support::pallet_prelude::<span class="kw-2">*</span>;
@@ -1783,13 +2035,15 @@
     <span class="kw">use </span>sp_consensus_slots::Slot;
     <span class="kw">use </span>sp_consensus_subspace::digests::CompatibleDigestItem;
     <span class="kw">use </span>sp_consensus_subspace::inherents::{InherentError, InherentType, INHERENT_IDENTIFIER};
-    <span class="kw">use </span>sp_consensus_subspace::{EquivocationProof, FarmerPublicKey, FarmerSignature, SignedVote};
+    <span class="kw">use </span>sp_consensus_subspace::{EquivocationProof, SignedVote};
     <span class="kw">use </span>sp_runtime::DigestItem;
     <span class="kw">use </span>sp_std::collections::btree_map::BTreeMap;
+    <span class="kw">use </span>sp_std::num::NonZeroU32;
     <span class="kw">use </span>sp_std::prelude::<span class="kw-2">*</span>;
     <span class="kw">use </span>subspace_core_primitives::crypto::Scalar;
     <span class="kw">use </span>subspace_core_primitives::{
-        HistorySize, Randomness, SectorIndex, SegmentHeader, SegmentIndex, SolutionRange,
+        Blake3Hash, HistorySize, PieceOffset, PotCheckpoints, PublicKey, Randomness,
+        RewardSignature, SectorIndex, SegmentHeader, SegmentIndex, SolutionRange,
     };
 
     <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>InitialSolutionRanges&lt;T: Config&gt; {
@@ -1814,11 +2068,11 @@
 
     <span class="doccomment">/// Override for next solution range adjustment
     </span><span class="attr">#[derive(Debug, Encode, Decode, TypeInfo)]
-    </span><span class="kw">pub struct </span>SolutionRangeOverride {
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>SolutionRangeOverride {
         <span class="doccomment">/// Value that should be set as solution range
-        </span><span class="kw">pub </span>solution_range: SolutionRange,
+        </span><span class="kw">pub</span>(<span class="kw">super</span>) solution_range: SolutionRange,
         <span class="doccomment">/// Value that should be set as voting solution range
-        </span><span class="kw">pub </span>voting_solution_range: SolutionRange,
+        </span><span class="kw">pub</span>(<span class="kw">super</span>) voting_solution_range: SolutionRange,
     }
 
     <span class="doccomment">/// The Subspace Pallet
@@ -1828,19 +2082,34 @@
 
     <span class="attr">#[pallet::config]
     #[pallet::disable_frame_system_supertrait_check]
-    </span><span class="kw">pub trait </span>Config: pallet_timestamp::Config {
+    </span><span class="kw">pub trait </span>Config: frame_system::Config {
         <span class="doccomment">/// The overarching event type.
         </span><span class="kw">type </span>RuntimeEvent: From&lt;Event&lt;<span class="self">Self</span>&gt;&gt; + IsType&lt;&lt;<span class="self">Self </span><span class="kw">as </span>frame_system::Config&gt;::RuntimeEvent&gt;;
 
-        <span class="doccomment">/// The amount of time, in blocks, between updates of global randomness.
+        <span class="doccomment">/// Number of slots between slot arrival and when corresponding block can be produced.
+        ///
+        /// Practically this means future proof of time proof needs to be revealed this many slots
+        /// ahead before block can be authored even though solution is available before that.
         </span><span class="attr">#[pallet::constant]
-        </span><span class="kw">type </span>GlobalRandomnessUpdateInterval: Get&lt;<span class="self">Self</span>::BlockNumber&gt;;
+        </span><span class="kw">type </span>BlockAuthoringDelay: Get&lt;Slot&gt;;
+
+        <span class="doccomment">/// Interval, in blocks, between blockchain entropy injection into proof of time chain.
+        </span><span class="attr">#[pallet::constant]
+        </span><span class="kw">type </span>PotEntropyInjectionInterval: Get&lt;BlockNumberFor&lt;<span class="self">Self</span>&gt;&gt;;
+
+        <span class="doccomment">/// Interval, in entropy injection intervals, where to take entropy for injection from.
+        </span><span class="attr">#[pallet::constant]
+        </span><span class="kw">type </span>PotEntropyInjectionLookbackDepth: Get&lt;u8&gt;;
+
+        <span class="doccomment">/// Delay after block, in slots, when entropy injection takes effect.
+        </span><span class="attr">#[pallet::constant]
+        </span><span class="kw">type </span>PotEntropyInjectionDelay: Get&lt;Slot&gt;;
 
         <span class="doccomment">/// The amount of time, in blocks, that each era should last.
         /// NOTE: Currently it is not possible to change the era duration after
         /// the chain has started. Attempting to do so will brick block production.
         </span><span class="attr">#[pallet::constant]
-        </span><span class="kw">type </span>EraDuration: Get&lt;<span class="self">Self</span>::BlockNumber&gt;;
+        </span><span class="kw">type </span>EraDuration: Get&lt;BlockNumberFor&lt;<span class="self">Self</span>&gt;&gt;;
 
         <span class="doccomment">/// Initial solution range used for challenges during the very first era.
         </span><span class="attr">#[pallet::constant]
@@ -1854,23 +2123,16 @@
         </span><span class="attr">#[pallet::constant]
         </span><span class="kw">type </span>SlotProbability: Get&lt;(u64, u64)&gt;;
 
-        <span class="doccomment">/// The expected average block time at which Subspace should be creating blocks. Since
-        /// Subspace is probabilistic it is not trivial to figure out what the expected average
-        /// block time should be based on the slot duration and the security parameter `c` (where
-        /// `1 - c` represents the probability of a slot being empty).
-        </span><span class="attr">#[pallet::constant]
-        </span><span class="kw">type </span>ExpectedBlockTime: Get&lt;<span class="self">Self</span>::Moment&gt;;
-
         <span class="doccomment">/// Depth `K` after which a block enters the recorded history (a global constant, as opposed
         /// to the client-dependent transaction confirmation depth `k`).
         </span><span class="attr">#[pallet::constant]
-        </span><span class="kw">type </span>ConfirmationDepthK: Get&lt;<span class="self">Self</span>::BlockNumber&gt;;
+        </span><span class="kw">type </span>ConfirmationDepthK: Get&lt;BlockNumberFor&lt;<span class="self">Self</span>&gt;&gt;;
 
-        <span class="doccomment">/// Number of latest archived segments that are considered &quot;recent history&quot;.
+        <span class="doccomment">/// Number of latest archived segments that are considered "recent history".
         </span><span class="attr">#[pallet::constant]
         </span><span class="kw">type </span>RecentSegments: Get&lt;HistorySize&gt;;
 
-        <span class="doccomment">/// Fraction of pieces from the &quot;recent history&quot; (`recent_segments`) in each sector.
+        <span class="doccomment">/// Fraction of pieces from the "recent history" (`recent_segments`) in each sector.
         </span><span class="attr">#[pallet::constant]
         </span><span class="kw">type </span>RecentHistoryFraction: Get&lt;(HistorySize, HistorySize)&gt;;
 
@@ -1889,10 +2151,6 @@
         </span><span class="kw">type </span>MaxPiecesInSector: Get&lt;u16&gt;;
 
         <span class="kw">type </span>ShouldAdjustSolutionRange: Get&lt;bool&gt;;
-
-        <span class="doccomment">/// Subspace requires periodic global randomness update.
-        </span><span class="kw">type </span>GlobalRandomnessIntervalTrigger: GlobalRandomnessIntervalTrigger;
-
         <span class="doccomment">/// Subspace requires some logic to be triggered on every block to query for whether an era
         /// has ended and to perform the transition to the next era.
         ///
@@ -1903,16 +2161,20 @@
         /// equivocation has been validated) and for submitting a transaction to report an
         /// equivocation (from an offchain context).
         ///
-        /// NOTE: when enabling equivocation handling (i.e. this type isn&#39;t set to `()`) you must
-        /// use this pallet&#39;s `ValidateUnsigned` in the runtime definition.
+        /// NOTE: when enabling equivocation handling (i.e. this type isn't set to `()`) you must
+        /// use this pallet's `ValidateUnsigned` in the runtime definition.
         </span><span class="kw">type </span>HandleEquivocation: HandleEquivocation&lt;<span class="self">Self</span>&gt;;
 
         <span class="doccomment">/// Weight information for extrinsics in this pallet.
         </span><span class="kw">type </span>WeightInfo: WeightInfo;
+
+        <span class="doccomment">/// Maximum number of block number to block slot mappings to keep (oldest pruned first).
+        </span><span class="attr">#[pallet::constant]
+        </span><span class="kw">type </span>BlockSlotCount: Get&lt;u32&gt;;
     }
 
     <span class="attr">#[derive(Debug, Default, Encode, Decode, TypeInfo)]
-    #[cfg_attr(feature = <span class="string">&quot;serde&quot;</span>, derive(serde::Serialize, serde::Deserialize))]
+    #[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Serialize, serde::Deserialize))]
     </span><span class="kw">pub enum </span>AllowAuthoringBy {
         <span class="doccomment">/// Anyone can author new blocks at genesis.
         </span><span class="attr">#[default]
@@ -1921,37 +2183,91 @@
         /// for everyone.
         </span>FirstFarmer,
         <span class="doccomment">/// Specified root farmer is allowed to author blocks unless unlocked for everyone.
-        </span>RootFarmer(FarmerPublicKey),
+        </span>RootFarmer(PublicKey),
+    }
+
+    <span class="attr">#[derive(Debug, Copy, Clone, Encode, Decode, TypeInfo)]
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>PotEntropyValue {
+        <span class="doccomment">/// Target slot at which entropy should be injected (when known)
+        </span><span class="kw">pub</span>(<span class="kw">super</span>) target_slot: <span class="prelude-ty">Option</span>&lt;Slot&gt;,
+        <span class="kw">pub</span>(<span class="kw">super</span>) entropy: Blake3Hash,
+    }
+
+    <span class="attr">#[derive(Debug, Copy, Clone, Encode, Decode, TypeInfo, PartialEq)]
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>PotSlotIterationsValue {
+        <span class="kw">pub</span>(<span class="kw">super</span>) slot_iterations: NonZeroU32,
+        <span class="doccomment">/// Scheduled proof of time slot iterations update
+        </span><span class="kw">pub</span>(<span class="kw">super</span>) update: <span class="prelude-ty">Option</span>&lt;PotSlotIterationsUpdate&gt;,
+    }
+
+    <span class="attr">#[derive(Debug, Copy, Clone, Encode, Decode, TypeInfo, PartialEq)]
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">struct </span>PotSlotIterationsUpdate {
+        <span class="doccomment">/// Target slot at which entropy should be injected (when known)
+        </span><span class="kw">pub</span>(<span class="kw">super</span>) target_slot: <span class="prelude-ty">Option</span>&lt;Slot&gt;,
+        <span class="kw">pub</span>(<span class="kw">super</span>) slot_iterations: NonZeroU32,
+    }
+
+    <span class="doccomment">/// When to enable block/vote rewards
+    </span><span class="attr">#[derive(Debug, Copy, Clone, Eq, PartialEq, Encode, Decode, TypeInfo)]
+    #[cfg_attr(feature = <span class="string">"serde"</span>, derive(serde::Serialize, serde::Deserialize))]
+    </span><span class="kw">pub enum </span>EnableRewardsAt&lt;BlockNumber&gt; {
+        <span class="doccomment">/// At specified height or next block if `None`
+        </span>Height(<span class="prelude-ty">Option</span>&lt;BlockNumber&gt;),
+        <span class="doccomment">/// When solution range is below specified threshold
+        </span>SolutionRange(u64),
+        <span class="doccomment">/// Manually with an explicit extrinsic
+        </span>Manually,
     }
 
     <span class="attr">#[pallet::genesis_config]
-    </span><span class="kw">pub struct </span>GenesisConfig {
-        <span class="doccomment">/// Whether rewards should be enabled.
-        </span><span class="kw">pub </span>enable_rewards: bool,
-        <span class="doccomment">/// Whether storage access should be enabled.
-        </span><span class="kw">pub </span>enable_storage_access: bool,
+    </span><span class="kw">pub struct </span>GenesisConfig&lt;T&gt;
+    <span class="kw">where
+        </span>T: Config,
+    {
+        <span class="doccomment">/// When rewards should be enabled.
+        </span><span class="kw">pub </span>enable_rewards_at: EnableRewardsAt&lt;BlockNumberFor&lt;T&gt;&gt;,
         <span class="doccomment">/// Who can author blocks at genesis.
         </span><span class="kw">pub </span>allow_authoring_by: AllowAuthoringBy,
+        <span class="doccomment">/// Number of iterations for proof of time per slot
+        </span><span class="kw">pub </span>pot_slot_iterations: NonZeroU32,
+        <span class="attr">#[serde(skip)]
+        </span><span class="kw">pub </span>phantom: PhantomData&lt;T&gt;,
     }
 
-    <span class="kw">impl </span>Default <span class="kw">for </span>GenesisConfig {
+    <span class="kw">impl</span>&lt;T&gt; Default <span class="kw">for </span>GenesisConfig&lt;T&gt;
+    <span class="kw">where
+        </span>T: Config,
+    {
         <span class="attr">#[inline]
         </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
             <span class="self">Self </span>{
-                enable_rewards: <span class="bool-val">true</span>,
-                enable_storage_access: <span class="bool-val">true</span>,
+                enable_rewards_at: EnableRewardsAt::Height(<span class="prelude-val">None</span>),
                 allow_authoring_by: AllowAuthoringBy::Anyone,
+                pot_slot_iterations: NonZeroU32::MIN,
+                phantom: PhantomData,
             }
         }
     }
 
     <span class="attr">#[pallet::genesis_build]
-    </span><span class="kw">impl</span>&lt;T: Config&gt; GenesisBuild&lt;T&gt; <span class="kw">for </span>GenesisConfig {
+    </span><span class="kw">impl</span>&lt;T&gt; BuildGenesisConfig <span class="kw">for </span>GenesisConfig&lt;T&gt;
+    <span class="kw">where
+        </span>T: Config,
+    {
         <span class="kw">fn </span>build(<span class="kw-2">&amp;</span><span class="self">self</span>) {
-            <span class="kw">if </span><span class="self">self</span>.enable_rewards {
-                EnableRewards::&lt;T&gt;::put::&lt;T::BlockNumber&gt;(sp_runtime::traits::One::one());
+            <span class="kw">match </span><span class="self">self</span>.enable_rewards_at {
+                EnableRewardsAt::Height(maybe_block_number) =&gt; {
+                    EnableRewards::&lt;T&gt;::put(
+                        maybe_block_number.unwrap_or_else(sp_runtime::traits::One::one),
+                    );
+                }
+                EnableRewardsAt::SolutionRange(solution_range) =&gt; {
+                    EnableRewardsBelowSolutionRange::&lt;T&gt;::put(solution_range);
+                }
+                EnableRewardsAt::Manually =&gt; {
+                    <span class="comment">// Nothing to do in this case
+                </span>}
             }
-            IsStorageAccessEnabled::&lt;T&gt;::put(<span class="self">self</span>.enable_storage_access);
             <span class="kw">match </span><span class="kw-2">&amp;</span><span class="self">self</span>.allow_authoring_by {
                 AllowAuthoringBy::Anyone =&gt; {
                     AllowAuthoringByAnyone::&lt;T&gt;::put(<span class="bool-val">true</span>);
@@ -1961,23 +2277,27 @@
                 }
                 AllowAuthoringBy::RootFarmer(root_farmer) =&gt; {
                     AllowAuthoringByAnyone::&lt;T&gt;::put(<span class="bool-val">false</span>);
-                    RootPlotPublicKey::&lt;T&gt;::put(root_farmer.clone());
+                    RootPlotPublicKey::&lt;T&gt;::put(root_farmer);
                 }
             }
+            PotSlotIterations::&lt;T&gt;::put(PotSlotIterationsValue {
+                slot_iterations: <span class="self">self</span>.pot_slot_iterations,
+                update: <span class="prelude-val">None</span>,
+            });
         }
     }
 
     <span class="doccomment">/// Events type.
     </span><span class="attr">#[pallet::event]
-    #[pallet::generate_deposit(<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>deposit_event)]
+    #[pallet::generate_deposit(<span class="kw">pub </span>(<span class="kw">super</span>) <span class="kw">fn </span>deposit_event)]
     </span><span class="kw">pub enum </span>Event&lt;T: Config&gt; {
         <span class="doccomment">/// Segment header was stored in blockchain history.
         </span>SegmentHeaderStored { segment_header: SegmentHeader },
         <span class="doccomment">/// Farmer vote.
         </span>FarmerVote {
-            public_key: FarmerPublicKey,
+            public_key: PublicKey,
             reward_address: T::AccountId,
-            height: T::BlockNumber,
+            height: BlockNumberFor&lt;T&gt;,
             parent_hash: T::Hash,
         },
     }
@@ -1990,23 +2310,19 @@
         </span>SolutionRangeAdjustmentAlreadyEnabled,
         <span class="doccomment">/// Rewards already active.
         </span>RewardsAlreadyEnabled,
+        <span class="doccomment">/// Iterations are not multiple of number of checkpoints times two
+        </span>NotMultipleOfCheckpoints,
+        <span class="doccomment">/// Proof of time slot iterations must increase as hardware improves
+        </span>PotSlotIterationsMustIncrease,
+        <span class="doccomment">/// Proof of time slot iterations update already scheduled
+        </span>PotSlotIterationsUpdateAlreadyScheduled,
     }
 
-    <span class="doccomment">/// The slot at which the first block was created. This is 0 until the first block of the chain.
+    <span class="doccomment">/// Bounded mapping from block number to slot
     </span><span class="attr">#[pallet::storage]
-    #[pallet::getter(<span class="kw">fn </span>genesis_slot)]
-    </span><span class="kw">pub type </span>GenesisSlot&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, Slot, ValueQuery&gt;;
-
-    <span class="doccomment">/// Current slot number.
-    </span><span class="attr">#[pallet::storage]
-    #[pallet::getter(<span class="kw">fn </span>current_slot)]
-    </span><span class="kw">pub type </span>CurrentSlot&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, Slot, ValueQuery&gt;;
-
-    <span class="doccomment">/// Global randomnesses derived from from PoR signature and used for deriving global challenges.
-    </span><span class="attr">#[pallet::storage]
-    #[pallet::getter(<span class="kw">fn </span>global_randomnesses)]
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>GlobalRandomnesses&lt;T&gt; =
-        StorageValue&lt;<span class="kw">_</span>, sp_consensus_subspace::GlobalRandomnesses, ValueQuery&gt;;
+    #[pallet::getter(<span class="kw">fn </span>block_slots)]
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>BlockSlots&lt;T: Config&gt; =
+        StorageValue&lt;<span class="kw">_</span>, BoundedBTreeMap&lt;BlockNumberFor&lt;T&gt;, Slot, T::BlockSlotCount&gt;, ValueQuery&gt;;
 
     <span class="doccomment">/// Solution ranges used for challenges.
     </span><span class="attr">#[pallet::storage]
@@ -2021,20 +2337,20 @@
     <span class="doccomment">/// Storage to check if the solution range is to be adjusted for next era
     </span><span class="attr">#[pallet::storage]
     #[pallet::getter(<span class="kw">fn </span>should_adjust_solution_range)]
-    </span><span class="kw">pub type </span>ShouldAdjustSolutionRange&lt;T: Config&gt; =
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>ShouldAdjustSolutionRange&lt;T: Config&gt; =
         StorageValue&lt;<span class="kw">_</span>, bool, ValueQuery, T::ShouldAdjustSolutionRange&gt;;
 
     <span class="doccomment">/// Override solution range during next update
     </span><span class="attr">#[pallet::storage]
-    </span><span class="kw">pub type </span>NextSolutionRangeOverride&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, SolutionRangeOverride&gt;;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>NextSolutionRangeOverride&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, SolutionRangeOverride&gt;;
 
     <span class="doccomment">/// Slot at which current era started.
     </span><span class="attr">#[pallet::storage]
-    </span><span class="kw">pub type </span>EraStartSlot&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, Slot&gt;;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>EraStartSlot&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, Slot&gt;;
 
     <span class="doccomment">/// A set of blocked farmers keyed by their public key.
     </span><span class="attr">#[pallet::storage]
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>BlockList&lt;T&gt; = StorageMap&lt;<span class="kw">_</span>, Twox64Concat, FarmerPublicKey, ()&gt;;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>BlockList&lt;T&gt; = StorageMap&lt;<span class="kw">_</span>, Twox64Concat, PublicKey, ()&gt;;
 
     <span class="doccomment">/// Mapping from segment index to corresponding segment commitment of contained records.
     </span><span class="attr">#[pallet::storage]
@@ -2046,6 +2362,13 @@
         subspace_core_primitives::SegmentCommitment,
     &gt;;
 
+    <span class="doccomment">/// Whether the segment headers inherent has been processed in this block (temporary value).
+    ///
+    /// This value is updated to `true` when processing `store_segment_headers` by a node.
+    /// It is then cleared at the end of each block execution in the `on_finalize` hook.
+    </span><span class="attr">#[pallet::storage]
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>DidProcessSegmentHeaders&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, bool, ValueQuery&gt;;
+
     <span class="doccomment">/// Storage of previous vote verification data, updated on each block during finalization.
     </span><span class="attr">#[pallet::storage]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>ParentVoteVerificationData&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, VoteVerificationData&gt;;
@@ -2053,21 +2376,25 @@
     <span class="doccomment">/// Parent block author information.
     </span><span class="attr">#[pallet::storage]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>ParentBlockAuthorInfo&lt;T&gt; =
-        StorageValue&lt;<span class="kw">_</span>, (FarmerPublicKey, SectorIndex, Scalar, AuditChunkOffset, Slot)&gt;;
+        StorageValue&lt;<span class="kw">_</span>, (PublicKey, SectorIndex, PieceOffset, Scalar, Slot)&gt;;
 
     <span class="doccomment">/// Enable rewards since specified block number.
     </span><span class="attr">#[pallet::storage]
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>EnableRewards&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, T::BlockNumber&gt;;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>EnableRewards&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, BlockNumberFor&lt;T&gt;&gt;;
 
-    <span class="doccomment">/// Temporary value (cleared at block finalization) with block author information.
+    <span class="doccomment">/// Enable rewards when solution range is below this threshold.
+    </span><span class="attr">#[pallet::storage]
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>EnableRewardsBelowSolutionRange&lt;T: Config&gt; = StorageValue&lt;<span class="kw">_</span>, u64&gt;;
+
+    <span class="doccomment">/// Block author information
     </span><span class="attr">#[pallet::storage]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>CurrentBlockAuthorInfo&lt;T: Config&gt; = StorageValue&lt;
         <span class="kw">_</span>,
         (
-            FarmerPublicKey,
+            PublicKey,
             SectorIndex,
+            PieceOffset,
             Scalar,
-            AuditChunkOffset,
             Slot,
             T::AccountId,
         ),
@@ -2078,30 +2405,36 @@
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>ParentBlockVoters&lt;T: Config&gt; = StorageValue&lt;
         <span class="kw">_</span>,
         BTreeMap&lt;
-            (FarmerPublicKey, SectorIndex, Scalar, AuditChunkOffset, Slot),
-            (T::AccountId, FarmerSignature),
+            (PublicKey, SectorIndex, PieceOffset, Scalar, Slot),
+            (T::AccountId, RewardSignature),
         &gt;,
         ValueQuery,
     &gt;;
 
-    <span class="doccomment">/// Temporary value (cleared at block finalization) with voters in the current block thus far.
+    <span class="doccomment">/// Voters in the current block thus far
     </span><span class="attr">#[pallet::storage]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>CurrentBlockVoters&lt;T: Config&gt; = StorageValue&lt;
         <span class="kw">_</span>,
         BTreeMap&lt;
-            (FarmerPublicKey, SectorIndex, Scalar, AuditChunkOffset, Slot),
-            (T::AccountId, FarmerSignature),
+            (PublicKey, SectorIndex, PieceOffset, Scalar, Slot),
+            (T::AccountId, RewardSignature),
         &gt;,
     &gt;;
 
-    <span class="doccomment">/// Temporary value (cleared at block finalization) which contains current block PoR randomness.
+    <span class="doccomment">/// Number of iterations for proof of time per slot with optional scheduled update
     </span><span class="attr">#[pallet::storage]
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>PorRandomness&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, Randomness&gt;;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>PotSlotIterations&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, PotSlotIterationsValue&gt;;
 
-    <span class="doccomment">/// Enable storage access for all users.
+    <span class="doccomment">/// Entropy that needs to be injected into proof of time chain at specific slot associated with
+    /// block number it came from.
     </span><span class="attr">#[pallet::storage]
-    #[pallet::getter(<span class="kw">fn </span>is_storage_access_enabled)]
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>IsStorageAccessEnabled&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, bool, ValueQuery&gt;;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>PotEntropy&lt;T: Config&gt; =
+        StorageValue&lt;<span class="kw">_</span>, BTreeMap&lt;BlockNumberFor&lt;T&gt;, PotEntropyValue&gt;, ValueQuery&gt;;
+
+    <span class="doccomment">/// The current block randomness, updated at block initialization. When the proof of time feature
+    /// is enabled it derived from PoT otherwise PoR.
+    </span><span class="attr">#[pallet::storage]
+    </span><span class="kw">pub type </span>BlockRandomness&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, Randomness&gt;;
 
     <span class="doccomment">/// Allow block authoring by anyone or just root.
     </span><span class="attr">#[pallet::storage]
@@ -2112,16 +2445,16 @@
     /// Set just once to make sure no one else can author blocks until allowed for anyone.
     </span><span class="attr">#[pallet::storage]
     #[pallet::getter(<span class="kw">fn </span>root_plot_public_key)]
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>RootPlotPublicKey&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, FarmerPublicKey&gt;;
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">type </span>RootPlotPublicKey&lt;T&gt; = StorageValue&lt;<span class="kw">_</span>, PublicKey&gt;;
 
     <span class="attr">#[pallet::hooks]
-    </span><span class="kw">impl</span>&lt;T: Config&gt; Hooks&lt;T::BlockNumber&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
-        <span class="kw">fn </span>on_initialize(block_number: T::BlockNumber) -&gt; Weight {
+    </span><span class="kw">impl</span>&lt;T: Config&gt; Hooks&lt;BlockNumberFor&lt;T&gt;&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
+        <span class="kw">fn </span>on_initialize(block_number: BlockNumberFor&lt;T&gt;) -&gt; Weight {
             <span class="self">Self</span>::do_initialize(block_number);
             Weight::zero()
         }
 
-        <span class="kw">fn </span>on_finalize(block_number: T::BlockNumber) {
+        <span class="kw">fn </span>on_finalize(block_number: BlockNumberFor&lt;T&gt;) {
             <span class="self">Self</span>::do_finalize(block_number)
         }
     }
@@ -2135,13 +2468,13 @@
         /// call it (validated in `ValidateUnsigned`), as such if the block author is defined it
         /// will be defined as the equivocation reporter.
         </span><span class="attr">#[pallet::call_index(<span class="number">0</span>)]
-        #[pallet::weight((&lt;T <span class="kw">as </span>Config&gt;::WeightInfo::report_equivocation(), DispatchClass::Operational))]
+        #[pallet::weight((&lt; T <span class="kw">as </span>Config &gt;::WeightInfo::report_equivocation(), DispatchClass::Operational))]
         </span><span class="comment">// Suppression because the custom syntax will also generate an enum and we need enum to have
         // boxed value.
         </span><span class="attr">#[allow(clippy::boxed_local)]
         </span><span class="kw">pub fn </span>report_equivocation(
             origin: OriginFor&lt;T&gt;,
-            equivocation_proof: Box&lt;EquivocationProof&lt;T::Header&gt;&gt;,
+            equivocation_proof: Box&lt;EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;&gt;,
         ) -&gt; DispatchResultWithPostInfo {
             ensure_none(origin)<span class="question-mark">?</span>;
 
@@ -2151,7 +2484,7 @@
         <span class="doccomment">/// Submit new segment header to the blockchain. This is an inherent extrinsic and part of
         /// the Subspace consensus logic.
         </span><span class="attr">#[pallet::call_index(<span class="number">1</span>)]
-        #[pallet::weight((&lt;T <span class="kw">as </span>Config&gt;::WeightInfo::store_segment_headers(segment_headers.len() <span class="kw">as </span>u32), DispatchClass::Mandatory, Pays::No))]
+        #[pallet::weight((&lt; T <span class="kw">as </span>Config &gt;::WeightInfo::store_segment_headers(segment_headers.len() <span class="kw">as </span>u32), DispatchClass::Mandatory))]
         </span><span class="kw">pub fn </span>store_segment_headers(
             origin: OriginFor&lt;T&gt;,
             segment_headers: Vec&lt;SegmentHeader&gt;,
@@ -2163,7 +2496,7 @@
         <span class="doccomment">/// Enable solution range adjustment after every era.
         /// Note: No effect on the solution range for the current era
         </span><span class="attr">#[pallet::call_index(<span class="number">2</span>)]
-        #[pallet::weight(&lt;T <span class="kw">as </span>Config&gt;::WeightInfo::enable_solution_range_adjustment())]
+        #[pallet::weight(&lt; T <span class="kw">as </span>Config &gt;::WeightInfo::enable_solution_range_adjustment())]
         </span><span class="kw">pub fn </span>enable_solution_range_adjustment(
             origin: OriginFor&lt;T&gt;,
             solution_range_override: <span class="prelude-ty">Option</span>&lt;u64&gt;,
@@ -2184,15 +2517,14 @@
         }
 
         <span class="doccomment">/// Farmer vote, currently only used for extra rewards to farmers.
-        </span><span class="comment">// TODO: Proper weight
         </span><span class="attr">#[pallet::call_index(<span class="number">3</span>)]
-        #[pallet::weight((&lt;T <span class="kw">as </span>Config&gt;::WeightInfo::vote(), DispatchClass::Operational, Pays::No))]
+        #[pallet::weight((&lt; T <span class="kw">as </span>Config &gt;::WeightInfo::vote(), DispatchClass::Operational))]
         </span><span class="comment">// Suppression because the custom syntax will also generate an enum and we need enum to have
         // boxed value.
         </span><span class="attr">#[allow(clippy::boxed_local)]
         </span><span class="kw">pub fn </span>vote(
             origin: OriginFor&lt;T&gt;,
-            signed_vote: Box&lt;SignedVote&lt;T::BlockNumber, T::Hash, T::AccountId&gt;&gt;,
+            signed_vote: Box&lt;SignedVote&lt;BlockNumberFor&lt;T&gt;, T::Hash, T::AccountId&gt;&gt;,
         ) -&gt; DispatchResult {
             ensure_none(origin)<span class="question-mark">?</span>;
 
@@ -2201,30 +2533,19 @@
 
         <span class="doccomment">/// Enable rewards for blocks and votes at specified block height.
         </span><span class="attr">#[pallet::call_index(<span class="number">4</span>)]
-        #[pallet::weight(&lt;T <span class="kw">as </span>Config&gt;::WeightInfo::enable_rewards())]
-        </span><span class="kw">pub fn </span>enable_rewards(
+        #[pallet::weight(&lt; T <span class="kw">as </span>Config &gt;::WeightInfo::enable_rewards_at())]
+        </span><span class="kw">pub fn </span>enable_rewards_at(
             origin: OriginFor&lt;T&gt;,
-            height: <span class="prelude-ty">Option</span>&lt;T::BlockNumber&gt;,
+            enable_rewards_at: EnableRewardsAt&lt;BlockNumberFor&lt;T&gt;&gt;,
         ) -&gt; DispatchResult {
             ensure_root(origin)<span class="question-mark">?</span>;
 
-            <span class="self">Self</span>::do_enable_rewards(height)
+            <span class="self">Self</span>::do_enable_rewards_at(enable_rewards_at)
         }
 
         <span class="doccomment">/// Enable storage access for all users.
         </span><span class="attr">#[pallet::call_index(<span class="number">5</span>)]
-        #[pallet::weight(&lt;T <span class="kw">as </span>Config&gt;::WeightInfo::enable_storage_access())]
-        </span><span class="kw">pub fn </span>enable_storage_access(origin: OriginFor&lt;T&gt;) -&gt; DispatchResult {
-            ensure_root(origin)<span class="question-mark">?</span>;
-
-            IsStorageAccessEnabled::&lt;T&gt;::put(<span class="bool-val">true</span>);
-
-            <span class="prelude-val">Ok</span>(())
-        }
-
-        <span class="doccomment">/// Enable storage access for all users.
-        </span><span class="attr">#[pallet::call_index(<span class="number">6</span>)]
-        #[pallet::weight(&lt;T <span class="kw">as </span>Config&gt;::WeightInfo::enable_authoring_by_anyone())]
+        #[pallet::weight(&lt; T <span class="kw">as </span>Config &gt;::WeightInfo::enable_authoring_by_anyone())]
         </span><span class="kw">pub fn </span>enable_authoring_by_anyone(origin: OriginFor&lt;T&gt;) -&gt; DispatchResult {
             ensure_root(origin)<span class="question-mark">?</span>;
 
@@ -2232,6 +2553,44 @@
             RootPlotPublicKey::&lt;T&gt;::take();
             <span class="comment">// Deposit root plot public key update such that light client can validate blocks later.
             </span>frame_system::Pallet::&lt;T&gt;::deposit_log(DigestItem::root_plot_public_key_update(<span class="prelude-val">None</span>));
+
+            <span class="prelude-val">Ok</span>(())
+        }
+
+        <span class="doccomment">/// Update proof of time slot iterations
+        </span><span class="attr">#[pallet::call_index(<span class="number">6</span>)]
+        #[pallet::weight(&lt; T <span class="kw">as </span>Config &gt;::WeightInfo::set_pot_slot_iterations())]
+        </span><span class="kw">pub fn </span>set_pot_slot_iterations(
+            origin: OriginFor&lt;T&gt;,
+            slot_iterations: NonZeroU32,
+        ) -&gt; DispatchResult {
+            ensure_root(origin)<span class="question-mark">?</span>;
+
+            <span class="kw">if </span>slot_iterations.get() % u32::from(PotCheckpoints::NUM_CHECKPOINTS.get() * <span class="number">2</span>) != <span class="number">0 </span>{
+                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::NotMultipleOfCheckpoints.into());
+            }
+
+            <span class="kw">let </span><span class="kw-2">mut </span>pot_slot_iterations =
+                PotSlotIterations::&lt;T&gt;::get().expect(<span class="string">"Always initialized during genesis; qed"</span>);
+
+            <span class="kw">if </span>pot_slot_iterations.slot_iterations &gt;= slot_iterations {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::PotSlotIterationsMustIncrease.into());
+            }
+
+            <span class="comment">// Can't update if already scheduled since it will cause verification issues
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(pot_slot_iterations_update_value) = pot_slot_iterations.update
+                &amp;&amp; pot_slot_iterations_update_value.target_slot.is_some()
+            {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::PotSlotIterationsUpdateAlreadyScheduled.into());
+            }
+
+            pot_slot_iterations.update.replace(PotSlotIterationsUpdate {
+                <span class="comment">// Slot will be known later when next entropy injection takes place
+                </span>target_slot: <span class="prelude-val">None</span>,
+                slot_iterations,
+            });
+
+            PotSlotIterations::&lt;T&gt;::put(pot_slot_iterations);
 
             <span class="prelude-val">Ok</span>(())
         }
@@ -2246,8 +2605,8 @@
         <span class="kw">fn </span>create_inherent(data: <span class="kw-2">&amp;</span>InherentData) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Call&gt; {
             <span class="kw">let </span>inherent_data = data
                 .get_data::&lt;InherentType&gt;(<span class="kw-2">&amp;</span>INHERENT_IDENTIFIER)
-                .expect(<span class="string">&quot;Subspace inherent data not correctly encoded&quot;</span>)
-                .expect(<span class="string">&quot;Subspace inherent data must be provided&quot;</span>);
+                .expect(<span class="string">"Subspace inherent data not correctly encoded"</span>)
+                .expect(<span class="string">"Subspace inherent data must be provided"</span>);
 
             <span class="kw">let </span>segment_headers = inherent_data.segment_headers;
             <span class="kw">if </span>segment_headers.is_empty() {
@@ -2260,8 +2619,8 @@
         <span class="kw">fn </span>is_inherent_required(data: <span class="kw-2">&amp;</span>InherentData) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;<span class="self">Self</span>::Error&gt;, <span class="self">Self</span>::Error&gt; {
             <span class="kw">let </span>inherent_data = data
                 .get_data::&lt;InherentType&gt;(<span class="kw-2">&amp;</span>INHERENT_IDENTIFIER)
-                .expect(<span class="string">&quot;Subspace inherent data not correctly encoded&quot;</span>)
-                .expect(<span class="string">&quot;Subspace inherent data must be provided&quot;</span>);
+                .expect(<span class="string">"Subspace inherent data not correctly encoded"</span>)
+                .expect(<span class="string">"Subspace inherent data must be provided"</span>);
 
             <span class="prelude-val">Ok</span>(<span class="kw">if </span>inherent_data.segment_headers.is_empty() {
                 <span class="prelude-val">None
@@ -2274,8 +2633,8 @@
             <span class="kw">if let </span>Call::store_segment_headers { segment_headers } = call {
                 <span class="kw">let </span>inherent_data = data
                     .get_data::&lt;InherentType&gt;(<span class="kw-2">&amp;</span>INHERENT_IDENTIFIER)
-                    .expect(<span class="string">&quot;Subspace inherent data not correctly encoded&quot;</span>)
-                    .expect(<span class="string">&quot;Subspace inherent data must be provided&quot;</span>);
+                    .expect(<span class="string">"Subspace inherent data not correctly encoded"</span>)
+                    .expect(<span class="string">"Subspace inherent data must be provided"</span>);
 
                 <span class="kw">if </span>segment_headers != <span class="kw-2">&amp;</span>inherent_data.segment_headers {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(InherentError::IncorrectSegmentHeadersList {
@@ -2325,38 +2684,17 @@
 }
 
 <span class="kw">impl</span>&lt;T: Config&gt; Pallet&lt;T&gt; {
-    <span class="doccomment">/// Determine the Subspace slot duration based on the Timestamp module configuration.
-    </span><span class="kw">pub fn </span>slot_duration() -&gt; T::Moment {
-        <span class="comment">// we double the minimum block-period so each author can always propose within
-        // the majority of their slot.
-        </span>&lt;T <span class="kw">as </span>pallet_timestamp::Config&gt;::MinimumPeriod::get().saturating_mul(<span class="number">2u32</span>.into())
-    }
-
     <span class="doccomment">/// Total number of pieces in the blockchain
     </span><span class="kw">pub fn </span>history_size() -&gt; HistorySize {
         <span class="comment">// Chain starts with one segment plotted, even if it is not recorded in the runtime yet
         </span><span class="kw">let </span>number_of_segments = u64::from(SegmentCommitment::&lt;T&gt;::count()).max(<span class="number">1</span>);
-        HistorySize::from(NonZeroU64::new(number_of_segments).expect(<span class="string">&quot;Not zero; qed&quot;</span>))
-    }
-
-    <span class="doccomment">/// Determine whether a randomness update should take place at this block.
-    /// Assumes that initialization has already taken place.
-    </span><span class="kw">fn </span>should_update_global_randomness(block_number: T::BlockNumber) -&gt; bool {
-        block_number % T::GlobalRandomnessUpdateInterval::get() == Zero::zero()
+        HistorySize::from(NonZeroU64::new(number_of_segments).expect(<span class="string">"Not zero; qed"</span>))
     }
 
     <span class="doccomment">/// Determine whether an era change should take place at this block.
     /// Assumes that initialization has already taken place.
-    </span><span class="kw">fn </span>should_era_change(block_number: T::BlockNumber) -&gt; bool {
+    </span><span class="kw">fn </span>should_era_change(block_number: BlockNumberFor&lt;T&gt;) -&gt; bool {
         block_number % T::EraDuration::get() == Zero::zero()
-    }
-
-    <span class="doccomment">/// DANGEROUS: Enact update of global randomness. Should be done on every block where `should_update_global_randomness`
-    /// has returned `true`, and the caller is the only caller of this function.
-    </span><span class="kw">fn </span>enact_update_global_randomness(_block_number: T::BlockNumber, por_randomness: Randomness) {
-        GlobalRandomnesses::&lt;T&gt;::mutate(|global_randomnesses| {
-            global_randomnesses.next = <span class="prelude-val">Some</span>(por_randomness);
-        });
     }
 
     <span class="doccomment">/// DANGEROUS: Enact era change. Should be done on every block where `should_era_change` has
@@ -2381,13 +2719,13 @@
             } <span class="kw">else </span>{
                 next_solution_range = derive_next_solution_range(
                     <span class="comment">// If Era start slot is not found it means we have just finished the first era
-                    </span>u64::from(EraStartSlot::&lt;T&gt;::get().unwrap_or_else(GenesisSlot::&lt;T&gt;::get)),
+                    </span>u64::from(EraStartSlot::&lt;T&gt;::get().unwrap_or_default()),
                     u64::from(current_slot),
                     slot_probability,
                     solution_ranges.current,
                     T::EraDuration::get()
                         .try_into()
-                        .unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">&quot;Era duration is always within u64; qed&quot;</span>)),
+                        .unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">"Era duration is always within u64; qed"</span>)),
                 );
 
                 next_voting_solution_range = next_solution_range
@@ -2397,46 +2735,56 @@
             solution_ranges
                 .voting_next
                 .replace(next_voting_solution_range);
+
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(solution_range_for_rewards) = EnableRewardsBelowSolutionRange::&lt;T&gt;::get() {
+                <span class="kw">if </span>next_solution_range &lt;= solution_range_for_rewards {
+                    EnableRewardsBelowSolutionRange::&lt;T&gt;::take();
+
+                    <span class="kw">let </span>next_block_number =
+                        frame_system::Pallet::&lt;T&gt;::current_block_number() + One::one();
+                    EnableRewards::&lt;T&gt;::put(next_block_number);
+                }
+            }
         });
 
         EraStartSlot::&lt;T&gt;::put(current_slot);
     }
 
-    <span class="kw">fn </span>do_initialize(block_number: T::BlockNumber) {
-        <span class="kw">let </span>pre_digest = &lt;frame_system::Pallet&lt;T&gt;&gt;::digest()
+    <span class="kw">fn </span>do_initialize(block_number: BlockNumberFor&lt;T&gt;) {
+        <span class="kw">let </span>pre_digest = frame_system::Pallet::&lt;T&gt;::digest()
             .logs
             .iter()
             .find_map(|s| s.as_subspace_pre_digest::&lt;T::AccountId&gt;())
-            .expect(<span class="string">&quot;Block must always have pre-digest&quot;</span>);
+            .expect(<span class="string">"Block must always have pre-digest"</span>);
+        <span class="kw">let </span>current_slot = pre_digest.slot();
 
-        <span class="comment">// On the first non-zero block (i.e. block #1) we need to adjust internal storage
-        // accordingly.
-        </span><span class="kw">if </span><span class="kw-2">*</span>GenesisSlot::&lt;T&gt;::get() == <span class="number">0 </span>{
-            GenesisSlot::&lt;T&gt;::put(pre_digest.slot);
-            <span class="macro">debug_assert_ne!</span>(<span class="kw-2">*</span>GenesisSlot::&lt;T&gt;::get(), <span class="number">0</span>);
-        }
-
-        <span class="comment">// The slot number of the current block being initialized.
-        </span>CurrentSlot::&lt;T&gt;::put(pre_digest.slot);
+        BlockSlots::&lt;T&gt;::mutate(|block_slots| {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(to_remove) = block_number.checked_sub(<span class="kw-2">&amp;</span>T::BlockSlotCount::get().into()) {
+                block_slots.remove(<span class="kw-2">&amp;</span>to_remove);
+            }
+            block_slots
+                .try_insert(block_number, current_slot)
+                .expect(<span class="string">"one entry just removed before inserting; qed"</span>);
+        });
 
         {
-            <span class="kw">let </span>farmer_public_key = pre_digest.solution.public_key.clone();
+            <span class="comment">// Remove old value
+            </span>CurrentBlockAuthorInfo::&lt;T&gt;::take();
+            <span class="kw">let </span>farmer_public_key = pre_digest.solution().public_key;
 
             <span class="comment">// Optional restriction for block authoring to the root user
             </span><span class="kw">if </span>!AllowAuthoringByAnyone::&lt;T&gt;::get() {
                 RootPlotPublicKey::&lt;T&gt;::mutate(|maybe_root_plot_public_key| {
                     <span class="kw">if let </span><span class="prelude-val">Some</span>(root_plot_public_key) = maybe_root_plot_public_key {
                         <span class="kw">if </span>root_plot_public_key != <span class="kw-2">&amp;</span>farmer_public_key {
-                            <span class="macro">panic!</span>(<span class="string">&quot;Client bug, authoring must be only done by the root user&quot;</span>);
+                            <span class="macro">panic!</span>(<span class="string">"Client bug, authoring must be only done by the root user"</span>);
                         }
                     } <span class="kw">else </span>{
-                        maybe_root_plot_public_key.replace(farmer_public_key.clone());
+                        maybe_root_plot_public_key.replace(farmer_public_key);
                         <span class="comment">// Deposit root plot public key update such that light client can validate
                         // blocks later.
                         </span>frame_system::Pallet::&lt;T&gt;::deposit_log(
-                            DigestItem::root_plot_public_key_update(<span class="prelude-val">Some</span>(
-                                farmer_public_key.clone(),
-                            )),
+                            DigestItem::root_plot_public_key_update(<span class="prelude-val">Some</span>(farmer_public_key)),
                         );
                     }
                 });
@@ -2444,53 +2792,45 @@
 
             <span class="kw">let </span>key = (
                 farmer_public_key,
-                pre_digest.solution.sector_index,
-                pre_digest.solution.chunk,
-                AuditChunkOffset(pre_digest.solution.audit_chunk_offset),
-                pre_digest.slot,
+                pre_digest.solution().sector_index,
+                pre_digest.solution().piece_offset,
+                pre_digest.solution().chunk,
+                current_slot,
             );
             <span class="kw">if </span>ParentBlockVoters::&lt;T&gt;::get().contains_key(<span class="kw-2">&amp;</span>key) {
-                <span class="kw">let </span>(public_key, _sector_index, _chunk, _audit_chunk_offset, slot) = key;
+                <span class="kw">let </span>(public_key, _sector_index, _piece_offset, _chunk, slot) = key;
 
                 <span class="kw">let </span>offence = SubspaceEquivocationOffence {
                     slot,
                     offender: public_key,
                 };
 
-                <span class="comment">// Report equivocation, we don&#39;t care about duplicate report here
+                <span class="comment">// Report equivocation, we don't care about duplicate report here
                 </span><span class="kw">if let </span><span class="prelude-val">Err</span>(OffenceError::Other(code)) =
                     T::HandleEquivocation::report_offence(offence)
                 {
                     <span class="macro">warn!</span>(
-                        target: <span class="string">&quot;runtime::subspace&quot;</span>,
-                        <span class="string">&quot;Failed to submit block author offence report with code {code}&quot;
+                        target: <span class="string">"runtime::subspace"</span>,
+                        <span class="string">"Failed to submit block author offence report with code {code}"
                     </span>);
                 }
             } <span class="kw">else </span>{
-                <span class="kw">let </span>(public_key, sector_index, chunk, audit_chunk_offset, slot) = key;
+                <span class="kw">let </span>(public_key, sector_index, piece_offset, chunk, slot) = key;
 
                 CurrentBlockAuthorInfo::&lt;T&gt;::put((
                     public_key,
                     sector_index,
+                    piece_offset,
                     chunk,
-                    audit_chunk_offset,
                     slot,
-                    pre_digest.solution.reward_address.clone(),
+                    pre_digest.solution().reward_address.clone(),
                 ));
             }
         }
         CurrentBlockVoters::&lt;T&gt;::put(BTreeMap::&lt;
-            (FarmerPublicKey, SectorIndex, Scalar, AuditChunkOffset, Slot),
-            (T::AccountId, FarmerSignature),
+            (PublicKey, SectorIndex, PieceOffset, Scalar, Slot),
+            (T::AccountId, RewardSignature),
         &gt;::default());
-
-        <span class="comment">// If global randomness was updated in previous block, set it as current.
-        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(next_randomness) = GlobalRandomnesses::&lt;T&gt;::get().next {
-            GlobalRandomnesses::&lt;T&gt;::put(sp_consensus_subspace::GlobalRandomnesses {
-                current: next_randomness,
-                next: <span class="prelude-val">None</span>,
-            });
-        }
 
         <span class="comment">// If solution range was updated in previous block, set it as current.
         </span><span class="kw">if let </span>sp_consensus_subspace::SolutionRanges {
@@ -2507,34 +2847,150 @@
             });
         }
 
-        <span class="comment">// Extract PoR randomness from pre-digest.
-        </span><span class="kw">let </span>por_randomness = derive_randomness(<span class="kw-2">&amp;</span>pre_digest.solution, pre_digest.slot.into());
-        <span class="comment">// Store PoR randomness for block duration as it might be useful.
-        </span>PorRandomness::&lt;T&gt;::put(por_randomness);
+        <span class="kw">let </span>block_randomness = pre_digest
+            .pot_info()
+            .proof_of_time()
+            .derive_global_randomness();
 
-        <span class="comment">// Deposit global randomness data such that light client can validate blocks later.
-        </span>frame_system::Pallet::&lt;T&gt;::deposit_log(DigestItem::global_randomness(
-            GlobalRandomnesses::&lt;T&gt;::get().current,
-        ));
+        <span class="comment">// Update the block randomness.
+        </span>BlockRandomness::&lt;T&gt;::put(block_randomness);
+
         <span class="comment">// Deposit solution range data such that light client can validate blocks later.
         </span>frame_system::Pallet::&lt;T&gt;::deposit_log(DigestItem::solution_range(
             SolutionRanges::&lt;T&gt;::get().current,
         ));
 
-        <span class="comment">// Enact global randomness update, if necessary.
-        </span>T::GlobalRandomnessIntervalTrigger::trigger::&lt;T&gt;(block_number, por_randomness);
         <span class="comment">// Enact era change, if necessary.
         </span>T::EraChangeTrigger::trigger::&lt;T&gt;(block_number);
 
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(next_global_randomness) = GlobalRandomnesses::&lt;T&gt;::get().next {
-            <span class="comment">// Deposit next global randomness data such that light client can validate blocks later.
-            </span>frame_system::Pallet::&lt;T&gt;::deposit_log(DigestItem::next_global_randomness(
-                next_global_randomness,
+        {
+            <span class="kw">let </span><span class="kw-2">mut </span>pot_slot_iterations =
+                PotSlotIterations::&lt;T&gt;::get().expect(<span class="string">"Always initialized during genesis; qed"</span>);
+            <span class="comment">// This is what we had after previous block
+            </span>frame_system::Pallet::&lt;T&gt;::deposit_log(DigestItem::pot_slot_iterations(
+                pot_slot_iterations.slot_iterations,
             ));
+
+            <span class="comment">// Check PoT slot iterations update and apply it if it is time to do so, while also
+            // removing corresponding storage item
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(update) = pot_slot_iterations.update
+                &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(target_slot) = update.target_slot
+                &amp;&amp; target_slot &lt;= current_slot
+            {
+                <span class="macro">debug!</span>(
+                    target: <span class="string">"runtime::subspace"</span>,
+                    <span class="string">"Applying PoT slots update, changing to {} at block #{:?}"</span>,
+                    update.slot_iterations,
+                    block_number
+                );
+                pot_slot_iterations = PotSlotIterationsValue {
+                    slot_iterations: update.slot_iterations,
+                    update: <span class="prelude-val">None</span>,
+                };
+                PotSlotIterations::&lt;T&gt;::put(pot_slot_iterations);
+            }
+            <span class="kw">let </span>pot_entropy_injection_interval = T::PotEntropyInjectionInterval::get();
+            <span class="kw">let </span>pot_entropy_injection_delay = T::PotEntropyInjectionDelay::get();
+
+            <span class="kw">let </span><span class="kw-2">mut </span>entropy = PotEntropy::&lt;T&gt;::get();
+            <span class="kw">let </span>lookback_in_blocks = pot_entropy_injection_interval
+                * BlockNumberFor::&lt;T&gt;::from(T::PotEntropyInjectionLookbackDepth::get());
+            <span class="kw">let </span>last_entropy_injection_block =
+                block_number / pot_entropy_injection_interval * pot_entropy_injection_interval;
+            <span class="kw">let </span>maybe_entropy_source_block_number =
+                last_entropy_injection_block.checked_sub(<span class="kw-2">&amp;</span>lookback_in_blocks);
+
+            <span class="kw">if </span>(block_number % pot_entropy_injection_interval).is_zero() {
+                <span class="kw">let </span>current_block_entropy = derive_pot_entropy(
+                    pre_digest.solution().chunk,
+                    pre_digest.pot_info().proof_of_time(),
+                );
+                <span class="comment">// Collect entropy every `T::PotEntropyInjectionInterval` blocks
+                </span>entropy.insert(
+                    block_number,
+                    PotEntropyValue {
+                        target_slot: <span class="prelude-val">None</span>,
+                        entropy: current_block_entropy,
+                    },
+                );
+
+                <span class="comment">// Update target slot for entropy injection once we know it
+                </span><span class="kw">if let </span><span class="prelude-val">Some</span>(entropy_source_block_number) = maybe_entropy_source_block_number {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(entropy_value) = entropy.get_mut(<span class="kw-2">&amp;</span>entropy_source_block_number) {
+                        <span class="kw">let </span>target_slot = pre_digest
+                            .slot()
+                            .saturating_add(pot_entropy_injection_delay);
+                        <span class="macro">debug!</span>(
+                            target: <span class="string">"runtime::subspace"</span>,
+                            <span class="string">"Pot entropy injection will happen at slot {target_slot:?}"</span>,
+                        );
+                        entropy_value.target_slot.replace(target_slot);
+
+                        <span class="comment">// Schedule PoT slot iterations update at the same slot as entropy
+                        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(update) = <span class="kw-2">&amp;mut </span>pot_slot_iterations.update
+                            &amp;&amp; update.target_slot.is_none()
+                        {
+                            <span class="macro">debug!</span>(
+                                target: <span class="string">"runtime::subspace"</span>,
+                                <span class="string">"Scheduling PoT slots update to happen at slot {target_slot:?}"
+                            </span>);
+                            update.target_slot.replace(target_slot);
+                            PotSlotIterations::&lt;T&gt;::put(pot_slot_iterations);
+                        }
+                    }
+                }
+
+                PotEntropy::&lt;T&gt;::put(entropy.clone());
+            }
+
+            <span class="comment">// Deposit consensus log item with parameters change in case corresponding entropy is
+            // available
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(entropy_source_block_number) = maybe_entropy_source_block_number {
+                <span class="kw">let </span>maybe_entropy_value = entropy.get(<span class="kw-2">&amp;</span>entropy_source_block_number).copied();
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(PotEntropyValue {
+                    target_slot,
+                    entropy,
+                }) = maybe_entropy_value
+                {
+                    <span class="kw">let </span>target_slot = target_slot
+                        .expect(<span class="string">"Target slot is guaranteed to be present due to logic above; qed"</span>);
+                    <span class="comment">// Check if there was a PoT slot iterations update at the same exact slot
+                    </span><span class="kw">let </span>slot_iterations = <span class="kw">if let </span><span class="prelude-val">Some</span>(update) = pot_slot_iterations.update
+                        &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(update_target_slot) = update.target_slot
+                        &amp;&amp; update_target_slot == target_slot
+                    {
+                        <span class="macro">debug!</span>(
+                            target: <span class="string">"runtime::subspace"</span>,
+                            <span class="string">"Applying PoT slots update to the next PoT parameters change"
+                        </span>);
+                        update.slot_iterations
+                    } <span class="kw">else </span>{
+                        pot_slot_iterations.slot_iterations
+                    };
+
+                    frame_system::Pallet::&lt;T&gt;::deposit_log(DigestItem::pot_parameters_change(
+                        PotParametersChange {
+                            slot: target_slot,
+                            slot_iterations,
+                            entropy,
+                        },
+                    ));
+                }
+            }
+
+            <span class="comment">// Clean up old values we'll no longer need
+            </span><span class="kw">if let </span><span class="prelude-val">Some</span>(entry) = entropy.first_entry() {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(target_slot) = entry.get().target_slot
+                    &amp;&amp; target_slot &lt; current_slot
+                {
+                    entry.remove();
+                    PotEntropy::&lt;T&gt;::put(entropy);
+                }
+            }
         }
     }
 
-    <span class="kw">fn </span>do_finalize(_block_number: T::BlockNumber) {
+    <span class="kw">fn </span>do_finalize(_block_number: BlockNumberFor&lt;T&gt;) {
         <span class="comment">// Deposit the next solution range in the block finalization to account for solution range override extrinsic and
         // era change happens in the same block.
         </span><span class="kw">if let </span><span class="prelude-val">Some</span>(next_solution_range) = SolutionRanges::&lt;T&gt;::get().next {
@@ -2544,29 +3000,25 @@
             ));
         }
 
-        PorRandomness::&lt;T&gt;::take();
-
-        <span class="kw">if let </span><span class="prelude-val">Some</span>((public_key, sector_index, scalar, audit_chunk_offset, slot, _reward_address)) =
-            CurrentBlockAuthorInfo::&lt;T&gt;::take()
+        <span class="kw">if let </span><span class="prelude-val">Some</span>((public_key, sector_index, piece_offset, scalar, slot, _reward_address)) =
+            CurrentBlockAuthorInfo::&lt;T&gt;::get()
         {
-            ParentBlockAuthorInfo::&lt;T&gt;::put((
-                public_key,
-                sector_index,
-                scalar,
-                audit_chunk_offset,
-                slot,
-            ));
+            ParentBlockAuthorInfo::&lt;T&gt;::put((public_key, sector_index, piece_offset, scalar, slot));
+        } <span class="kw">else </span>{
+            ParentBlockAuthorInfo::&lt;T&gt;::take();
         }
 
         ParentVoteVerificationData::&lt;T&gt;::put(current_vote_verification_data::&lt;T&gt;(<span class="bool-val">true</span>));
 
-        ParentBlockVoters::&lt;T&gt;::put(CurrentBlockVoters::&lt;T&gt;::take().unwrap_or_default());
+        ParentBlockVoters::&lt;T&gt;::put(CurrentBlockVoters::&lt;T&gt;::get().unwrap_or_default());
+
+        DidProcessSegmentHeaders::&lt;T&gt;::take();
     }
 
     <span class="kw">fn </span>do_report_equivocation(
-        equivocation_proof: EquivocationProof&lt;T::Header&gt;,
+        equivocation_proof: EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;,
     ) -&gt; DispatchResultWithPostInfo {
-        <span class="kw">let </span>offender = equivocation_proof.offender.clone();
+        <span class="kw">let </span>offender = equivocation_proof.offender;
         <span class="kw">let </span>slot = equivocation_proof.slot;
 
         <span class="kw">let </span>offence = SubspaceEquivocationOffence { slot, offender };
@@ -2579,6 +3031,11 @@
     }
 
     <span class="kw">fn </span>do_store_segment_headers(segment_headers: Vec&lt;SegmentHeader&gt;) -&gt; DispatchResult {
+        <span class="macro">assert!</span>(
+            !DidProcessSegmentHeaders::&lt;T&gt;::exists(),
+            <span class="string">"Segment headers must be updated only once in the block"
+        </span>);
+
         <span class="kw">for </span>segment_header <span class="kw">in </span>segment_headers {
             SegmentCommitment::&lt;T&gt;::insert(
                 segment_header.segment_index(),
@@ -2591,6 +3048,8 @@
             ));
             <span class="self">Self</span>::deposit_event(Event::SegmentHeaderStored { segment_header });
         }
+
+        DidProcessSegmentHeaders::&lt;T&gt;::put(<span class="bool-val">true</span>);
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -2633,7 +3092,9 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn </span>do_vote(signed_vote: SignedVote&lt;T::BlockNumber, T::Hash, T::AccountId&gt;) -&gt; DispatchResult {
+    <span class="kw">fn </span>do_vote(
+        signed_vote: SignedVote&lt;BlockNumberFor&lt;T&gt;, T::Hash, T::AccountId&gt;,
+    ) -&gt; DispatchResult {
         <span class="kw">let </span>Vote::V0 {
             height,
             parent_hash,
@@ -2641,8 +3102,8 @@
             ..
         } = signed_vote.vote;
 
-        <span class="kw">if </span>BlockList::&lt;T&gt;::contains_key(<span class="kw-2">&amp;</span>solution.public_key) {
-            <span class="prelude-val">Err</span>(DispatchError::Other(<span class="string">&quot;Equivocated&quot;</span>))
+        <span class="kw">if </span>BlockList::&lt;T&gt;::contains_key(solution.public_key) {
+            <span class="prelude-val">Err</span>(DispatchError::Other(<span class="string">"Equivocated"</span>))
         } <span class="kw">else </span>{
             <span class="self">Self</span>::deposit_event(Event::FarmerVote {
                 public_key: solution.public_key,
@@ -2655,14 +3116,32 @@
         }
     }
 
-    <span class="kw">fn </span>do_enable_rewards(height: <span class="prelude-ty">Option</span>&lt;T::BlockNumber&gt;) -&gt; DispatchResult {
+    <span class="kw">fn </span>do_enable_rewards_at(
+        enable_rewards_at: EnableRewardsAt&lt;BlockNumberFor&lt;T&gt;&gt;,
+    ) -&gt; DispatchResult {
         <span class="kw">if </span>EnableRewards::&lt;T&gt;::get().is_some() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::RewardsAlreadyEnabled.into());
         }
 
-        <span class="comment">// Enable rewards at a particular block height (default to the next block after this)
-        </span><span class="kw">let </span>next_block_number = frame_system::Pallet::&lt;T&gt;::current_block_number() + One::one();
-        EnableRewards::&lt;T&gt;::put(height.unwrap_or(next_block_number).max(next_block_number));
+        <span class="kw">match </span>enable_rewards_at {
+            EnableRewardsAt::Height(maybe_block_number) =&gt; {
+                <span class="comment">// Enable rewards at a particular block height (default to the next block after
+                // this)
+                </span><span class="kw">let </span>next_block_number =
+                    frame_system::Pallet::&lt;T&gt;::current_block_number() + One::one();
+                EnableRewards::&lt;T&gt;::put(
+                    maybe_block_number
+                        .unwrap_or(next_block_number)
+                        .max(next_block_number),
+                );
+            }
+            EnableRewardsAt::SolutionRange(solution_range) =&gt; {
+                EnableRewardsBelowSolutionRange::&lt;T&gt;::put(solution_range);
+            }
+            EnableRewardsAt::Manually =&gt; {
+                <span class="comment">// Nothing to do in this case
+            </span>}
+        }
 
         <span class="prelude-val">Ok</span>(())
     }
@@ -2671,21 +3150,80 @@
     /// extrinsic with a call to `report_equivocation` and will push the transaction to the pool.
     /// Only useful in an offchain context.
     </span><span class="kw">pub fn </span>submit_equivocation_report(
-        equivocation_proof: EquivocationProof&lt;T::Header&gt;,
+        equivocation_proof: EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
         T::HandleEquivocation::submit_equivocation_report(equivocation_proof).ok()
     }
 
     <span class="doccomment">/// Just stores offender from equivocation report in block list, only used for tests.
     </span><span class="kw">pub fn </span>submit_test_equivocation_report(
-        equivocation_proof: EquivocationProof&lt;T::Header&gt;,
+        equivocation_proof: EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;()&gt; {
         BlockList::&lt;T&gt;::insert(equivocation_proof.offender, ());
         <span class="prelude-val">Some</span>(())
     }
 
+    <span class="doccomment">/// Proof of time parameters
+    </span><span class="kw">pub fn </span>pot_parameters() -&gt; PotParameters {
+        <span class="kw">let </span>block_number = frame_system::Pallet::&lt;T&gt;::block_number();
+        <span class="kw">let </span>pot_slot_iterations =
+            PotSlotIterations::&lt;T&gt;::get().expect(<span class="string">"Always initialized during genesis; qed"</span>);
+        <span class="kw">let </span>pot_entropy_injection_interval = T::PotEntropyInjectionInterval::get();
+
+        <span class="kw">let </span>entropy = PotEntropy::&lt;T&gt;::get();
+        <span class="kw">let </span>lookback_in_blocks = pot_entropy_injection_interval
+            * BlockNumberFor::&lt;T&gt;::from(T::PotEntropyInjectionLookbackDepth::get());
+        <span class="kw">let </span>last_entropy_injection_block =
+            block_number / pot_entropy_injection_interval * pot_entropy_injection_interval;
+        <span class="kw">let </span>maybe_entropy_source_block_number =
+            last_entropy_injection_block.checked_sub(<span class="kw-2">&amp;</span>lookback_in_blocks);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>next_change = <span class="prelude-val">None</span>;
+
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(entropy_source_block_number) = maybe_entropy_source_block_number {
+            <span class="kw">let </span>maybe_entropy_value = entropy.get(<span class="kw-2">&amp;</span>entropy_source_block_number).copied();
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(PotEntropyValue {
+                target_slot,
+                entropy,
+            }) = maybe_entropy_value
+            {
+                <span class="kw">let </span>target_slot = target_slot.expect(
+                    <span class="string">"Always present due to identical check present in block initialization; qed"</span>,
+                );
+                <span class="comment">// Check if there was a PoT slot iterations update at the same exact slot
+                </span><span class="kw">let </span>slot_iterations = <span class="kw">if let </span><span class="prelude-val">Some</span>(update) = pot_slot_iterations.update
+                    &amp;&amp; <span class="kw">let </span><span class="prelude-val">Some</span>(update_target_slot) = update.target_slot
+                    &amp;&amp; update_target_slot == target_slot
+                {
+                    update.slot_iterations
+                } <span class="kw">else </span>{
+                    pot_slot_iterations.slot_iterations
+                };
+
+                next_change.replace(PotParametersChange {
+                    slot: target_slot,
+                    slot_iterations,
+                    entropy,
+                });
+            }
+        }
+
+        PotParameters::V0 {
+            slot_iterations: pot_slot_iterations.slot_iterations,
+            next_change,
+        }
+    }
+
+    <span class="doccomment">/// Current slot number
+    </span><span class="kw">pub fn </span>current_slot() -&gt; Slot {
+        BlockSlots::&lt;T&gt;::get()
+            .last_key_value()
+            .map(|(_block, slot)| <span class="kw-2">*</span>slot)
+            .unwrap_or_default()
+    }
+
     <span class="doccomment">/// Check if `farmer_public_key` is in block list (due to equivocation)
-    </span><span class="kw">pub fn </span>is_in_block_list(farmer_public_key: <span class="kw-2">&amp;</span>FarmerPublicKey) -&gt; bool {
+    </span><span class="kw">pub fn </span>is_in_block_list(farmer_public_key: <span class="kw-2">&amp;</span>PublicKey) -&gt; bool {
         BlockList::&lt;T&gt;::contains_key(farmer_public_key)
     }
 
@@ -2695,27 +3233,6 @@
 
         u64::from(archived_segments) * ArchivedHistorySegment::SIZE <span class="kw">as </span>u64
     }
-
-    <span class="kw">pub fn </span>chain_constants() -&gt; ChainConstants {
-        ChainConstants::V0 {
-            confirmation_depth_k: T::ConfirmationDepthK::get()
-                .try_into()
-                .unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">&quot;Block number always fits in BlockNumber; qed&quot;</span>)),
-            global_randomness_interval: T::GlobalRandomnessUpdateInterval::get()
-                .try_into()
-                .unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">&quot;Block number always fits in BlockNumber; qed&quot;</span>)),
-            era_duration: T::EraDuration::get()
-                .try_into()
-                .unwrap_or_else(|<span class="kw">_</span>| <span class="macro">panic!</span>(<span class="string">&quot;Block number always fits in BlockNumber; qed&quot;</span>)),
-            slot_probability: T::SlotProbability::get(),
-            recent_segments: T::RecentSegments::get(),
-            recent_history_fraction: (
-                T::RecentHistoryFraction::get().<span class="number">0</span>,
-                T::RecentHistoryFraction::get().<span class="number">1</span>,
-            ),
-            min_sector_lifetime: T::MinSectorLifetime::get(),
-        }
-    }
 }
 
 <span class="kw">impl</span>&lt;T&gt; Pallet&lt;T&gt;
@@ -2724,17 +3241,17 @@
 {
     <span class="doccomment">/// Submit farmer vote vote that is essentially a header with bigger solution range than
     /// acceptable for block authoring.
-    </span><span class="kw">pub fn </span>submit_vote(signed_vote: SignedVote&lt;T::BlockNumber, T::Hash, T::AccountId&gt;) {
+    </span><span class="kw">pub fn </span>submit_vote(signed_vote: SignedVote&lt;BlockNumberFor&lt;T&gt;, T::Hash, T::AccountId&gt;) {
         <span class="kw">let </span>call = Call::vote {
             signed_vote: Box::new(signed_vote),
         };
 
         <span class="kw">match </span>SubmitTransaction::&lt;T, Call&lt;T&gt;&gt;::submit_unsigned_transaction(call.into()) {
             <span class="prelude-val">Ok</span>(()) =&gt; {
-                <span class="macro">debug!</span>(target: <span class="string">&quot;runtime::subspace&quot;</span>, <span class="string">&quot;Submitted Subspace vote&quot;</span>);
+                <span class="macro">debug!</span>(target: <span class="string">"runtime::subspace"</span>, <span class="string">"Submitted Subspace vote"</span>);
             }
             <span class="prelude-val">Err</span>(()) =&gt; {
-                <span class="macro">error!</span>(target: <span class="string">&quot;runtime::subspace&quot;</span>, <span class="string">&quot;Error submitting Subspace vote&quot;</span>);
+                <span class="macro">error!</span>(target: <span class="string">"runtime::subspace"</span>, <span class="string">"Error submitting Subspace vote"</span>);
             }
         }
     }
@@ -2755,8 +3272,8 @@
             TransactionSource::Local | TransactionSource::InBlock,
         ) {
             <span class="macro">warn!</span>(
-                target: <span class="string">&quot;runtime::subspace&quot;</span>,
-                <span class="string">&quot;Rejecting segment header extrinsic because it is not local/in-block.&quot;</span>,
+                target: <span class="string">"runtime::subspace"</span>,
+                <span class="string">"Rejecting segment header extrinsic because it is not local/in-block."</span>,
             );
 
             <span class="kw">return </span>InvalidTransaction::Call.into();
@@ -2764,13 +3281,13 @@
 
         check_segment_headers::&lt;T&gt;(segment_headers)<span class="question-mark">?</span>;
 
-        ValidTransaction::with_tag_prefix(<span class="string">&quot;SubspaceSegmentHeader&quot;</span>)
+        ValidTransaction::with_tag_prefix(<span class="string">"SubspaceSegmentHeader"</span>)
             <span class="comment">// We assign the maximum priority for any segment header.
             </span>.priority(TransactionPriority::MAX)
             <span class="comment">// Should be included immediately into the current block (this is an inherent
             // extrinsic) with no exceptions.
             </span>.longevity(<span class="number">0</span>)
-            <span class="comment">// We don&#39;t propagate this. This can never be included on a remote node.
+            <span class="comment">// We don't propagate this. This can never be included on a remote node.
             </span>.propagate(<span class="bool-val">false</span>)
             .build()
     }
@@ -2782,32 +3299,32 @@
     }
 
     <span class="kw">fn </span>validate_vote(
-        signed_vote: <span class="kw-2">&amp;</span>SignedVote&lt;T::BlockNumber, T::Hash, T::AccountId&gt;,
+        signed_vote: <span class="kw-2">&amp;</span>SignedVote&lt;BlockNumberFor&lt;T&gt;, T::Hash, T::AccountId&gt;,
     ) -&gt; TransactionValidity {
         check_vote::&lt;T&gt;(signed_vote, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
 
-        ValidTransaction::with_tag_prefix(<span class="string">&quot;SubspaceVote&quot;</span>)
+        ValidTransaction::with_tag_prefix(<span class="string">"SubspaceVote"</span>)
             <span class="comment">// We assign the maximum priority for any vote.
             </span>.priority(TransactionPriority::MAX)
             <span class="comment">// Should be included in the next block or block after that, but not later
             </span>.longevity(<span class="number">2</span>)
-            .and_provides(<span class="kw-2">&amp;</span>signed_vote.signature)
+            .and_provides(signed_vote.signature)
             .build()
     }
 
     <span class="kw">fn </span>pre_dispatch_vote(
-        signed_vote: <span class="kw-2">&amp;</span>SignedVote&lt;T::BlockNumber, T::Hash, T::AccountId&gt;,
+        signed_vote: <span class="kw-2">&amp;</span>SignedVote&lt;BlockNumberFor&lt;T&gt;, T::Hash, T::AccountId&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), TransactionValidityError&gt; {
         <span class="kw">match </span>check_vote::&lt;T&gt;(signed_vote, <span class="bool-val">true</span>) {
             <span class="prelude-val">Ok</span>(()) =&gt; <span class="prelude-val">Ok</span>(()),
             <span class="prelude-val">Err</span>(CheckVoteError::Equivocated(offence)) =&gt; {
-                <span class="comment">// Report equivocation, we don&#39;t care about duplicate report here
+                <span class="comment">// Report equivocation, we don't care about duplicate report here
                 </span><span class="kw">if let </span><span class="prelude-val">Err</span>(OffenceError::Other(code)) =
                     T::HandleEquivocation::report_offence(offence)
                 {
                     <span class="macro">debug!</span>(
-                        target: <span class="string">&quot;runtime::subspace&quot;</span>,
-                        <span class="string">&quot;Failed to submit voter offence report with code {code}&quot;
+                        target: <span class="string">"runtime::subspace"</span>,
+                        <span class="string">"Failed to submit voter offence report with code {code}"
                     </span>);
                 }
 
@@ -2821,19 +3338,17 @@
 
 <span class="doccomment">/// Verification data retrieval depends on whether it is called from pre_dispatch (meaning block
 /// initialization has already happened) or from `validate_unsigned` by transaction pool (meaning
-/// block initialization didn&#39;t happen yet).
+/// block initialization didn't happen yet).
 </span><span class="kw">fn </span>current_vote_verification_data&lt;T: Config&gt;(is_block_initialized: bool) -&gt; VoteVerificationData {
-    <span class="kw">let </span>global_randomnesses = GlobalRandomnesses::&lt;T&gt;::get();
     <span class="kw">let </span>solution_ranges = SolutionRanges::&lt;T&gt;::get();
+
     VoteVerificationData {
-        global_randomness: <span class="kw">if </span>is_block_initialized {
-            global_randomnesses.current
-        } <span class="kw">else </span>{
-            global_randomnesses
-                .next
-                .unwrap_or(global_randomnesses.current)
-        },
         solution_range: <span class="kw">if </span>is_block_initialized {
+            solution_ranges.current
+        } <span class="kw">else </span>{
+            solution_ranges.next.unwrap_or(solution_ranges.current)
+        },
+        vote_solution_range: <span class="kw">if </span>is_block_initialized {
             solution_ranges.voting_current
         } <span class="kw">else </span>{
             solution_ranges
@@ -2866,8 +3381,11 @@
     UnknownSegmentCommitment,
     InvalidHistorySize,
     InvalidSolution(String),
+    QualityTooHigh,
+    InvalidProofOfTime,
+    InvalidFutureProofOfTime,
     DuplicateVote,
-    Equivocated(SubspaceEquivocationOffence&lt;FarmerPublicKey&gt;),
+    Equivocated(SubspaceEquivocationOffence),
 }
 
 <span class="kw">impl </span>From&lt;CheckVoteError&gt; <span class="kw">for </span>TransactionValidityError {
@@ -2885,6 +3403,9 @@
             CheckVoteError::UnknownSegmentCommitment =&gt; InvalidTransaction::Call,
             CheckVoteError::InvalidHistorySize =&gt; InvalidTransaction::Call,
             CheckVoteError::InvalidSolution(<span class="kw">_</span>) =&gt; InvalidTransaction::Call,
+            CheckVoteError::QualityTooHigh =&gt; InvalidTransaction::Call,
+            CheckVoteError::InvalidProofOfTime =&gt; InvalidTransaction::Future,
+            CheckVoteError::InvalidFutureProofOfTime =&gt; InvalidTransaction::Call,
             CheckVoteError::DuplicateVote =&gt; InvalidTransaction::Call,
             CheckVoteError::Equivocated(<span class="kw">_</span>) =&gt; InvalidTransaction::BadSigner,
         })
@@ -2892,7 +3413,7 @@
 }
 
 <span class="kw">fn </span>check_vote&lt;T: Config&gt;(
-    signed_vote: <span class="kw-2">&amp;</span>SignedVote&lt;T::BlockNumber, T::Hash, T::AccountId&gt;,
+    signed_vote: <span class="kw-2">&amp;</span>SignedVote&lt;BlockNumberFor&lt;T&gt;, T::Hash, T::AccountId&gt;,
     pre_dispatch: bool,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), CheckVoteError&gt; {
     <span class="kw">let </span>Vote::V0 {
@@ -2900,11 +3421,13 @@
         parent_hash,
         slot,
         solution,
+        proof_of_time,
+        future_proof_of_time,
     } = <span class="kw-2">&amp;</span>signed_vote.vote;
     <span class="kw">let </span>height = <span class="kw-2">*</span>height;
     <span class="kw">let </span>slot = <span class="kw-2">*</span>slot;
 
-    <span class="kw">if </span>BlockList::&lt;T&gt;::contains_key(<span class="kw-2">&amp;</span>solution.public_key) {
+    <span class="kw">if </span>BlockList::&lt;T&gt;::contains_key(solution.public_key) {
         <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::BlockListed);
     }
 
@@ -2912,8 +3435,8 @@
 
     <span class="kw">if </span>current_block_number &lt;= One::one() || height &lt;= One::one() {
         <span class="macro">debug!</span>(
-            target: <span class="string">&quot;runtime::subspace&quot;</span>,
-            <span class="string">&quot;Votes are not expected at height below 2&quot;
+            target: <span class="string">"runtime::subspace"</span>,
+            <span class="string">"Votes are not expected at height below 2"
         </span>);
 
         <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::UnexpectedBeforeHeightTwo);
@@ -2924,9 +3447,9 @@
     // Subtraction will not panic due to check above.
     </span><span class="kw">if </span>!(height == current_block_number || height == current_block_number - One::one()) {
         <span class="macro">debug!</span>(
-            target: <span class="string">&quot;runtime::subspace&quot;</span>,
-            <span class="string">&quot;Vote verification error: bad height {height:?}, current block number is \
-            {current_block_number:?}&quot;
+            target: <span class="string">"runtime::subspace"</span>,
+            <span class="string">"Vote verification error: bad height {height:?}, current block number is \
+            {current_block_number:?}"
         </span>);
         <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">if </span>height &gt; current_block_number {
             CheckVoteError::HeightInTheFuture
@@ -2940,15 +3463,15 @@
     // Subtraction will not panic due to check above.
     </span><span class="kw">if </span><span class="kw-2">*</span>parent_hash != frame_system::Pallet::&lt;T&gt;::block_hash(height - One::one()) {
         <span class="macro">debug!</span>(
-            target: <span class="string">&quot;runtime::subspace&quot;</span>,
-            <span class="string">&quot;Vote verification error: parent hash {parent_hash:?}&quot;</span>,
+            target: <span class="string">"runtime::subspace"</span>,
+            <span class="string">"Vote verification error: parent hash {parent_hash:?}"</span>,
         );
         <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::IncorrectParentHash);
     }
 
     <span class="kw">let </span>current_vote_verification_data = current_vote_verification_data::&lt;T&gt;(pre_dispatch);
     <span class="kw">let </span>parent_vote_verification_data = ParentVoteVerificationData::&lt;T&gt;::get()
-        .expect(<span class="string">&quot;Above check for block number ensures that this value is always present&quot;</span>);
+        .expect(<span class="string">"Above check for block number ensures that this value is always present; qed"</span>);
 
     <span class="kw">if </span>pre_dispatch {
         <span class="comment">// New time slot is already set, whatever time slot is in the vote it must be smaller or the
@@ -2956,15 +3479,15 @@
         </span><span class="kw">let </span>current_slot = current_vote_verification_data.current_slot;
         <span class="kw">if </span>slot &gt; current_slot || (slot == current_slot &amp;&amp; height != current_block_number) {
             <span class="macro">debug!</span>(
-                target: <span class="string">&quot;runtime::subspace&quot;</span>,
-                <span class="string">&quot;Vote slot {slot:?} must be before current slot {current_slot:?}&quot;</span>,
+                target: <span class="string">"runtime::subspace"</span>,
+                <span class="string">"Vote slot {slot:?} must be before current slot {current_slot:?}"</span>,
             );
             <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::SlotInTheFuture);
         }
     }
 
     <span class="kw">let </span>parent_slot = <span class="kw">if </span>pre_dispatch {
-        <span class="comment">// For pre-dispatch parent slot is `current_slot` if the parent vote verification data (it
+        <span class="comment">// For pre-dispatch parent slot is `current_slot` in the parent vote verification data (it
         // was updated in current block because initialization hook was already called) if vote is
         // at the same height as the current block, otherwise it is one level older and
         // `parent_slot` from parent vote verification data needs to be taken instead
@@ -2974,8 +3497,8 @@
             parent_vote_verification_data.parent_slot
         }
     } <span class="kw">else </span>{
-        <span class="comment">// Otherwise parent slot is `current_slot` if the current vote verification data (that
-        // wan&#39;t updated from parent block because initialization hook wasn&#39;t called yet) if vote
+        <span class="comment">// Otherwise parent slot is `current_slot` in the current vote verification data (that
+        // wasn't updated from parent block because initialization hook wasn't called yet) if vote
         // is at the same height as the current block, otherwise it is one level older and
         // `parent_slot` from current vote verification data needs to be taken instead
         </span><span class="kw">if </span>height == current_block_number {
@@ -2987,21 +3510,21 @@
 
     <span class="kw">if </span>slot &lt;= parent_slot {
         <span class="macro">debug!</span>(
-            target: <span class="string">&quot;runtime::subspace&quot;</span>,
-            <span class="string">&quot;Vote slot {slot:?} must be after parent slot {parent_slot:?}&quot;</span>,
+            target: <span class="string">"runtime::subspace"</span>,
+            <span class="string">"Vote slot {slot:?} must be after parent slot {parent_slot:?}"</span>,
         );
         <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::SlotInThePast);
     }
 
     <span class="kw">if let </span><span class="prelude-val">Err</span>(error) = check_reward_signature(
         signed_vote.vote.hash().as_bytes(),
-        <span class="kw-2">&amp;</span>RewardSignature::from(<span class="kw-2">&amp;</span>signed_vote.signature),
-        <span class="kw-2">&amp;</span>PublicKey::from(<span class="kw-2">&amp;</span>solution.public_key),
+        <span class="kw-2">&amp;</span>signed_vote.signature,
+        <span class="kw-2">&amp;</span>solution.public_key,
         <span class="kw-2">&amp;</span>schnorrkel::signing_context(REWARD_SIGNING_CONTEXT),
     ) {
         <span class="macro">debug!</span>(
-            target: <span class="string">&quot;runtime::subspace&quot;</span>,
-            <span class="string">&quot;Vote verification error: {error:?}&quot;
+            target: <span class="string">"runtime::subspace"</span>,
+            <span class="string">"Vote verification error: {error:?}"
         </span>);
         <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::BadRewardSignature(error));
     }
@@ -3012,10 +3535,7 @@
         parent_vote_verification_data
     };
 
-    <span class="kw">let </span>sector_id = SectorId::new(
-        PublicKey::from(<span class="kw-2">&amp;</span>solution.public_key).hash(),
-        solution.sector_index,
-    );
+    <span class="kw">let </span>sector_id = SectorId::new(solution.public_key.hash(), solution.sector_index);
 
     <span class="kw">let </span>recent_segments = T::RecentSegments::get();
     <span class="kw">let </span>recent_history_fraction = (
@@ -3037,8 +3557,8 @@
             segment_commitment
         } <span class="kw">else </span>{
             <span class="macro">debug!</span>(
-                target: <span class="string">&quot;runtime::subspace&quot;</span>,
-                <span class="string">&quot;Vote verification error: no segment commitment for segment index {segment_index}&quot;
+                target: <span class="string">"runtime::subspace"</span>,
+                <span class="string">"Vote verification error: no segment commitment for segment index {segment_index}"
             </span>);
             <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::UnknownSegmentCommitment);
         };
@@ -3051,12 +3571,12 @@
             </span>.segment_index(),
     );
 
-    <span class="kw">if let </span><span class="prelude-val">Err</span>(error) = verify_solution(
+    <span class="kw">match </span>verify_solution(
         solution.into(),
         slot.into(),
         (<span class="kw-2">&amp;</span>VerifySolutionParams {
-            global_randomness: vote_verification_data.global_randomness,
-            solution_range: vote_verification_data.solution_range,
+            proof_of_time: <span class="kw-2">*</span>proof_of_time,
+            solution_range: vote_verification_data.vote_solution_range,
             piece_check_params: <span class="prelude-val">Some</span>(PieceCheckParams {
                 max_pieces_in_sector: T::MaxPiecesInSector::get(),
                 segment_commitment,
@@ -3069,21 +3589,63 @@
         })
             .into(),
     ) {
-        <span class="macro">debug!</span>(
-            target: <span class="string">&quot;runtime::subspace&quot;</span>,
-            <span class="string">&quot;Vote verification error: {error:?}&quot;
-        </span>);
-        <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::InvalidSolution(error));
+        <span class="prelude-val">Ok</span>(solution_distance) =&gt; {
+            <span class="kw">if </span>solution_distance &lt;= vote_verification_data.solution_range / <span class="number">2 </span>{
+                <span class="macro">debug!</span>(
+                    target: <span class="string">"runtime::subspace"</span>,
+                    <span class="string">"Vote quality is too high"
+                </span>);
+                <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::QualityTooHigh);
+            }
+        }
+        <span class="prelude-val">Err</span>(error) =&gt; {
+            <span class="macro">debug!</span>(
+                target: <span class="string">"runtime::subspace"</span>,
+                <span class="string">"Vote verification error: {error:?}"
+            </span>);
+            <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::InvalidSolution(error));
+        }
+    }
+
+    <span class="comment">// Cheap proof of time verification is possible here because proof of time must have already
+    // been seen by this node due to votes requiring the same authoring delay as blocks
+    </span><span class="kw">if </span>!is_proof_of_time_valid(
+        BlockHash::try_from(parent_hash.as_ref())
+            .expect(<span class="string">"Must be able to convert to block hash type"</span>),
+        SlotNumber::from(slot),
+        WrappedPotOutput::from(<span class="kw-2">*</span>proof_of_time),
+        <span class="comment">// Quick verification when entering transaction pool, but not when constructing the block
+        </span>!pre_dispatch,
+    ) {
+        <span class="macro">debug!</span>(target: <span class="string">"runtime::subspace"</span>, <span class="string">"Invalid proof of time"</span>);
+
+        <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::InvalidProofOfTime);
+    }
+
+    <span class="comment">// During pre-dispatch we have already verified proofs of time up to future proof of time of
+    // current block, which vote can't exceed, this must be possible to verify cheaply
+    </span><span class="kw">if </span>pre_dispatch
+        &amp;&amp; !is_proof_of_time_valid(
+            BlockHash::try_from(parent_hash.as_ref())
+                .expect(<span class="string">"Must be able to convert to block hash type"</span>),
+            SlotNumber::from(slot + T::BlockAuthoringDelay::get()),
+            WrappedPotOutput::from(<span class="kw-2">*</span>future_proof_of_time),
+            <span class="bool-val">false</span>,
+        )
+    {
+        <span class="macro">debug!</span>(target: <span class="string">"runtime::subspace"</span>, <span class="string">"Invalid future proof of time"</span>);
+
+        <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::InvalidFutureProofOfTime);
     }
 
     <span class="kw">let </span>key = (
-        solution.public_key.clone(),
+        solution.public_key,
         solution.sector_index,
+        solution.piece_offset,
         solution.chunk,
-        AuditChunkOffset(solution.audit_chunk_offset),
         slot,
     );
-    <span class="comment">// Check that farmer didn&#39;t use solution from this vote yet in:
+    <span class="comment">// Check that farmer didn't use solution from this vote yet in:
     // * parent block
     // * current block
     // * parent block vote
@@ -3091,8 +3653,8 @@
     </span><span class="kw">let </span><span class="kw-2">mut </span>is_equivocating = ParentBlockAuthorInfo::&lt;T&gt;::get().as_ref() == <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>key)
         || CurrentBlockAuthorInfo::&lt;T&gt;::get()
             .map(
-                |(public_key, sector_index, chunk, audit_chunk_offset, slot, _reward_address)| {
-                    (public_key, sector_index, chunk, audit_chunk_offset, slot)
+                |(public_key, sector_index, piece_offset, chunk, slot, _reward_address)| {
+                    (public_key, sector_index, piece_offset, chunk, slot)
                 },
             )
             .as_ref()
@@ -3130,7 +3692,7 @@
             }
         });
 
-        <span class="kw">let </span>(public_key, _sector_index, _chunk, _audit_chunk_offset, _slot) = key;
+        <span class="kw">let </span>(public_key, _sector_index, _piece_offset, _chunk, _slot) = key;
 
         <span class="kw">return </span><span class="prelude-val">Err</span>(CheckVoteError::Equivocated(SubspaceEquivocationOffence {
             slot,
@@ -3143,13 +3705,10 @@
         </span>CurrentBlockVoters::&lt;T&gt;::mutate(|current_reward_receivers| {
             current_reward_receivers
                 .as_mut()
-                .expect(<span class="string">&quot;Always set during block initialization&quot;</span>)
+                .expect(<span class="string">"Always set during block initialization"</span>)
                 .insert(
                     key,
-                    (
-                        solution.reward_address.clone(),
-                        signed_vote.signature.clone(),
-                    ),
+                    (solution.reward_address.clone(), signed_vote.signature),
                 );
         });
     }
@@ -3205,29 +3764,20 @@
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">impl</span>&lt;T: Config&gt; OnTimestampSet&lt;T::Moment&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
-    <span class="kw">fn </span>on_timestamp_set(moment: T::Moment) {
-        <span class="kw">let </span>slot_duration = <span class="self">Self</span>::slot_duration();
-        <span class="macro">assert!</span>(
-            !slot_duration.is_zero(),
-            <span class="string">&quot;Subspace slot duration cannot be zero.&quot;
-        </span>);
-
-        <span class="kw">let </span>timestamp_slot = moment / slot_duration;
-        <span class="kw">let </span>timestamp_slot = Slot::from(timestamp_slot.saturated_into::&lt;u64&gt;());
-
-        <span class="macro">assert_eq!</span>(
-            <span class="self">Self</span>::current_slot(),
-            timestamp_slot,
-            <span class="string">&quot;Timestamp slot must match `CurrentSlot`&quot;</span>,
-        );
+<span class="kw">impl</span>&lt;T: Config&gt; subspace_runtime_primitives::RewardsEnabled <span class="kw">for </span>Pallet&lt;T&gt; {
+    <span class="kw">fn </span>rewards_enabled() -&gt; bool {
+        <span class="kw">if let </span><span class="prelude-val">Some</span>(height) = EnableRewards::&lt;T&gt;::get() {
+            frame_system::Pallet::&lt;T&gt;::current_block_number() &gt;= height
+        } <span class="kw">else </span>{
+            <span class="bool-val">false
+        </span>}
     }
 }
 
 <span class="kw">impl</span>&lt;T: Config&gt; subspace_runtime_primitives::FindBlockRewardAddress&lt;T::AccountId&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
     <span class="kw">fn </span>find_block_reward_address() -&gt; <span class="prelude-ty">Option</span>&lt;T::AccountId&gt; {
         CurrentBlockAuthorInfo::&lt;T&gt;::get().and_then(
-            |(public_key, _sector_index, _chunk, _audit_chunk_offset, _slot, reward_address)| {
+            |(public_key, _sector_index, _piece_offset, _chunk, _slot, reward_address)| {
                 <span class="comment">// Equivocation might have happened in this block, if so - no reward for block
                 // author
                 </span><span class="kw">if </span>!BlockList::&lt;T&gt;::contains_key(public_key) {
@@ -3264,12 +3814,12 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T: Config&gt; frame_support::traits::Randomness&lt;T::Hash, T::BlockNumber&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
-    <span class="kw">fn </span>random(subject: <span class="kw-2">&amp;</span>[u8]) -&gt; (T::Hash, T::BlockNumber) {
+<span class="kw">impl</span>&lt;T: Config&gt; frame_support::traits::Randomness&lt;T::Hash, BlockNumberFor&lt;T&gt;&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
+    <span class="kw">fn </span>random(subject: <span class="kw-2">&amp;</span>[u8]) -&gt; (T::Hash, BlockNumberFor&lt;T&gt;) {
         <span class="kw">let </span><span class="kw-2">mut </span>subject = subject.to_vec();
         subject.extend_from_slice(
-            PorRandomness::&lt;T&gt;::get()
-                .expect(<span class="string">&quot;PoR randomness is always set in block initialization; qed&quot;</span>)
+            BlockRandomness::&lt;T&gt;::get()
+                .expect(<span class="string">"Block randomness is always set in block initialization; qed"</span>)
                 .as_ref(),
         );
 
@@ -3279,11 +3829,11 @@
         )
     }
 
-    <span class="kw">fn </span>random_seed() -&gt; (T::Hash, T::BlockNumber) {
+    <span class="kw">fn </span>random_seed() -&gt; (T::Hash, BlockNumberFor&lt;T&gt;) {
         (
             T::Hashing::hash(
-                PorRandomness::&lt;T&gt;::get()
-                    .expect(<span class="string">&quot;PoR randomness is always set in block initialization; qed&quot;</span>)
+                BlockRandomness::&lt;T&gt;::get()
+                    .expect(<span class="string">"Block randomness is always set in block initialization; qed"</span>)
                     .as_ref(),
             ),
             frame_system::Pallet::&lt;T&gt;::current_block_number(),
@@ -3291,10 +3841,10 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T: Config&gt; OnOffenceHandler&lt;FarmerPublicKey&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
-    <span class="kw">fn </span>on_offence(offenders: <span class="kw-2">&amp;</span>[OffenceDetails&lt;FarmerPublicKey&gt;]) {
+<span class="kw">impl</span>&lt;T: Config&gt; OnOffenceHandler&lt;PublicKey&gt; <span class="kw">for </span>Pallet&lt;T&gt; {
+    <span class="kw">fn </span>on_offence(offenders: <span class="kw-2">&amp;</span>[OffenceDetails&lt;PublicKey&gt;]) {
         <span class="kw">for </span>offender <span class="kw">in </span>offenders {
-            BlockList::&lt;T&gt;::insert(offender.offender.clone(), ());
+            BlockList::&lt;T&gt;::insert(offender.offender, ());
         }
     }
 }

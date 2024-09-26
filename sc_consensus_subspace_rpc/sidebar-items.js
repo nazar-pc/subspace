@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["SubspaceRpc"],"trait":["PieceProvider","SubspaceRpcApiClient","SubspaceRpcApiServer"]};
+window.SIDEBAR_ITEMS = {"enum":["Error"],"struct":["SubspaceRpc","SubspaceRpcConfig"],"trait":["SubspaceRpcApiClient","SubspaceRpcApiServer"]};

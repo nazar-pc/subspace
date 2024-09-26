@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["FeedConfigs","Feeds","Metadata","NextFeedId","SuccessfulPuts","Totals"]};

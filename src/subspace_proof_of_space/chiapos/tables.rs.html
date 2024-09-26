@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-proof-of-space/src/chiapos/tables.rs`."><title>tables.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="subspace_proof_of_space" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../subspace_proof_of_space/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-proof-of-space/src/chiapos/tables.rs`."><title>tables.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="subspace_proof_of_space" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -381,17 +381,47 @@
 <a href="#381" id="381">381</a>
 <a href="#382" id="382">382</a>
 <a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests;
+
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">extern crate </span>alloc;
 
 <span class="kw">use </span><span class="kw">crate</span>::chiapos::table::types::{Metadata, Position, X, Y};
 <span class="kw">pub use </span><span class="kw">crate</span>::chiapos::table::TablesCache;
 <span class="kw">use </span><span class="kw">crate</span>::chiapos::table::{
-    compute_f1, compute_fn, metadata_size_bytes, num_matches, partial_y, Table,
+    compute_f1, compute_fn, has_match, metadata_size_bytes, partial_y, Table,
     COMPUTE_F1_SIMD_FACTOR,
 };
 <span class="kw">use </span><span class="kw">crate</span>::chiapos::utils::EvaluatableUsize;
 <span class="kw">use </span><span class="kw">crate</span>::chiapos::{Challenge, Quality, Seed};
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>core::mem;
 <span class="kw">use </span>sha2::{Digest, Sha256};
 
@@ -466,7 +496,7 @@
     <span class="doccomment">/// Almost the same as [`Self::create()`], but uses parallelism internally for better
     /// performance (though not efficiency of CPU and memory usage), if you create multiple tables
     /// in parallel, prefer [`Self::create()`] for better overall performance.
-    </span><span class="attr">#[cfg(any(feature = <span class="string">&quot;parallel&quot;</span>, test))]
+    </span><span class="attr">#[cfg(any(feature = <span class="string">"parallel"</span>, test))]
     </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>create_parallel(seed: Seed, cache: <span class="kw-2">&amp;mut </span>TablesCache&lt;K&gt;) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span>table_1 = Table::&lt;K, <span class="number">1</span>&gt;::create_parallel(seed);
         <span class="kw">let </span>table_2 = Table::&lt;K, <span class="number">2</span>&gt;::create_parallel(<span class="kw-2">&amp;</span>table_1, cache);
@@ -488,10 +518,10 @@
     }
 
     <span class="doccomment">/// Find proof of space quality for given challenge.
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>find_quality&lt;<span class="lifetime">&#39;a</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        challenge: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Challenge,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = Quality&gt; + <span class="lifetime">&#39;a </span>{
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>find_quality&lt;<span class="lifetime">'a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        challenge: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Challenge,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = Quality&gt; + <span class="lifetime">'a </span>{
         <span class="kw">let </span>last_5_challenge_bits = challenge[challenge.len() - <span class="number">1</span>] &amp; <span class="number">0b00011111</span>;
 
         <span class="kw">let </span>ys = <span class="self">self</span>.table_7.ys();
@@ -500,11 +530,21 @@
         </span><span class="kw">let </span>first_k_challenge_bits = u32::from_be_bytes(
             challenge[..mem::size_of::&lt;u32&gt;()]
                 .try_into()
-                .expect(<span class="string">&quot;Challenge is known to statically have enough bytes; qed&quot;</span>),
+                .expect(<span class="string">"Challenge is known to statically have enough bytes; qed"</span>),
         ) &gt;&gt; (u32::BITS <span class="kw">as </span>usize - usize::from(K));
-        <span class="kw">let </span>first_matching_element = ys
+        <span class="kw">let </span><span class="kw-2">mut </span>first_matching_element = ys
             .binary_search_by(|<span class="kw-2">&amp;</span>y| y.first_k_bits::&lt;K&gt;().cmp(<span class="kw-2">&amp;</span>first_k_challenge_bits))
             .unwrap_or_else(|insert| insert);
+
+        <span class="comment">// We only compare first K bits above, which is why `binary_search_by` is not guaranteed to
+        // find the very first match in case there are multiple
+        </span><span class="kw">for </span>index <span class="kw">in </span>(<span class="number">0</span>..first_matching_element).rev() {
+            <span class="kw">if </span>ys[index].first_k_bits::&lt;K&gt;() == first_k_challenge_bits {
+                first_matching_element = index;
+            } <span class="kw">else </span>{
+                <span class="kw">break</span>;
+            }
+        }
 
         <span class="comment">// Iterate just over elements that are matching `first_k_challenge_bits` prefix
         </span>ys[first_matching_element..]
@@ -518,38 +558,38 @@
                 <span class="kw">let </span>positions = <span class="self">self
                     </span>.table_7
                     .position(position)
-                    .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>);
+                    .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>);
                 <span class="kw">let </span>positions = <span class="self">self
                     </span>.table_6
                     .position(pick_position(positions, last_5_challenge_bits, <span class="number">6</span>))
-                    .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>);
+                    .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>);
                 <span class="kw">let </span>positions = <span class="self">self
                     </span>.table_5
                     .position(pick_position(positions, last_5_challenge_bits, <span class="number">5</span>))
-                    .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>);
+                    .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>);
                 <span class="kw">let </span>positions = <span class="self">self
                     </span>.table_4
                     .position(pick_position(positions, last_5_challenge_bits, <span class="number">4</span>))
-                    .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>);
+                    .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>);
                 <span class="kw">let </span>positions = <span class="self">self
                     </span>.table_3
                     .position(pick_position(positions, last_5_challenge_bits, <span class="number">3</span>))
-                    .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>);
+                    .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>);
                 <span class="kw">let </span>[left_position, right_position] = <span class="self">self
                     </span>.table_2
                     .position(pick_position(positions, last_5_challenge_bits, <span class="number">2</span>))
-                    .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>);
+                    .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>);
 
                 <span class="kw">let </span>left_x = <span class="kw-2">*</span><span class="self">self
                     </span>.table_1
                     .xs()
                     .get(usize::from(left_position))
-                    .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>);
+                    .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>);
                 <span class="kw">let </span>right_x = <span class="kw-2">*</span><span class="self">self
                     </span>.table_1
                     .xs()
                     .get(usize::from(right_position))
-                    .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>);
+                    .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>);
 
                 <span class="kw">let </span><span class="kw-2">mut </span>hasher = Sha256::new();
                 hasher.update(challenge);
@@ -563,21 +603,31 @@
     }
 
     <span class="doccomment">/// Find proof of space for given challenge.
-    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>find_proof&lt;<span class="lifetime">&#39;a</span>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
-        challenge: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Challenge,
-    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = [u8; <span class="number">64 </span>* K <span class="kw">as </span>usize / <span class="number">8</span>]&gt; + <span class="lifetime">&#39;a </span>{
+    </span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>find_proof&lt;<span class="lifetime">'a</span>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
+        challenge: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Challenge,
+    ) -&gt; <span class="kw">impl </span>Iterator&lt;Item = [u8; <span class="number">64 </span>* K <span class="kw">as </span>usize / <span class="number">8</span>]&gt; + <span class="lifetime">'a </span>{
         <span class="kw">let </span>ys = <span class="self">self</span>.table_7.ys();
         <span class="comment">// We take advantage of the fact that entries are sorted by `y` (as big-endian numbers) to
         // quickly seek to desired offset
         </span><span class="kw">let </span>first_k_challenge_bits = u32::from_be_bytes(
             challenge[..mem::size_of::&lt;u32&gt;()]
                 .try_into()
-                .expect(<span class="string">&quot;Challenge is known to statically have enough bytes; qed&quot;</span>),
+                .expect(<span class="string">"Challenge is known to statically have enough bytes; qed"</span>),
         ) &gt;&gt; (u32::BITS <span class="kw">as </span>usize - usize::from(K));
-        <span class="kw">let </span>first_matching_element = ys
+        <span class="kw">let </span><span class="kw-2">mut </span>first_matching_element = ys
             .binary_search_by(|<span class="kw-2">&amp;</span>y| y.first_k_bits::&lt;K&gt;().cmp(<span class="kw-2">&amp;</span>first_k_challenge_bits))
             .unwrap_or_else(|insert| insert);
+
+        <span class="comment">// We only compare first K bits above, which is why `binary_search_by` is not guaranteed to
+        // find the very first match in case there are multiple
+        </span><span class="kw">for </span>index <span class="kw">in </span>(<span class="number">0</span>..first_matching_element).rev() {
+            <span class="kw">if </span>ys[index].first_k_bits::&lt;K&gt;() == first_k_challenge_bits {
+                first_matching_element = index;
+            } <span class="kw">else </span>{
+                <span class="kw">break</span>;
+            }
+        }
 
         <span class="comment">// Iterate just over elements that are matching `first_k_challenge_bits` prefix
         </span>ys[first_matching_element..]
@@ -592,38 +642,38 @@
 
                 <span class="self">self</span>.table_7
                     .position(position)
-                    .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>)
+                    .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>)
                     .into_iter()
                     .flat_map(|position| {
                         <span class="self">self</span>.table_6
                             .position(position)
-                            .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>)
+                            .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>)
                     })
                     .flat_map(|position| {
                         <span class="self">self</span>.table_5
                             .position(position)
-                            .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>)
+                            .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>)
                     })
                     .flat_map(|position| {
                         <span class="self">self</span>.table_4
                             .position(position)
-                            .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>)
+                            .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>)
                     })
                     .flat_map(|position| {
                         <span class="self">self</span>.table_3
                             .position(position)
-                            .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>)
+                            .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>)
                     })
                     .flat_map(|position| {
                         <span class="self">self</span>.table_2
                             .position(position)
-                            .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>)
+                            .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>)
                     })
                     .map(|position| {
                         <span class="self">self</span>.table_1
                             .xs()
                             .get(usize::from(position))
-                            .expect(<span class="string">&quot;Internally generated pointers must be correct; qed&quot;</span>)
+                            .expect(<span class="string">"Internally generated pointers must be correct; qed"</span>)
                     })
                     .enumerate()
                     .for_each(|(offset, <span class="kw-2">&amp;</span>x)| {
@@ -668,7 +718,7 @@
         <span class="kw">let </span>first_k_challenge_bits = u32::from_be_bytes(
             challenge[..mem::size_of::&lt;u32&gt;()]
                 .try_into()
-                .expect(<span class="string">&quot;Challenge is known to statically have enough bytes; qed&quot;</span>),
+                .expect(<span class="string">"Challenge is known to statically have enough bytes; qed"</span>),
         ) &gt;&gt; (u32::BITS <span class="kw">as </span>usize - usize::from(K));
 
         <span class="kw">let </span>ys_and_metadata = (<span class="number">0</span>..<span class="number">64_usize</span>)
@@ -703,7 +753,7 @@
             .filter(|ys_and_metadata| {
                 <span class="kw">let </span>(y, _metadata) = ys_and_metadata
                     .first()
-                    .expect(<span class="string">&quot;On success returns exactly one entry; qed&quot;</span>);
+                    .expect(<span class="string">"On success returns exactly one entry; qed"</span>);
 
                 <span class="comment">// Check if first K bits of `y` match
                 </span>y.first_k_bits::&lt;K&gt;() == first_k_challenge_bits
@@ -716,7 +766,9 @@
                 <span class="kw">let </span><span class="kw-2">mut </span>hasher = Sha256::new();
                 hasher.update(challenge);
 
-                <span class="kw">let </span>left_right_xs_bit_offset = quality_index * usize::from(K * <span class="number">2</span>);
+                <span class="comment">// NOTE: this works correctly, but may overflow if `quality_index` is changed to
+                // not be zero-initialized anymore
+                </span><span class="kw">let </span>left_right_xs_bit_offset = quality_index * usize::from(K * <span class="number">2</span>);
                 <span class="comment">// Collect `left_x` and `right_x` bits, potentially with extra bits at the beginning
                 // and the end
                 </span><span class="kw">let </span>left_right_xs_bytes =
@@ -751,14 +803,12 @@
         ys_and_metadata
             .array_chunks::&lt;<span class="number">2</span>&gt;()
             .map(|<span class="kw-2">&amp;</span>[(left_y, left_metadata), (right_y, right_metadata)]| {
-                (num_matches(left_y, right_y) == <span class="number">1</span>).then_some(compute_fn::&lt;
+                has_match(left_y, right_y).then_some(compute_fn::&lt;
                     K,
                     TABLE_NUMBER,
                     PARENT_TABLE_NUMBER,
                 &gt;(
-                    left_y,
-                    left_metadata,
-                    right_metadata,
+                    left_y, left_metadata, right_metadata
                 ))
             })
             .collect()

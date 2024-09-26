@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Error","PieceGetterError","SegmentGetterError"],"struct":["ObjectFetcher"],"trait":["ObjectPieceGetter"],"type":["BoxError"]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/service/src/domain.rs`."><title>domain.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_service" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../domain_service/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/service/src/domain.rs`."><title>domain.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="domain_service" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -500,65 +500,131 @@
 <a href="#500" id="500">500</a>
 <a href="#501" id="501">501</a>
 <a href="#502" id="502">502</a>
+<a href="#503" id="503">503</a>
+<a href="#504" id="504">504</a>
+<a href="#505" id="505">505</a>
+<a href="#506" id="506">506</a>
+<a href="#507" id="507">507</a>
+<a href="#508" id="508">508</a>
+<a href="#509" id="509">509</a>
+<a href="#510" id="510">510</a>
+<a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
 </pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::providers::{BlockImportProvider, RpcProvider};
-<span class="kw">use crate</span>::{DomainConfiguration, FullBackend, FullClient};
-<span class="kw">use </span>cross_domain_message_gossip::DomainTxPoolSink;
-<span class="kw">use </span>domain_client_block_preprocessor::runtime_api_full::RuntimeApiFull;
-<span class="kw">use </span>domain_client_consensus_relay_chain::DomainBlockImport;
+<span class="kw">use crate</span>::{FullBackend, FullClient};
+<span class="kw">use </span>cross_domain_message_gossip::ChainMsg;
+<span class="kw">use </span>domain_client_block_preprocessor::inherents::CreateInherentDataProvider;
 <span class="kw">use </span>domain_client_message_relayer::GossipMessageSink;
 <span class="kw">use </span>domain_client_operator::{Operator, OperatorParams, OperatorStreams};
-<span class="kw">use </span>domain_runtime_primitives::opaque::Block;
-<span class="kw">use </span>domain_runtime_primitives::{Balance, BlockNumber, DomainCoreApi, Hash, InherentExtrinsicApi};
+<span class="kw">use </span>domain_runtime_primitives::opaque::{Block, Header};
+<span class="kw">use </span>domain_runtime_primitives::{Balance, Hash};
 <span class="kw">use </span>futures::channel::mpsc;
 <span class="kw">use </span>futures::Stream;
-<span class="kw">use </span>jsonrpsee::tracing;
 <span class="kw">use </span>pallet_transaction_payment_rpc::TransactionPaymentRuntimeApi;
-<span class="kw">use </span>sc_client_api::{BlockBackend, BlockImportNotification, BlockchainEvents, StateBackendFor};
-<span class="kw">use </span>sc_executor::{NativeElseWasmExecutor, NativeExecutionDispatch};
+<span class="kw">use </span>sc_client_api::{
+    AuxStore, BlockBackend, BlockImportNotification, BlockchainEvents, ExecutorProvider,
+    ProofProvider, UsageProvider,
+};
+<span class="kw">use </span>sc_consensus::SharedBlockImport;
+<span class="kw">use </span>sc_domains::{ExtensionsFactory, RuntimeExecutor};
+<span class="kw">use </span>sc_network::{NetworkPeers, NotificationMetrics};
 <span class="kw">use </span>sc_rpc_api::DenyUnsafe;
 <span class="kw">use </span>sc_service::{
     BuildNetworkParams, Configuration <span class="kw">as </span>ServiceConfiguration, NetworkStarter, PartialComponents,
     SpawnTasksParams, TFullBackend, TaskManager,
 };
 <span class="kw">use </span>sc_telemetry::{Telemetry, TelemetryWorker, TelemetryWorkerHandle};
-<span class="kw">use </span>sc_utils::mpsc::tracing_unbounded;
+<span class="kw">use </span>sc_transaction_pool::{BasicPool, FullChainApi, RevalidationType};
+<span class="kw">use </span>sc_transaction_pool_api::OffchainTransactionPoolFactory;
+<span class="kw">use </span>sc_utils::mpsc::{tracing_unbounded, TracingUnboundedReceiver};
 <span class="kw">use </span>serde::de::DeserializeOwned;
-<span class="kw">use </span>sp_api::{ApiExt, BlockT, ConstructRuntimeApi, Metadata, NumberFor, ProvideRuntimeApi};
+<span class="kw">use </span>sp_api::{ApiExt, ConstructRuntimeApi, Metadata, ProvideRuntimeApi};
 <span class="kw">use </span>sp_block_builder::BlockBuilder;
 <span class="kw">use </span>sp_blockchain::{HeaderBackend, HeaderMetadata};
-<span class="kw">use </span>sp_consensus::{SelectChain, SyncOracle};
+<span class="kw">use </span>sp_consensus::SyncOracle;
 <span class="kw">use </span>sp_consensus_slots::Slot;
 <span class="kw">use </span>sp_core::traits::SpawnEssentialNamed;
-<span class="kw">use </span>sp_core::{Decode, Encode};
-<span class="kw">use </span>sp_domains::{BundleProducerElectionApi, DomainId, DomainsApi};
+<span class="kw">use </span>sp_core::{Decode, Encode, H256};
+<span class="kw">use </span>sp_domains::core_api::DomainCoreApi;
+<span class="kw">use </span>sp_domains::{BundleProducerElectionApi, DomainId, DomainsApi, OperatorId};
+<span class="kw">use </span>sp_domains_fraud_proof::FraudProofApi;
+<span class="kw">use </span>sp_messenger::messages::ChainId;
 <span class="kw">use </span>sp_messenger::{MessengerApi, RelayerApi};
+<span class="kw">use </span>sp_mmr_primitives::MmrApi;
 <span class="kw">use </span>sp_offchain::OffchainWorkerApi;
+<span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, NumberFor};
 <span class="kw">use </span>sp_session::SessionKeys;
 <span class="kw">use </span>sp_transaction_pool::runtime_api::TaggedTransactionQueue;
 <span class="kw">use </span>std::fmt::{Debug, Display};
 <span class="kw">use </span>std::marker::PhantomData;
 <span class="kw">use </span>std::str::FromStr;
 <span class="kw">use </span>std::sync::Arc;
-<span class="kw">use </span>subspace_core_primitives::Randomness;
-<span class="kw">use </span>subspace_runtime_primitives::Index <span class="kw">as </span>Nonce;
-<span class="kw">use </span>subspace_transaction_pool::FullChainApiWrapper;
+<span class="kw">use </span>subspace_core_primitives::PotOutput;
+<span class="kw">use </span>subspace_runtime_primitives::Nonce;
 <span class="kw">use </span>substrate_frame_rpc_system::AccountNonceApi;
 
-<span class="kw">type </span>BlockImportOf&lt;Block, Client, Provider&gt; = &lt;Provider <span class="kw">as </span>BlockImportProvider&lt;Block, Client&gt;&gt;::BI;
-
-<span class="kw">pub type </span>DomainOperator&lt;Block, CBlock, CClient, RuntimeApi, ExecutorDispatch, BI&gt; = Operator&lt;
+<span class="kw">pub type </span>DomainOperator&lt;Block, CBlock, CClient, RuntimeApi&gt; = Operator&lt;
     Block,
     CBlock,
-    FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;,
+    FullClient&lt;Block, RuntimeApi&gt;,
     CClient,
-    FullPool&lt;CBlock, CClient, RuntimeApi, ExecutorDispatch&gt;,
+    FullPool&lt;RuntimeApi&gt;,
     FullBackend&lt;Block&gt;,
-    NativeElseWasmExecutor&lt;ExecutorDispatch&gt;,
-    DomainBlockImport&lt;BI&gt;,
+    RuntimeExecutor,
 &gt;;
 
 <span class="doccomment">/// Domain full node along with some other components.
-</span><span class="kw">pub struct </span>NewFull&lt;C, CodeExecutor, CBlock, CClient, RuntimeApi, ExecutorDispatch, AccountId, BI&gt;
+</span><span class="kw">pub struct </span>NewFull&lt;C, CodeExecutor, CBlock, CClient, RuntimeApi, AccountId&gt;
 <span class="kw">where
     </span>Block: BlockT,
     CBlock: BlockT,
@@ -569,13 +635,11 @@
         + ProvideRuntimeApi&lt;CBlock&gt;
         + Send
         + Sync
-        + <span class="lifetime">&#39;static</span>,
-    CClient::Api: DomainsApi&lt;CBlock, BlockNumber, Hash&gt;,
-    RuntimeApi: ConstructRuntimeApi&lt;Block, FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;
-        + Send
-        + Sync
-        + <span class="lifetime">&#39;static</span>,
-    RuntimeApi::RuntimeApi: ApiExt&lt;Block, StateBackend = StateBackendFor&lt;TFullBackend&lt;Block&gt;, Block&gt;&gt;
+        + <span class="lifetime">'static</span>,
+    CClient::Api:
+        DomainsApi&lt;CBlock, Header&gt; + MessengerApi&lt;CBlock, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;,
+    RuntimeApi: ConstructRuntimeApi&lt;Block, FullClient&lt;Block, RuntimeApi&gt;&gt; + Send + Sync + <span class="lifetime">'static</span>,
+    RuntimeApi::RuntimeApi: ApiExt&lt;Block&gt;
         + Metadata&lt;Block&gt;
         + AccountNonceApi&lt;Block, AccountId, Nonce&gt;
         + BlockBuilder&lt;Block&gt;
@@ -584,9 +648,8 @@
         + TaggedTransactionQueue&lt;Block&gt;
         + TransactionPaymentRuntimeApi&lt;Block, Balance&gt;
         + DomainCoreApi&lt;Block&gt;
-        + MessengerApi&lt;Block, NumberFor&lt;Block&gt;&gt;
-        + RelayerApi&lt;Block, AccountId, NumberFor&lt;Block&gt;&gt;,
-    ExecutorDispatch: NativeExecutionDispatch + <span class="lifetime">&#39;static</span>,
+        + MessengerApi&lt;Block, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + RelayerApi&lt;Block, NumberFor&lt;Block&gt;, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;,
     AccountId: Encode + Decode,
 {
     <span class="doccomment">/// Task manager.
@@ -606,71 +669,57 @@
     <span class="doccomment">/// Network starter.
     </span><span class="kw">pub </span>network_starter: NetworkStarter,
     <span class="doccomment">/// Operator.
-    </span><span class="kw">pub </span>operator: DomainOperator&lt;Block, CBlock, CClient, RuntimeApi, ExecutorDispatch, BI&gt;,
-    <span class="doccomment">/// Transaction pool sink
-    </span><span class="kw">pub </span>tx_pool_sink: DomainTxPoolSink,
+    </span><span class="kw">pub </span>operator: DomainOperator&lt;Block, CBlock, CClient, RuntimeApi&gt;,
+    <span class="doccomment">/// Transaction pool
+    </span><span class="kw">pub </span>transaction_pool: Arc&lt;FullPool&lt;RuntimeApi&gt;&gt;,
     _phantom_data: PhantomData&lt;AccountId&gt;,
 }
 
-<span class="kw">type </span>DomainTxPreValidator&lt;CBlock, CClient, RuntimeApi, ExecutorDispatch&gt; =
-    <span class="kw">crate</span>::domain_tx_pre_validator::DomainTxPreValidator&lt;
-        Block,
-        CBlock,
-        FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;,
-        CClient,
-        RuntimeApiFull&lt;FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;,
-    &gt;;
-
-<span class="kw">pub type </span>FullPool&lt;CBlock, CClient, RuntimeApi, ExecutorDispatch&gt; =
-    subspace_transaction_pool::FullPool&lt;
-        Block,
-        FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;,
-        DomainTxPreValidator&lt;CBlock, CClient, RuntimeApi, ExecutorDispatch&gt;,
-    &gt;;
+<span class="doccomment">/// A transaction pool for a full node.
+</span><span class="kw">pub type </span>FullPool&lt;RuntimeApi&gt; =
+    BasicPool&lt;FullChainApi&lt;FullClient&lt;Block, RuntimeApi&gt;, Block&gt;, Block&gt;;
 
 <span class="doccomment">/// Constructs a partial domain node.
 </span><span class="attr">#[allow(clippy::type_complexity)]
-</span><span class="kw">fn </span>new_partial&lt;RuntimeApi, ExecutorDispatch, CBlock, CClient, BIMP&gt;(
+</span><span class="kw">fn </span>new_partial&lt;RuntimeApi, CBlock, CClient, BIMP&gt;(
     config: <span class="kw-2">&amp;</span>ServiceConfiguration,
-    domain_id: DomainId,
     consensus_client: Arc&lt;CClient&gt;,
     block_import_provider: <span class="kw-2">&amp;</span>BIMP,
+    confirmation_depth_k: NumberFor&lt;CBlock&gt;,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;
     PartialComponents&lt;
-        FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;,
+        FullClient&lt;Block, RuntimeApi&gt;,
         FullBackend&lt;Block&gt;,
         (),
-        sc_consensus::DefaultImportQueue&lt;Block, FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;,
-        FullPool&lt;CBlock, CClient, RuntimeApi, ExecutorDispatch&gt;,
+        sc_consensus::DefaultImportQueue&lt;Block&gt;,
+        FullPool&lt;RuntimeApi&gt;,
         (
             <span class="prelude-ty">Option</span>&lt;Telemetry&gt;,
             <span class="prelude-ty">Option</span>&lt;TelemetryWorkerHandle&gt;,
-            NativeElseWasmExecutor&lt;ExecutorDispatch&gt;,
-            Arc&lt;DomainBlockImport&lt;BIMP::BI&gt;&gt;,
+            Arc&lt;RuntimeExecutor&gt;,
+            SharedBlockImport&lt;Block&gt;,
         ),
     &gt;,
     sc_service::Error,
 &gt;
 <span class="kw">where
     </span>CBlock: BlockT,
-    NumberFor&lt;CBlock&gt;: From&lt;NumberFor&lt;Block&gt;&gt;,
-    CBlock::Hash: From&lt;Hash&gt;,
+    NumberFor&lt;CBlock&gt;: From&lt;NumberFor&lt;Block&gt;&gt; + Into&lt;u32&gt;,
+    CBlock::Hash: From&lt;Hash&gt; + Into&lt;Hash&gt;,
     CClient: HeaderBackend&lt;CBlock&gt;
         + BlockBackend&lt;CBlock&gt;
         + ProvideRuntimeApi&lt;CBlock&gt;
         + Send
         + Sync
-        + <span class="lifetime">&#39;static</span>,
-    CClient::Api: DomainsApi&lt;CBlock, BlockNumber, Hash&gt;,
-    RuntimeApi: ConstructRuntimeApi&lt;Block, FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;
-        + Send
-        + Sync
-        + <span class="lifetime">&#39;static</span>,
+        + <span class="lifetime">'static</span>,
+    CClient::Api: DomainsApi&lt;CBlock, Header&gt;
+        + MessengerApi&lt;CBlock, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + MmrApi&lt;CBlock, H256, NumberFor&lt;CBlock&gt;&gt;,
+    RuntimeApi: ConstructRuntimeApi&lt;Block, FullClient&lt;Block, RuntimeApi&gt;&gt; + Send + Sync + <span class="lifetime">'static</span>,
     RuntimeApi::RuntimeApi: TaggedTransactionQueue&lt;Block&gt;
-        + MessengerApi&lt;Block, NumberFor&lt;Block&gt;&gt;
-        + ApiExt&lt;Block, StateBackend = StateBackendFor&lt;TFullBackend&lt;Block&gt;, Block&gt;&gt;,
-    ExecutorDispatch: NativeExecutionDispatch + <span class="lifetime">&#39;static</span>,
-    BIMP: BlockImportProvider&lt;Block, FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;,
+        + MessengerApi&lt;Block, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + ApiExt&lt;Block&gt;,
+    BIMP: BlockImportProvider&lt;Block, FullClient&lt;Block, RuntimeApi&gt;&gt;,
 {
     <span class="kw">let </span>telemetry = config
         .telemetry_endpoints
@@ -683,7 +732,7 @@
         })
         .transpose()<span class="question-mark">?</span>;
 
-    <span class="kw">let </span>executor = sc_service::new_native_or_wasm_executor(config);
+    <span class="kw">let </span>executor = sc_service::new_wasm_executor(config);
 
     <span class="kw">let </span>(client, backend, keystore_container, task_manager) = sc_service::new_full_parts(
         config,
@@ -692,34 +741,47 @@
     )<span class="question-mark">?</span>;
     <span class="kw">let </span>client = Arc::new(client);
 
+    <span class="kw">let </span>executor = Arc::new(executor);
+    client.execution_extensions().set_extensions_factory(
+        ExtensionsFactory::&lt;<span class="kw">_</span>, CBlock, Block, <span class="kw">_</span>&gt;::new(
+            consensus_client.clone(),
+            executor.clone(),
+            confirmation_depth_k.into(),
+        ),
+    );
+
     <span class="kw">let </span>telemetry_worker_handle = telemetry.as_ref().map(|(worker, <span class="kw">_</span>)| worker.handle());
 
     <span class="kw">let </span>telemetry = telemetry.map(|(worker, telemetry)| {
         task_manager
             .spawn_handle()
-            .spawn(<span class="string">&quot;telemetry&quot;</span>, <span class="prelude-val">None</span>, worker.run());
+            .spawn(<span class="string">"telemetry"</span>, <span class="prelude-val">None</span>, worker.run());
         telemetry
     });
 
-    <span class="kw">let </span>domain_tx_pre_validator = DomainTxPreValidator::new(
-        domain_id,
+    <span class="kw">let </span>prometheus = config.prometheus_registry();
+    <span class="kw">let </span>pool_api = Arc::new(FullChainApi::new(
         client.clone(),
-        Box::new(task_manager.spawn_handle()),
-        consensus_client,
-        RuntimeApiFull::new(client.clone()),
-    );
+        prometheus,
+        <span class="kw-2">&amp;</span>task_manager.spawn_essential_handle(),
+    ));
 
-    <span class="kw">let </span>transaction_pool = subspace_transaction_pool::new_full(
-        config,
-        <span class="kw-2">&amp;</span>task_manager,
-        client.clone(),
-        domain_tx_pre_validator,
-    );
+    <span class="kw">let </span>transaction_pool = Arc::new(BasicPool::with_revalidation_type(
+        config.transaction_pool.clone(),
+        config.role.is_authority().into(),
+        pool_api,
+        prometheus,
+        RevalidationType::Full,
+        task_manager.spawn_essential_handle(),
+        client.usage_info().chain.best_number,
+        client.usage_info().chain.best_hash,
+        client.usage_info().chain.finalized_hash,
+    ));
 
-    <span class="kw">let </span>block_import = Arc::new(DomainBlockImport::new(BlockImportProvider::block_import(
+    <span class="kw">let </span>block_import = SharedBlockImport::new(BlockImportProvider::block_import(
         block_import_provider,
         client.clone(),
-    )));
+    ));
     <span class="kw">let </span>import_queue = domain_client_consensus_relay_chain::import_queue(
         block_import.clone(),
         <span class="kw-2">&amp;</span>task_manager.spawn_essential_handle(),
@@ -740,82 +802,76 @@
     <span class="prelude-val">Ok</span>(params)
 }
 
-<span class="kw">pub struct </span>DomainParams&lt;CBlock, CClient, SC, IBNS, CIBNS, NSNS, AccountId, Provider&gt;
+<span class="kw">pub struct </span>DomainParams&lt;CBlock, CClient, IBNS, CIBNS, NSNS, ASS, Provider&gt;
 <span class="kw">where
     </span>CBlock: BlockT,
 {
     <span class="kw">pub </span>domain_id: DomainId,
-    <span class="kw">pub </span>domain_config: DomainConfiguration&lt;AccountId&gt;,
+    <span class="kw">pub </span>domain_config: ServiceConfiguration,
+    <span class="kw">pub </span>domain_created_at: NumberFor&lt;CBlock&gt;,
+    <span class="kw">pub </span>maybe_operator_id: <span class="prelude-ty">Option</span>&lt;OperatorId&gt;,
     <span class="kw">pub </span>consensus_client: Arc&lt;CClient&gt;,
+    <span class="kw">pub </span>consensus_network: Arc&lt;<span class="kw">dyn </span>NetworkPeers + Send + Sync&gt;,
+    <span class="kw">pub </span>consensus_offchain_tx_pool_factory: OffchainTransactionPoolFactory&lt;CBlock&gt;,
     <span class="kw">pub </span>consensus_network_sync_oracle: Arc&lt;<span class="kw">dyn </span>SyncOracle + Send + Sync&gt;,
-    <span class="kw">pub </span>select_chain: SC,
-    <span class="kw">pub </span>operator_streams: OperatorStreams&lt;CBlock, IBNS, CIBNS, NSNS&gt;,
+    <span class="kw">pub </span>operator_streams: OperatorStreams&lt;CBlock, IBNS, CIBNS, NSNS, ASS&gt;,
     <span class="kw">pub </span>gossip_message_sink: GossipMessageSink,
+    <span class="kw">pub </span>domain_message_receiver: TracingUnboundedReceiver&lt;ChainMsg&gt;,
     <span class="kw">pub </span>provider: Provider,
+    <span class="kw">pub </span>skip_empty_bundle_production: bool,
+    <span class="kw">pub </span>skip_out_of_order_slot: bool,
+    <span class="kw">pub </span>confirmation_depth_k: NumberFor&lt;CBlock&gt;,
 }
 
 <span class="doccomment">/// Builds service for a domain full node.
-</span><span class="kw">pub async fn </span>new_full&lt;
-    CBlock,
-    CClient,
-    SC,
-    IBNS,
-    CIBNS,
-    NSNS,
-    RuntimeApi,
-    ExecutorDispatch,
-    AccountId,
-    Provider,
-&gt;(
-    domain_params: DomainParams&lt;CBlock, CClient, SC, IBNS, CIBNS, NSNS, AccountId, Provider&gt;,
+</span><span class="kw">pub async fn </span>new_full&lt;CBlock, CClient, IBNS, CIBNS, NSNS, ASS, RuntimeApi, AccountId, Provider&gt;(
+    domain_params: DomainParams&lt;CBlock, CClient, IBNS, CIBNS, NSNS, ASS, Provider&gt;,
 ) -&gt; sc_service::error::Result&lt;
     NewFull&lt;
-        Arc&lt;FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;,
-        NativeElseWasmExecutor&lt;ExecutorDispatch&gt;,
+        Arc&lt;FullClient&lt;Block, RuntimeApi&gt;&gt;,
+        RuntimeExecutor,
         CBlock,
         CClient,
         RuntimeApi,
-        ExecutorDispatch,
         AccountId,
-        BlockImportOf&lt;Block, FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;, Provider&gt;,
     &gt;,
 &gt;
 <span class="kw">where
     </span>CBlock: BlockT,
     NumberFor&lt;CBlock&gt;: From&lt;NumberFor&lt;Block&gt;&gt; + Into&lt;u32&gt;,
-    &lt;Block <span class="kw">as </span>BlockT&gt;::Hash: From&lt;Hash&gt;,
-    CBlock::Hash: From&lt;Hash&gt;,
+    CBlock::Hash: From&lt;Hash&gt; + Into&lt;Hash&gt;,
     CClient: HeaderBackend&lt;CBlock&gt;
         + HeaderMetadata&lt;CBlock, Error = sp_blockchain::Error&gt;
         + BlockBackend&lt;CBlock&gt;
+        + ProofProvider&lt;CBlock&gt;
         + ProvideRuntimeApi&lt;CBlock&gt;
         + BlockchainEvents&lt;CBlock&gt;
+        + AuxStore
         + Send
         + Sync
-        + <span class="lifetime">&#39;static</span>,
-    CClient::Api: DomainsApi&lt;CBlock, BlockNumber, Hash&gt;
-        + BundleProducerElectionApi&lt;CBlock, subspace_runtime_primitives::Balance&gt;,
-    SC: SelectChain&lt;CBlock&gt;,
-    IBNS: Stream&lt;Item = (NumberFor&lt;CBlock&gt;, mpsc::Sender&lt;()&gt;)&gt; + Send + <span class="lifetime">&#39;static</span>,
-    CIBNS: Stream&lt;Item = BlockImportNotification&lt;CBlock&gt;&gt; + Send + <span class="lifetime">&#39;static</span>,
-    NSNS: Stream&lt;Item = (Slot, Randomness, <span class="prelude-ty">Option</span>&lt;mpsc::Sender&lt;()&gt;&gt;)&gt; + Send + <span class="lifetime">&#39;static</span>,
-    RuntimeApi: ConstructRuntimeApi&lt;Block, FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;
-        + Send
-        + Sync
-        + <span class="lifetime">&#39;static</span>,
-    RuntimeApi::RuntimeApi: ApiExt&lt;Block, StateBackend = StateBackendFor&lt;TFullBackend&lt;Block&gt;, Block&gt;&gt;
+        + <span class="lifetime">'static</span>,
+    CClient::Api: DomainsApi&lt;CBlock, Header&gt;
+        + RelayerApi&lt;CBlock, NumberFor&lt;CBlock&gt;, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + MessengerApi&lt;CBlock, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
+        + BundleProducerElectionApi&lt;CBlock, subspace_runtime_primitives::Balance&gt;
+        + FraudProofApi&lt;CBlock, Header&gt;
+        + MmrApi&lt;CBlock, H256, NumberFor&lt;CBlock&gt;&gt;,
+    IBNS: Stream&lt;Item = (NumberFor&lt;CBlock&gt;, mpsc::Sender&lt;()&gt;)&gt; + Send + <span class="lifetime">'static</span>,
+    CIBNS: Stream&lt;Item = BlockImportNotification&lt;CBlock&gt;&gt; + Send + <span class="lifetime">'static</span>,
+    NSNS: Stream&lt;Item = (Slot, PotOutput)&gt; + Send + <span class="lifetime">'static</span>,
+    ASS: Stream&lt;Item = mpsc::Sender&lt;()&gt;&gt; + Send + <span class="lifetime">'static</span>,
+    RuntimeApi: ConstructRuntimeApi&lt;Block, FullClient&lt;Block, RuntimeApi&gt;&gt; + Send + Sync + <span class="lifetime">'static</span>,
+    RuntimeApi::RuntimeApi: ApiExt&lt;Block&gt;
         + Metadata&lt;Block&gt;
         + BlockBuilder&lt;Block&gt;
         + OffchainWorkerApi&lt;Block&gt;
         + SessionKeys&lt;Block&gt;
         + DomainCoreApi&lt;Block&gt;
-        + MessengerApi&lt;Block, NumberFor&lt;Block&gt;&gt;
-        + InherentExtrinsicApi&lt;Block&gt;
+        + MessengerApi&lt;Block, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;
         + TaggedTransactionQueue&lt;Block&gt;
         + AccountNonceApi&lt;Block, AccountId, Nonce&gt;
         + TransactionPaymentRuntimeApi&lt;Block, Balance&gt;
-        + RelayerApi&lt;Block, AccountId, NumberFor&lt;Block&gt;&gt;,
-    ExecutorDispatch: NativeExecutionDispatch + <span class="lifetime">&#39;static</span>,
+        + RelayerApi&lt;Block, NumberFor&lt;Block&gt;, NumberFor&lt;CBlock&gt;, CBlock::Hash&gt;,
     AccountId: DeserializeOwned
         + Encode
         + Decode
@@ -825,40 +881,44 @@
         + FromStr
         + Sync
         + Send
-        + <span class="lifetime">&#39;static</span>,
+        + <span class="lifetime">'static</span>,
     Provider: RpcProvider&lt;
             Block,
-            FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;,
-            FullPool&lt;CBlock, CClient, RuntimeApi, ExecutorDispatch&gt;,
-            FullChainApiWrapper&lt;
-                Block,
-                FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;,
-                DomainTxPreValidator&lt;CBlock, CClient, RuntimeApi, ExecutorDispatch&gt;,
-            &gt;,
+            FullClient&lt;Block, RuntimeApi&gt;,
+            FullPool&lt;RuntimeApi&gt;,
+            FullChainApi&lt;FullClient&lt;Block, RuntimeApi&gt;, Block&gt;,
             TFullBackend&lt;Block&gt;,
             AccountId,
-        &gt; + BlockImportProvider&lt;Block, FullClient&lt;Block, RuntimeApi, ExecutorDispatch&gt;&gt;
-        + <span class="lifetime">&#39;static</span>,
+            CreateInherentDataProvider&lt;CClient, CBlock&gt;,
+        &gt; + BlockImportProvider&lt;Block, FullClient&lt;Block, RuntimeApi&gt;&gt;
+        + <span class="lifetime">'static</span>,
 {
     <span class="kw">let </span>DomainParams {
         domain_id,
-        domain_config,
+        maybe_operator_id,
+        <span class="kw-2">mut </span>domain_config,
+        domain_created_at,
         consensus_client,
+        consensus_offchain_tx_pool_factory,
         consensus_network_sync_oracle,
-        select_chain,
+        consensus_network,
         operator_streams,
         gossip_message_sink,
+        domain_message_receiver,
         provider,
+        skip_empty_bundle_production,
+        skip_out_of_order_slot,
+        confirmation_depth_k,
     } = domain_params;
 
     <span class="comment">// TODO: Do we even need block announcement on domain node?
     // domain_config.announce_block = false;
 
     </span><span class="kw">let </span>params = new_partial(
-        <span class="kw-2">&amp;</span>domain_config.service_config,
-        domain_id,
+        <span class="kw-2">&amp;</span>domain_config,
         consensus_client.clone(),
         <span class="kw-2">&amp;</span>provider,
+        confirmation_depth_k,
     )<span class="question-mark">?</span>;
 
     <span class="kw">let </span>(<span class="kw-2">mut </span>telemetry, _telemetry_worker_handle, code_executor, block_import) = params.other;
@@ -868,45 +928,74 @@
 
     <span class="kw">let </span>transaction_pool = params.transaction_pool.clone();
     <span class="kw">let </span><span class="kw-2">mut </span>task_manager = params.task_manager;
-    <span class="kw">let </span><span class="kw-2">mut </span>net_config =
-        sc_network::config::FullNetworkConfiguration::new(<span class="kw-2">&amp;</span>domain_config.service_config.network);
+    <span class="kw">let </span>net_config = sc_network::config::FullNetworkConfiguration::new(<span class="kw-2">&amp;</span>domain_config.network);
 
-    net_config.add_notification_protocol(
-        domain_client_subnet_gossip::domain_subnet_gossip_peers_set_config(),
-    );
+    <span class="kw">let </span>(
+        network_service,
+        system_rpc_tx,
+        tx_handler_controller,
+        network_starter,
+        sync_service,
+        _block_downloader,
+    ) = <span class="kw">crate</span>::build_network(BuildNetworkParams {
+        config: <span class="kw-2">&amp;</span>domain_config,
+        net_config,
+        client: client.clone(),
+        transaction_pool: transaction_pool.clone(),
+        spawn_handle: task_manager.spawn_handle(),
+        import_queue: params.import_queue,
+        <span class="comment">// TODO: we might want to re-enable this some day.
+        </span>block_announce_validator_builder: <span class="prelude-val">None</span>,
+        warp_sync_params: <span class="prelude-val">None</span>,
+        block_relay: <span class="prelude-val">None</span>,
+        metrics: NotificationMetrics::new(
+            domain_config
+                .prometheus_config
+                .as_ref()
+                .map(|cfg| <span class="kw-2">&amp;</span>cfg.registry),
+        ),
+    })<span class="question-mark">?</span>;
 
-    <span class="kw">let </span>(network_service, system_rpc_tx, tx_handler_controller, network_starter, sync_service) =
-        <span class="kw">crate</span>::build_network(BuildNetworkParams {
-            config: <span class="kw-2">&amp;</span>domain_config.service_config,
-            net_config,
-            client: client.clone(),
-            transaction_pool: transaction_pool.clone(),
-            spawn_handle: task_manager.spawn_handle(),
-            import_queue: params.import_queue,
-            <span class="comment">// TODO: we might want to re-enable this some day.
-            </span>block_announce_validator_builder: <span class="prelude-val">None</span>,
-            warp_sync_params: <span class="prelude-val">None</span>,
-            block_relay: <span class="prelude-val">None</span>,
-        })<span class="question-mark">?</span>;
-
-    <span class="kw">let </span>is_authority = domain_config.service_config.role.is_authority();
+    <span class="kw">let </span>is_authority = domain_config.role.is_authority();
+    domain_config.rpc_id_provider = provider.rpc_id();
     <span class="kw">let </span>rpc_builder = {
         <span class="kw">let </span>deps = <span class="kw">crate</span>::rpc::FullDeps {
             client: client.clone(),
             pool: transaction_pool.clone(),
             graph: transaction_pool.pool().clone(),
-            chain_spec: domain_config.service_config.chain_spec.cloned_box(),
+            chain_spec: domain_config.chain_spec.cloned_box(),
             deny_unsafe: DenyUnsafe::Yes,
             network: network_service.clone(),
             sync: sync_service.clone(),
             is_authority,
-            prometheus_registry: domain_config.service_config.prometheus_registry().cloned(),
-            database_source: domain_config.service_config.database.clone(),
+            prometheus_registry: domain_config.prometheus_registry().cloned(),
+            database_source: domain_config.database.clone(),
             task_spawner: task_manager.spawn_handle(),
             backend: backend.clone(),
+            <span class="comment">// This is required by the eth rpc to create pending state using the underlying
+            // consensus provider. In our case, the consensus provider is empty and
+            // as a result this is not used at all. Providing this just to make the api
+            // compatible
+            </span>create_inherent_data_provider: CreateInherentDataProvider::new(
+                consensus_client.clone(),
+                <span class="comment">// It is safe to pass empty consensus hash here as explained above
+                </span><span class="prelude-val">None</span>,
+                domain_id,
+            ),
         };
 
-        Box::new(<span class="kw">move </span>|<span class="kw">_</span>, <span class="kw">_</span>| <span class="kw">crate</span>::rpc::create_full(deps.clone()).map_err(Into::into))
+        <span class="kw">let </span>spawn_essential = task_manager.spawn_essential_handle();
+        <span class="kw">let </span>rpc_deps = provider.deps(deps)<span class="question-mark">?</span>;
+        Box::new(<span class="kw">move </span>|<span class="kw">_</span>, subscription_task_executor| {
+            <span class="kw">let </span>spawn_essential = spawn_essential.clone();
+            provider
+                .rpc_builder(
+                    rpc_deps.clone(),
+                    subscription_task_executor,
+                    spawn_essential,
+                )
+                .map_err(Into::into)
+        })
     };
 
     <span class="kw">let </span>rpc_handlers = sc_service::spawn_tasks(SpawnTasksParams {
@@ -914,7 +1003,7 @@
         client: client.clone(),
         transaction_pool: transaction_pool.clone(),
         task_manager: <span class="kw-2">&amp;mut </span>task_manager,
-        config: domain_config.service_config,
+        config: domain_config,
         keystore: params.keystore_container.keystore(),
         backend: backend.clone(),
         network: network_service.clone(),
@@ -924,10 +1013,8 @@
         telemetry: telemetry.as_mut(),
     })<span class="question-mark">?</span>;
 
-    <span class="kw">let </span>code_executor = Arc::new(code_executor);
-
     <span class="kw">let </span>spawn_essential = task_manager.spawn_essential_handle();
-    <span class="kw">let </span>(bundle_sender, _bundle_receiver) = tracing_unbounded(<span class="string">&quot;domain_bundle_stream&quot;</span>, <span class="number">100</span>);
+    <span class="kw">let </span>(bundle_sender, _bundle_receiver) = tracing_unbounded(<span class="string">"domain_bundle_stream"</span>, <span class="number">100</span>);
 
     <span class="comment">// let domain_confirmation_depth = consensus_client
     // .runtime_api()
@@ -939,49 +1026,82 @@
 
     <span class="kw">let </span>operator = Operator::new(
         Box::new(spawn_essential.clone()),
-        <span class="kw-2">&amp;</span>select_chain,
         OperatorParams {
             domain_id,
+            domain_created_at,
             consensus_client: consensus_client.clone(),
-            consensus_network_sync_oracle,
+            consensus_offchain_tx_pool_factory,
+            consensus_network_sync_oracle: consensus_network_sync_oracle.clone(),
             client: client.clone(),
             transaction_pool: transaction_pool.clone(),
             backend: backend.clone(),
             code_executor: code_executor.clone(),
-            is_authority,
+            maybe_operator_id,
             keystore: params.keystore_container.keystore(),
             bundle_sender: Arc::new(bundle_sender),
             operator_streams,
             domain_confirmation_depth,
             block_import,
+            skip_empty_bundle_production,
+            skip_out_of_order_slot,
         },
     )
     .<span class="kw">await</span><span class="question-mark">?</span>;
 
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(relayer_id) = domain_config.maybe_relayer_id {
-        <span class="macro">tracing::info!</span>(<span class="question-mark">?</span>domain_id, <span class="question-mark">?</span>relayer_id, <span class="string">&quot;Starting domain relayer&quot;</span>);
-        <span class="kw">let </span>relayer_worker = domain_client_message_relayer::worker::relay_system_domain_messages(
-            relayer_id,
+    <span class="kw">if </span>is_authority {
+        <span class="kw">let </span>relayer_worker = domain_client_message_relayer::worker::start_relaying_messages(
+            domain_id,
+            consensus_client.clone(),
             client.clone(),
-            sync_service.clone(),
-            gossip_message_sink,
+            confirmation_depth_k,
+            <span class="comment">// domain relayer will use consensus chain sync oracle instead of domain sync oracle
+            // since domain sync oracle will always return `synced` due to force sync being set.
+            </span>consensus_network_sync_oracle.clone(),
+            gossip_message_sink.clone(),
         );
 
-        spawn_essential.spawn_essential_blocking(<span class="string">&quot;domain-relayer&quot;</span>, <span class="prelude-val">None</span>, Box::pin(relayer_worker));
+        spawn_essential.spawn_essential_blocking(<span class="string">"domain-relayer"</span>, <span class="prelude-val">None</span>, Box::pin(relayer_worker));
+
+        <span class="kw">let </span>channel_update_worker =
+            domain_client_message_relayer::worker::gossip_channel_updates::&lt;<span class="kw">_</span>, <span class="kw">_</span>, CBlock, <span class="kw">_</span>&gt;(
+                ChainId::Domain(domain_id),
+                client.clone(),
+                <span class="comment">// domain will use consensus chain sync oracle instead of domain sync oracle
+                // since domain sync oracle will always return `synced` due to force sync being set.
+                </span>consensus_network_sync_oracle.clone(),
+                gossip_message_sink,
+            );
+
+        spawn_essential.spawn_essential_blocking(
+            <span class="string">"domain-channel-update-worker"</span>,
+            <span class="prelude-val">None</span>,
+            Box::pin(channel_update_worker),
+        );
     }
 
-    <span class="kw">let </span>(msg_sender, msg_receiver) = tracing_unbounded(<span class="string">&quot;domain_message_channel&quot;</span>, <span class="number">100</span>);
-
     <span class="comment">// Start cross domain message listener for domain
-    </span><span class="kw">let </span>domain_listener = cross_domain_message_gossip::start_domain_message_listener(
-        domain_id,
+    </span><span class="kw">let </span>domain_listener = cross_domain_message_gossip::start_cross_chain_message_listener::&lt;
+        <span class="kw">_</span>,
+        <span class="kw">_</span>,
+        <span class="kw">_</span>,
+        <span class="kw">_</span>,
+        <span class="kw">_</span>,
+        Block,
+        <span class="kw">_</span>,
+        <span class="kw">_</span>,
+    &gt;(
+        ChainId::Domain(domain_id),
+        consensus_client.clone(),
         client.clone(),
         params.transaction_pool.clone(),
-        msg_receiver,
+        consensus_network,
+        domain_message_receiver,
+        code_executor.clone(),
+        consensus_network_sync_oracle,
     );
 
     spawn_essential.spawn_essential_blocking(
-        <span class="string">&quot;domain-message-listener&quot;</span>,
+        <span class="string">"domain-message-listener"</span>,
         <span class="prelude-val">None</span>,
         Box::pin(domain_listener),
     );
@@ -996,7 +1116,7 @@
         rpc_handlers,
         network_starter,
         operator,
-        tx_pool_sink: msg_sender,
+        transaction_pool: params.transaction_pool,
         _phantom_data: Default::default(),
     };
 

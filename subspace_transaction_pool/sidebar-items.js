@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["new_full"],"mod":["bundle_validator"],"struct":["BasicPoolWrapper","FullChainApiWrapper"],"trait":["PreValidateTransaction"],"type":["BlockExtrinsicOf","FullPool","FullPoolWithChainVerifier","ValidationFuture"]};

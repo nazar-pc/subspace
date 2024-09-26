@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-subspace/src/equivocation.rs`."><title>equivocation.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../pallet_subspace/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-subspace/src/equivocation.rs`."><title>equivocation.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -245,25 +245,18 @@
 <a href="#245" id="245">245</a>
 <a href="#246" id="246">246</a>
 <a href="#247" id="247">247</a>
-<a href="#248" id="248">248</a>
-<a href="#249" id="249">249</a>
-<a href="#250" id="250">250</a>
-<a href="#251" id="251">251</a>
-<a href="#252" id="252">252</a>
-<a href="#253" id="253">253</a>
-<a href="#254" id="254">254</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2020-2021 Parity Technologies (UK) Ltd.
 // Copyright (C) 2021 Subspace Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
 // 	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
@@ -278,7 +271,7 @@
 //! - a way to get the current block author;
 //!
 //! These can be used in an offchain context in order to submit equivocation reporting extrinsics
-//! (from the client that&#39;s import Subspace blocks). And in a runtime context, so that the Subspace
+//! (from the client that's import Subspace blocks). And in a runtime context, so that the Subspace
 //! pallet can validate the equivocation proofs in the extrinsic and report the offences.
 //!
 //! IMPORTANT:
@@ -288,15 +281,17 @@
 
 </span><span class="kw">use </span>frame_support::traits::Get;
 <span class="kw">use </span>frame_system::offchain::SubmitTransaction;
+<span class="kw">use </span>frame_system::pallet_prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>sp_consensus_slots::Slot;
 <span class="kw">use </span>sp_consensus_subspace::offence::{Kind, Offence, OffenceError, ReportOffence};
-<span class="kw">use </span>sp_consensus_subspace::{EquivocationProof, FarmerPublicKey};
+<span class="kw">use </span>sp_consensus_subspace::EquivocationProof;
 <span class="kw">use </span>sp_runtime::transaction_validity::{
     InvalidTransaction, TransactionPriority, TransactionSource, TransactionValidity,
     TransactionValidityError, ValidTransaction,
 };
 <span class="kw">use </span>sp_runtime::DispatchResult;
 <span class="kw">use </span>sp_std::prelude::<span class="kw-2">*</span>;
+<span class="kw">use </span>subspace_core_primitives::PublicKey;
 
 <span class="kw">use crate</span>::{Call, Config, Pallet};
 
@@ -310,34 +305,30 @@
     </span><span class="kw">type </span>ReportLongevity: Get&lt;u64&gt;;
 
     <span class="doccomment">/// Report an offence proved by the given reporters.
-    </span><span class="kw">fn </span>report_offence(
-        offence: SubspaceEquivocationOffence&lt;FarmerPublicKey&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), OffenceError&gt;;
+    </span><span class="kw">fn </span>report_offence(offence: SubspaceEquivocationOffence) -&gt; <span class="prelude-ty">Result</span>&lt;(), OffenceError&gt;;
 
     <span class="doccomment">/// Returns true if all of the offenders at the given time slot have already been reported.
-    </span><span class="kw">fn </span>is_known_offence(offenders: <span class="kw-2">&amp;</span>[FarmerPublicKey], time_slot: <span class="kw-2">&amp;</span>Slot) -&gt; bool;
+    </span><span class="kw">fn </span>is_known_offence(offenders: <span class="kw-2">&amp;</span>[PublicKey], time_slot: <span class="kw-2">&amp;</span>Slot) -&gt; bool;
 
     <span class="doccomment">/// Create and dispatch an equivocation report extrinsic.
     </span><span class="kw">fn </span>submit_equivocation_report(
-        equivocation_proof: EquivocationProof&lt;T::Header&gt;,
+        equivocation_proof: EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;,
     ) -&gt; DispatchResult;
 }
 
 <span class="kw">impl</span>&lt;T: Config&gt; HandleEquivocation&lt;T&gt; <span class="kw">for </span>() {
     <span class="kw">type </span>ReportLongevity = ();
 
-    <span class="kw">fn </span>report_offence(
-        _offence: SubspaceEquivocationOffence&lt;FarmerPublicKey&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), OffenceError&gt; {
+    <span class="kw">fn </span>report_offence(_offence: SubspaceEquivocationOffence) -&gt; <span class="prelude-ty">Result</span>&lt;(), OffenceError&gt; {
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn </span>is_known_offence(_offenders: <span class="kw-2">&amp;</span>[FarmerPublicKey], _time_slot: <span class="kw-2">&amp;</span>Slot) -&gt; bool {
+    <span class="kw">fn </span>is_known_offence(_offenders: <span class="kw-2">&amp;</span>[PublicKey], _time_slot: <span class="kw-2">&amp;</span>Slot) -&gt; bool {
         <span class="bool-val">true
     </span>}
 
     <span class="kw">fn </span>submit_equivocation_report(
-        _equivocation_proof: EquivocationProof&lt;T::Header&gt;,
+        _equivocation_proof: EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;,
     ) -&gt; DispatchResult {
         <span class="prelude-val">Ok</span>(())
     }
@@ -345,7 +336,7 @@
 
 <span class="doccomment">/// Generic equivocation handler. This type implements `HandleEquivocation`
 /// using existing subsystems that are part of frame (type bounds described
-/// below) and will dispatch to them directly, it&#39;s only purpose is to wire all
+/// below) and will dispatch to them directly, it's only purpose is to wire all
 /// subsystems together.
 </span><span class="kw">pub struct </span>EquivocationHandler&lt;R, L&gt; {
     _phantom: sp_std::marker::PhantomData&lt;(R, L)&gt;,
@@ -365,25 +356,23 @@
     </span>T: Config + frame_system::offchain::SendTransactionTypes&lt;Call&lt;T&gt;&gt;,
     <span class="comment">// A system for reporting offences after valid equivocation reports are
     // processed.
-    </span>R: ReportOffence&lt;FarmerPublicKey, SubspaceEquivocationOffence&lt;FarmerPublicKey&gt;&gt;,
+    </span>R: ReportOffence&lt;PublicKey, SubspaceEquivocationOffence&gt;,
     <span class="comment">// The longevity (in blocks) that the equivocation report is valid for. When using the staking
     // pallet this should be the bonding duration.
     </span>L: Get&lt;u64&gt;,
 {
     <span class="kw">type </span>ReportLongevity = L;
 
-    <span class="kw">fn </span>report_offence(
-        offence: SubspaceEquivocationOffence&lt;FarmerPublicKey&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), OffenceError&gt; {
+    <span class="kw">fn </span>report_offence(offence: SubspaceEquivocationOffence) -&gt; <span class="prelude-ty">Result</span>&lt;(), OffenceError&gt; {
         R::report_offence(offence)
     }
 
-    <span class="kw">fn </span>is_known_offence(offenders: <span class="kw-2">&amp;</span>[FarmerPublicKey], time_slot: <span class="kw-2">&amp;</span>Slot) -&gt; bool {
+    <span class="kw">fn </span>is_known_offence(offenders: <span class="kw-2">&amp;</span>[PublicKey], time_slot: <span class="kw-2">&amp;</span>Slot) -&gt; bool {
         R::is_known_offence(offenders, time_slot)
     }
 
     <span class="kw">fn </span>submit_equivocation_report(
-        equivocation_proof: EquivocationProof&lt;T::Header&gt;,
+        equivocation_proof: EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;,
     ) -&gt; DispatchResult {
         <span class="kw">let </span>call = Call::report_equivocation {
             equivocation_proof: Box::new(equivocation_proof),
@@ -391,12 +380,12 @@
 
         <span class="kw">match </span>SubmitTransaction::&lt;T, Call&lt;T&gt;&gt;::submit_unsigned_transaction(call.into()) {
             <span class="prelude-val">Ok</span>(()) =&gt; <span class="macro">log::info!</span>(
-                target: <span class="string">&quot;runtime::subspace&quot;</span>,
-                <span class="string">&quot;Submitted Subspace equivocation report.&quot;</span>,
+                target: <span class="string">"runtime::subspace"</span>,
+                <span class="string">"Submitted Subspace equivocation report."</span>,
             ),
             <span class="prelude-val">Err</span>(()) =&gt; <span class="macro">log::error!</span>(
-                target: <span class="string">&quot;runtime::subspace&quot;</span>,
-                <span class="string">&quot;Error submitting Subspace equivocation report.&quot;</span>,
+                target: <span class="string">"runtime::subspace"</span>,
+                <span class="string">"Error submitting Subspace equivocation report."</span>,
             ),
         }
 
@@ -411,7 +400,7 @@
 </span><span class="kw">impl</span>&lt;T: Config&gt; Pallet&lt;T&gt; {
     <span class="kw">pub fn </span>validate_equivocation_report(
         source: TransactionSource,
-        equivocation_proof: <span class="kw-2">&amp;</span>EquivocationProof&lt;T::Header&gt;,
+        equivocation_proof: <span class="kw-2">&amp;</span>EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;,
     ) -&gt; TransactionValidity {
         <span class="comment">// Discard equivocation report not coming from the local node
         </span><span class="kw">if </span>!<span class="macro">matches!</span>(
@@ -419,8 +408,8 @@
             TransactionSource::Local | TransactionSource::InBlock
         ) {
             <span class="macro">log::warn!</span>(
-                target: <span class="string">&quot;runtime::subspace&quot;</span>,
-                <span class="string">&quot;Rejecting report equivocation extrinsic because it is not local/in-block.&quot;</span>,
+                target: <span class="string">"runtime::subspace"</span>,
+                <span class="string">"Rejecting report equivocation extrinsic because it is not local/in-block."</span>,
             );
 
             <span class="kw">return </span>InvalidTransaction::Call.into();
@@ -438,22 +427,19 @@
 
         <span class="kw">let </span>longevity = &lt;T::HandleEquivocation <span class="kw">as </span>HandleEquivocation&lt;T&gt;&gt;::ReportLongevity::get();
 
-        ValidTransaction::with_tag_prefix(<span class="string">&quot;SubspaceEquivocation&quot;</span>)
+        ValidTransaction::with_tag_prefix(<span class="string">"SubspaceEquivocation"</span>)
             <span class="comment">// We assign the maximum priority for any equivocation report.
             </span>.priority(TransactionPriority::MAX)
             <span class="comment">// Only one equivocation report for the same offender at the same slot.
-            </span>.and_provides((
-                equivocation_proof.offender.clone(),
-                <span class="kw-2">*</span>equivocation_proof.slot,
-            ))
+            </span>.and_provides((equivocation_proof.offender, <span class="kw-2">*</span>equivocation_proof.slot))
             .longevity(longevity)
-            <span class="comment">// We don&#39;t propagate this. This can never be included on a remote node.
+            <span class="comment">// We don't propagate this. This can never be included on a remote node.
             </span>.propagate(<span class="bool-val">false</span>)
             .build()
     }
 
     <span class="kw">pub fn </span>pre_dispatch_equivocation_report(
-        equivocation_proof: <span class="kw-2">&amp;</span>EquivocationProof&lt;T::Header&gt;,
+        equivocation_proof: <span class="kw-2">&amp;</span>EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), TransactionValidityError&gt; {
         <span class="comment">// check report staleness
         </span>is_known_offence::&lt;T&gt;(equivocation_proof)<span class="question-mark">?</span>;
@@ -470,11 +456,11 @@
 }
 
 <span class="kw">fn </span>is_known_offence&lt;T: Config&gt;(
-    equivocation_proof: <span class="kw-2">&amp;</span>EquivocationProof&lt;T::Header&gt;,
+    equivocation_proof: <span class="kw-2">&amp;</span>EquivocationProof&lt;HeaderFor&lt;T&gt;&gt;,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), TransactionValidityError&gt; {
     <span class="comment">// Check if the offence has already been reported, and if so then we can discard the report.
     </span><span class="kw">if </span>T::HandleEquivocation::is_known_offence(
-        <span class="kw-2">&amp;</span>[equivocation_proof.offender.clone()],
+        <span class="kw-2">&amp;</span>[equivocation_proof.offender],
         <span class="kw-2">&amp;</span>equivocation_proof.slot,
     ) {
         <span class="prelude-val">Err</span>(InvalidTransaction::Stale.into())
@@ -487,19 +473,19 @@
 ///
 /// When a farmer released two or more solutions at the same slot.
 </span><span class="attr">#[derive(Debug, Eq, PartialEq)]
-</span><span class="kw">pub struct </span>SubspaceEquivocationOffence&lt;PublicKey&gt; {
+</span><span class="kw">pub struct </span>SubspaceEquivocationOffence {
     <span class="doccomment">/// A Subspace slot in which this incident happened.
     </span><span class="kw">pub </span>slot: Slot,
     <span class="doccomment">/// Identity of the farmer that produced the equivocation.
     </span><span class="kw">pub </span>offender: PublicKey,
 }
 
-<span class="kw">impl</span>&lt;PublicKey: Clone&gt; Offence&lt;PublicKey&gt; <span class="kw">for </span>SubspaceEquivocationOffence&lt;PublicKey&gt; {
-    <span class="kw">const </span>ID: Kind = <span class="kw-2">*</span><span class="string">b&quot;sub:equivocation&quot;</span>;
+<span class="kw">impl </span>Offence&lt;PublicKey&gt; <span class="kw">for </span>SubspaceEquivocationOffence {
+    <span class="kw">const </span>ID: Kind = <span class="kw-2">*</span><span class="string">b"sub:equivocation"</span>;
     <span class="kw">type </span>TimeSlot = Slot;
 
     <span class="kw">fn </span>offenders(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;PublicKey&gt; {
-        <span class="macro">vec!</span>[<span class="self">self</span>.offender.clone()]
+        <span class="macro">vec!</span>[<span class="self">self</span>.offender]
     }
 
     <span class="kw">fn </span>time_slot(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span>::TimeSlot {

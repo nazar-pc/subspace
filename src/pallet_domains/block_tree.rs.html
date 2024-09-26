@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-domains/src/block_tree.rs`."><title>block_tree.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_domains" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../pallet_domains/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/pallet-domains/src/block_tree.rs`."><title>block_tree.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_domains" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -852,21 +852,477 @@
 <a href="#852" id="852">852</a>
 <a href="#853" id="853">853</a>
 <a href="#854" id="854">854</a>
+<a href="#855" id="855">855</a>
+<a href="#856" id="856">856</a>
+<a href="#857" id="857">857</a>
+<a href="#858" id="858">858</a>
+<a href="#859" id="859">859</a>
+<a href="#860" id="860">860</a>
+<a href="#861" id="861">861</a>
+<a href="#862" id="862">862</a>
+<a href="#863" id="863">863</a>
+<a href="#864" id="864">864</a>
+<a href="#865" id="865">865</a>
+<a href="#866" id="866">866</a>
+<a href="#867" id="867">867</a>
+<a href="#868" id="868">868</a>
+<a href="#869" id="869">869</a>
+<a href="#870" id="870">870</a>
+<a href="#871" id="871">871</a>
+<a href="#872" id="872">872</a>
+<a href="#873" id="873">873</a>
+<a href="#874" id="874">874</a>
+<a href="#875" id="875">875</a>
+<a href="#876" id="876">876</a>
+<a href="#877" id="877">877</a>
+<a href="#878" id="878">878</a>
+<a href="#879" id="879">879</a>
+<a href="#880" id="880">880</a>
+<a href="#881" id="881">881</a>
+<a href="#882" id="882">882</a>
+<a href="#883" id="883">883</a>
+<a href="#884" id="884">884</a>
+<a href="#885" id="885">885</a>
+<a href="#886" id="886">886</a>
+<a href="#887" id="887">887</a>
+<a href="#888" id="888">888</a>
+<a href="#889" id="889">889</a>
+<a href="#890" id="890">890</a>
+<a href="#891" id="891">891</a>
+<a href="#892" id="892">892</a>
+<a href="#893" id="893">893</a>
+<a href="#894" id="894">894</a>
+<a href="#895" id="895">895</a>
+<a href="#896" id="896">896</a>
+<a href="#897" id="897">897</a>
+<a href="#898" id="898">898</a>
+<a href="#899" id="899">899</a>
+<a href="#900" id="900">900</a>
+<a href="#901" id="901">901</a>
+<a href="#902" id="902">902</a>
+<a href="#903" id="903">903</a>
+<a href="#904" id="904">904</a>
+<a href="#905" id="905">905</a>
+<a href="#906" id="906">906</a>
+<a href="#907" id="907">907</a>
+<a href="#908" id="908">908</a>
+<a href="#909" id="909">909</a>
+<a href="#910" id="910">910</a>
+<a href="#911" id="911">911</a>
+<a href="#912" id="912">912</a>
+<a href="#913" id="913">913</a>
+<a href="#914" id="914">914</a>
+<a href="#915" id="915">915</a>
+<a href="#916" id="916">916</a>
+<a href="#917" id="917">917</a>
+<a href="#918" id="918">918</a>
+<a href="#919" id="919">919</a>
+<a href="#920" id="920">920</a>
+<a href="#921" id="921">921</a>
+<a href="#922" id="922">922</a>
+<a href="#923" id="923">923</a>
+<a href="#924" id="924">924</a>
+<a href="#925" id="925">925</a>
+<a href="#926" id="926">926</a>
+<a href="#927" id="927">927</a>
+<a href="#928" id="928">928</a>
+<a href="#929" id="929">929</a>
+<a href="#930" id="930">930</a>
+<a href="#931" id="931">931</a>
+<a href="#932" id="932">932</a>
+<a href="#933" id="933">933</a>
+<a href="#934" id="934">934</a>
+<a href="#935" id="935">935</a>
+<a href="#936" id="936">936</a>
+<a href="#937" id="937">937</a>
+<a href="#938" id="938">938</a>
+<a href="#939" id="939">939</a>
+<a href="#940" id="940">940</a>
+<a href="#941" id="941">941</a>
+<a href="#942" id="942">942</a>
+<a href="#943" id="943">943</a>
+<a href="#944" id="944">944</a>
+<a href="#945" id="945">945</a>
+<a href="#946" id="946">946</a>
+<a href="#947" id="947">947</a>
+<a href="#948" id="948">948</a>
+<a href="#949" id="949">949</a>
+<a href="#950" id="950">950</a>
+<a href="#951" id="951">951</a>
+<a href="#952" id="952">952</a>
+<a href="#953" id="953">953</a>
+<a href="#954" id="954">954</a>
+<a href="#955" id="955">955</a>
+<a href="#956" id="956">956</a>
+<a href="#957" id="957">957</a>
+<a href="#958" id="958">958</a>
+<a href="#959" id="959">959</a>
+<a href="#960" id="960">960</a>
+<a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
+<a href="#975" id="975">975</a>
+<a href="#976" id="976">976</a>
+<a href="#977" id="977">977</a>
+<a href="#978" id="978">978</a>
+<a href="#979" id="979">979</a>
+<a href="#980" id="980">980</a>
+<a href="#981" id="981">981</a>
+<a href="#982" id="982">982</a>
+<a href="#983" id="983">983</a>
+<a href="#984" id="984">984</a>
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a>
+<a href="#987" id="987">987</a>
+<a href="#988" id="988">988</a>
+<a href="#989" id="989">989</a>
+<a href="#990" id="990">990</a>
+<a href="#991" id="991">991</a>
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a>
+<a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
+<a href="#1005" id="1005">1005</a>
+<a href="#1006" id="1006">1006</a>
+<a href="#1007" id="1007">1007</a>
+<a href="#1008" id="1008">1008</a>
+<a href="#1009" id="1009">1009</a>
+<a href="#1010" id="1010">1010</a>
+<a href="#1011" id="1011">1011</a>
+<a href="#1012" id="1012">1012</a>
+<a href="#1013" id="1013">1013</a>
+<a href="#1014" id="1014">1014</a>
+<a href="#1015" id="1015">1015</a>
+<a href="#1016" id="1016">1016</a>
+<a href="#1017" id="1017">1017</a>
+<a href="#1018" id="1018">1018</a>
+<a href="#1019" id="1019">1019</a>
+<a href="#1020" id="1020">1020</a>
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
+<a href="#1050" id="1050">1050</a>
+<a href="#1051" id="1051">1051</a>
+<a href="#1052" id="1052">1052</a>
+<a href="#1053" id="1053">1053</a>
+<a href="#1054" id="1054">1054</a>
+<a href="#1055" id="1055">1055</a>
+<a href="#1056" id="1056">1056</a>
+<a href="#1057" id="1057">1057</a>
+<a href="#1058" id="1058">1058</a>
+<a href="#1059" id="1059">1059</a>
+<a href="#1060" id="1060">1060</a>
+<a href="#1061" id="1061">1061</a>
+<a href="#1062" id="1062">1062</a>
+<a href="#1063" id="1063">1063</a>
+<a href="#1064" id="1064">1064</a>
+<a href="#1065" id="1065">1065</a>
+<a href="#1066" id="1066">1066</a>
+<a href="#1067" id="1067">1067</a>
+<a href="#1068" id="1068">1068</a>
+<a href="#1069" id="1069">1069</a>
+<a href="#1070" id="1070">1070</a>
+<a href="#1071" id="1071">1071</a>
+<a href="#1072" id="1072">1072</a>
+<a href="#1073" id="1073">1073</a>
+<a href="#1074" id="1074">1074</a>
+<a href="#1075" id="1075">1075</a>
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
+<a href="#1082" id="1082">1082</a>
+<a href="#1083" id="1083">1083</a>
+<a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
+<a href="#1109" id="1109">1109</a>
+<a href="#1110" id="1110">1110</a>
+<a href="#1111" id="1111">1111</a>
+<a href="#1112" id="1112">1112</a>
+<a href="#1113" id="1113">1113</a>
+<a href="#1114" id="1114">1114</a>
+<a href="#1115" id="1115">1115</a>
+<a href="#1116" id="1116">1116</a>
+<a href="#1117" id="1117">1117</a>
+<a href="#1118" id="1118">1118</a>
+<a href="#1119" id="1119">1119</a>
+<a href="#1120" id="1120">1120</a>
+<a href="#1121" id="1121">1121</a>
+<a href="#1122" id="1122">1122</a>
+<a href="#1123" id="1123">1123</a>
+<a href="#1124" id="1124">1124</a>
+<a href="#1125" id="1125">1125</a>
+<a href="#1126" id="1126">1126</a>
+<a href="#1127" id="1127">1127</a>
+<a href="#1128" id="1128">1128</a>
+<a href="#1129" id="1129">1129</a>
+<a href="#1130" id="1130">1130</a>
+<a href="#1131" id="1131">1131</a>
+<a href="#1132" id="1132">1132</a>
+<a href="#1133" id="1133">1133</a>
+<a href="#1134" id="1134">1134</a>
+<a href="#1135" id="1135">1135</a>
+<a href="#1136" id="1136">1136</a>
+<a href="#1137" id="1137">1137</a>
+<a href="#1138" id="1138">1138</a>
+<a href="#1139" id="1139">1139</a>
+<a href="#1140" id="1140">1140</a>
+<a href="#1141" id="1141">1141</a>
+<a href="#1142" id="1142">1142</a>
+<a href="#1143" id="1143">1143</a>
+<a href="#1144" id="1144">1144</a>
+<a href="#1145" id="1145">1145</a>
+<a href="#1146" id="1146">1146</a>
+<a href="#1147" id="1147">1147</a>
+<a href="#1148" id="1148">1148</a>
+<a href="#1149" id="1149">1149</a>
+<a href="#1150" id="1150">1150</a>
+<a href="#1151" id="1151">1151</a>
+<a href="#1152" id="1152">1152</a>
+<a href="#1153" id="1153">1153</a>
+<a href="#1154" id="1154">1154</a>
+<a href="#1155" id="1155">1155</a>
+<a href="#1156" id="1156">1156</a>
+<a href="#1157" id="1157">1157</a>
+<a href="#1158" id="1158">1158</a>
+<a href="#1159" id="1159">1159</a>
+<a href="#1160" id="1160">1160</a>
+<a href="#1161" id="1161">1161</a>
+<a href="#1162" id="1162">1162</a>
+<a href="#1163" id="1163">1163</a>
+<a href="#1164" id="1164">1164</a>
+<a href="#1165" id="1165">1165</a>
+<a href="#1166" id="1166">1166</a>
+<a href="#1167" id="1167">1167</a>
+<a href="#1168" id="1168">1168</a>
+<a href="#1169" id="1169">1169</a>
+<a href="#1170" id="1170">1170</a>
+<a href="#1171" id="1171">1171</a>
+<a href="#1172" id="1172">1172</a>
+<a href="#1173" id="1173">1173</a>
+<a href="#1174" id="1174">1174</a>
+<a href="#1175" id="1175">1175</a>
+<a href="#1176" id="1176">1176</a>
+<a href="#1177" id="1177">1177</a>
+<a href="#1178" id="1178">1178</a>
+<a href="#1179" id="1179">1179</a>
+<a href="#1180" id="1180">1180</a>
+<a href="#1181" id="1181">1181</a>
+<a href="#1182" id="1182">1182</a>
+<a href="#1183" id="1183">1183</a>
+<a href="#1184" id="1184">1184</a>
+<a href="#1185" id="1185">1185</a>
+<a href="#1186" id="1186">1186</a>
+<a href="#1187" id="1187">1187</a>
+<a href="#1188" id="1188">1188</a>
+<a href="#1189" id="1189">1189</a>
+<a href="#1190" id="1190">1190</a>
+<a href="#1191" id="1191">1191</a>
+<a href="#1192" id="1192">1192</a>
+<a href="#1193" id="1193">1193</a>
+<a href="#1194" id="1194">1194</a>
+<a href="#1195" id="1195">1195</a>
+<a href="#1196" id="1196">1196</a>
+<a href="#1197" id="1197">1197</a>
+<a href="#1198" id="1198">1198</a>
+<a href="#1199" id="1199">1199</a>
+<a href="#1200" id="1200">1200</a>
+<a href="#1201" id="1201">1201</a>
+<a href="#1202" id="1202">1202</a>
+<a href="#1203" id="1203">1203</a>
+<a href="#1204" id="1204">1204</a>
+<a href="#1205" id="1205">1205</a>
+<a href="#1206" id="1206">1206</a>
+<a href="#1207" id="1207">1207</a>
+<a href="#1208" id="1208">1208</a>
+<a href="#1209" id="1209">1209</a>
+<a href="#1210" id="1210">1210</a>
+<a href="#1211" id="1211">1211</a>
+<a href="#1212" id="1212">1212</a>
+<a href="#1213" id="1213">1213</a>
+<a href="#1214" id="1214">1214</a>
+<a href="#1215" id="1215">1215</a>
+<a href="#1216" id="1216">1216</a>
+<a href="#1217" id="1217">1217</a>
+<a href="#1218" id="1218">1218</a>
+<a href="#1219" id="1219">1219</a>
+<a href="#1220" id="1220">1220</a>
+<a href="#1221" id="1221">1221</a>
+<a href="#1222" id="1222">1222</a>
+<a href="#1223" id="1223">1223</a>
+<a href="#1224" id="1224">1224</a>
+<a href="#1225" id="1225">1225</a>
+<a href="#1226" id="1226">1226</a>
+<a href="#1227" id="1227">1227</a>
+<a href="#1228" id="1228">1228</a>
+<a href="#1229" id="1229">1229</a>
+<a href="#1230" id="1230">1230</a>
+<a href="#1231" id="1231">1231</a>
+<a href="#1232" id="1232">1232</a>
+<a href="#1233" id="1233">1233</a>
+<a href="#1234" id="1234">1234</a>
+<a href="#1235" id="1235">1235</a>
+<a href="#1236" id="1236">1236</a>
+<a href="#1237" id="1237">1237</a>
+<a href="#1238" id="1238">1238</a>
+<a href="#1239" id="1239">1239</a>
+<a href="#1240" id="1240">1240</a>
+<a href="#1241" id="1241">1241</a>
+<a href="#1242" id="1242">1242</a>
+<a href="#1243" id="1243">1243</a>
+<a href="#1244" id="1244">1244</a>
+<a href="#1245" id="1245">1245</a>
+<a href="#1246" id="1246">1246</a>
+<a href="#1247" id="1247">1247</a>
+<a href="#1248" id="1248">1248</a>
+<a href="#1249" id="1249">1249</a>
+<a href="#1250" id="1250">1250</a>
+<a href="#1251" id="1251">1251</a>
+<a href="#1252" id="1252">1252</a>
+<a href="#1253" id="1253">1253</a>
+<a href="#1254" id="1254">1254</a>
+<a href="#1255" id="1255">1255</a>
+<a href="#1256" id="1256">1256</a>
+<a href="#1257" id="1257">1257</a>
+<a href="#1258" id="1258">1258</a>
+<a href="#1259" id="1259">1259</a>
+<a href="#1260" id="1260">1260</a>
+<a href="#1261" id="1261">1261</a>
+<a href="#1262" id="1262">1262</a>
+<a href="#1263" id="1263">1263</a>
+<a href="#1264" id="1264">1264</a>
+<a href="#1265" id="1265">1265</a>
+<a href="#1266" id="1266">1266</a>
+<a href="#1267" id="1267">1267</a>
+<a href="#1268" id="1268">1268</a>
+<a href="#1269" id="1269">1269</a>
+<a href="#1270" id="1270">1270</a>
+<a href="#1271" id="1271">1271</a>
+<a href="#1272" id="1272">1272</a>
+<a href="#1273" id="1273">1273</a>
+<a href="#1274" id="1274">1274</a>
+<a href="#1275" id="1275">1275</a>
+<a href="#1276" id="1276">1276</a>
+<a href="#1277" id="1277">1277</a>
+<a href="#1278" id="1278">1278</a>
+<a href="#1279" id="1279">1279</a>
+<a href="#1280" id="1280">1280</a>
+<a href="#1281" id="1281">1281</a>
+<a href="#1282" id="1282">1282</a>
+<a href="#1283" id="1283">1283</a>
+<a href="#1284" id="1284">1284</a>
+<a href="#1285" id="1285">1285</a>
+<a href="#1286" id="1286">1286</a>
+<a href="#1287" id="1287">1287</a>
+<a href="#1288" id="1288">1288</a>
+<a href="#1289" id="1289">1289</a>
+<a href="#1290" id="1290">1290</a>
+<a href="#1291" id="1291">1291</a>
+<a href="#1292" id="1292">1292</a>
+<a href="#1293" id="1293">1293</a>
+<a href="#1294" id="1294">1294</a>
+<a href="#1295" id="1295">1295</a>
+<a href="#1296" id="1296">1296</a>
+<a href="#1297" id="1297">1297</a>
+<a href="#1298" id="1298">1298</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Domain block tree
 
-</span><span class="kw">use crate</span>::{
-    BalanceOf, BlockTree, Config, DomainBlocks, ExecutionInbox, ExecutionReceiptOf,
-    HeadReceiptNumber,
+</span><span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">extern crate </span>alloc;
+
+<span class="kw">use crate</span>::{
+    BalanceOf, BlockTree, BlockTreeNodeFor, BlockTreeNodes, Config, ConsensusBlockHash,
+    DomainBlockNumberFor, DomainHashingFor, DomainRuntimeUpgradeRecords, ExecutionInbox,
+    ExecutionReceiptOf, HeadDomainNumber, HeadReceiptNumber, InboxedBundleAuthor,
+    LatestConfirmedDomainExecutionReceipt, LatestSubmittedER, NewAddedHeadReceipt, Pallet,
+    ReceiptHashFor,
 };
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>codec::{Decode, Encode};
 <span class="kw">use </span>frame_support::{ensure, PalletError};
+<span class="kw">use </span>frame_system::pallet_prelude::BlockNumberFor;
 <span class="kw">use </span>scale_info::TypeInfo;
 <span class="kw">use </span>sp_core::Get;
 <span class="kw">use </span>sp_domains::merkle_tree::MerkleTree;
-<span class="kw">use </span>sp_domains::{DomainId, ExecutionReceipt, OperatorId};
-<span class="kw">use </span>sp_runtime::traits::{CheckedSub, One, Saturating, Zero};
+<span class="kw">use </span>sp_domains::{
+    ChainId, DomainId, DomainsTransfersTracker, ExecutionReceipt, OnChainRewards, OperatorId,
+    Transfers,
+};
+<span class="kw">use </span>sp_runtime::traits::{BlockNumberProvider, CheckedSub, One, Saturating, Zero};
 <span class="kw">use </span>sp_std::cmp::Ordering;
-<span class="kw">use </span>sp_std::vec::Vec;
+<span class="kw">use </span>sp_std::collections::btree_map::BTreeMap;
 
 <span class="doccomment">/// Block tree specific errors
 </span><span class="attr">#[derive(TypeInfo, Encode, Decode, PalletError, Debug, PartialEq)]
@@ -876,16 +1332,27 @@
     BuiltOnUnknownConsensusBlock,
     InFutureReceipt,
     PrunedReceipt,
+    StaleReceipt,
+    NewBranchReceipt,
     BadGenesisReceipt,
     UnexpectedReceiptType,
     MaxHeadDomainNumber,
-    MultipleERsAfterChallengePeriod,
     MissingDomainBlock,
     InvalidTraceRoot,
+    InvalidExecutionTrace,
+    UnavailableConsensusBlockHash,
+    InvalidStateRoot,
+    BalanceOverflow,
+    DomainTransfersTracking,
+    InvalidDomainTransfers,
+    OverwritingER,
+    RuntimeNotFound,
+    LastBlockNotFound,
+    UnmatchedNewHeadReceipt,
 }
 
 <span class="attr">#[derive(TypeInfo, Debug, Encode, Decode, Clone, PartialEq, Eq)]
-</span><span class="kw">pub struct </span>DomainBlock&lt;Number, Hash, DomainNumber, DomainHash, Balance&gt; {
+</span><span class="kw">pub struct </span>BlockTreeNode&lt;Number, Hash, DomainNumber, DomainHash, Balance&gt; {
     <span class="doccomment">/// The full ER for this block.
     </span><span class="kw">pub </span>execution_receipt: ExecutionReceipt&lt;Number, Hash, DomainNumber, DomainHash, Balance&gt;,
     <span class="doccomment">/// A set of all operators who have committed to this ER within a bundle. Used to determine who to
@@ -900,9 +1367,7 @@
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>AcceptedReceiptType {
     <span class="comment">// New head receipt that extend the longest branch
     </span>NewHead,
-    <span class="comment">// Receipt that creates a new branch of the block tree
-    </span>NewBranch,
-    <span class="comment">// Receipt that comfirms the current head receipt
+    <span class="comment">// Receipt that confirms the head receipt that added in the current block
     </span>CurrentHead,
 }
 
@@ -912,6 +1377,13 @@
     </span>InFuture,
     <span class="comment">// Receipt that already been pruned
     </span>Pruned,
+    <span class="comment">// Receipt that confirm a non-head receipt or head receipt of the previous block
+    </span>Stale,
+    <span class="comment">// Receipt that tries to create a new branch of the block tree
+    //
+    // The honests operator must submit fraud proof to prune the bad receipt at the
+    // same height before submitting the valid receipt.
+    </span>NewBranch,
 }
 
 <span class="kw">impl </span>From&lt;RejectedReceiptType&gt; <span class="kw">for </span>Error {
@@ -919,6 +1391,8 @@
         <span class="kw">match </span>rejected_receipt {
             RejectedReceiptType::InFuture =&gt; Error::InFutureReceipt,
             RejectedReceiptType::Pruned =&gt; Error::PrunedReceipt,
+            RejectedReceiptType::Stale =&gt; Error::StaleReceipt,
+            RejectedReceiptType::NewBranch =&gt; Error::NewBranchReceipt,
         }
     }
 }
@@ -928,8 +1402,16 @@
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">enum </span>ReceiptType {
     Accepted(AcceptedReceiptType),
     Rejected(RejectedReceiptType),
-    <span class="comment">// Receipt that comfirm a non-head receipt
-    </span>Stale,
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>does_receipt_exists&lt;T: Config&gt;(
+    domain_id: DomainId,
+    domain_number: DomainBlockNumberFor&lt;T&gt;,
+    receipt_hash: ReceiptHashFor&lt;T&gt;,
+) -&gt; bool {
+    BlockTree::&lt;T&gt;::get(domain_id, domain_number)
+        .map(|h| h == receipt_hash)
+        .unwrap_or(<span class="bool-val">false</span>)
 }
 
 <span class="doccomment">/// Get the receipt type of the given receipt based on the current block tree state
@@ -939,29 +1421,53 @@
 ) -&gt; ReceiptType {
     <span class="kw">let </span>receipt_number = execution_receipt.domain_block_number;
     <span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;T&gt;::get(domain_id);
+    <span class="kw">let </span>head_receipt_extended = NewAddedHeadReceipt::&lt;T&gt;::get(domain_id).is_some();
+    <span class="kw">let </span>next_receipt_number = head_receipt_number.saturating_add(One::one());
+    <span class="kw">let </span>latest_confirmed_domain_block_number =
+        Pallet::&lt;T&gt;::latest_confirmed_domain_block_number(domain_id);
 
-    <span class="kw">match </span>receipt_number.cmp(<span class="kw-2">&amp;</span>head_receipt_number.saturating_add(One::one())) {
+    <span class="kw">match </span>receipt_number.cmp(<span class="kw-2">&amp;</span>next_receipt_number) {
         Ordering::Greater =&gt; ReceiptType::Rejected(RejectedReceiptType::InFuture),
-        Ordering::Equal =&gt; ReceiptType::Accepted(AcceptedReceiptType::NewHead),
-        Ordering::Less =&gt; {
-            <span class="kw">let </span>oldest_receipt_number =
-                head_receipt_number.saturating_sub(T::BlockTreePruningDepth::get());
-            <span class="kw">let </span>already_exist =
-                BlockTree::&lt;T&gt;::get(domain_id, receipt_number).contains(<span class="kw-2">&amp;</span>execution_receipt.hash());
-
-            <span class="kw">if </span>receipt_number &lt; oldest_receipt_number {
-                <span class="comment">// Receipt already pruned
-                </span>ReceiptType::Rejected(RejectedReceiptType::Pruned)
-            } <span class="kw">else if </span>!already_exist {
-                <span class="comment">// Create new branch
-                </span>ReceiptType::Accepted(AcceptedReceiptType::NewBranch)
-            } <span class="kw">else if </span>receipt_number == head_receipt_number {
-                <span class="comment">// Add comfirm to the current head receipt
-                </span>ReceiptType::Accepted(AcceptedReceiptType::CurrentHead)
+        Ordering::Equal =&gt; {
+            <span class="comment">// we do not allow consecutive ER in a single consensus block
+            // if the head receipt is already extended, then reject this ER
+            // as it is a Future ER
+            </span><span class="kw">if </span>head_receipt_extended {
+                ReceiptType::Rejected(RejectedReceiptType::InFuture)
             } <span class="kw">else </span>{
-                <span class="comment">// Add comfirm to a non-head receipt
-                </span>ReceiptType::Stale
+                ReceiptType::Accepted(AcceptedReceiptType::NewHead)
             }
+        }
+        Ordering::Less =&gt; {
+            <span class="comment">// Reject receipt that already confirmed
+            </span><span class="kw">if </span>!latest_confirmed_domain_block_number.is_zero()
+                &amp;&amp; receipt_number &lt;= latest_confirmed_domain_block_number
+            {
+                <span class="kw">return </span>ReceiptType::Rejected(RejectedReceiptType::Pruned);
+            }
+
+            <span class="comment">// Reject receipt that try to create new branch in the block tree
+            </span><span class="kw">let </span>already_exist = does_receipt_exists::&lt;T&gt;(
+                domain_id,
+                receipt_number,
+                execution_receipt.hash::&lt;DomainHashingFor&lt;T&gt;&gt;(),
+            );
+            <span class="kw">if </span>!already_exist {
+                <span class="kw">return </span>ReceiptType::Rejected(RejectedReceiptType::NewBranch);
+            }
+
+            <span class="comment">// Add confirm to the head receipt that added in the current block or it is
+            // the first genesis receipt
+            </span><span class="kw">let </span>is_first_genesis_receipt =
+                receipt_number.is_zero() &amp;&amp; HeadDomainNumber::&lt;T&gt;::get(domain_id).is_zero();
+            <span class="kw">if </span>receipt_number == head_receipt_number
+                &amp;&amp; (head_receipt_extended || is_first_genesis_receipt)
+            {
+                <span class="kw">return </span>ReceiptType::Accepted(AcceptedReceiptType::CurrentHead);
+            }
+
+            <span class="comment">// Add confirm to a non-head receipt or head receipt of the previous block
+            </span>ReceiptType::Rejected(RejectedReceiptType::Stale)
         }
     }
 }
@@ -975,90 +1481,152 @@
         consensus_block_number,
         consensus_block_hash,
         domain_block_number,
-        block_extrinsics_roots,
+        inboxed_bundles,
         parent_domain_block_receipt_hash,
         execution_trace,
         execution_trace_root,
+        final_state_root,
         ..
     } = execution_receipt;
 
-    <span class="kw">if </span>domain_block_number.is_zero() {
-        <span class="comment">// The genesis receipt is generated and added to the block tree by the runtime upon domain
-        // instantiation, thus it is unchallengeable and must always be the same.
-        </span><span class="macro">ensure!</span>(
-            BlockTree::&lt;T&gt;::get(domain_id, domain_block_number).contains(<span class="kw-2">&amp;</span>execution_receipt.hash()),
-            Error::BadGenesisReceipt
-        );
-    } <span class="kw">else </span>{
-        <span class="kw">let </span>execution_inbox =
-            ExecutionInbox::&lt;T&gt;::get((domain_id, domain_block_number, consensus_block_number));
-        <span class="macro">ensure!</span>(
-            !block_extrinsics_roots.is_empty() &amp;&amp; <span class="kw-2">*</span>block_extrinsics_roots == execution_inbox,
-            Error::InvalidExtrinsicsRoots
-        );
-
-        <span class="kw">let </span><span class="kw-2">mut </span>trace = Vec::with_capacity(execution_trace.len());
-        <span class="kw">for </span>root <span class="kw">in </span>execution_trace {
-            trace.push(
-                root.encode()
-                    .try_into()
-                    .map_err(|<span class="kw">_</span>| Error::InvalidTraceRoot)<span class="question-mark">?</span>,
-            );
-        }
-        <span class="kw">let </span>expected_execution_trace_root: sp_core::H256 =
-            MerkleTree::from_leaves(trace.as_slice())
-                .root()
-                .ok_or(Error::InvalidTraceRoot)<span class="question-mark">?
-                </span>.into();
-        <span class="macro">ensure!</span>(
-            expected_execution_trace_root == <span class="kw-2">*</span>execution_trace_root,
-            Error::InvalidTraceRoot
-        );
+    <span class="comment">// Checking if the incoming ER is expected regarding to its `domain_block_number` or freshness
+    </span><span class="kw">if let </span>ReceiptType::Rejected(rejected_receipt_type) =
+        execution_receipt_type::&lt;T&gt;(domain_id, execution_receipt)
+    {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(rejected_receipt_type.into());
     }
 
-    <span class="kw">let </span>excepted_consensus_block_hash =
-        frame_system::Pallet::&lt;T&gt;::block_hash(consensus_block_number);
+    <span class="comment">// If there is new head receipt added in the current block, as long as the incoming
+    // receipt is the same as the new head receipt we can safely skip the following checks,
+    // if they are not the same, we just reject the incoming receipt and expecting a fraud
+    // proof will be submit if the new head receipt is fraudulent and then the incoming
+    // receipt will be re-submit.
+    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(new_added_head_receipt) = NewAddedHeadReceipt::&lt;T&gt;::get(domain_id) {
+        <span class="macro">ensure!</span>(
+            new_added_head_receipt == execution_receipt.hash::&lt;DomainHashingFor&lt;T&gt;&gt;(),
+            Error::UnmatchedNewHeadReceipt,
+        );
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+    }
+
+    <span class="comment">// The genesis receipt is generated and added to the block tree by the runtime upon domain
+    // instantiation thus it is unchallengeable, we can safely skip other checks as long as we
+    // can ensure it is always be the same.
+    </span><span class="kw">if </span>domain_block_number.is_zero() {
+        <span class="macro">ensure!</span>(
+            does_receipt_exists::&lt;T&gt;(
+                domain_id,
+                <span class="kw-2">*</span>domain_block_number,
+                execution_receipt.hash::&lt;DomainHashingFor&lt;T&gt;&gt;(),
+            ),
+            Error::BadGenesisReceipt
+        );
+        <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+    }
+
+    <span class="comment">// Check if the ER has at least 2 trace root (for Initialization and Finalization of block at least)
+    </span><span class="kw">if </span>execution_trace.len() &lt; <span class="number">2 </span>{
+        <span class="kw">return </span><span class="prelude-val">Err</span>(Error::InvalidExecutionTrace);
+    }
+
+    <span class="kw">let </span>maybe_domain_runtime_upgraded_at = {
+        <span class="kw">let </span>runtime_id = Pallet::&lt;T&gt;::runtime_id(domain_id).ok_or(Error::RuntimeNotFound)<span class="question-mark">?</span>;
+        DomainRuntimeUpgradeRecords::&lt;T&gt;::get(runtime_id).remove(consensus_block_number)
+    };
+
+    <span class="comment">// Check if the ER is derived from the correct consensus block in the current chain
+    </span><span class="kw">let </span>excepted_consensus_block_hash =
+        <span class="kw">match </span>ConsensusBlockHash::&lt;T&gt;::get(domain_id, consensus_block_number) {
+            <span class="prelude-val">Some</span>(hash) =&gt; hash,
+            <span class="prelude-val">None </span>=&gt; {
+                <span class="comment">// The `initialize_block` of non-system pallets is skipped in the `validate_transaction`,
+                // thus the hash of best block, which is recorded in the this pallet's `on_initialize` hook,
+                // is unavailable at this point.
+                </span><span class="kw">let </span>parent_block_number =
+                    frame_system::Pallet::&lt;T&gt;::current_block_number() - One::one();
+                <span class="kw">if </span><span class="kw-2">*</span>consensus_block_number == parent_block_number {
+                    frame_system::Pallet::&lt;T&gt;::parent_hash()
+
+                <span class="comment">// The domain runtime upgrade is forced to happen even if there is no bundle, in this case,
+                // the `ConsensusBlockHash` will be empty so we need to get the consensus block hash from
+                // `DomainRuntimeUpgradeRecords`
+                </span>} <span class="kw">else if let </span><span class="prelude-val">Some</span>(<span class="kw-2">ref </span>upgrade_entry) = maybe_domain_runtime_upgraded_at {
+                    upgrade_entry.at_hash
+                } <span class="kw">else </span>{
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(Error::UnavailableConsensusBlockHash);
+                }
+            }
+        };
     <span class="macro">ensure!</span>(
         <span class="kw-2">*</span>consensus_block_hash == excepted_consensus_block_hash,
         Error::BuiltOnUnknownConsensusBlock
     );
 
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(parent_block_number) = domain_block_number.checked_sub(<span class="kw-2">&amp;</span>One::one()) {
-        <span class="kw">let </span>parent_block_exist = BlockTree::&lt;T&gt;::get(domain_id, parent_block_number)
-            .contains(parent_domain_block_receipt_hash);
+    <span class="comment">// Check if the ER is derived from the expected inboxed bundles of the consensus block
+    </span><span class="kw">let </span>bundles_extrinsics_roots: Vec&lt;<span class="kw">_</span>&gt; =
+        inboxed_bundles.iter().map(|b| b.extrinsics_root).collect();
+    <span class="kw">let </span>execution_inbox =
+        ExecutionInbox::&lt;T&gt;::get((domain_id, domain_block_number, consensus_block_number));
+    <span class="kw">let </span>expected_extrinsics_roots: Vec&lt;<span class="kw">_</span>&gt; =
+        execution_inbox.iter().map(|b| b.extrinsics_root).collect();
+    <span class="macro">ensure!</span>(
+        (!bundles_extrinsics_roots.is_empty() || maybe_domain_runtime_upgraded_at.is_some())
+            &amp;&amp; bundles_extrinsics_roots == expected_extrinsics_roots,
+        Error::InvalidExtrinsicsRoots
+    );
+
+    <span class="comment">// Check if the `execution_trace_root` is well-format
+    </span><span class="kw">let </span><span class="kw-2">mut </span>trace = Vec::with_capacity(execution_trace.len());
+    <span class="kw">for </span>root <span class="kw">in </span>execution_trace {
+        trace.push(
+            root.encode()
+                .try_into()
+                .map_err(|<span class="kw">_</span>| Error::InvalidTraceRoot)<span class="question-mark">?</span>,
+        );
+    }
+    <span class="kw">let </span>expected_execution_trace_root: sp_core::H256 = MerkleTree::from_leaves(trace.as_slice())
+        .root()
+        .ok_or(Error::InvalidTraceRoot)<span class="question-mark">?
+        </span>.into();
+    <span class="macro">ensure!</span>(
+        expected_execution_trace_root == <span class="kw-2">*</span>execution_trace_root,
+        Error::InvalidTraceRoot
+    );
+
+    <span class="comment">// check state root on ER and in the Execution trace
+    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(expected_final_state_root) = execution_trace.last() {
+        <span class="macro">ensure!</span>(
+            final_state_root == expected_final_state_root,
+            Error::InvalidStateRoot
+        );
+    }
+
+    <span class="comment">// Check if the ER is extending an existing parent ER
+    </span><span class="kw">if let </span><span class="prelude-val">Some</span>(parent_block_number) = domain_block_number.checked_sub(<span class="kw-2">&amp;</span>One::one()) {
+        <span class="kw">let </span>parent_block_exist = does_receipt_exists::&lt;T&gt;(
+            domain_id,
+            parent_block_number,
+            <span class="kw-2">*</span>parent_domain_block_receipt_hash,
+        );
         <span class="macro">ensure!</span>(parent_block_exist, Error::UnknownParentBlockReceipt);
     }
 
-    <span class="kw">match </span>execution_receipt_type::&lt;T&gt;(domain_id, execution_receipt) {
-        ReceiptType::Rejected(RejectedReceiptType::InFuture) =&gt; {
-            <span class="macro">log::error!</span>(
-                target: <span class="string">&quot;runtime::domains&quot;</span>,
-                <span class="string">&quot;Unexpected in future receipt {execution_receipt:?}, which should result in \
-                `UnknownParentBlockReceipt` error as it parent receipt is missing&quot;
-            </span>);
-            <span class="prelude-val">Err</span>(Error::InFutureReceipt)
-        }
-        ReceiptType::Rejected(RejectedReceiptType::Pruned) =&gt; {
-            <span class="macro">log::error!</span>(
-                target: <span class="string">&quot;runtime::domains&quot;</span>,
-                <span class="string">&quot;Unexpected pruned receipt {execution_receipt:?}, which should result in \
-                `InvalidExtrinsicsRoots` error as its `ExecutionInbox` is pruned at the same time&quot;
-            </span>);
-            <span class="prelude-val">Err</span>(Error::PrunedReceipt)
-        }
-        ReceiptType::Accepted(<span class="kw">_</span>) | ReceiptType::Stale =&gt; <span class="prelude-val">Ok</span>(()),
-    }
+    <span class="prelude-val">Ok</span>(())
 }
 
-<span class="doccomment">/// Details of the pruned domain block such as operators, rewards they would receive.
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>PrunedDomainBlockInfo&lt;DomainNumber, Balance&gt; {
+<span class="doccomment">/// Details of the confirmed domain block such as operators, rewards they would receive.
+</span><span class="attr">#[derive(Debug, PartialEq)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>ConfirmedDomainBlockInfo&lt;DomainNumber, Balance&gt; {
     <span class="kw">pub </span>domain_block_number: DomainNumber,
     <span class="kw">pub </span>operator_ids: Vec&lt;OperatorId&gt;,
     <span class="kw">pub </span>rewards: Balance,
+    <span class="kw">pub </span>invalid_bundle_authors: Vec&lt;OperatorId&gt;,
+    <span class="kw">pub </span>total_storage_fee: Balance,
+    <span class="kw">pub </span>paid_bundle_storage_fees: BTreeMap&lt;OperatorId, u32&gt;,
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span>ProcessExecutionReceiptResult&lt;T&gt; =
-    <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;PrunedDomainBlockInfo&lt;&lt;T <span class="kw">as </span>Config&gt;::DomainNumber, BalanceOf&lt;T&gt;&gt;&gt;, Error&gt;;
+    <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;ConfirmedDomainBlockInfo&lt;DomainBlockNumberFor&lt;T&gt;, BalanceOf&lt;T&gt;&gt;&gt;, Error&gt;;
 
 <span class="doccomment">/// Process the execution receipt to add it to the block tree
 /// Returns the domain block number that was pruned, if any
@@ -1068,77 +1636,227 @@
     execution_receipt: ExecutionReceiptOf&lt;T&gt;,
     receipt_type: AcceptedReceiptType,
 ) -&gt; ProcessExecutionReceiptResult&lt;T&gt; {
-    <span class="kw">let </span><span class="kw-2">mut </span>pruned_domain_block_info = <span class="prelude-val">None</span>;
+    <span class="kw">let </span>er_hash = execution_receipt.hash::&lt;DomainHashingFor&lt;T&gt;&gt;();
+    <span class="kw">let </span>receipt_block_number = execution_receipt.domain_block_number;
     <span class="kw">match </span>receipt_type {
-        AcceptedReceiptType::NewBranch =&gt; {
-            add_new_receipt_to_block_tree::&lt;T&gt;(domain_id, submitter, execution_receipt);
-        }
         AcceptedReceiptType::NewHead =&gt; {
-            <span class="kw">let </span>domain_block_number = execution_receipt.domain_block_number;
-
-            add_new_receipt_to_block_tree::&lt;T&gt;(domain_id, submitter, execution_receipt);
+            add_new_receipt_to_block_tree::&lt;T&gt;(domain_id, submitter, execution_receipt)<span class="question-mark">?</span>;
 
             <span class="comment">// Update the head receipt number
-            </span>HeadReceiptNumber::&lt;T&gt;::insert(domain_id, domain_block_number);
+            </span>HeadReceiptNumber::&lt;T&gt;::insert(domain_id, receipt_block_number);
+            NewAddedHeadReceipt::&lt;T&gt;::insert(domain_id, er_hash);
 
             <span class="comment">// Prune expired domain block
             </span><span class="kw">if let </span><span class="prelude-val">Some</span>(to_prune) =
-                domain_block_number.checked_sub(<span class="kw-2">&amp;</span>T::BlockTreePruningDepth::get())
+                receipt_block_number.checked_sub(<span class="kw-2">&amp;</span>T::BlockTreePruningDepth::get())
             {
-                <span class="kw">let </span>receipts_at_number = BlockTree::&lt;T&gt;::take(domain_id, to_prune);
-                <span class="kw">if </span>receipts_at_number.len() != <span class="number">1 </span>{
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(Error::MultipleERsAfterChallengePeriod);
+                <span class="kw">let </span>BlockTreeNode {
+                    execution_receipt,
+                    operator_ids,
+                } = <span class="kw">match </span>prune_receipt::&lt;T&gt;(domain_id, to_prune)<span class="question-mark">? </span>{
+                    <span class="prelude-val">Some</span>(n) =&gt; n,
+                    <span class="comment">// The receipt at `to_prune` may already been pruned if there is fraud proof being
+                    // processed previously and the `HeadReceiptNumber` is reverted.
+                    </span><span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+                };
+
+                <span class="comment">// Collect the paid bundle storage fees and the invalid bundle author
+                </span><span class="kw">let </span><span class="kw-2">mut </span>paid_bundle_storage_fees = BTreeMap::new();
+                <span class="kw">let </span><span class="kw-2">mut </span>invalid_bundle_authors = Vec::new();
+                <span class="kw">let </span>bundle_digests = ExecutionInbox::&lt;T&gt;::get((
+                    domain_id,
+                    to_prune,
+                    execution_receipt.consensus_block_number,
+                ));
+                <span class="kw">for </span>(index, bd) <span class="kw">in </span>bundle_digests.into_iter().enumerate() {
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(bundle_author) = InboxedBundleAuthor::&lt;T&gt;::take(bd.header_hash) {
+                        <span class="comment">// It is okay to index `ER::bundles` here since `verify_execution_receipt` have checked
+                        // the `ER::bundles` have the same length of `ExecutionInbox`
+                        </span><span class="kw">if </span>execution_receipt.inboxed_bundles[index].is_invalid() {
+                            invalid_bundle_authors.push(bundle_author);
+                        } <span class="kw">else </span>{
+                            paid_bundle_storage_fees
+                                .entry(bundle_author)
+                                .and_modify(|s| <span class="kw-2">*</span>s += bd.size)
+                                .or_insert(bd.size);
+                        }
+                    }
                 }
 
-                <span class="kw">let </span>receipt = receipts_at_number
-                    .first()
-                    .cloned()
-                    .expect(<span class="string">&quot;should always have a value due to check above&quot;</span>);
-
-                <span class="kw">let </span>domain_block =
-                    DomainBlocks::&lt;T&gt;::take(receipt).ok_or(Error::MissingDomainBlock)<span class="question-mark">?</span>;
-
-                <span class="comment">// Remove the block&#39;s `ExecutionInbox` as the block is pruned and does not need
-                // to verify its receipt&#39;s `extrinsics_root` anymore
+                <span class="comment">// Remove the block's `ExecutionInbox` as the domain block is confirmed and no need to verify
+                // its receipt's `extrinsics_root` anymore.
                 </span><span class="kw">let _ </span>= ExecutionInbox::&lt;T&gt;::clear_prefix((domain_id, to_prune), u32::MAX, <span class="prelude-val">None</span>);
 
-                pruned_domain_block_info = <span class="prelude-val">Some</span>(PrunedDomainBlockInfo {
+                LatestConfirmedDomainExecutionReceipt::&lt;T&gt;::insert(
+                    domain_id,
+                    execution_receipt.clone(),
+                );
+
+                ConsensusBlockHash::&lt;T&gt;::remove(
+                    domain_id,
+                    execution_receipt.consensus_block_number,
+                );
+
+                <span class="kw">let </span>block_fees = execution_receipt
+                    .block_fees
+                    .total_fees()
+                    .ok_or(Error::BalanceOverflow)<span class="question-mark">?</span>;
+
+                <span class="macro">ensure!</span>(
+                    execution_receipt
+                        .transfers
+                        .is_valid(ChainId::Domain(domain_id)),
+                    Error::InvalidDomainTransfers
+                );
+
+                update_domain_transfers::&lt;T&gt;(domain_id, <span class="kw-2">&amp;</span>execution_receipt.transfers, block_fees)
+                    .map_err(|<span class="kw">_</span>| Error::DomainTransfersTracking)<span class="question-mark">?</span>;
+
+                update_domain_runtime_upgrade_records::&lt;T&gt;(
+                    domain_id,
+                    execution_receipt.consensus_block_number,
+                )<span class="question-mark">?</span>;
+
+                <span class="comment">// handle chain rewards from the domain
+                </span>execution_receipt
+                    .block_fees
+                    .chain_rewards
+                    .into_iter()
+                    .for_each(|(chain_id, reward)| {
+                        T::OnChainRewards::on_chain_rewards(chain_id, reward)
+                    });
+
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(ConfirmedDomainBlockInfo {
                     domain_block_number: to_prune,
-                    operator_ids: domain_block.operator_ids,
-                    rewards: domain_block.execution_receipt.total_rewards,
-                })
+                    operator_ids,
+                    rewards: execution_receipt.block_fees.domain_execution_fee,
+                    invalid_bundle_authors,
+                    total_storage_fee: execution_receipt.block_fees.consensus_storage_fee,
+                    paid_bundle_storage_fees,
+                }));
             }
         }
         AcceptedReceiptType::CurrentHead =&gt; {
             <span class="comment">// Add confirmation to the current head receipt
-            </span><span class="kw">let </span>er_hash = execution_receipt.hash();
-            DomainBlocks::&lt;T&gt;::mutate(er_hash, |maybe_domain_block| {
-                <span class="kw">let </span>domain_block = maybe_domain_block.as_mut().expect(
-                    <span class="string">&quot;The domain block of `CurrentHead` receipt is checked to be exist in `execution_receipt_type`; qed&quot;
+            </span>BlockTreeNodes::&lt;T&gt;::mutate(er_hash, |maybe_node| {
+                <span class="kw">let </span>node = maybe_node.as_mut().expect(
+                    <span class="string">"The domain block of `CurrentHead` receipt is checked to be exist in `execution_receipt_type`; qed"
                 </span>);
-                domain_block.operator_ids.push(submitter);
+                node.operator_ids.push(submitter);
             });
         }
     }
-    <span class="prelude-val">Ok</span>(pruned_domain_block_info)
+
+    <span class="comment">// Update the `LatestSubmittedER` for the operator
+    </span><span class="kw">let </span>key = (domain_id, submitter);
+    <span class="kw">if </span>receipt_block_number &gt; Pallet::&lt;T&gt;::latest_submitted_er(key) {
+        LatestSubmittedER::&lt;T&gt;::insert(key, receipt_block_number)
+    }
+
+    <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
+}
+
+<span class="kw">type </span>TransferTrackerError&lt;T&gt; =
+    &lt;&lt;T <span class="kw">as </span>Config&gt;::DomainsTransfersTracker <span class="kw">as </span>DomainsTransfersTracker&lt;BalanceOf&lt;T&gt;&gt;&gt;::Error;
+
+<span class="doccomment">/// Updates domain transfers for following scenarios
+/// 1. Block fees are burned on domain
+/// 2. Confirming incoming XDM transfers to the Domain
+/// 3. Noting outgoing transfers from the domain
+/// 4. Cancelling outgoing transfers from the domain.
+</span><span class="kw">fn </span>update_domain_transfers&lt;T: Config&gt;(
+    domain_id: DomainId,
+    transfers: <span class="kw-2">&amp;</span>Transfers&lt;BalanceOf&lt;T&gt;&gt;,
+    block_fees: BalanceOf&lt;T&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(), TransferTrackerError&lt;T&gt;&gt; {
+    <span class="kw">let </span>Transfers {
+        transfers_in,
+        transfers_out,
+        transfers_rejected,
+        rejected_transfers_claimed,
+    } = transfers;
+
+    <span class="comment">// confirm incoming transfers
+    </span><span class="kw">let </span>er_chain_id = ChainId::Domain(domain_id);
+    transfers_in
+        .iter()
+        .try_for_each(|(from_chain_id, amount)| {
+            T::DomainsTransfersTracker::confirm_transfer(<span class="kw-2">*</span>from_chain_id, er_chain_id, <span class="kw-2">*</span>amount)
+        })<span class="question-mark">?</span>;
+
+    <span class="comment">// note outgoing transfers
+    </span>transfers_out.iter().try_for_each(|(to_chain_id, amount)| {
+        T::DomainsTransfersTracker::note_transfer(er_chain_id, <span class="kw-2">*</span>to_chain_id, <span class="kw-2">*</span>amount)
+    })<span class="question-mark">?</span>;
+
+    <span class="comment">// note rejected transfers
+    </span>transfers_rejected
+        .iter()
+        .try_for_each(|(from_chain_id, amount)| {
+            T::DomainsTransfersTracker::reject_transfer(<span class="kw-2">*</span>from_chain_id, er_chain_id, <span class="kw-2">*</span>amount)
+        })<span class="question-mark">?</span>;
+
+    <span class="comment">// claim rejected transfers
+    </span>rejected_transfers_claimed
+        .iter()
+        .try_for_each(|(to_chain_id, amount)| {
+            T::DomainsTransfersTracker::claim_rejected_transfer(er_chain_id, <span class="kw-2">*</span>to_chain_id, <span class="kw-2">*</span>amount)
+        })<span class="question-mark">?</span>;
+
+    <span class="comment">// deduct execution fees from domain
+    </span>T::DomainsTransfersTracker::reduce_domain_balance(domain_id, block_fees)<span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(())
+}
+
+<span class="comment">// Update the domain runtime upgrade record at `consensus_number` if there is one
+</span><span class="kw">fn </span>update_domain_runtime_upgrade_records&lt;T: Config&gt;(
+    domain_id: DomainId,
+    consensus_number: BlockNumberFor&lt;T&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+    <span class="kw">let </span>runtime_id = Pallet::&lt;T&gt;::runtime_id(domain_id).ok_or(Error::RuntimeNotFound)<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>domain_runtime_upgrade_records = DomainRuntimeUpgradeRecords::&lt;T&gt;::get(runtime_id);
+
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(upgrade_entry) = domain_runtime_upgrade_records.get_mut(<span class="kw-2">&amp;</span>consensus_number) {
+        <span class="comment">// Decrease the `reference_count` by one and remove the whole entry if it drop to zero
+        </span><span class="kw">if </span>upgrade_entry.reference_count &gt; One::one() {
+            upgrade_entry.reference_count =
+                upgrade_entry.reference_count.saturating_sub(One::one());
+        } <span class="kw">else </span>{
+            domain_runtime_upgrade_records.remove(<span class="kw-2">&amp;</span>consensus_number);
+        }
+
+        <span class="kw">if </span>!domain_runtime_upgrade_records.is_empty() {
+            DomainRuntimeUpgradeRecords::&lt;T&gt;::set(runtime_id, domain_runtime_upgrade_records);
+        } <span class="kw">else </span>{
+            DomainRuntimeUpgradeRecords::&lt;T&gt;::remove(runtime_id);
+        }
+    }
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="kw">fn </span>add_new_receipt_to_block_tree&lt;T: Config&gt;(
     domain_id: DomainId,
     submitter: OperatorId,
     execution_receipt: ExecutionReceiptOf&lt;T&gt;,
-) {
+) -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
     <span class="comment">// Construct and add a new domain block to the block tree
-    </span><span class="kw">let </span>er_hash = execution_receipt.hash();
+    </span><span class="kw">let </span>er_hash = execution_receipt.hash::&lt;DomainHashingFor&lt;T&gt;&gt;();
     <span class="kw">let </span>domain_block_number = execution_receipt.domain_block_number;
-    <span class="kw">let </span>domain_block = DomainBlock {
+
+    <span class="macro">ensure!</span>(
+        !BlockTree::&lt;T&gt;::contains_key(domain_id, domain_block_number),
+        Error::OverwritingER,
+    );
+
+    BlockTree::&lt;T&gt;::insert(domain_id, domain_block_number, er_hash);
+    <span class="kw">let </span>block_tree_node = BlockTreeNode {
         execution_receipt,
         operator_ids: <span class="macro">sp_std::vec!</span>[submitter],
     };
-    BlockTree::&lt;T&gt;::mutate(domain_id, domain_block_number, |er_hashes| {
-        er_hashes.insert(er_hash);
-    });
-    DomainBlocks::&lt;T&gt;::insert(er_hash, domain_block);
+    BlockTreeNodes::&lt;T&gt;::insert(er_hash, block_tree_node);
+
+    <span class="prelude-val">Ok</span>(())
 }
 
 <span class="doccomment">/// Import the genesis receipt to the block tree
@@ -1146,184 +1864,76 @@
     domain_id: DomainId,
     genesis_receipt: ExecutionReceiptOf&lt;T&gt;,
 ) {
-    <span class="kw">let </span>er_hash = genesis_receipt.hash();
+    <span class="kw">let </span>er_hash = genesis_receipt.hash::&lt;DomainHashingFor&lt;T&gt;&gt;();
     <span class="kw">let </span>domain_block_number = genesis_receipt.domain_block_number;
-    <span class="kw">let </span>domain_block = DomainBlock {
+
+    LatestConfirmedDomainExecutionReceipt::&lt;T&gt;::insert(domain_id, genesis_receipt.clone());
+
+    <span class="kw">let </span>block_tree_node = BlockTreeNode {
         execution_receipt: genesis_receipt,
         operator_ids: <span class="macro">sp_std::vec!</span>[],
     };
-    <span class="comment">// NOTE: no need to upate the head receipt number as we are using `ValueQuery`
-    </span>BlockTree::&lt;T&gt;::mutate(domain_id, domain_block_number, |er_hashes| {
-        er_hashes.insert(er_hash);
-    });
-    DomainBlocks::&lt;T&gt;::insert(er_hash, domain_block);
+    <span class="comment">// NOTE: no need to update the head receipt number as `HeadReceiptNumber` is using `ValueQuery`
+    </span>BlockTree::&lt;T&gt;::insert(domain_id, domain_block_number, er_hash);
+    BlockTreeNodes::&lt;T&gt;::insert(er_hash, block_tree_node);
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>prune_receipt&lt;T: Config&gt;(
+    domain_id: DomainId,
+    receipt_number: DomainBlockNumberFor&lt;T&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;BlockTreeNodeFor&lt;T&gt;&gt;, Error&gt; {
+    <span class="kw">let </span>receipt_hash = <span class="kw">match </span>BlockTree::&lt;T&gt;::take(domain_id, receipt_number) {
+        <span class="prelude-val">Some</span>(er_hash) =&gt; er_hash,
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+    };
+    <span class="kw">let </span>block_tree_node =
+        BlockTreeNodes::&lt;T&gt;::take(receipt_hash).ok_or(Error::MissingDomainBlock)<span class="question-mark">?</span>;
+
+    <span class="comment">// If the pruned ER is the operator's `latest_submitted_er` for this domain, it means either:
+    //
+    // - All the ER the operator submitted for this domain are confirmed and pruned, so the operator
+    //   can't be targetted by fraud proof later unless it submit other new ERs.
+    //
+    // - All the bad ER the operator submitted for this domain are pruned and the operator is already
+    //   slashed, so wwe don't need `LatestSubmittedER` to determine if the operator is pending slash.
+    //
+    // In both cases, it is safe to remove the `LatestSubmittedER` for the operator in this domain
+    </span><span class="kw">for </span>operator_id <span class="kw">in </span>block_tree_node.operator_ids.iter() {
+        <span class="kw">let </span>key = (domain_id, operator_id);
+        <span class="kw">let </span>latest_submitted_er = Pallet::&lt;T&gt;::latest_submitted_er(key);
+        <span class="kw">if </span>block_tree_node.execution_receipt.domain_block_number == latest_submitted_er {
+            LatestSubmittedER::&lt;T&gt;::remove(key);
+        }
+    }
+
+    <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(block_tree_node))
 }
 
 <span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use </span><span class="kw">crate</span>::domain_registry::DomainConfig;
-    <span class="kw">use </span><span class="kw">crate</span>::pallet::Operators;
-    <span class="kw">use </span><span class="kw">crate</span>::staking::Operator;
     <span class="kw">use </span><span class="kw">crate</span>::tests::{
-        create_dummy_bundle_with_receipts, create_dummy_receipt, GenesisStateRootGenerater,
-        ReadRuntimeVersion, Test,
+        create_dummy_bundle_with_receipts, create_dummy_receipt, extend_block_tree,
+        extend_block_tree_from_zero, get_block_tree_node_at, new_test_ext_with_extensions,
+        register_genesis_domain, run_to_block, BlockTreePruningDepth, Domains, Test,
     };
-    <span class="kw">use crate</span>::{BalanceOf, NextDomainId};
+    <span class="kw">use </span><span class="kw">crate</span>::FrozenDomains;
     <span class="kw">use </span>frame_support::dispatch::RawOrigin;
-    <span class="kw">use </span>frame_support::traits::{Currency, Hooks};
-    <span class="kw">use </span>frame_support::weights::Weight;
     <span class="kw">use </span>frame_support::{assert_err, assert_ok};
-    <span class="kw">use </span>frame_system::Pallet <span class="kw">as </span>System;
-    <span class="kw">use </span>sp_core::{Pair, H256, U256};
-    <span class="kw">use </span>sp_domains::{GenesisReceiptExtension, OperatorPair, RuntimeType};
-    <span class="kw">use </span>sp_runtime::traits::BlockNumberProvider;
-    <span class="kw">use </span>sp_version::RuntimeVersion;
-    <span class="kw">use </span>std::sync::Arc;
-    <span class="kw">use </span>subspace_runtime_primitives::SSC;
-
-    <span class="kw">fn </span>run_to_block&lt;T: Config&gt;(block_number: T::BlockNumber, parent_hash: T::Hash) {
-        System::&lt;T&gt;::set_block_number(block_number);
-        System::&lt;T&gt;::initialize(<span class="kw-2">&amp;</span>block_number, <span class="kw-2">&amp;</span>parent_hash, <span class="kw-2">&amp;</span>Default::default());
-        &lt;<span class="kw">crate</span>::Pallet&lt;T&gt; <span class="kw">as </span>Hooks&lt;T::BlockNumber&gt;&gt;::on_initialize(block_number);
-        System::&lt;T&gt;::finalize();
-    }
-
-    <span class="kw">fn </span>register_genesis_domain(creator: u64, operator_ids: Vec&lt;OperatorId&gt;) -&gt; DomainId {
-        <span class="macro">assert_ok!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::register_domain_runtime(
-            RawOrigin::Root.into(),
-            <span class="string">b&quot;evm&quot;</span>.to_vec(),
-            RuntimeType::Evm,
-            <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],
-        ));
-
-        <span class="kw">let </span>domain_id = NextDomainId::&lt;Test&gt;::get();
-        &lt;Test <span class="kw">as </span>Config&gt;::Currency::make_free_balance_be(
-            <span class="kw-2">&amp;</span>creator,
-            &lt;Test <span class="kw">as </span>Config&gt;::DomainInstantiationDeposit::get()
-                + &lt;Test <span class="kw">as </span>pallet_balances::Config&gt;::ExistentialDeposit::get(),
-        );
-        <span class="kw">crate</span>::Pallet::&lt;Test&gt;::instantiate_domain(
-            RawOrigin::Signed(creator).into(),
-            DomainConfig {
-                domain_name: <span class="string">b&quot;evm-domain&quot;</span>.to_vec(),
-                runtime_id: <span class="number">0</span>,
-                max_block_size: <span class="number">1u32</span>,
-                max_block_weight: Weight::from_parts(<span class="number">1</span>, <span class="number">0</span>),
-                bundle_slot_probability: (<span class="number">1</span>, <span class="number">1</span>),
-                target_bundles_per_block: <span class="number">1</span>,
-            },
-        )
-        .unwrap();
-
-        <span class="kw">let </span>pair = OperatorPair::from_seed(<span class="kw-2">&amp;</span>U256::from(<span class="number">0u32</span>).into());
-        <span class="kw">for </span>operator_id <span class="kw">in </span>operator_ids {
-            Operators::&lt;Test&gt;::insert(
-                operator_id,
-                Operator {
-                    signing_key: pair.public(),
-                    current_domain_id: domain_id,
-                    next_domain_id: domain_id,
-                    minimum_nominator_stake: SSC,
-                    nomination_tax: Default::default(),
-                    current_total_stake: Zero::zero(),
-                    current_epoch_rewards: Zero::zero(),
-                    total_shares: Zero::zero(),
-                    is_frozen: <span class="bool-val">false</span>,
-                },
-            );
-        }
-
-        domain_id
-    }
-
-    <span class="comment">// Submit new head receipt to extend the block tree
-    </span><span class="kw">fn </span>extend_block_tree(domain_id: DomainId, operator_id: u64, to: u64) {
-        <span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
-        <span class="macro">assert!</span>(head_receipt_number &lt; to);
-
-        <span class="kw">let </span>head_node = get_block_tree_node_at::&lt;Test&gt;(domain_id, head_receipt_number).unwrap();
-        <span class="kw">let </span><span class="kw-2">mut </span>receipt = head_node.execution_receipt;
-        <span class="kw">for </span>block_number <span class="kw">in </span>(head_receipt_number + <span class="number">1</span>)..=to {
-            <span class="comment">// Run to `block_number`
-            </span>run_to_block::&lt;Test&gt;(
-                block_number,
-                frame_system::Pallet::&lt;Test&gt;::block_hash(block_number - <span class="number">1</span>),
-            );
-
-            <span class="comment">// Submit a bundle with the receipt of the last block
-            </span><span class="kw">let </span>bundle_extrinsics_root = H256::random();
-            <span class="kw">let </span>bundle = create_dummy_bundle_with_receipts(
-                domain_id,
-                block_number,
-                operator_id,
-                bundle_extrinsics_root,
-                receipt,
-            );
-            <span class="macro">assert_ok!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::submit_bundle(
-                RawOrigin::None.into(),
-                bundle,
-            ));
-
-            <span class="comment">// Construct a `NewHead` receipt of the just submitted bundle, which will be included in the next bundle
-            </span><span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
-            <span class="kw">let </span>parent_block_tree_node =
-                get_block_tree_node_at::&lt;Test&gt;(domain_id, head_receipt_number).unwrap();
-            receipt = create_dummy_receipt(
-                block_number,
-                frame_system::Pallet::&lt;Test&gt;::block_hash(block_number),
-                parent_block_tree_node.execution_receipt.hash(),
-                <span class="macro">vec!</span>[bundle_extrinsics_root],
-            );
-        }
-    }
-
-    <span class="attr">#[allow(clippy::type_complexity)]
-    </span><span class="kw">fn </span>get_block_tree_node_at&lt;T: Config&gt;(
-        domain_id: DomainId,
-        block_number: T::DomainNumber,
-    ) -&gt; <span class="prelude-ty">Option</span>&lt;DomainBlock&lt;T::BlockNumber, T::Hash, T::DomainNumber, T::DomainHash, BalanceOf&lt;T&gt;&gt;&gt;
-    {
-        BlockTree::&lt;T&gt;::get(domain_id, block_number)
-            .first()
-            .and_then(DomainBlocks::&lt;T&gt;::get)
-    }
-
-    <span class="kw">fn </span>new_test_ext() -&gt; sp_io::TestExternalities {
-        <span class="kw">let </span>version = RuntimeVersion {
-            spec_name: <span class="string">&quot;test&quot;</span>.into(),
-            impl_name: Default::default(),
-            authoring_version: <span class="number">0</span>,
-            spec_version: <span class="number">1</span>,
-            impl_version: <span class="number">1</span>,
-            apis: Default::default(),
-            transaction_version: <span class="number">1</span>,
-            state_version: <span class="number">0</span>,
-        };
-
-        <span class="kw">let </span><span class="kw-2">mut </span>ext = <span class="kw">crate</span>::tests::new_test_ext();
-        ext.register_extension(sp_core::traits::ReadRuntimeVersionExt::new(
-            ReadRuntimeVersion(version.encode()),
-        ));
-        ext.register_extension(GenesisReceiptExtension::new(Arc::new(
-            GenesisStateRootGenerater,
-        )));
-
-        ext
-    }
+    <span class="kw">use </span>frame_system::Origin;
+    <span class="kw">use </span>sp_core::H256;
+    <span class="kw">use </span>sp_domains::{BundleDigest, InboxedBundle, InvalidBundleType};
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_genesis_receipt() {
-        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext();
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
         ext.execute_with(|| {
-            <span class="kw">let </span>domain_id = register_genesis_domain(<span class="number">0u64</span>, <span class="macro">vec!</span>[<span class="number">0u64</span>]);
+            <span class="kw">let </span>domain_id = register_genesis_domain(<span class="number">0u128</span>, <span class="macro">vec!</span>[<span class="number">0u64</span>]);
 
             <span class="comment">// The genesis receipt should be added to the block tree
-            </span><span class="kw">let </span>block_tree_node_at_0 = BlockTree::&lt;Test&gt;::get(domain_id, <span class="number">0</span>);
-            <span class="macro">assert_eq!</span>(block_tree_node_at_0.len(), <span class="number">1</span>);
+            </span><span class="kw">let </span>block_tree_node_at_0 = BlockTree::&lt;Test&gt;::get(domain_id, <span class="number">0</span>).unwrap();
 
-            <span class="kw">let </span>genesis_node =
-                DomainBlocks::&lt;Test&gt;::get(block_tree_node_at_0.first().unwrap()).unwrap();
+            <span class="kw">let </span>genesis_node = BlockTreeNodes::&lt;Test&gt;::get(block_tree_node_at_0).unwrap();
             <span class="macro">assert!</span>(genesis_node.operator_ids.is_empty());
             <span class="macro">assert_eq!</span>(HeadReceiptNumber::&lt;Test&gt;::get(domain_id), <span class="number">0</span>);
 
@@ -1338,65 +1948,89 @@
                 domain_id,
                 <span class="kw-2">&amp;</span>genesis_receipt
             ));
-            <span class="macro">assert_err!</span>(
+            <span class="comment">// Submitting an invalid genesis ER will result in `NewBranchReceipt` because the operator
+            // need to submit fraud proof to pruned a ER first before submitting an ER at the same height
+            </span><span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>invalid_genesis_receipt),
-                Error::BadGenesisReceipt
+                Error::NewBranchReceipt
             );
         });
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_new_head_receipt() {
-        <span class="kw">let </span>creator = <span class="number">0u64</span>;
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
         <span class="kw">let </span>operator_id = <span class="number">1u64</span>;
-        <span class="kw">let </span>block_tree_pruning_depth = &lt;Test <span class="kw">as </span>Config&gt;::BlockTreePruningDepth::get() <span class="kw">as </span>u64;
+        <span class="kw">let </span>block_tree_pruning_depth = &lt;Test <span class="kw">as </span>Config&gt;::BlockTreePruningDepth::get();
 
-        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext();
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
         ext.execute_with(|| {
             <span class="kw">let </span>domain_id = register_genesis_domain(creator, <span class="macro">vec!</span>[operator_id]);
 
             <span class="comment">// The genesis node of the block tree
             </span><span class="kw">let </span>genesis_node = get_block_tree_node_at::&lt;Test&gt;(domain_id, <span class="number">0</span>).unwrap();
             <span class="kw">let </span><span class="kw-2">mut </span>receipt = genesis_node.execution_receipt;
+            <span class="macro">assert_eq!</span>(
+                receipt.consensus_block_number,
+                frame_system::Pallet::&lt;Test&gt;::current_block_number()
+            );
             <span class="kw">let </span><span class="kw-2">mut </span>receipt_of_block_1 = <span class="prelude-val">None</span>;
-            <span class="kw">for </span>block_number <span class="kw">in </span><span class="number">1</span>..=(block_tree_pruning_depth + <span class="number">3</span>) {
-                <span class="comment">// Run to `block_number`
-                </span>run_to_block::&lt;Test&gt;(
-                    block_number,
-                    frame_system::Pallet::&lt;Test&gt;::block_hash(block_number - <span class="number">1</span>),
-                );
+            <span class="kw">let </span><span class="kw-2">mut </span>bundle_header_hash_of_block_1 = <span class="prelude-val">None</span>;
+            <span class="kw">for </span>block_number <span class="kw">in </span><span class="number">1</span>..=(block_tree_pruning_depth <span class="kw">as </span>u64 + <span class="number">3</span>) {
+                <span class="comment">// Finilize parent block and initialize block at `block_number`
+                </span>run_to_block::&lt;Test&gt;(block_number, receipt.consensus_block_hash);
+
+                <span class="kw">if </span>block_number != <span class="number">1 </span>{
+                    <span class="comment">// `ConsensusBlockHash` should be set to `Some` since last consensus block contains bundle
+                    </span><span class="macro">assert_eq!</span>(
+                        ConsensusBlockHash::&lt;Test&gt;::get(domain_id, block_number - <span class="number">1</span>),
+                        <span class="prelude-val">Some</span>(frame_system::Pallet::&lt;Test&gt;::block_hash(block_number - <span class="number">1</span>))
+                    );
+                    <span class="comment">// ER point to last consensus block should have `NewHead` type
+                    </span><span class="macro">assert_eq!</span>(
+                        execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>receipt),
+                        ReceiptType::Accepted(AcceptedReceiptType::NewHead)
+                    );
+                    <span class="macro">assert_ok!</span>(verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>receipt));
+                }
 
                 <span class="comment">// Submit a bundle with the receipt of the last block
                 </span><span class="kw">let </span>bundle_extrinsics_root = H256::random();
                 <span class="kw">let </span>bundle = create_dummy_bundle_with_receipts(
                     domain_id,
-                    block_number,
                     operator_id,
                     bundle_extrinsics_root,
                     receipt,
                 );
+                <span class="kw">let </span>bundle_header_hash = bundle.sealed_header.pre_hash();
+                <span class="kw">let </span>bundle_size = bundle.size();
                 <span class="macro">assert_ok!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::submit_bundle(
                     RawOrigin::None.into(),
                     bundle,
                 ));
                 <span class="comment">// `bundle_extrinsics_root` should be tracked in `ExecutionInbox`
                 </span><span class="macro">assert_eq!</span>(
-                    ExecutionInbox::&lt;Test&gt;::get((domain_id, block_number, block_number)),
-                    <span class="macro">vec!</span>[bundle_extrinsics_root]
+                    ExecutionInbox::&lt;Test&gt;::get((domain_id, block_number <span class="kw">as </span>u32, block_number)),
+                    <span class="macro">vec!</span>[BundleDigest {
+                        header_hash: bundle_header_hash,
+                        extrinsics_root: bundle_extrinsics_root,
+                        size: bundle_size,
+                    }]
                 );
+                <span class="macro">assert!</span>(InboxedBundleAuthor::&lt;Test&gt;::contains_key(
+                    bundle_header_hash
+                ));
 
                 <span class="comment">// Head receipt number should be updated
                 </span><span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
-                <span class="macro">assert_eq!</span>(head_receipt_number, block_number - <span class="number">1</span>);
+                <span class="macro">assert_eq!</span>(head_receipt_number, block_number <span class="kw">as </span>u32 - <span class="number">1</span>);
 
                 <span class="comment">// As we only extending the block tree there should be no fork
-                </span><span class="kw">let </span>parent_block_tree_nodes =
-                    BlockTree::&lt;Test&gt;::get(domain_id, head_receipt_number);
-                <span class="macro">assert_eq!</span>(parent_block_tree_nodes.len(), <span class="number">1</span>);
+                </span><span class="kw">let </span>parent_domain_block_receipt =
+                    BlockTree::&lt;Test&gt;::get(domain_id, head_receipt_number).unwrap();
 
                 <span class="comment">// The submitter should be added to `operator_ids`
-                </span><span class="kw">let </span>parent_domain_block_receipt = parent_block_tree_nodes.first().unwrap();
-                <span class="kw">let </span>parent_node = DomainBlocks::&lt;Test&gt;::get(parent_domain_block_receipt).unwrap();
+                </span><span class="kw">let </span>parent_node = BlockTreeNodes::&lt;Test&gt;::get(parent_domain_block_receipt).unwrap();
                 <span class="macro">assert_eq!</span>(parent_node.operator_ids.len(), <span class="number">1</span>);
                 <span class="macro">assert_eq!</span>(parent_node.operator_ids[<span class="number">0</span>], operator_id);
 
@@ -1404,57 +2038,81 @@
                 // in the next bundle
                 </span>receipt = create_dummy_receipt(
                     block_number,
-                    frame_system::Pallet::&lt;Test&gt;::block_hash(block_number),
-                    <span class="kw-2">*</span>parent_domain_block_receipt,
+                    H256::random(),
+                    parent_domain_block_receipt,
                     <span class="macro">vec!</span>[bundle_extrinsics_root],
                 );
-                <span class="macro">assert_eq!</span>(
-                    execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>receipt),
-                    ReceiptType::Accepted(AcceptedReceiptType::NewHead)
-                );
-                <span class="macro">assert_ok!</span>(verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>receipt));
 
                 <span class="comment">// Record receipt of block #1 for later use
                 </span><span class="kw">if </span>block_number == <span class="number">1 </span>{
                     receipt_of_block_1.replace(receipt.clone());
+                    bundle_header_hash_of_block_1.replace(bundle_header_hash);
                 }
             }
 
             <span class="comment">// The receipt of the block 1 is pruned at the last iteration, verify it will result in
-            // `InvalidExtrinsicsRoots` error as `ExecutionInbox` of block 1 is pruned
+            // `PrunedReceipt` error
             </span><span class="kw">let </span>pruned_receipt = receipt_of_block_1.unwrap();
-            <span class="macro">assert!</span>(BlockTree::&lt;Test&gt;::get(domain_id, <span class="number">1</span>).is_empty());
+            <span class="kw">let </span>pruned_bundle = bundle_header_hash_of_block_1.unwrap();
+            <span class="macro">assert!</span>(BlockTree::&lt;Test&gt;::get(domain_id, <span class="number">1</span>).is_none());
             <span class="macro">assert!</span>(ExecutionInbox::&lt;Test&gt;::get((domain_id, <span class="number">1</span>, <span class="number">1</span>)).is_empty());
+            <span class="macro">assert!</span>(!InboxedBundleAuthor::&lt;Test&gt;::contains_key(pruned_bundle));
             <span class="macro">assert_eq!</span>(
                 execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>pruned_receipt),
                 ReceiptType::Rejected(RejectedReceiptType::Pruned)
             );
             <span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>pruned_receipt),
-                Error::InvalidExtrinsicsRoots
+                Error::PrunedReceipt
             );
+            <span class="macro">assert!</span>(ConsensusBlockHash::&lt;Test&gt;::get(
+                domain_id,
+                pruned_receipt.consensus_block_number,
+            )
+            .is_none());
         });
     }
 
     <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_confirm_head_receipt() {
-        <span class="kw">let </span>creator = <span class="number">0u64</span>;
+    </span><span class="kw">fn </span>test_confirm_current_head_receipt() {
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
         <span class="kw">let </span>operator_id1 = <span class="number">1u64</span>;
         <span class="kw">let </span>operator_id2 = <span class="number">2u64</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext();
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
         ext.execute_with(|| {
             <span class="kw">let </span>domain_id = register_genesis_domain(creator, <span class="macro">vec!</span>[operator_id1, operator_id2]);
-            extend_block_tree(domain_id, operator_id1, <span class="number">3</span>);
+            <span class="kw">let </span>next_head_receipt = extend_block_tree_from_zero(domain_id, operator_id1, <span class="number">3</span>);
+
+            <span class="comment">// Submit the new head receipt
+            </span><span class="macro">assert_eq!</span>(
+                execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>next_head_receipt),
+                ReceiptType::Accepted(AcceptedReceiptType::NewHead)
+            );
+            <span class="macro">assert_ok!</span>(verify_execution_receipt::&lt;Test&gt;(
+                domain_id,
+                <span class="kw-2">&amp;</span>next_head_receipt
+            ));
+            <span class="kw">let </span>bundle = create_dummy_bundle_with_receipts(
+                domain_id,
+                operator_id1,
+                H256::random(),
+                next_head_receipt.clone(),
+            );
+            <span class="macro">assert_ok!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::submit_bundle(
+                RawOrigin::None.into(),
+                bundle,
+            ));
 
             <span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
-
-            <span class="comment">// Get the head receipt
-            </span><span class="kw">let </span>current_head_receipt =
+            <span class="kw">let </span>current_head_receipt =
                 get_block_tree_node_at::&lt;Test&gt;(domain_id, head_receipt_number)
                     .unwrap()
                     .execution_receipt;
 
-            <span class="comment">// Receipt should be valid
+            <span class="comment">// Now `next_head_receipt` become the head receipt
+            </span><span class="macro">assert_eq!</span>(next_head_receipt, current_head_receipt);
+
+            <span class="comment">// Head receipt added in the current block is consider valid
             </span><span class="macro">assert_eq!</span>(
                 execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>current_head_receipt),
                 ReceiptType::Accepted(AcceptedReceiptType::CurrentHead)
@@ -1464,10 +2122,9 @@
                 <span class="kw-2">&amp;</span>current_head_receipt
             ));
 
-            <span class="comment">// Re-submit the receipt will add confirm to the head receipt
+            <span class="comment">// Re-submit the head receipt by a different operator is okay
             </span><span class="kw">let </span>bundle = create_dummy_bundle_with_receipts(
                 domain_id,
-                frame_system::Pallet::&lt;Test&gt;::current_block_number(),
                 operator_id2,
                 H256::random(),
                 current_head_receipt,
@@ -1476,50 +2133,50 @@
                 RawOrigin::None.into(),
                 bundle,
             ));
+
             <span class="kw">let </span>head_node = get_block_tree_node_at::&lt;Test&gt;(domain_id, head_receipt_number).unwrap();
             <span class="macro">assert_eq!</span>(head_node.operator_ids, <span class="macro">vec!</span>[operator_id1, operator_id2]);
         });
     }
 
     <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_stale_receipt() {
-        <span class="kw">let </span>creator = <span class="number">0u64</span>;
+    </span><span class="kw">fn </span>test_non_head_receipt() {
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
         <span class="kw">let </span>operator_id1 = <span class="number">1u64</span>;
         <span class="kw">let </span>operator_id2 = <span class="number">2u64</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext();
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
         ext.execute_with(|| {
             <span class="kw">let </span>domain_id = register_genesis_domain(creator, <span class="macro">vec!</span>[operator_id1, operator_id2]);
-            extend_block_tree(domain_id, operator_id1, <span class="number">3</span>);
+            extend_block_tree_from_zero(domain_id, operator_id1, <span class="number">3</span>);
 
-            <span class="comment">// Receipt that comfirm a non-head receipt is stale receipt
+            <span class="comment">// Receipt that confirm a non-head receipt is stale receipt
             </span><span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
             <span class="kw">let </span>stale_receipt = get_block_tree_node_at::&lt;Test&gt;(domain_id, head_receipt_number - <span class="number">1</span>)
                 .unwrap()
                 .execution_receipt;
-            <span class="kw">let </span>stale_receipt_hash = stale_receipt.hash();
+            <span class="kw">let </span>stale_receipt_hash = stale_receipt.hash::&lt;DomainHashingFor&lt;Test&gt;&gt;();
 
             <span class="comment">// Stale receipt can pass the verification
             </span><span class="macro">assert_eq!</span>(
                 execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>stale_receipt),
-                ReceiptType::Stale
+                ReceiptType::Rejected(RejectedReceiptType::Stale)
             );
-            <span class="macro">assert_ok!</span>(verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>stale_receipt));
+            <span class="macro">assert_err!</span>(
+                verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>stale_receipt),
+                Error::StaleReceipt
+            );
 
-            <span class="comment">// Stale receipt can be submitted but won&#39;t be added to the block tree
+            <span class="comment">// Stale receipt will be rejected and won't be added to the block tree
             </span><span class="kw">let </span>bundle = create_dummy_bundle_with_receipts(
                 domain_id,
-                frame_system::Pallet::&lt;Test&gt;::current_block_number(),
                 operator_id2,
                 H256::random(),
                 stale_receipt,
             );
-            <span class="macro">assert_ok!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::submit_bundle(
-                RawOrigin::None.into(),
-                bundle,
-            ));
+            <span class="macro">assert!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::submit_bundle(RawOrigin::None.into(), bundle).is_err());
 
             <span class="macro">assert_eq!</span>(
-                DomainBlocks::&lt;Test&gt;::get(stale_receipt_hash)
+                BlockTreeNodes::&lt;Test&gt;::get(stale_receipt_hash)
                     .unwrap()
                     .operator_ids,
                 <span class="macro">vec!</span>[operator_id1]
@@ -1528,20 +2185,58 @@
     }
 
     <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_new_branch_receipt() {
-        <span class="kw">let </span>creator = <span class="number">0u64</span>;
+    </span><span class="kw">fn </span>test_previous_head_receipt() {
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
         <span class="kw">let </span>operator_id1 = <span class="number">1u64</span>;
         <span class="kw">let </span>operator_id2 = <span class="number">2u64</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext();
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
         ext.execute_with(|| {
             <span class="kw">let </span>domain_id = register_genesis_domain(creator, <span class="macro">vec!</span>[operator_id1, operator_id2]);
-            extend_block_tree(domain_id, operator_id1, <span class="number">3</span>);
+            extend_block_tree_from_zero(domain_id, operator_id1, <span class="number">3</span>);
+
+            <span class="comment">// No new receipt submitted in current block
+            </span><span class="macro">assert!</span>(NewAddedHeadReceipt::&lt;Test&gt;::get(domain_id).is_none());
+
+            <span class="comment">// Receipt that confirm a head receipt of the previous block is stale receipt
+            </span><span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
+            <span class="kw">let </span>previous_head_receipt =
+                get_block_tree_node_at::&lt;Test&gt;(domain_id, head_receipt_number)
+                    .unwrap()
+                    .execution_receipt;
+
+            <span class="comment">// Stale receipt can not pass the verification
+            </span><span class="macro">assert_eq!</span>(
+                execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>previous_head_receipt),
+                ReceiptType::Rejected(RejectedReceiptType::Stale)
+            );
+            <span class="macro">assert_err!</span>(
+                verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>previous_head_receipt),
+                Error::StaleReceipt
+            );
+
+            <span class="comment">// Stale receipt will be rejected and won't be added to the block tree
+            </span><span class="kw">let </span>bundle = create_dummy_bundle_with_receipts(
+                domain_id,
+                operator_id2,
+                H256::random(),
+                previous_head_receipt,
+            );
+            <span class="macro">assert!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::submit_bundle(RawOrigin::None.into(), bundle).is_err());
+        });
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_new_branch_receipt() {
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
+        <span class="kw">let </span>operator_id1 = <span class="number">1u64</span>;
+        <span class="kw">let </span>operator_id2 = <span class="number">2u64</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
+        ext.execute_with(|| {
+            <span class="kw">let </span>domain_id = register_genesis_domain(creator, <span class="macro">vec!</span>[operator_id1, operator_id2]);
+            extend_block_tree_from_zero(domain_id, operator_id1, <span class="number">3</span>);
 
             <span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
-            <span class="macro">assert_eq!</span>(
-                BlockTree::&lt;Test&gt;::get(domain_id, head_receipt_number).len(),
-                <span class="number">1
-            </span>);
+            <span class="macro">assert!</span>(BlockTree::&lt;Test&gt;::get(domain_id, head_receipt_number).is_some());
 
             <span class="comment">// Construct new branch receipt that fork away from an existing node of
             // the block tree
@@ -1553,71 +2248,94 @@
                 head_receipt.final_state_root = H256::random();
                 head_receipt
             };
-            <span class="kw">let </span>new_branch_receipt_hash = new_branch_receipt.hash();
+            <span class="kw">let </span>new_branch_receipt_hash = new_branch_receipt.hash::&lt;DomainHashingFor&lt;Test&gt;&gt;();
 
             <span class="comment">// New branch receipt can pass the verification
             </span><span class="macro">assert_eq!</span>(
                 execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>new_branch_receipt),
-                ReceiptType::Accepted(AcceptedReceiptType::NewBranch)
+                ReceiptType::Rejected(RejectedReceiptType::NewBranch)
             );
-            <span class="macro">assert_ok!</span>(verify_execution_receipt::&lt;Test&gt;(
-                domain_id,
-                <span class="kw-2">&amp;</span>new_branch_receipt
-            ));
+            <span class="macro">assert_err!</span>(
+                verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>new_branch_receipt),
+                Error::NewBranchReceipt
+            );
 
-            <span class="comment">// Submit the new branch receipt will create fork in the block tree
+            <span class="comment">// Submit the new branch receipt will will be rejected
             </span><span class="kw">let </span>bundle = create_dummy_bundle_with_receipts(
                 domain_id,
-                frame_system::Pallet::&lt;Test&gt;::current_block_number(),
                 operator_id2,
                 H256::random(),
                 new_branch_receipt,
             );
-            <span class="macro">assert_ok!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::submit_bundle(
-                RawOrigin::None.into(),
-                bundle,
-            ));
-
-            <span class="kw">let </span>nodes = BlockTree::&lt;Test&gt;::get(domain_id, head_receipt_number);
-            <span class="macro">assert_eq!</span>(nodes.len(), <span class="number">2</span>);
-            <span class="kw">for </span>n <span class="kw">in </span>nodes.iter() {
-                <span class="kw">let </span>block = DomainBlocks::&lt;Test&gt;::get(n).unwrap();
-                <span class="kw">if </span><span class="kw-2">*</span>n == new_branch_receipt_hash {
-                    <span class="macro">assert_eq!</span>(block.operator_ids, <span class="macro">vec!</span>[operator_id2]);
-                } <span class="kw">else </span>{
-                    <span class="macro">assert_eq!</span>(block.operator_ids, <span class="macro">vec!</span>[operator_id1]);
-                }
-            }
+            <span class="macro">assert!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::submit_bundle(RawOrigin::None.into(), bundle).is_err());
+            <span class="macro">assert!</span>(BlockTreeNodes::&lt;Test&gt;::get(new_branch_receipt_hash).is_none());
         });
     }
 
     <span class="attr">#[test]
-    </span><span class="kw">fn </span>test_invalid_receipt() {
-        <span class="kw">let </span>creator = <span class="number">0u64</span>;
+    </span><span class="kw">fn </span>test_prune_domain_execution_receipt() {
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
         <span class="kw">let </span>operator_id = <span class="number">1u64</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext();
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
         ext.execute_with(|| {
             <span class="kw">let </span>domain_id = register_genesis_domain(creator, <span class="macro">vec!</span>[operator_id]);
-            extend_block_tree(domain_id, operator_id, <span class="number">3</span>);
-
+            <span class="kw">let </span>_next_receipt = extend_block_tree_from_zero(domain_id, operator_id, <span class="number">3</span>);
             <span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
-            <span class="kw">let </span>current_head_receipt =
-                get_block_tree_node_at::&lt;Test&gt;(domain_id, head_receipt_number)
-                    .unwrap()
-                    .execution_receipt;
 
-            <span class="comment">// In future receipt will result in `UnknownParentBlockReceipt` error as its parent
-            // receipt is missing from the block tree
-            </span><span class="kw">let </span><span class="kw-2">mut </span>future_receipt = current_head_receipt.clone();
+            <span class="comment">// freeze domain
+            </span><span class="macro">assert!</span>(!FrozenDomains::&lt;Test&gt;::get().contains(<span class="kw-2">&amp;</span>domain_id));
+            Domains::freeze_domain(Origin::&lt;Test&gt;::Root.into(), domain_id).unwrap();
+            <span class="macro">assert!</span>(FrozenDomains::&lt;Test&gt;::get().contains(<span class="kw-2">&amp;</span>domain_id));
+
+            <span class="comment">// prune execution recept
+            </span><span class="kw">let </span>head_receipt_hash = BlockTree::&lt;Test&gt;::get(domain_id, head_receipt_number).unwrap();
+            Domains::prune_domain_execution_receipt(
+                Origin::&lt;Test&gt;::Root.into(),
+                domain_id,
+                head_receipt_hash,
+            )
+            .unwrap();
+            <span class="macro">assert_eq!</span>(
+                HeadReceiptNumber::&lt;Test&gt;::get(domain_id),
+                head_receipt_number - <span class="number">1
+            </span>);
+
+            <span class="comment">// unfreeze domain
+            </span>Domains::unfreeze_domain(Origin::&lt;Test&gt;::Root.into(), domain_id).unwrap();
+            <span class="macro">assert!</span>(!FrozenDomains::&lt;Test&gt;::get().contains(<span class="kw-2">&amp;</span>domain_id));
+        })
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_invalid_receipt() {
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
+        <span class="kw">let </span>operator_id = <span class="number">1u64</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
+        ext.execute_with(|| {
+            <span class="kw">let </span>domain_id = register_genesis_domain(creator, <span class="macro">vec!</span>[operator_id]);
+            <span class="kw">let </span>next_receipt = extend_block_tree_from_zero(domain_id, operator_id, <span class="number">3</span>);
+            <span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
+
+            <span class="comment">// Construct a future receipt
+            </span><span class="kw">let </span><span class="kw-2">mut </span>future_receipt = next_receipt.clone();
             future_receipt.domain_block_number = head_receipt_number + <span class="number">2</span>;
-            future_receipt.consensus_block_number = head_receipt_number + <span class="number">2</span>;
+            future_receipt.consensus_block_number = head_receipt_number <span class="kw">as </span>u64 + <span class="number">2</span>;
             ExecutionInbox::&lt;Test&gt;::insert(
                 (
                     domain_id,
                     future_receipt.domain_block_number,
                     future_receipt.consensus_block_number,
                 ),
-                future_receipt.block_extrinsics_roots.clone(),
+                future_receipt
+                    .inboxed_bundles
+                    .clone()
+                    .into_iter()
+                    .map(|b| BundleDigest {
+                        header_hash: H256::random(),
+                        extrinsics_root: b.extrinsics_root,
+                        size: <span class="number">0</span>,
+                    })
+                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;(),
             );
             <span class="macro">assert_eq!</span>(
                 execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>future_receipt),
@@ -1625,19 +2343,20 @@
             );
             <span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>future_receipt),
-                Error::UnknownParentBlockReceipt
+                Error::InFutureReceipt
             );
 
             <span class="comment">// Receipt with unknown extrinsics roots
-            </span><span class="kw">let </span><span class="kw-2">mut </span>unknown_extrinsics_roots_receipt = current_head_receipt.clone();
-            unknown_extrinsics_roots_receipt.block_extrinsics_roots = <span class="macro">vec!</span>[H256::random()];
+            </span><span class="kw">let </span><span class="kw-2">mut </span>unknown_extrinsics_roots_receipt = next_receipt.clone();
+            unknown_extrinsics_roots_receipt.inboxed_bundles =
+                <span class="macro">vec!</span>[InboxedBundle::valid(H256::random(), H256::random())];
             <span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>unknown_extrinsics_roots_receipt),
                 Error::InvalidExtrinsicsRoots
             );
 
             <span class="comment">// Receipt with unknown consensus block hash
-            </span><span class="kw">let </span><span class="kw-2">mut </span>unknown_consensus_block_receipt = current_head_receipt.clone();
+            </span><span class="kw">let </span><span class="kw-2">mut </span>unknown_consensus_block_receipt = next_receipt.clone();
             unknown_consensus_block_receipt.consensus_block_hash = H256::random();
             <span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>unknown_consensus_block_receipt),
@@ -1645,35 +2364,113 @@
             );
 
             <span class="comment">// Receipt with unknown parent receipt
-            </span><span class="kw">let </span><span class="kw-2">mut </span>unknown_parent_receipt = current_head_receipt;
+            </span><span class="kw">let </span><span class="kw-2">mut </span>unknown_parent_receipt = next_receipt.clone();
             unknown_parent_receipt.parent_domain_block_receipt_hash = H256::random();
             <span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>unknown_parent_receipt),
                 Error::UnknownParentBlockReceipt
+            );
+
+            <span class="comment">// Receipt with execution_trace length less than two
+            </span><span class="kw">let </span><span class="kw-2">mut </span>invalid_execution_trace_receipt = next_receipt;
+
+            <span class="comment">// Receipt with only one element in execution trace vector
+            </span>invalid_execution_trace_receipt.execution_trace = <span class="macro">vec!</span>[invalid_execution_trace_receipt
+                .execution_trace
+                .first()
+                .cloned()
+                .expect(<span class="string">"First element should be there; qed"</span>)];
+            <span class="macro">assert_err!</span>(
+                verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>invalid_execution_trace_receipt),
+                Error::InvalidExecutionTrace
+            );
+
+            <span class="comment">// Receipt with zero element in execution trace vector
+            </span>invalid_execution_trace_receipt.execution_trace = <span class="macro">vec!</span>[];
+            <span class="macro">assert_err!</span>(
+                verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>invalid_execution_trace_receipt),
+                Error::InvalidExecutionTrace
+            );
+        });
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_invalid_receipt_with_head_receipt_already_extended() {
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
+        <span class="kw">let </span>operator_id = <span class="number">1u64</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
+        ext.execute_with(|| {
+            <span class="kw">let </span>domain_id = register_genesis_domain(creator, <span class="macro">vec!</span>[operator_id]);
+            <span class="kw">let </span>next_receipt = extend_block_tree_from_zero(domain_id, operator_id, <span class="number">3</span>);
+            <span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
+
+            <span class="comment">// reject extending receipt if the HeadReceiptNumber is already extended
+            </span><span class="macro">assert!</span>(NewAddedHeadReceipt::&lt;Test&gt;::get(domain_id).is_none());
+            NewAddedHeadReceipt::&lt;Test&gt;::set(domain_id, <span class="prelude-val">Some</span>(H256::random()));
+
+            <span class="comment">// Construct a future receipt
+            </span><span class="kw">let </span><span class="kw-2">mut </span>future_receipt = next_receipt.clone();
+            future_receipt.domain_block_number = head_receipt_number + <span class="number">1</span>;
+            future_receipt.consensus_block_number = head_receipt_number <span class="kw">as </span>u64 + <span class="number">1</span>;
+
+            ExecutionInbox::&lt;Test&gt;::insert(
+                (
+                    domain_id,
+                    future_receipt.domain_block_number,
+                    future_receipt.consensus_block_number,
+                ),
+                future_receipt
+                    .inboxed_bundles
+                    .clone()
+                    .into_iter()
+                    .map(|b| BundleDigest {
+                        header_hash: H256::random(),
+                        extrinsics_root: b.extrinsics_root,
+                        size: <span class="number">0</span>,
+                    })
+                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;(),
+            );
+            <span class="macro">assert_eq!</span>(
+                execution_receipt_type::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>future_receipt),
+                ReceiptType::Rejected(RejectedReceiptType::InFuture)
+            );
+            <span class="macro">assert_err!</span>(
+                verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>future_receipt),
+                Error::InFutureReceipt
             );
         });
     }
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>test_invalid_trace_root_receipt() {
-        <span class="kw">let </span>creator = <span class="number">0u64</span>;
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
         <span class="kw">let </span>operator_id1 = <span class="number">1u64</span>;
         <span class="kw">let </span>operator_id2 = <span class="number">2u64</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext();
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
         ext.execute_with(|| {
             <span class="kw">let </span>domain_id = register_genesis_domain(creator, <span class="macro">vec!</span>[operator_id1, operator_id2]);
-            extend_block_tree(domain_id, operator_id1, <span class="number">3</span>);
+            <span class="kw">let </span><span class="kw-2">mut </span>next_receipt = extend_block_tree_from_zero(domain_id, operator_id1, <span class="number">3</span>);
+            next_receipt.execution_trace.push(H256::random());
+            next_receipt.final_state_root = <span class="kw-2">*</span>next_receipt.execution_trace.last().unwrap();
 
-            <span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
-
-            <span class="comment">// Get the head receipt
-            </span><span class="kw">let </span>current_head_receipt =
-                get_block_tree_node_at::&lt;Test&gt;(domain_id, head_receipt_number)
-                    .unwrap()
-                    .execution_receipt;
+            <span class="kw">let </span><span class="kw-2">mut </span>trace = Vec::with_capacity(next_receipt.execution_trace.len());
+            <span class="kw">for </span>root <span class="kw">in </span><span class="kw-2">&amp;</span>next_receipt.execution_trace {
+                trace.push(
+                    root.encode()
+                        .try_into()
+                        .map_err(|<span class="kw">_</span>| Error::InvalidTraceRoot)
+                        .expect(<span class="string">"H256 to Blake3Hash should be successful; qed"</span>),
+                );
+            }
+            <span class="kw">let </span>new_execution_trace_root = MerkleTree::from_leaves(trace.as_slice())
+                .root()
+                .expect(<span class="string">"Compute merkle root of trace should success"</span>)
+                .into();
+            next_receipt.execution_trace_root = new_execution_trace_root;
+            <span class="macro">assert_ok!</span>(verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>next_receipt));
 
             <span class="comment">// Receipt with wrong value of `execution_trace_root`
-            </span><span class="kw">let </span><span class="kw-2">mut </span>invalid_receipt = current_head_receipt.clone();
+            </span><span class="kw">let </span><span class="kw-2">mut </span>invalid_receipt = next_receipt.clone();
             invalid_receipt.execution_trace_root = H256::random();
             <span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>invalid_receipt),
@@ -1681,15 +2478,15 @@
             );
 
             <span class="comment">// Receipt with wrong value of trace
-            </span><span class="kw">let </span><span class="kw-2">mut </span>invalid_receipt = current_head_receipt.clone();
+            </span><span class="kw">let </span><span class="kw-2">mut </span>invalid_receipt = next_receipt.clone();
             invalid_receipt.execution_trace[<span class="number">0</span>] = H256::random();
             <span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>invalid_receipt),
                 Error::InvalidTraceRoot
             );
 
-            <span class="comment">// Receipt with addtional trace
-            </span><span class="kw">let </span><span class="kw-2">mut </span>invalid_receipt = current_head_receipt.clone();
+            <span class="comment">// Receipt with additional trace
+            </span><span class="kw">let </span><span class="kw-2">mut </span>invalid_receipt = next_receipt.clone();
             invalid_receipt.execution_trace.push(H256::random());
             <span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>invalid_receipt),
@@ -1697,11 +2494,102 @@
             );
 
             <span class="comment">// Receipt with missing trace
-            </span><span class="kw">let </span><span class="kw-2">mut </span>invalid_receipt = current_head_receipt;
+            </span><span class="kw">let </span><span class="kw-2">mut </span>invalid_receipt = next_receipt;
             invalid_receipt.execution_trace.pop();
             <span class="macro">assert_err!</span>(
                 verify_execution_receipt::&lt;Test&gt;(domain_id, <span class="kw-2">&amp;</span>invalid_receipt),
                 Error::InvalidTraceRoot
+            );
+        });
+    }
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_collect_invalid_bundle_author() {
+        <span class="kw">let </span>creator = <span class="number">0u128</span>;
+        <span class="kw">let </span>challenge_period = BlockTreePruningDepth::get() <span class="kw">as </span>u64;
+        <span class="kw">let </span>operator_set: Vec&lt;<span class="kw">_</span>&gt; = (<span class="number">1</span>..<span class="number">15</span>).collect();
+        <span class="kw">let </span><span class="kw-2">mut </span>ext = new_test_ext_with_extensions();
+        ext.execute_with(|| {
+            <span class="kw">let </span>domain_id = register_genesis_domain(creator, operator_set.clone());
+            <span class="kw">let </span>next_receipt = extend_block_tree_from_zero(domain_id, operator_set[<span class="number">0</span>], <span class="number">3</span>);
+
+            <span class="comment">// Submit bundle for every operator
+            </span><span class="kw">for </span>operator_id <span class="kw">in </span>operator_set.iter() {
+                <span class="kw">let </span>bundle = create_dummy_bundle_with_receipts(
+                    domain_id,
+                    <span class="kw-2">*</span>operator_id,
+                    H256::random(),
+                    next_receipt.clone(),
+                );
+                <span class="macro">assert_ok!</span>(<span class="kw">crate</span>::Pallet::&lt;Test&gt;::submit_bundle(
+                    RawOrigin::None.into(),
+                    bundle,
+                ));
+            }
+            <span class="kw">let </span>head_receipt_number = HeadReceiptNumber::&lt;Test&gt;::get(domain_id);
+            <span class="kw">let </span>head_node = get_block_tree_node_at::&lt;Test&gt;(domain_id, head_receipt_number).unwrap();
+            <span class="macro">assert_eq!</span>(head_node.operator_ids, operator_set);
+
+            <span class="comment">// Get the `bundles_extrinsics_roots` that contains all the submitted bundles
+            </span><span class="kw">let </span>current_block_number = frame_system::Pallet::&lt;Test&gt;::current_block_number();
+            <span class="kw">let </span>execution_inbox = ExecutionInbox::&lt;Test&gt;::get((
+                domain_id,
+                current_block_number <span class="kw">as </span>u32,
+                current_block_number,
+            ));
+            <span class="kw">let </span>bundles_extrinsics_roots: Vec&lt;<span class="kw">_</span>&gt; = execution_inbox
+                .into_iter()
+                .map(|b| b.extrinsics_root)
+                .collect();
+            <span class="macro">assert_eq!</span>(bundles_extrinsics_roots.len(), operator_set.len());
+
+            <span class="comment">// Prepare the invalid bundles and invalid bundle authors
+            </span><span class="kw">let </span><span class="kw-2">mut </span>bundles = <span class="macro">vec!</span>[];
+            <span class="kw">let </span><span class="kw-2">mut </span>invalid_bundle_authors = <span class="macro">vec!</span>[];
+            <span class="kw">for </span>(i, (operator, extrinsics_root)) <span class="kw">in </span>operator_set
+                .iter()
+                .zip(bundles_extrinsics_roots)
+                .enumerate()
+            {
+                <span class="kw">if </span>i % <span class="number">2 </span>== <span class="number">0 </span>{
+                    invalid_bundle_authors.push(<span class="kw-2">*</span>operator);
+                    bundles.push(InboxedBundle::invalid(
+                        InvalidBundleType::OutOfRangeTx(<span class="number">0</span>),
+                        extrinsics_root,
+                    ));
+                } <span class="kw">else </span>{
+                    bundles.push(InboxedBundle::valid(H256::random(), extrinsics_root));
+                }
+            }
+            <span class="kw">let </span><span class="kw-2">mut </span>target_receipt = create_dummy_receipt(
+                current_block_number,
+                H256::random(),
+                next_receipt.hash::&lt;DomainHashingFor&lt;Test&gt;&gt;(),
+                <span class="macro">vec!</span>[],
+            );
+            target_receipt.inboxed_bundles = bundles;
+
+            <span class="comment">// Extend the block tree by `challenge_period + 1` blocks
+            </span><span class="kw">let </span>next_receipt = extend_block_tree(
+                domain_id,
+                operator_set[<span class="number">0</span>],
+                (current_block_number + challenge_period) <span class="kw">as </span>u32 + <span class="number">1</span>,
+                target_receipt,
+            );
+            <span class="comment">// Confirm `target_receipt`
+            </span><span class="kw">let </span>confirmed_domain_block = process_execution_receipt::&lt;Test&gt;(
+                domain_id,
+                operator_set[<span class="number">0</span>],
+                next_receipt,
+                AcceptedReceiptType::NewHead,
+            )
+            .unwrap()
+            .unwrap();
+
+            <span class="comment">// Invalid bundle authors should be collected correctly
+            </span><span class="macro">assert_eq!</span>(
+                confirmed_domain_block.invalid_bundle_authors,
+                invalid_bundle_authors
             );
         });
     }

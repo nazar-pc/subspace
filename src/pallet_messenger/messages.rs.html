@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/pallets/messenger/src/messages.rs`."><title>messages.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_messenger" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../pallet_messenger/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `domains/pallets/messenger/src/messages.rs`."><title>messages.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="pallet_messenger" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -350,35 +350,168 @@
 <a href="#350" id="350">350</a>
 <a href="#351" id="351">351</a>
 <a href="#352" id="352">352</a>
-</pre></div><pre class="rust"><code><span class="kw">use crate</span>::{
-    BalanceOf, ChannelId, Channels, Config, Error, Event, FeeModel, InboxResponses, Nonce, Outbox,
-    OutboxMessageResult, Pallet, RelayerMessages,
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+</pre></div><pre class="rust"><code><span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">extern crate </span>alloc;
+
+<span class="kw">use </span><span class="kw">crate</span>::pallet::{ChainAllowlist, UpdatedChannels};
+<span class="kw">use crate</span>::{
+    BalanceOf, ChannelId, ChannelState, Channels, CloseChannelBy, Config, Error, Event,
+    InboxResponses, MessageWeightTags <span class="kw">as </span>MessageWeightTagStore, Nonce, Outbox, OutboxMessageResult,
+    Pallet,
 };
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::boxed::Box;
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::collections::BTreeMap;
+<span class="kw">use </span>codec::{Decode, Encode};
 <span class="kw">use </span>frame_support::ensure;
-<span class="kw">use </span>sp_domains::DomainId;
+<span class="kw">use </span>scale_info::TypeInfo;
+<span class="kw">use </span>sp_messenger::endpoint::{EndpointHandler, EndpointRequest, EndpointResponse};
 <span class="kw">use </span>sp_messenger::messages::{
-    Message, MessageWeightTag, Payload, ProtocolMessageRequest, ProtocolMessageResponse,
-    RequestResponse, VersionedPayload,
+    BlockMessageWithStorageKey, BlockMessagesWithStorageKey, ChainId, FeeModel, Message, MessageId,
+    MessageWeightTag, Payload, ProtocolMessageRequest, ProtocolMessageResponse, RequestResponse,
+    VersionedPayload,
 };
 <span class="kw">use </span>sp_runtime::traits::Get;
 <span class="kw">use </span>sp_runtime::{ArithmeticError, DispatchError, DispatchResult};
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">use </span>std::collections::BTreeMap;
+
+<span class="doccomment">/// Weight tags for given outbox and inbox responses
+</span><span class="attr">#[derive(Default, Debug, Encode, Decode, Clone, Eq, PartialEq, TypeInfo)]
+</span><span class="kw">pub struct </span>MessageWeightTags {
+    <span class="kw">pub </span>outbox: BTreeMap&lt;(ChainId, MessageId), MessageWeightTag&gt;,
+    <span class="kw">pub </span>inbox_responses: BTreeMap&lt;(ChainId, MessageId), MessageWeightTag&gt;,
+}
 
 <span class="kw">impl</span>&lt;T: Config&gt; Pallet&lt;T&gt; {
-    <span class="doccomment">/// Takes a new message destined for dst_domain and adds the message to the outbox.
+    <span class="doccomment">/// Takes a new message destined for dst_chain and adds the message to the outbox.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_outbox_message(
-        src_domain_id: DomainId,
-        dst_domain_id: DomainId,
+        src_chain_id: ChainId,
+        dst_chain_id: ChainId,
         channel_id: ChannelId,
         payload: VersionedPayload&lt;BalanceOf&lt;T&gt;&gt;,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;Nonce, DispatchError&gt; {
         <span class="comment">// ensure message is not meant to self.
         </span><span class="macro">ensure!</span>(
-            src_domain_id != dst_domain_id,
+            src_chain_id != dst_chain_id,
             Error::&lt;T&gt;::InvalidMessageDestination
         );
 
         Channels::&lt;T&gt;::try_mutate(
-            dst_domain_id,
+            dst_chain_id,
             channel_id,
             |maybe_channel| -&gt; <span class="prelude-ty">Result</span>&lt;Nonce, DispatchError&gt; {
                 <span class="kw">let </span>channel = maybe_channel.as_mut().ok_or(Error::&lt;T&gt;::MissingChannel)<span class="question-mark">?</span>;
@@ -394,81 +527,53 @@
                 <span class="kw">let </span>next_outbox_nonce = channel.next_outbox_nonce;
                 <span class="comment">// add message to outbox
                 </span><span class="kw">let </span>msg = Message {
-                    src_domain_id,
-                    dst_domain_id,
+                    src_chain_id,
+                    dst_chain_id,
                     channel_id,
                     nonce: next_outbox_nonce,
                     payload,
                     last_delivered_message_response_nonce: channel
                         .latest_response_received_message_nonce,
                 };
-                Outbox::&lt;T&gt;::insert((dst_domain_id, channel_id, next_outbox_nonce), msg);
+                Outbox::&lt;T&gt;::insert((dst_chain_id, channel_id, next_outbox_nonce), msg);
 
                 <span class="comment">// update channel state
                 </span>channel.next_outbox_nonce = next_outbox_nonce
                     .checked_add(Nonce::one())
                     .ok_or(DispatchError::Arithmetic(ArithmeticError::Overflow))<span class="question-mark">?</span>;
 
-                <span class="comment">// get next relayer
-                </span><span class="kw">let </span>relayer_id = <span class="self">Self</span>::next_relayer()<span class="question-mark">?</span>;
-                RelayerMessages::&lt;T&gt;::mutate(relayer_id.clone(), |maybe_messages| {
+                MessageWeightTagStore::&lt;T&gt;::mutate(|maybe_messages| {
                     <span class="kw">let </span><span class="kw-2">mut </span>messages = maybe_messages.as_mut().cloned().unwrap_or_default();
-                    messages.outbox.push((
-                        dst_domain_id,
-                        (channel_id, next_outbox_nonce),
-                        weight_tag,
-                    ));
+                    messages
+                        .outbox
+                        .insert((dst_chain_id, (channel_id, next_outbox_nonce)), weight_tag);
                     <span class="kw-2">*</span>maybe_messages = <span class="prelude-val">Some</span>(messages)
                 });
 
                 <span class="comment">// emit event to notify relayer
                 </span><span class="self">Self</span>::deposit_event(Event::OutboxMessage {
-                    domain_id: dst_domain_id,
+                    chain_id: dst_chain_id,
                     channel_id,
                     nonce: next_outbox_nonce,
-                    relayer_id,
                 });
                 <span class="prelude-val">Ok</span>(next_outbox_nonce)
             },
         )
     }
 
-    <span class="doccomment">/// Removes messages responses from Inbox responses as the src_domain signalled that responses are delivered.
-    /// all the messages with nonce &lt;= latest_confirmed_nonce are deleted.
-    </span><span class="kw">fn </span>distribute_rewards_for_delivered_message_responses(
-        dst_domain_id: DomainId,
-        channel_id: ChannelId,
-        latest_confirmed_nonce: <span class="prelude-ty">Option</span>&lt;Nonce&gt;,
-        fee_model: <span class="kw-2">&amp;</span>FeeModel&lt;BalanceOf&lt;T&gt;&gt;,
-    ) -&gt; DispatchResult {
-        <span class="kw">let </span><span class="kw-2">mut </span>current_nonce = latest_confirmed_nonce;
-
-        <span class="kw">while let </span><span class="prelude-val">Some</span>(nonce) = current_nonce {
-            <span class="comment">// for every inbox response we take, distribute the reward to the relayers.
-            </span><span class="kw">if </span>InboxResponses::&lt;T&gt;::take((dst_domain_id, channel_id, nonce)).is_none() {
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(());
-            }
-
-            <span class="self">Self</span>::distribute_reward_to_relayers(fee_model.inbox_fee.relayer_pool_fee)<span class="question-mark">?</span>;
-            current_nonce = nonce.checked_sub(Nonce::one())
-        }
-
-        <span class="prelude-val">Ok</span>(())
-    }
-
-    <span class="doccomment">/// Process the incoming messages from given domain_id and channel_id.
+    <span class="doccomment">/// Process the incoming messages from given chain_id and channel_id.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>process_inbox_messages(
         msg: Message&lt;BalanceOf&lt;T&gt;&gt;,
         msg_weight_tag: MessageWeightTag,
     ) -&gt; DispatchResult {
-        <span class="kw">let </span>(dst_domain_id, channel_id, nonce) = (msg.src_domain_id, msg.channel_id, msg.nonce);
+        <span class="kw">let </span>(dst_chain_id, channel_id, nonce) = (msg.src_chain_id, msg.channel_id, msg.nonce);
         <span class="kw">let </span>channel =
-            Channels::&lt;T&gt;::get(dst_domain_id, channel_id).ok_or(Error::&lt;T&gt;::MissingChannel)<span class="question-mark">?</span>;
+            Channels::&lt;T&gt;::get(dst_chain_id, channel_id).ok_or(Error::&lt;T&gt;::MissingChannel)<span class="question-mark">?</span>;
 
         <span class="macro">assert_eq!</span>(
             nonce,
             channel.next_inbox_nonce,
-            <span class="string">&quot;The message nonce and the channel next inbox nonce must be the same as checked in pre_dispatch; qed&quot;
+            <span class="string">"The message nonce and the channel next inbox nonce must be the same as checked in pre_dispatch; qed"
         </span>);
 
         <span class="kw">let </span>response = <span class="kw">match </span>msg.payload {
@@ -476,7 +581,7 @@
             </span>VersionedPayload::V0(Payload::Protocol(RequestResponse::Request(req))) =&gt; {
                 Payload::Protocol(RequestResponse::Response(
                     <span class="self">Self</span>::process_incoming_protocol_message_req(
-                        dst_domain_id,
+                        dst_chain_id,
                         channel_id,
                         req,
                         <span class="kw-2">&amp;</span>msg_weight_tag,
@@ -486,17 +591,20 @@
 
             <span class="comment">// process incoming endpoint message.
             </span>VersionedPayload::V0(Payload::Endpoint(RequestResponse::Request(req))) =&gt; {
-                <span class="kw">let </span>response = <span class="kw">if let </span><span class="prelude-val">Some</span>(endpoint_handler) =
-                    T::get_endpoint_response_handler(<span class="kw-2">&amp;</span>req.dst_endpoint)
-                {
-                    <span class="kw">if </span>msg_weight_tag != MessageWeightTag::EndpointRequest(req.dst_endpoint.clone())
-                    {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::WeightTagNotMatch.into());
-                    }
-                    endpoint_handler.message(dst_domain_id, (channel_id, nonce), req)
-                } <span class="kw">else </span>{
-                    <span class="prelude-val">Err</span>(Error::&lt;T&gt;::NoMessageHandler.into())
-                };
+                <span class="kw">let </span>response =
+                    <span class="kw">if let </span><span class="prelude-val">Some</span>(endpoint_handler) = T::get_endpoint_handler(<span class="kw-2">&amp;</span>req.dst_endpoint) {
+                        <span class="self">Self</span>::process_incoming_endpoint_message_req(
+                            dst_chain_id,
+                            req,
+                            channel_id,
+                            nonce,
+                            <span class="kw-2">&amp;</span>msg_weight_tag,
+                            <span class="kw-2">&amp;</span>channel.fee,
+                            endpoint_handler,
+                        )
+                    } <span class="kw">else </span>{
+                        <span class="prelude-val">Err</span>(Error::&lt;T&gt;::NoMessageHandler.into())
+                    };
 
                 Payload::Endpoint(RequestResponse::Response(response))
             }
@@ -516,10 +624,10 @@
         <span class="kw">let </span>weight_tag = MessageWeightTag::inbox_response(msg_weight_tag, <span class="kw-2">&amp;</span>resp_payload);
 
         InboxResponses::&lt;T&gt;::insert(
-            (dst_domain_id, channel_id, nonce),
+            (dst_chain_id, channel_id, nonce),
             Message {
-                src_domain_id: T::SelfDomainId::get(),
-                dst_domain_id,
+                src_chain_id: T::SelfChainId::get(),
+                dst_chain_id,
                 channel_id,
                 nonce,
                 payload: resp_payload,
@@ -528,18 +636,16 @@
             },
         );
 
-        <span class="comment">// get the next relayer
-        </span><span class="kw">let </span>relayer_id = <span class="self">Self</span>::next_relayer()<span class="question-mark">?</span>;
-        RelayerMessages::&lt;T&gt;::mutate(relayer_id.clone(), |maybe_messages| {
+        MessageWeightTagStore::&lt;T&gt;::mutate(|maybe_messages| {
             <span class="kw">let </span><span class="kw-2">mut </span>messages = maybe_messages.as_mut().cloned().unwrap_or_default();
             messages
                 .inbox_responses
-                .push((dst_domain_id, (channel_id, nonce), weight_tag));
+                .insert((dst_chain_id, (channel_id, nonce)), weight_tag);
             <span class="kw-2">*</span>maybe_messages = <span class="prelude-val">Some</span>(messages)
         });
 
         Channels::&lt;T&gt;::mutate(
-            dst_domain_id,
+            dst_chain_id,
             channel_id,
             |maybe_channel| -&gt; DispatchResult {
                 <span class="kw">let </span>channel = maybe_channel.as_mut().ok_or(Error::&lt;T&gt;::MissingChannel)<span class="question-mark">?</span>;
@@ -550,62 +656,104 @@
             },
         )<span class="question-mark">?</span>;
 
-        <span class="comment">// reward relayers for relaying message responses to src_domain.
+        UpdatedChannels::&lt;T&gt;::mutate(|updated_channels| {
+            updated_channels.insert((dst_chain_id, channel_id))
+        });
+
+        <span class="comment">// reward relayers for relaying message responses to src_chain.
         // clean any delivered inbox responses
-        </span><span class="self">Self</span>::distribute_rewards_for_delivered_message_responses(
-            dst_domain_id,
+        </span><span class="self">Self</span>::reward_operators_for_inbox_execution(
+            dst_chain_id,
             channel_id,
             msg.last_delivered_message_response_nonce,
-            <span class="kw-2">&amp;</span>channel.fee,
         )<span class="question-mark">?</span>;
 
         <span class="self">Self</span>::deposit_event(Event::InboxMessageResponse {
-            domain_id: dst_domain_id,
+            chain_id: dst_chain_id,
             channel_id,
             nonce,
-            relayer_id,
         });
 
         <span class="prelude-val">Ok</span>(())
     }
 
+    <span class="kw">fn </span>process_incoming_endpoint_message_req(
+        dst_chain_id: ChainId,
+        req: EndpointRequest,
+        channel_id: ChannelId,
+        nonce: Nonce,
+        msg_weight_tag: <span class="kw-2">&amp;</span>MessageWeightTag,
+        fee: <span class="kw-2">&amp;</span>FeeModel&lt;BalanceOf&lt;T&gt;&gt;,
+        endpoint_handler: Box&lt;<span class="kw">dyn </span>sp_messenger::endpoint::EndpointHandler&lt;MessageId&gt;&gt;,
+    ) -&gt; EndpointResponse {
+        <span class="kw">if </span>!ChainAllowlist::&lt;T&gt;::get().contains(<span class="kw-2">&amp;</span>dst_chain_id) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::ChainNotAllowed.into());
+        }
+
+        <span class="kw">if </span>msg_weight_tag != <span class="kw-2">&amp;</span>MessageWeightTag::EndpointRequest(req.dst_endpoint.clone()) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::WeightTagNotMatch.into());
+        }
+
+        <span class="kw">let </span>channel =
+            Channels::&lt;T&gt;::get(dst_chain_id, channel_id).ok_or(Error::&lt;T&gt;::MissingChannel)<span class="question-mark">?</span>;
+        <span class="kw">if </span>channel.state != ChannelState::Open {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::InvalidChannelState.into());
+        }
+
+        <span class="comment">// store fees for inbox message execution
+        </span><span class="self">Self</span>::store_fees_for_inbox_message(
+            (dst_chain_id, (channel_id, nonce)),
+            fee,
+            <span class="kw-2">&amp;</span>req.src_endpoint,
+        )<span class="question-mark">?</span>;
+
+        endpoint_handler.message(dst_chain_id, (channel_id, nonce), req)
+    }
+
     <span class="kw">fn </span>process_incoming_protocol_message_req(
-        domain_id: DomainId,
+        chain_id: ChainId,
         channel_id: ChannelId,
         req: ProtocolMessageRequest&lt;BalanceOf&lt;T&gt;&gt;,
         weight_tag: <span class="kw-2">&amp;</span>MessageWeightTag,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), DispatchError&gt; {
+        <span class="kw">let </span>is_chain_allowed = ChainAllowlist::&lt;T&gt;::get().contains(<span class="kw-2">&amp;</span>chain_id);
         <span class="kw">match </span>req {
             ProtocolMessageRequest::ChannelOpen(<span class="kw">_</span>) =&gt; {
+                <span class="kw">if </span>!is_chain_allowed {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::ChainNotAllowed.into());
+                }
+
                 <span class="kw">if </span>weight_tag != <span class="kw-2">&amp;</span>MessageWeightTag::ProtocolChannelOpen {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::WeightTagNotMatch.into());
                 }
-                <span class="self">Self</span>::do_open_channel(domain_id, channel_id)
+                <span class="self">Self</span>::do_open_channel(chain_id, channel_id)
             }
             ProtocolMessageRequest::ChannelClose =&gt; {
                 <span class="kw">if </span>weight_tag != <span class="kw-2">&amp;</span>MessageWeightTag::ProtocolChannelClose {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::WeightTagNotMatch.into());
                 }
-                <span class="self">Self</span>::do_close_channel(domain_id, channel_id)
+                <span class="comment">// closing of this channel is coming from the other chain
+                // so safe to close it as Sudo here
+                </span><span class="self">Self</span>::do_close_channel(chain_id, channel_id, CloseChannelBy::Sudo)
             }
         }
     }
 
     <span class="kw">fn </span>process_incoming_protocol_message_response(
-        domain_id: DomainId,
+        chain_id: ChainId,
         channel_id: ChannelId,
         req: ProtocolMessageRequest&lt;BalanceOf&lt;T&gt;&gt;,
         resp: ProtocolMessageResponse,
         weight_tag: <span class="kw-2">&amp;</span>MessageWeightTag,
     ) -&gt; DispatchResult {
         <span class="kw">match </span>(req, resp) {
-            <span class="comment">// channel open request is accepted by dst_domain.
+            <span class="comment">// channel open request is accepted by dst_chain.
             // open channel on our end.
             </span>(ProtocolMessageRequest::ChannelOpen(<span class="kw">_</span>), <span class="prelude-val">Ok</span>(<span class="kw">_</span>)) =&gt; {
                 <span class="kw">if </span>weight_tag != <span class="kw-2">&amp;</span>MessageWeightTag::ProtocolChannelOpen {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::WeightTagNotMatch.into());
                 }
-                <span class="self">Self</span>::do_open_channel(domain_id, channel_id)
+                <span class="self">Self</span>::do_open_channel(chain_id, channel_id)
             }
 
             <span class="comment">// for rest of the branches we dont care about the outcome and return Ok
@@ -615,26 +763,53 @@
         }
     }
 
+    <span class="kw">fn </span>process_incoming_endpoint_message_response(
+        dst_chain_id: ChainId,
+        channel_id: ChannelId,
+        nonce: Nonce,
+        resp_msg_weight_tag: <span class="kw-2">&amp;</span>MessageWeightTag,
+        req: EndpointRequest,
+        resp: EndpointResponse,
+        endpoint_handler: Box&lt;<span class="kw">dyn </span>EndpointHandler&lt;MessageId&gt;&gt;,
+    ) -&gt; DispatchResult {
+        <span class="kw">if </span>resp_msg_weight_tag != <span class="kw-2">&amp;</span>MessageWeightTag::EndpointResponse(req.dst_endpoint.clone()) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::WeightTagNotMatch.into());
+        }
+
+        <span class="kw">let </span>resp = endpoint_handler.message_response(dst_chain_id, (channel_id, nonce), req, resp);
+
+        <span class="self">Self</span>::reward_operators_for_outbox_execution(dst_chain_id, (channel_id, nonce));
+
+        resp
+    }
+
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>process_outbox_message_responses(
         resp_msg: Message&lt;BalanceOf&lt;T&gt;&gt;,
         resp_msg_weight_tag: MessageWeightTag,
     ) -&gt; DispatchResult {
-        <span class="kw">let </span>(dst_domain_id, channel_id, nonce) =
-            (resp_msg.src_domain_id, resp_msg.channel_id, resp_msg.nonce);
+        <span class="kw">let </span>(dst_chain_id, channel_id, nonce) =
+            (resp_msg.src_chain_id, resp_msg.channel_id, resp_msg.nonce);
         <span class="kw">let </span>channel =
-            Channels::&lt;T&gt;::get(dst_domain_id, channel_id).ok_or(Error::&lt;T&gt;::MissingChannel)<span class="question-mark">?</span>;
+            Channels::&lt;T&gt;::get(dst_chain_id, channel_id).ok_or(Error::&lt;T&gt;::MissingChannel)<span class="question-mark">?</span>;
 
         <span class="macro">assert_eq!</span>(
             nonce,
             channel.latest_response_received_message_nonce
                 .and_then(|nonce| nonce.checked_add(Nonce::one()))
                 .unwrap_or(Nonce::zero()),
-            <span class="string">&quot;The message nonce and the channel last msg response nonce must be the same as checked in pre_dispatch; qed&quot;
+            <span class="string">"The message nonce and the channel last msg response nonce must be the same as checked in pre_dispatch; qed"
         </span>);
 
         <span class="comment">// fetch original request
-        </span><span class="kw">let </span>req_msg = Outbox::&lt;T&gt;::take((dst_domain_id, channel_id, nonce))
+        </span><span class="kw">let </span>req_msg = Outbox::&lt;T&gt;::take((dst_chain_id, channel_id, nonce))
             .ok_or(Error::&lt;T&gt;::MissingMessage)<span class="question-mark">?</span>;
+
+        <span class="comment">// clear out box message weight tag
+        </span>MessageWeightTagStore::&lt;T&gt;::mutate(|maybe_messages| {
+            <span class="kw">let </span><span class="kw-2">mut </span>messages = maybe_messages.as_mut().cloned().unwrap_or_default();
+            messages.outbox.remove(<span class="kw-2">&amp;</span>(dst_chain_id, (channel_id, nonce)));
+            <span class="kw-2">*</span>maybe_messages = <span class="prelude-val">Some</span>(messages)
+        });
 
         <span class="kw">let </span>resp = <span class="kw">match </span>(req_msg.payload, resp_msg.payload) {
             <span class="comment">// process incoming protocol outbox message response.
@@ -642,7 +817,7 @@
                 VersionedPayload::V0(Payload::Protocol(RequestResponse::Request(req))),
                 VersionedPayload::V0(Payload::Protocol(RequestResponse::Response(resp))),
             ) =&gt; <span class="self">Self</span>::process_incoming_protocol_message_response(
-                dst_domain_id,
+                dst_chain_id,
                 channel_id,
                 req,
                 resp,
@@ -654,14 +829,16 @@
                 VersionedPayload::V0(Payload::Endpoint(RequestResponse::Request(req))),
                 VersionedPayload::V0(Payload::Endpoint(RequestResponse::Response(resp))),
             ) =&gt; {
-                <span class="kw">if let </span><span class="prelude-val">Some</span>(endpoint_handler) = T::get_endpoint_response_handler(<span class="kw-2">&amp;</span>req.dst_endpoint)
-                {
-                    <span class="kw">if </span>resp_msg_weight_tag
-                        != MessageWeightTag::EndpointResponse(req.dst_endpoint.clone())
-                    {
-                        <span class="kw">return </span><span class="prelude-val">Err</span>(Error::&lt;T&gt;::WeightTagNotMatch.into());
-                    }
-                    endpoint_handler.message_response(dst_domain_id, (channel_id, nonce), req, resp)
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(endpoint_handler) = T::get_endpoint_handler(<span class="kw-2">&amp;</span>req.dst_endpoint) {
+                    <span class="self">Self</span>::process_incoming_endpoint_message_response(
+                        dst_chain_id,
+                        channel_id,
+                        nonce,
+                        <span class="kw-2">&amp;</span>resp_msg_weight_tag,
+                        req,
+                        resp,
+                        endpoint_handler,
+                    )
                 } <span class="kw">else </span>{
                     <span class="prelude-val">Err</span>(Error::&lt;T&gt;::NoMessageHandler.into())
                 }
@@ -670,11 +847,8 @@
             (<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(Error::&lt;T&gt;::InvalidMessagePayload.into()),
         };
 
-        <span class="comment">// distribute rewards to relayers for relaying the outbox messages.
-        </span><span class="self">Self</span>::distribute_reward_to_relayers(channel.fee.outbox_fee.relayer_pool_fee)<span class="question-mark">?</span>;
-
         Channels::&lt;T&gt;::mutate(
-            dst_domain_id,
+            dst_chain_id,
             channel_id,
             |maybe_channel| -&gt; DispatchResult {
                 <span class="kw">let </span>channel = maybe_channel.as_mut().ok_or(Error::&lt;T&gt;::MissingChannel)<span class="question-mark">?</span>;
@@ -683,16 +857,20 @@
             },
         )<span class="question-mark">?</span>;
 
+        UpdatedChannels::&lt;T&gt;::mutate(|updated_channels| {
+            updated_channels.insert((dst_chain_id, channel_id))
+        });
+
         <span class="comment">// deposit event notifying the message status.
         </span><span class="kw">match </span>resp {
             <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="self">Self</span>::deposit_event(Event::OutboxMessageResult {
-                domain_id: dst_domain_id,
+                chain_id: dst_chain_id,
                 channel_id,
                 nonce,
                 result: OutboxMessageResult::Ok,
             }),
             <span class="prelude-val">Err</span>(err) =&gt; <span class="self">Self</span>::deposit_event(Event::OutboxMessageResult {
-                domain_id: dst_domain_id,
+                chain_id: dst_chain_id,
                 channel_id,
                 nonce,
                 result: OutboxMessageResult::Err(err),
@@ -700,6 +878,52 @@
         }
 
         <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="kw">pub fn </span>get_block_messages() -&gt; BlockMessagesWithStorageKey {
+        <span class="kw">let </span>message_weight_tags = <span class="kw">match </span><span class="kw">crate</span>::pallet::MessageWeightTags::&lt;T&gt;::get() {
+            <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>Default::default(),
+            <span class="prelude-val">Some</span>(messages) =&gt; messages,
+        };
+
+        <span class="kw">let </span><span class="kw-2">mut </span>messages_with_storage_key = BlockMessagesWithStorageKey::default();
+
+        <span class="comment">// create storage keys for inbox responses
+        </span>message_weight_tags.inbox_responses.into_iter().for_each(
+            |((chain_id, (channel_id, nonce)), weight_tag)| {
+                <span class="kw">let </span>storage_key =
+                    InboxResponses::&lt;T&gt;::hashed_key_for((chain_id, channel_id, nonce));
+                messages_with_storage_key
+                    .inbox_responses
+                    .push(BlockMessageWithStorageKey {
+                        src_chain_id: T::SelfChainId::get(),
+                        dst_chain_id: chain_id,
+                        channel_id,
+                        nonce,
+                        storage_key,
+                        weight_tag,
+                    });
+            },
+        );
+
+        <span class="comment">// create storage keys for outbox
+        </span>message_weight_tags.outbox.into_iter().for_each(
+            |((chain_id, (channel_id, nonce)), weight_tag)| {
+                <span class="kw">let </span>storage_key = Outbox::&lt;T&gt;::hashed_key_for((chain_id, channel_id, nonce));
+                messages_with_storage_key
+                    .outbox
+                    .push(BlockMessageWithStorageKey {
+                        src_chain_id: T::SelfChainId::get(),
+                        dst_chain_id: chain_id,
+                        channel_id,
+                        nonce,
+                        storage_key,
+                        weight_tag,
+                    })
+            },
+        );
+
+        messages_with_storage_key
     }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/sp-consensus-subspace/src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="sp_consensus_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../sp_consensus_subspace/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/sp-consensus-subspace/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="sp_consensus_subspace" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -702,18 +702,24 @@
 <a href="#702" id="702">702</a>
 <a href="#703" id="703">703</a>
 <a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
 </pre></div><pre class="rust"><code><span class="comment">// Copyright (C) 2019-2021 Parity Technologies (UK) Ltd.
 // Copyright (C) 2021 Subspace Labs, Inc.
 // SPDX-License-Identifier: Apache-2.0
 
-// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+// Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
 // 	http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+// distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
@@ -721,7 +727,8 @@
 </span><span class="doccomment">//! Primitives for Subspace consensus.
 
 </span><span class="attr">#![forbid(unsafe_code, missing_docs)]
-#![cfg_attr(not(feature = <span class="string">&quot;std&quot;</span>), no_std)]
+#![cfg_attr(not(feature = <span class="string">"std"</span>), no_std)]
+#![feature(let_chains)]
 
 </span><span class="kw">extern crate </span>alloc;
 
@@ -733,91 +740,158 @@
 
 <span class="kw">use </span><span class="kw">crate</span>::digests::{CompatibleDigestItem, PreDigest};
 <span class="kw">use </span>alloc::borrow::Cow;
-<span class="kw">use </span>alloc::string::String;
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::string::String;
+<span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
+</span><span class="kw">use </span>alloc::vec::Vec;
 <span class="kw">use </span>codec::{Decode, Encode, MaxEncodedLen};
 <span class="kw">use </span>scale_info::TypeInfo;
-<span class="kw">use </span>schnorrkel::context::SigningContext;
-<span class="kw">use </span>sp_api::{BlockT, HeaderT};
 <span class="kw">use </span>sp_consensus_slots::{Slot, SlotDuration};
-<span class="kw">use </span>sp_core::crypto::KeyTypeId;
 <span class="kw">use </span>sp_core::H256;
 <span class="kw">use </span>sp_io::hashing;
-<span class="kw">use </span>sp_runtime::{ConsensusEngineId, DigestItem};
+<span class="kw">use </span>sp_runtime::traits::{Block <span class="kw">as </span>BlockT, Header <span class="kw">as </span>HeaderT};
+<span class="kw">use </span>sp_runtime::{ConsensusEngineId, Justification};
 <span class="kw">use </span>sp_runtime_interface::pass_by::PassBy;
 <span class="kw">use </span>sp_runtime_interface::{pass_by, runtime_interface};
-<span class="kw">use </span>sp_std::vec::Vec;
-<span class="kw">use </span>subspace_core_primitives::crypto::kzg::Kzg;
+<span class="kw">use </span>sp_std::num::NonZeroU32;
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">use </span>subspace_core_primitives::crypto::kzg::Kzg;
 <span class="kw">use </span>subspace_core_primitives::{
-    BlockNumber, HistorySize, PublicKey, Randomness, RewardSignature, SegmentCommitment,
-    SegmentHeader, SegmentIndex, Solution, SolutionRange, PUBLIC_KEY_LENGTH,
-    REWARD_SIGNATURE_LENGTH,
+    Blake3Hash, BlockHash, BlockNumber, HistorySize, PotCheckpoints, PotOutput, PotSeed, PublicKey,
+    RewardSignature, SegmentCommitment, SegmentHeader, SegmentIndex, SlotNumber, Solution,
+    SolutionRange, REWARD_SIGNING_CONTEXT,
 };
-<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span>subspace_proof_of_space::chia::ChiaTable;
-<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span>subspace_proof_of_space::shim::ShimTable;
-<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">use </span>subspace_proof_of_space::PosTableType;
-<span class="kw">use </span>subspace_proof_of_space::Table;
-<span class="kw">use </span>subspace_solving::REWARD_SIGNING_CONTEXT;
-<span class="kw">use </span>subspace_verification::{check_reward_signature, verify_solution, Error, VerifySolutionParams};
-
-<span class="doccomment">/// Key type for Subspace pallet.
-</span><span class="kw">const </span>KEY_TYPE: KeyTypeId = KeyTypeId(<span class="kw-2">*</span><span class="string">b&quot;sub_&quot;</span>);
-
-<span class="comment">// TODO: Remove this and replace with simple encodable wrappers of Schnorrkel&#39;s types
-</span><span class="kw">mod </span>app {
-    <span class="kw">use </span><span class="kw">super</span>::KEY_TYPE;
-    <span class="kw">use </span>sp_application_crypto::{app_crypto, sr25519};
-
-    <span class="macro">app_crypto!</span>(sr25519, KEY_TYPE);
-}
-
-<span class="doccomment">/// A Subspace farmer signature.
-</span><span class="kw">pub type </span>FarmerSignature = app::Signature;
-
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>FarmerSignature&gt; <span class="kw">for </span>RewardSignature {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from(signature: <span class="kw-2">&amp;</span>FarmerSignature) -&gt; <span class="self">Self </span>{
-        RewardSignature::from(
-            TryInto::&lt;[u8; REWARD_SIGNATURE_LENGTH]&gt;::try_into(AsRef::&lt;[u8]&gt;::as_ref(signature))
-                .expect(<span class="string">&quot;Always correct length; qed&quot;</span>),
-        )
-    }
-}
-
-<span class="doccomment">/// A Subspace farmer identifier. Necessarily equivalent to the schnorrkel public key used in
-/// the main Subspace module. If that ever changes, then this must, too.
-</span><span class="kw">pub type </span>FarmerPublicKey = app::Public;
-
-<span class="kw">impl </span>From&lt;<span class="kw-2">&amp;</span>FarmerPublicKey&gt; <span class="kw">for </span>PublicKey {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from(pub_key: <span class="kw-2">&amp;</span>FarmerPublicKey) -&gt; <span class="self">Self </span>{
-        PublicKey::from(
-            TryInto::&lt;[u8; PUBLIC_KEY_LENGTH]&gt;::try_into(AsRef::&lt;[u8]&gt;::as_ref(pub_key))
-                .expect(<span class="string">&quot;Always correct length; qed&quot;</span>),
-        )
-    }
-}
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">use </span>subspace_proof_of_space::Table;
+<span class="kw">use </span>subspace_verification::{check_reward_signature, VerifySolutionParams};
 
 <span class="doccomment">/// The `ConsensusEngineId` of Subspace.
-</span><span class="kw">const </span>SUBSPACE_ENGINE_ID: ConsensusEngineId = <span class="kw-2">*</span><span class="string">b&quot;SUB_&quot;</span>;
+</span><span class="kw">const </span>SUBSPACE_ENGINE_ID: ConsensusEngineId = <span class="kw-2">*</span><span class="string">b"SUB_"</span>;
+
+<span class="doccomment">/// Subspace justification
+</span><span class="attr">#[derive(Debug, Clone, Encode, Decode, TypeInfo)]
+</span><span class="kw">pub enum </span>SubspaceJustification {
+    <span class="doccomment">/// Proof of time checkpoints that were not seen before
+    </span><span class="attr">#[codec(index = <span class="number">0</span>)]
+    </span>PotCheckpoints {
+        <span class="doccomment">/// Proof of time seed, the input for computing checkpoints
+        </span>seed: PotSeed,
+        <span class="doccomment">/// Proof of time checkpoints from after future proof of parent block to current block's
+        /// future proof (inclusive)
+        </span>checkpoints: Vec&lt;PotCheckpoints&gt;,
+    },
+}
+
+<span class="kw">impl </span>From&lt;SubspaceJustification&gt; <span class="kw">for </span>Justification {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>from(justification: SubspaceJustification) -&gt; <span class="self">Self </span>{
+        (SUBSPACE_ENGINE_ID, justification.encode())
+    }
+}
+
+<span class="kw">impl </span>SubspaceJustification {
+    <span class="doccomment">/// Try to decode Subspace justification from generic justification.
+    ///
+    /// `None` means this is not a Subspace justification.
+    </span><span class="kw">pub fn </span>try_from_justification(
+        (consensus_engine_id, encoded_justification): <span class="kw-2">&amp;</span>Justification,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, codec::Error&gt;&gt; {
+        (<span class="kw-2">*</span>consensus_engine_id == SUBSPACE_ENGINE_ID)
+            .then(|| <span class="self">Self</span>::decode(<span class="kw-2">&amp;mut </span>encoded_justification.as_slice()))
+    }
+
+    <span class="doccomment">/// Returns `true` if justification must be archived, implies that it is canonical
+    </span><span class="kw">pub fn </span>must_be_archived(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="kw">match </span><span class="self">self </span>{
+            SubspaceJustification::PotCheckpoints { .. } =&gt; <span class="bool-val">true</span>,
+        }
+    }
+}
 
 <span class="doccomment">/// An equivocation proof for multiple block authorships on the same slot (i.e. double vote).
-</span><span class="kw">pub type </span>EquivocationProof&lt;Header&gt; = sp_consensus_slots::EquivocationProof&lt;Header, FarmerPublicKey&gt;;
+</span><span class="kw">pub type </span>EquivocationProof&lt;Header&gt; = sp_consensus_slots::EquivocationProof&lt;Header, PublicKey&gt;;
+
+<span class="doccomment">/// Next slot input for proof of time evaluation
+</span><span class="attr">#[derive(Debug, Copy, Clone, PartialEq, Eq, Decode, Encode, TypeInfo, MaxEncodedLen)]
+</span><span class="kw">pub struct </span>PotNextSlotInput {
+    <span class="doccomment">/// Slot
+    </span><span class="kw">pub </span>slot: Slot,
+    <span class="doccomment">/// Slot iterations for this slot
+    </span><span class="kw">pub </span>slot_iterations: NonZeroU32,
+    <span class="doccomment">/// Seed for this slot
+    </span><span class="kw">pub </span>seed: PotSeed,
+}
+
+<span class="kw">impl </span>PotNextSlotInput {
+    <span class="doccomment">/// Derive next slot input while taking parameters change into account.
+    ///
+    /// NOTE: `base_slot_iterations` doesn't have to be parent block, just something that is after
+    /// prior parameters change (if any) took effect, in most cases this value corresponds to parent
+    /// block's slot.
+    </span><span class="kw">pub fn </span>derive(
+        base_slot_iterations: NonZeroU32,
+        parent_slot: Slot,
+        parent_output: PotOutput,
+        pot_parameters_change: <span class="kw-2">&amp;</span><span class="prelude-ty">Option</span>&lt;PotParametersChange&gt;,
+    ) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>next_slot = parent_slot + Slot::from(<span class="number">1</span>);
+        <span class="kw">let </span>slot_iterations;
+        <span class="kw">let </span>seed;
+
+        <span class="comment">// The change to number of iterations might have happened before `next_slot`
+        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(parameters_change) = pot_parameters_change
+            &amp;&amp; parameters_change.slot &lt;= next_slot
+        {
+            slot_iterations = parameters_change.slot_iterations;
+            <span class="comment">// Only if entropy injection happens exactly on next slot we need to mix it in
+            </span><span class="kw">if </span>parameters_change.slot == next_slot {
+                seed = parent_output.seed_with_entropy(<span class="kw-2">&amp;</span>parameters_change.entropy);
+            } <span class="kw">else </span>{
+                seed = parent_output.seed();
+            }
+        } <span class="kw">else </span>{
+            slot_iterations = base_slot_iterations;
+            seed = parent_output.seed();
+        }
+
+        PotNextSlotInput {
+            slot: next_slot,
+            slot_iterations,
+            seed,
+        }
+    }
+}
+
+<span class="doccomment">/// Change of parameters to apply to PoT chain
+</span><span class="attr">#[derive(Debug, Copy, Clone, PartialEq, Eq, Decode, Encode, TypeInfo, MaxEncodedLen)]
+</span><span class="kw">pub struct </span>PotParametersChange {
+    <span class="doccomment">/// At which slot change of parameters takes effect
+    </span><span class="kw">pub </span>slot: Slot,
+    <span class="doccomment">/// New number of slot iterations
+    </span><span class="kw">pub </span>slot_iterations: NonZeroU32,
+    <span class="doccomment">/// Entropy that should be injected at this time
+    </span><span class="kw">pub </span>entropy: Blake3Hash,
+}
 
 <span class="doccomment">/// An consensus log item for Subspace.
 </span><span class="attr">#[derive(Debug, Decode, Encode, Clone, PartialEq, Eq)]
 </span><span class="kw">enum </span>ConsensusLog {
-    <span class="doccomment">/// Global randomness for this block/interval.
+    <span class="doccomment">/// Number of iterations for proof of time per slot, corresponds to slot that directly follows
+    /// parent block's slot and can change before slot for which block is produced.
     </span><span class="attr">#[codec(index = <span class="number">0</span>)]
-    </span>GlobalRandomness(Randomness),
+    </span>PotSlotIterations(NonZeroU32),
     <span class="doccomment">/// Solution range for this block/era.
     </span><span class="attr">#[codec(index = <span class="number">1</span>)]
     </span>SolutionRange(SolutionRange),
-    <span class="doccomment">/// Global randomness for next block/interval.
+    <span class="doccomment">/// Change of parameters to apply to PoT chain.
     </span><span class="attr">#[codec(index = <span class="number">2</span>)]
-    </span>NextGlobalRandomness(Randomness),
+    </span>PotParametersChange(PotParametersChange),
     <span class="doccomment">/// Solution range for next block/era.
     </span><span class="attr">#[codec(index = <span class="number">3</span>)]
     </span>NextSolutionRange(SolutionRange),
@@ -829,7 +903,7 @@
     </span>EnableSolutionRangeAdjustmentAndOverride(<span class="prelude-ty">Option</span>&lt;SolutionRange&gt;),
     <span class="doccomment">/// Root plot public key was updated.
     </span><span class="attr">#[codec(index = <span class="number">6</span>)]
-    </span>RootPlotPublicKeyUpdate(<span class="prelude-ty">Option</span>&lt;FarmerPublicKey&gt;),
+    </span>RootPlotPublicKeyUpdate(<span class="prelude-ty">Option</span>&lt;PublicKey&gt;),
 }
 
 <span class="doccomment">/// Farmer vote.
@@ -846,7 +920,11 @@
         <span class="doccomment">/// Slot at which vote was created.
         </span>slot: Slot,
         <span class="doccomment">/// Solution (includes PoR).
-        </span>solution: Solution&lt;FarmerPublicKey, RewardAddress&gt;,
+        </span>solution: Solution&lt;RewardAddress&gt;,
+        <span class="doccomment">/// Proof of time for this slot
+        </span>proof_of_time: PotOutput,
+        <span class="doccomment">/// Future proof of time
+        </span>future_proof_of_time: PotOutput,
     },
 }
 
@@ -857,7 +935,7 @@
     RewardAddress: Encode,
 {
     <span class="doccomment">/// Solution contained within.
-    </span><span class="kw">pub fn </span>solution(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Solution&lt;FarmerPublicKey, RewardAddress&gt; {
+    </span><span class="kw">pub fn </span>solution(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Solution&lt;RewardAddress&gt; {
         <span class="kw">let </span><span class="self">Self</span>::V0 { solution, .. } = <span class="self">self</span>;
         solution
     }
@@ -880,12 +958,10 @@
     <span class="doccomment">/// Farmer vote.
     </span><span class="kw">pub </span>vote: Vote&lt;Number, Hash, RewardAddress&gt;,
     <span class="doccomment">/// Signature.
-    </span><span class="kw">pub </span>signature: FarmerSignature,
+    </span><span class="kw">pub </span>signature: RewardSignature,
 }
 
-<span class="kw">fn </span>find_pre_digest&lt;Header, RewardAddress&gt;(
-    header: <span class="kw-2">&amp;</span>Header,
-) -&gt; <span class="prelude-ty">Option</span>&lt;PreDigest&lt;FarmerPublicKey, RewardAddress&gt;&gt;
+<span class="kw">fn </span>find_pre_digest&lt;Header, RewardAddress&gt;(header: <span class="kw-2">&amp;</span>Header) -&gt; <span class="prelude-ty">Option</span>&lt;PreDigest&lt;RewardAddress&gt;&gt;
 <span class="kw">where
     </span>Header: HeaderT,
     RewardAddress: Decode,
@@ -897,7 +973,7 @@
         .find_map(|log| log.as_subspace_pre_digest())
 }
 
-<span class="kw">fn </span>is_seal_signature_valid&lt;Header&gt;(<span class="kw-2">mut </span>header: Header, offender: <span class="kw-2">&amp;</span>FarmerPublicKey) -&gt; bool
+<span class="kw">fn </span>is_seal_signature_valid&lt;Header&gt;(<span class="kw-2">mut </span>header: Header, offender: <span class="kw-2">&amp;</span>PublicKey) -&gt; bool
 <span class="kw">where
     </span>Header: HeaderT,
 {
@@ -917,8 +993,8 @@
 
     check_reward_signature(
         pre_hash.as_ref(),
-        <span class="kw-2">&amp;</span>RewardSignature::from(<span class="kw-2">&amp;</span>seal),
-        <span class="kw-2">&amp;</span>PublicKey::from(offender),
+        <span class="kw-2">&amp;</span>seal,
+        offender,
         <span class="kw-2">&amp;</span>schnorrkel::signing_context(REWARD_SIGNING_CONTEXT),
     )
     .is_ok()
@@ -952,17 +1028,17 @@
 
     <span class="comment">// both headers must be targeting the same slot and it must
     // be the same as the one in the proof.
-    </span><span class="kw">if </span>!(proof.slot == first_pre_digest.slot &amp;&amp; proof.slot == second_pre_digest.slot) {
+    </span><span class="kw">if </span>!(proof.slot == first_pre_digest.slot() &amp;&amp; proof.slot == second_pre_digest.slot()) {
         <span class="kw">return </span><span class="bool-val">false</span>;
     }
 
     <span class="comment">// both headers must have the same sector index
-    </span><span class="kw">if </span>first_pre_digest.solution.sector_index != second_pre_digest.solution.sector_index {
+    </span><span class="kw">if </span>first_pre_digest.solution().sector_index != second_pre_digest.solution().sector_index {
         <span class="kw">return </span><span class="bool-val">false</span>;
     }
 
     <span class="comment">// both headers must have been authored by the same farmer
-    </span><span class="kw">if </span>first_pre_digest.solution.public_key != second_pre_digest.solution.public_key {
+    </span><span class="kw">if </span>first_pre_digest.solution().public_key != second_pre_digest.solution().public_key {
         <span class="kw">return </span><span class="bool-val">false</span>;
     }
 
@@ -970,16 +1046,6 @@
     // that the signature is valid.
     </span>is_seal_signature_valid(proof.first_header.clone(), <span class="kw-2">&amp;</span>proof.offender)
         &amp;&amp; is_seal_signature_valid(proof.second_header.clone(), <span class="kw-2">&amp;</span>proof.offender)
-}
-
-<span class="doccomment">/// Subspace global randomnesses used for deriving global challenges.
-</span><span class="attr">#[derive(Default, Decode, Encode, MaxEncodedLen, PartialEq, Eq, Clone, Copy, Debug, TypeInfo)]
-</span><span class="kw">pub struct </span>GlobalRandomnesses {
-    <span class="doccomment">/// Global randomness used for deriving global challenge in current block/interval.
-    </span><span class="kw">pub </span>current: Randomness,
-    <span class="doccomment">/// Global randomness that will be used for deriving global challenge in the next
-    /// block/interval.
-    </span><span class="kw">pub </span>next: <span class="prelude-ty">Option</span>&lt;Randomness&gt;,
 }
 
 <span class="doccomment">/// Subspace solution ranges used for challenges.
@@ -1007,23 +1073,25 @@
     }
 }
 
-<span class="comment">// TODO: Likely add more stuff here
-</span><span class="doccomment">/// Subspace blockchain constants.
-</span><span class="attr">#[derive(Debug, Encode, Decode, MaxEncodedLen, PartialEq, Eq, Clone, Copy, TypeInfo)]
+<span class="doccomment">/// Subspace blockchain constants.
+</span><span class="attr">#[derive(Debug, Encode, Decode, PartialEq, Eq, Clone, Copy, TypeInfo)]
 </span><span class="kw">pub enum </span>ChainConstants {
     <span class="doccomment">/// V0 of the chain constants.
+    </span><span class="attr">#[codec(index = <span class="number">0</span>)]
     </span>V0 {
         <span class="doccomment">/// Depth `K` after which a block enters the recorded history.
         </span>confirmation_depth_k: BlockNumber,
-        <span class="doccomment">/// Number of blocks between global randomness updates.
-        </span>global_randomness_interval: BlockNumber,
+        <span class="doccomment">/// Number of slots between slot arrival and when corresponding block can be produced.
+        </span>block_authoring_delay: Slot,
         <span class="doccomment">/// Era duration in blocks.
         </span>era_duration: BlockNumber,
         <span class="doccomment">/// Slot probability.
         </span>slot_probability: (u64, u64),
-        <span class="doccomment">/// Number of latest archived segments that are considered &quot;recent history&quot;.
+        <span class="doccomment">/// The slot duration in milliseconds.
+        </span>slot_duration: SlotDuration,
+        <span class="doccomment">/// Number of latest archived segments that are considered "recent history".
         </span>recent_segments: HistorySize,
-        <span class="doccomment">/// Fraction of pieces from the &quot;recent history&quot; (`recent_segments`) in each sector.
+        <span class="doccomment">/// Fraction of pieces from the "recent history" (`recent_segments`) in each sector.
         </span>recent_history_fraction: (HistorySize, HistorySize),
         <span class="doccomment">/// Minimum lifetime of a plotted sector, measured in archived segment.
         </span>min_sector_lifetime: HistorySize,
@@ -1040,19 +1108,19 @@
         <span class="kw-2">*</span>confirmation_depth_k
     }
 
-    <span class="doccomment">/// Number of blocks between global randomness updates.
-    </span><span class="kw">pub fn </span>global_randomness_interval(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BlockNumber {
-        <span class="kw">let </span><span class="self">Self</span>::V0 {
-            global_randomness_interval,
-            ..
-        } = <span class="self">self</span>;
-        <span class="kw-2">*</span>global_randomness_interval
-    }
-
     <span class="doccomment">/// Era duration in blocks.
     </span><span class="kw">pub fn </span>era_duration(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BlockNumber {
         <span class="kw">let </span><span class="self">Self</span>::V0 { era_duration, .. } = <span class="self">self</span>;
         <span class="kw-2">*</span>era_duration
+    }
+
+    <span class="doccomment">/// Number of slots between slot arrival and when corresponding block can be produced.
+    </span><span class="kw">pub fn </span>block_authoring_delay(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Slot {
+        <span class="kw">let </span><span class="self">Self</span>::V0 {
+            block_authoring_delay,
+            ..
+        } = <span class="self">self</span>;
+        <span class="kw-2">*</span>block_authoring_delay
     }
 
     <span class="doccomment">/// Slot probability.
@@ -1063,7 +1131,13 @@
         <span class="kw-2">*</span>slot_probability
     }
 
-    <span class="doccomment">/// Number of latest archived segments that are considered &quot;recent history&quot;.
+    <span class="doccomment">/// The slot duration in milliseconds.
+    </span><span class="kw">pub fn </span>slot_duration(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; SlotDuration {
+        <span class="kw">let </span><span class="self">Self</span>::V0 { slot_duration, .. } = <span class="self">self</span>;
+        <span class="kw-2">*</span>slot_duration
+    }
+
+    <span class="doccomment">/// Number of latest archived segments that are considered "recent history".
     </span><span class="kw">pub fn </span>recent_segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; HistorySize {
         <span class="kw">let </span><span class="self">Self</span>::V0 {
             recent_segments, ..
@@ -1071,7 +1145,7 @@
         <span class="kw-2">*</span>recent_segments
     }
 
-    <span class="doccomment">/// Fraction of pieces from the &quot;recent history&quot; (`recent_segments`) in each sector.
+    <span class="doccomment">/// Fraction of pieces from the "recent history" (`recent_segments`) in each sector.
     </span><span class="kw">pub fn </span>recent_history_fraction(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (HistorySize, HistorySize) {
         <span class="kw">let </span><span class="self">Self</span>::V0 {
             recent_history_fraction,
@@ -1092,13 +1166,13 @@
 
 <span class="doccomment">/// Wrapped solution for the purposes of runtime interface.
 </span><span class="attr">#[derive(Debug, Encode, Decode)]
-</span><span class="kw">pub struct </span>WrappedSolution(Solution&lt;FarmerPublicKey, ()&gt;);
+</span><span class="kw">pub struct </span>WrappedSolution(Solution&lt;()&gt;);
 
-<span class="kw">impl</span>&lt;RewardAddress&gt; From&lt;<span class="kw-2">&amp;</span>Solution&lt;FarmerPublicKey, RewardAddress&gt;&gt; <span class="kw">for </span>WrappedSolution {
+<span class="kw">impl</span>&lt;RewardAddress&gt; From&lt;<span class="kw-2">&amp;</span>Solution&lt;RewardAddress&gt;&gt; <span class="kw">for </span>WrappedSolution {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from(solution: <span class="kw-2">&amp;</span>Solution&lt;FarmerPublicKey, RewardAddress&gt;) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>from(solution: <span class="kw-2">&amp;</span>Solution&lt;RewardAddress&gt;) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(Solution {
-            public_key: solution.public_key.clone(),
+            public_key: solution.public_key,
             reward_address: (),
             sector_index: solution.sector_index,
             history_size: solution.history_size,
@@ -1107,7 +1181,6 @@
             record_witness: solution.record_witness,
             chunk: solution.chunk,
             chunk_witness: solution.chunk_witness,
-            audit_chunk_offset: solution.audit_chunk_offset,
             proof_of_space: solution.proof_of_space,
         })
     }
@@ -1119,26 +1192,41 @@
 
 <span class="doccomment">/// Wrapped solution verification parameters for the purposes of runtime interface.
 </span><span class="attr">#[derive(Debug, Encode, Decode)]
-</span><span class="kw">pub struct </span>WrappedVerifySolutionParams&lt;<span class="lifetime">&#39;a</span>&gt;(Cow&lt;<span class="lifetime">&#39;a</span>, VerifySolutionParams&gt;);
+</span><span class="kw">pub struct </span>WrappedVerifySolutionParams&lt;<span class="lifetime">'a</span>&gt;(Cow&lt;<span class="lifetime">'a</span>, VerifySolutionParams&gt;);
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>VerifySolutionParams&gt; <span class="kw">for </span>WrappedVerifySolutionParams&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; From&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>VerifySolutionParams&gt; <span class="kw">for </span>WrappedVerifySolutionParams&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>VerifySolutionParams) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>VerifySolutionParams) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>(Cow::Borrowed(value))
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; PassBy <span class="kw">for </span>WrappedVerifySolutionParams&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; PassBy <span class="kw">for </span>WrappedVerifySolutionParams&lt;<span class="lifetime">'a</span>&gt; {
     <span class="kw">type </span>PassBy = pass_by::Codec&lt;<span class="self">Self</span>&gt;;
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
-</span><span class="macro">sp_externalities::decl_extension! </span>{
+<span class="doccomment">/// Wrapped proof of time output for the purposes of runtime interface.
+</span><span class="attr">#[derive(Debug, Encode, Decode)]
+</span><span class="kw">pub struct </span>WrappedPotOutput(PotOutput);
+
+<span class="kw">impl </span>From&lt;PotOutput&gt; <span class="kw">for </span>WrappedPotOutput {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>from(value: PotOutput) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(value)
+    }
+}
+
+<span class="kw">impl </span>PassBy <span class="kw">for </span>WrappedPotOutput {
+    <span class="kw">type </span>PassBy = pass_by::Codec&lt;<span class="self">Self</span>&gt;;
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="macro">sp_externalities::decl_extension!</span> {
     <span class="doccomment">/// A KZG extension.
     </span><span class="kw">pub struct </span>KzgExtension(Kzg);
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl </span>KzgExtension {
     <span class="doccomment">/// Create new instance.
     </span><span class="kw">pub fn </span>new(kzg: Kzg) -&gt; <span class="self">Self </span>{
@@ -1146,13 +1234,13 @@
     }
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
-</span><span class="macro">sp_externalities::decl_extension! </span>{
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="macro">sp_externalities::decl_extension!</span> {
     <span class="doccomment">/// A Poof of space extension.
     </span><span class="kw">pub struct </span>PosExtension(PosTableType);
 }
 
-<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
 </span><span class="kw">impl </span>PosExtension {
     <span class="doccomment">/// Create new instance.
     </span><span class="kw">pub fn </span>new&lt;PosTable&gt;() -&gt; <span class="self">Self
@@ -1163,62 +1251,121 @@
     }
 }
 
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="macro">sp_externalities::decl_extension!</span> {
+    <span class="doccomment">/// A Poof of time extension.
+    </span><span class="kw">pub struct </span>PotExtension(Box&lt;<span class="kw">dyn </span>(Fn(BlockHash, SlotNumber, PotOutput, bool) -&gt; bool) + Send + Sync&gt;);
+}
+
+<span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
+</span><span class="kw">impl </span>PotExtension {
+    <span class="doccomment">/// Create new instance.
+    </span><span class="kw">pub fn </span>new(
+        verifier: Box&lt;<span class="kw">dyn </span>(Fn(BlockHash, SlotNumber, PotOutput, bool) -&gt; bool) + Send + Sync&gt;,
+    ) -&gt; <span class="self">Self </span>{
+        <span class="self">Self</span>(verifier)
+    }
+}
+
 <span class="doccomment">/// Consensus-related runtime interface
 </span><span class="attr">#[runtime_interface]
 </span><span class="kw">pub trait </span>Consensus {
-    <span class="doccomment">/// Verify whether solution is valid.
+    <span class="doccomment">/// Verify whether solution is valid, returns solution distance that is `&lt;= solution_range/2` on
+    /// success.
     </span><span class="kw">fn </span>verify_solution(
         <span class="kw-2">&amp;mut </span><span class="self">self</span>,
         solution: WrappedSolution,
-        slot: u64,
-        params: WrappedVerifySolutionParams&lt;<span class="lifetime">&#39;_</span>&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+        slot: SlotNumber,
+        params: WrappedVerifySolutionParams&lt;<span class="lifetime">'_</span>&gt;,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;SolutionRange, String&gt; {
         <span class="kw">use </span>sp_externalities::ExternalitiesExt;
         <span class="kw">use </span>subspace_proof_of_space::PosTableType;
 
         <span class="kw">let </span>pos_table_type = <span class="self">self
             </span>.extension::&lt;PosExtension&gt;()
-            .expect(<span class="string">&quot;No `PosExtension` associated for the current context!&quot;</span>)
+            .expect(<span class="string">"No `PosExtension` associated for the current context!"</span>)
             .<span class="number">0</span>;
 
         <span class="kw">let </span>kzg = <span class="kw-2">&amp;</span><span class="self">self
             </span>.extension::&lt;KzgExtension&gt;()
-            .expect(<span class="string">&quot;No `KzgExtension` associated for the current context!&quot;</span>)
+            .expect(<span class="string">"No `KzgExtension` associated for the current context!"</span>)
             .<span class="number">0</span>;
 
         <span class="kw">match </span>pos_table_type {
-            PosTableType::Chia =&gt; {
-                subspace_verification::verify_solution::&lt;ChiaTable, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-                    <span class="kw-2">&amp;</span>solution.<span class="number">0</span>,
-                    slot,
-                    <span class="kw-2">&amp;</span>params.<span class="number">0</span>,
-                    kzg,
-                )
-                .map_err(|error| error.to_string())<span class="question-mark">?</span>;
-            }
-            PosTableType::Shim =&gt; {
-                subspace_verification::verify_solution::&lt;ShimTable, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-                    <span class="kw-2">&amp;</span>solution.<span class="number">0</span>,
-                    slot,
-                    <span class="kw-2">&amp;</span>params.<span class="number">0</span>,
-                    kzg,
-                )
-                .map_err(|error| error.to_string())<span class="question-mark">?</span>;
-            }
+            PosTableType::Chia =&gt; subspace_verification::verify_solution::&lt;ChiaTable, <span class="kw">_</span>&gt;(
+                <span class="kw-2">&amp;</span>solution.<span class="number">0</span>,
+                slot,
+                <span class="kw-2">&amp;</span>params.<span class="number">0</span>,
+                kzg,
+            )
+            .map_err(|error| error.to_string()),
+            PosTableType::Shim =&gt; subspace_verification::verify_solution::&lt;ShimTable, <span class="kw">_</span>&gt;(
+                <span class="kw-2">&amp;</span>solution.<span class="number">0</span>,
+                slot,
+                <span class="kw-2">&amp;</span>params.<span class="number">0</span>,
+                kzg,
+            )
+            .map_err(|error| error.to_string()),
         }
+    }
 
-        <span class="prelude-val">Ok</span>(())
+    <span class="doccomment">/// Verify whether `proof_of_time` is valid at specified `slot` if built on top of `parent_hash`
+    /// fork of the chain.
+    </span><span class="kw">fn </span>is_proof_of_time_valid(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        parent_hash: BlockHash,
+        slot: SlotNumber,
+        proof_of_time: WrappedPotOutput,
+        quick_verification: bool,
+    ) -&gt; bool {
+        <span class="kw">use </span>sp_externalities::ExternalitiesExt;
+
+        <span class="kw">let </span>verifier = <span class="kw-2">&amp;</span><span class="self">self
+            </span>.extension::&lt;PotExtension&gt;()
+            .expect(<span class="string">"No `PotExtension` associated for the current context!"</span>)
+            .<span class="number">0</span>;
+
+        verifier(parent_hash, slot, proof_of_time.<span class="number">0</span>, quick_verification)
     }
 }
 
-<span class="macro">sp_api::decl_runtime_apis! </span>{
+<span class="doccomment">/// Proof of time parameters
+</span><span class="attr">#[derive(Debug, Clone, Encode, Decode, TypeInfo, MaxEncodedLen)]
+</span><span class="kw">pub enum </span>PotParameters {
+    <span class="doccomment">/// Initial version of the parameters
+    </span>V0 {
+        <span class="doccomment">/// Number of iterations for proof of time per slot, corresponds to slot that directly
+        /// follows parent block's slot and can change before slot for which block is produced
+        </span>slot_iterations: NonZeroU32,
+        <span class="doccomment">/// Optional next scheduled change of parameters
+        </span>next_change: <span class="prelude-ty">Option</span>&lt;PotParametersChange&gt;,
+    },
+}
+
+<span class="kw">impl </span>PotParameters {
+    <span class="doccomment">/// Number of iterations for proof of time per slot, corresponds to slot that directly follows
+    /// parent block's slot and can change before slot for which block is produced
+    </span><span class="kw">pub fn </span>slot_iterations(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; NonZeroU32 {
+        <span class="kw">let </span><span class="self">Self</span>::V0 {
+            slot_iterations, ..
+        } = <span class="self">self</span>;
+
+        <span class="kw-2">*</span>slot_iterations
+    }
+
+    <span class="doccomment">/// Get next proof of time parameters change if any
+    </span><span class="kw">pub fn </span>next_parameters_change(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;PotParametersChange&gt; {
+        <span class="kw">let </span><span class="self">Self</span>::V0 { next_change, .. } = <span class="self">self</span>;
+
+        <span class="kw-2">*</span>next_change
+    }
+}
+
+<span class="macro">sp_api::decl_runtime_apis!</span> {
     <span class="doccomment">/// API necessary for block authorship with Subspace.
     </span><span class="kw">pub trait </span>SubspaceApi&lt;RewardAddress: Encode + Decode&gt; {
-        <span class="doccomment">/// The slot duration in milliseconds for Subspace.
-        </span><span class="kw">fn </span>slot_duration() -&gt; SlotDuration;
-
-        <span class="doccomment">/// Global randomnesses used for deriving global challenges.
-        </span><span class="kw">fn </span>global_randomnesses() -&gt; GlobalRandomnesses;
+        <span class="doccomment">/// Proof of time parameters
+        </span><span class="kw">fn </span>pot_parameters() -&gt; PotParameters;
 
         <span class="doccomment">/// Solution ranges.
         </span><span class="kw">fn </span>solution_ranges() -&gt; SolutionRanges;
@@ -1244,7 +1391,7 @@
         );
 
         <span class="doccomment">/// Check if `farmer_public_key` is in block list (due to equivocation)
-        </span><span class="kw">fn </span>is_in_block_list(farmer_public_key: <span class="kw-2">&amp;</span>FarmerPublicKey) -&gt; bool;
+        </span><span class="kw">fn </span>is_in_block_list(farmer_public_key: <span class="kw-2">&amp;</span>PublicKey) -&gt; bool;
 
         <span class="doccomment">/// Size of the blockchain history
         </span><span class="kw">fn </span>history_size() -&gt; HistorySize;
@@ -1258,8 +1405,11 @@
         <span class="doccomment">/// Returns `Vec&lt;SegmentHeader&gt;` if a given extrinsic has them.
         </span><span class="kw">fn </span>extract_segment_headers(ext: <span class="kw-2">&amp;</span>Block::Extrinsic) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;SegmentHeader &gt;&gt;;
 
+        <span class="doccomment">/// Checks if the extrinsic is an inherent.
+        </span><span class="kw">fn </span>is_inherent(ext: <span class="kw-2">&amp;</span>Block::Extrinsic) -&gt; bool;
+
         <span class="doccomment">/// Returns root plot public key in case block authoring is restricted.
-        </span><span class="kw">fn </span>root_plot_public_key() -&gt; <span class="prelude-ty">Option</span>&lt;FarmerPublicKey&gt;;
+        </span><span class="kw">fn </span>root_plot_public_key() -&gt; <span class="prelude-ty">Option</span>&lt;PublicKey&gt;;
 
         <span class="doccomment">/// Whether solution range adjustment is enabled.
         </span><span class="kw">fn </span>should_adjust_solution_range() -&gt; bool;
@@ -1267,143 +1417,5 @@
         <span class="doccomment">/// Get Subspace blockchain constants
         </span><span class="kw">fn </span>chain_constants() -&gt; ChainConstants;
     }
-}
-
-<span class="doccomment">/// Errors encountered by the Subspace authorship task.
-</span><span class="attr">#[derive(Debug, Eq, PartialEq)]
-#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, derive(thiserror::Error))]
-</span><span class="kw">pub enum </span>VerificationError&lt;Header: HeaderT&gt; {
-    <span class="doccomment">/// No Subspace pre-runtime digest found
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;No Subspace pre-runtime digest found&quot;</span>))]
-    </span>NoPreRuntimeDigest,
-    <span class="doccomment">/// Header has a bad seal
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Header {0:?} has a bad seal&quot;</span>))]
-    </span>HeaderBadSeal(Header::Hash),
-    <span class="doccomment">/// Header is unsealed
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Header {0:?} is unsealed&quot;</span>))]
-    </span>HeaderUnsealed(Header::Hash),
-    <span class="doccomment">/// Bad reward signature
-    </span><span class="attr">#[cfg_attr(feature = <span class="string">&quot;thiserror&quot;</span>, error(<span class="string">&quot;Bad reward signature on {0:?}&quot;</span>))]
-    </span>BadRewardSignature(Header::Hash),
-    <span class="doccomment">/// Verification error
-    </span><span class="attr">#[cfg_attr(
-        feature = <span class="string">&quot;thiserror&quot;</span>,
-        error(<span class="string">&quot;Verification error on slot {0:?}: {1:?}&quot;</span>)
-    )]
-    </span>VerificationError(Slot, Error),
-}
-
-<span class="doccomment">/// A header which has been checked
-</span><span class="kw">pub enum </span>CheckedHeader&lt;H, S&gt; {
-    <span class="doccomment">/// A header which has slot in the future. this is the full header (not stripped)
-    /// and the slot in which it should be processed.
-    </span>Deferred(H, Slot),
-    <span class="doccomment">/// A header which is fully checked, including signature. This is the pre-header
-    /// accompanied by the seal components.
-    ///
-    /// Includes the digest item that encoded the seal.
-    </span>Checked(H, S),
-}
-
-<span class="doccomment">/// Subspace verification parameters
-</span><span class="kw">pub struct </span>VerificationParams&lt;<span class="lifetime">&#39;a</span>, Header&gt;
-<span class="kw">where
-    </span>Header: HeaderT + <span class="lifetime">&#39;a</span>,
-{
-    <span class="doccomment">/// The header being verified.
-    </span><span class="kw">pub </span>header: Header,
-    <span class="doccomment">/// The slot number of the current time.
-    </span><span class="kw">pub </span>slot_now: Slot,
-    <span class="doccomment">/// Parameters for solution verification
-    </span><span class="kw">pub </span>verify_solution_params: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>VerifySolutionParams,
-    <span class="doccomment">/// Signing context for reward signature
-    </span><span class="kw">pub </span>reward_signing_context: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>SigningContext,
-}
-
-<span class="doccomment">/// Information from verified header
-</span><span class="kw">pub struct </span>VerifiedHeaderInfo&lt;RewardAddress&gt; {
-    <span class="doccomment">/// Pre-digest
-    </span><span class="kw">pub </span>pre_digest: PreDigest&lt;FarmerPublicKey, RewardAddress&gt;,
-    <span class="doccomment">/// Seal (signature)
-    </span><span class="kw">pub </span>seal: DigestItem,
-}
-
-<span class="doccomment">/// Check a header has been signed correctly and whether solution is correct. If the slot is too far
-/// in the future, an error will be returned. If successful, returns the pre-header and the digest
-/// item containing the seal.
-///
-/// The seal must be the last digest. Otherwise, the whole header is considered unsigned. This is
-/// required for security and must not be changed.
-///
-/// This digest item will always return `Some` when used with `as_subspace_pre_digest`.
-///
-/// `pre_digest` argument is optional in case it is available to avoid doing the work of extracting
-/// it from the header twice.
-</span><span class="kw">pub fn </span>check_header&lt;PosTable, Header, RewardAddress&gt;(
-    params: VerificationParams&lt;Header&gt;,
-    pre_digest: <span class="prelude-ty">Option</span>&lt;PreDigest&lt;FarmerPublicKey, RewardAddress&gt;&gt;,
-    kzg: <span class="kw-2">&amp;</span>Kzg,
-) -&gt; <span class="prelude-ty">Result</span>&lt;CheckedHeader&lt;Header, VerifiedHeaderInfo&lt;RewardAddress&gt;&gt;, VerificationError&lt;Header&gt;&gt;
-<span class="kw">where
-    </span>PosTable: Table,
-    Header: HeaderT,
-    RewardAddress: Decode,
-{
-    <span class="kw">let </span>VerificationParams {
-        <span class="kw-2">mut </span>header,
-        slot_now,
-        verify_solution_params,
-        reward_signing_context,
-    } = params;
-
-    <span class="kw">let </span>pre_digest = <span class="kw">match </span>pre_digest {
-        <span class="prelude-val">Some</span>(pre_digest) =&gt; pre_digest,
-        <span class="prelude-val">None </span>=&gt; find_pre_digest::&lt;Header, RewardAddress&gt;(<span class="kw-2">&amp;</span>header)
-            .ok_or(VerificationError::NoPreRuntimeDigest)<span class="question-mark">?</span>,
-    };
-    <span class="kw">let </span>slot = pre_digest.slot;
-
-    <span class="kw">let </span>seal = header
-        .digest_mut()
-        .pop()
-        .ok_or_else(|| VerificationError::HeaderUnsealed(header.hash()))<span class="question-mark">?</span>;
-
-    <span class="kw">let </span>signature = seal
-        .as_subspace_seal()
-        .ok_or_else(|| VerificationError::HeaderBadSeal(header.hash()))<span class="question-mark">?</span>;
-
-    <span class="comment">// The pre-hash of the header doesn&#39;t include the seal and that&#39;s what we sign
-    </span><span class="kw">let </span>pre_hash = header.hash();
-
-    <span class="kw">if </span>pre_digest.slot &gt; slot_now {
-        header.digest_mut().push(seal);
-        <span class="kw">return </span><span class="prelude-val">Ok</span>(CheckedHeader::Deferred(header, pre_digest.slot));
-    }
-
-    <span class="comment">// Verify that block is signed properly
-    </span><span class="kw">if </span>check_reward_signature(
-        pre_hash.as_ref(),
-        <span class="kw-2">&amp;</span>RewardSignature::from(<span class="kw-2">&amp;</span>signature),
-        <span class="kw-2">&amp;</span>PublicKey::from(<span class="kw-2">&amp;</span>pre_digest.solution.public_key),
-        reward_signing_context,
-    )
-    .is_err()
-    {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(VerificationError::BadRewardSignature(pre_hash));
-    }
-
-    <span class="comment">// Verify that solution is valid
-    </span>verify_solution::&lt;PosTable, <span class="kw">_</span>, <span class="kw">_</span>&gt;(
-        <span class="kw-2">&amp;</span>pre_digest.solution,
-        slot.into(),
-        verify_solution_params,
-        kzg,
-    )
-    .map_err(|error| VerificationError::VerificationError(slot, error))<span class="question-mark">?</span>;
-
-    <span class="prelude-val">Ok</span>(CheckedHeader::Checked(
-        header,
-        VerifiedHeaderInfo { pre_digest, seal },
-    ))
 }
 </code></pre></div></section></main></body></html>

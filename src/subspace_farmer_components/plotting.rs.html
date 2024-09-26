@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-farmer-components/src/plotting.rs`."><title>plotting.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="subspace_farmer_components" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0-nightly (399b06823 2023-07-20)" data-channel="nightly" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-6d2c9675f3d09c26.css" data-theme-dark-css="dark-45ceb8f2e522f4d1.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-6d2c9675f3d09c26.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-45ceb8f2e522f4d1.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../subspace_farmer_components/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/subspace-farmer-components/src/plotting.rs`."><title>plotting.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-970bf1bf55bd1c15.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="subspace_farmer_components" data-themes="" data-resource-suffix="" data-rustdoc-version="1.82.0-nightly (28a58f2fa 2024-07-31)" data-channel="nightly" data-search-js="search-ef54e092fea9c776.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f9142fe437216fc3.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -461,34 +461,387 @@
 <a href="#461" id="461">461</a>
 <a href="#462" id="462">462</a>
 <a href="#463" id="463">463</a>
-</pre></div><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::sector::{
-    sector_record_chunks_size, sector_size, RawSector, RecordMetadata, SectorContentsMap,
-    SectorMetadata,
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
+<a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
+<a href="#479" id="479">479</a>
+<a href="#480" id="480">480</a>
+<a href="#481" id="481">481</a>
+<a href="#482" id="482">482</a>
+<a href="#483" id="483">483</a>
+<a href="#484" id="484">484</a>
+<a href="#485" id="485">485</a>
+<a href="#486" id="486">486</a>
+<a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
+<a href="#489" id="489">489</a>
+<a href="#490" id="490">490</a>
+<a href="#491" id="491">491</a>
+<a href="#492" id="492">492</a>
+<a href="#493" id="493">493</a>
+<a href="#494" id="494">494</a>
+<a href="#495" id="495">495</a>
+<a href="#496" id="496">496</a>
+<a href="#497" id="497">497</a>
+<a href="#498" id="498">498</a>
+<a href="#499" id="499">499</a>
+<a href="#500" id="500">500</a>
+<a href="#501" id="501">501</a>
+<a href="#502" id="502">502</a>
+<a href="#503" id="503">503</a>
+<a href="#504" id="504">504</a>
+<a href="#505" id="505">505</a>
+<a href="#506" id="506">506</a>
+<a href="#507" id="507">507</a>
+<a href="#508" id="508">508</a>
+<a href="#509" id="509">509</a>
+<a href="#510" id="510">510</a>
+<a href="#511" id="511">511</a>
+<a href="#512" id="512">512</a>
+<a href="#513" id="513">513</a>
+<a href="#514" id="514">514</a>
+<a href="#515" id="515">515</a>
+<a href="#516" id="516">516</a>
+<a href="#517" id="517">517</a>
+<a href="#518" id="518">518</a>
+<a href="#519" id="519">519</a>
+<a href="#520" id="520">520</a>
+<a href="#521" id="521">521</a>
+<a href="#522" id="522">522</a>
+<a href="#523" id="523">523</a>
+<a href="#524" id="524">524</a>
+<a href="#525" id="525">525</a>
+<a href="#526" id="526">526</a>
+<a href="#527" id="527">527</a>
+<a href="#528" id="528">528</a>
+<a href="#529" id="529">529</a>
+<a href="#530" id="530">530</a>
+<a href="#531" id="531">531</a>
+<a href="#532" id="532">532</a>
+<a href="#533" id="533">533</a>
+<a href="#534" id="534">534</a>
+<a href="#535" id="535">535</a>
+<a href="#536" id="536">536</a>
+<a href="#537" id="537">537</a>
+<a href="#538" id="538">538</a>
+<a href="#539" id="539">539</a>
+<a href="#540" id="540">540</a>
+<a href="#541" id="541">541</a>
+<a href="#542" id="542">542</a>
+<a href="#543" id="543">543</a>
+<a href="#544" id="544">544</a>
+<a href="#545" id="545">545</a>
+<a href="#546" id="546">546</a>
+<a href="#547" id="547">547</a>
+<a href="#548" id="548">548</a>
+<a href="#549" id="549">549</a>
+<a href="#550" id="550">550</a>
+<a href="#551" id="551">551</a>
+<a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
+<a href="#555" id="555">555</a>
+<a href="#556" id="556">556</a>
+<a href="#557" id="557">557</a>
+<a href="#558" id="558">558</a>
+<a href="#559" id="559">559</a>
+<a href="#560" id="560">560</a>
+<a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
+<a href="#616" id="616">616</a>
+<a href="#617" id="617">617</a>
+<a href="#618" id="618">618</a>
+<a href="#619" id="619">619</a>
+<a href="#620" id="620">620</a>
+<a href="#621" id="621">621</a>
+<a href="#622" id="622">622</a>
+<a href="#623" id="623">623</a>
+<a href="#624" id="624">624</a>
+<a href="#625" id="625">625</a>
+<a href="#626" id="626">626</a>
+<a href="#627" id="627">627</a>
+<a href="#628" id="628">628</a>
+<a href="#629" id="629">629</a>
+<a href="#630" id="630">630</a>
+<a href="#631" id="631">631</a>
+<a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
+<a href="#635" id="635">635</a>
+<a href="#636" id="636">636</a>
+<a href="#637" id="637">637</a>
+<a href="#638" id="638">638</a>
+<a href="#639" id="639">639</a>
+<a href="#640" id="640">640</a>
+<a href="#641" id="641">641</a>
+<a href="#642" id="642">642</a>
+<a href="#643" id="643">643</a>
+<a href="#644" id="644">644</a>
+<a href="#645" id="645">645</a>
+<a href="#646" id="646">646</a>
+<a href="#647" id="647">647</a>
+<a href="#648" id="648">648</a>
+<a href="#649" id="649">649</a>
+<a href="#650" id="650">650</a>
+<a href="#651" id="651">651</a>
+<a href="#652" id="652">652</a>
+<a href="#653" id="653">653</a>
+<a href="#654" id="654">654</a>
+<a href="#655" id="655">655</a>
+<a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+<a href="#680" id="680">680</a>
+<a href="#681" id="681">681</a>
+<a href="#682" id="682">682</a>
+<a href="#683" id="683">683</a>
+<a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
+<a href="#732" id="732">732</a>
+<a href="#733" id="733">733</a>
+<a href="#734" id="734">734</a>
+<a href="#735" id="735">735</a>
+<a href="#736" id="736">736</a>
+<a href="#737" id="737">737</a>
+<a href="#738" id="738">738</a>
+<a href="#739" id="739">739</a>
+<a href="#740" id="740">740</a>
+<a href="#741" id="741">741</a>
+<a href="#742" id="742">742</a>
+<a href="#743" id="743">743</a>
+<a href="#744" id="744">744</a>
+<a href="#745" id="745">745</a>
+<a href="#746" id="746">746</a>
+<a href="#747" id="747">747</a>
+<a href="#748" id="748">748</a>
+<a href="#749" id="749">749</a>
+<a href="#750" id="750">750</a>
+<a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
+<a href="#795" id="795">795</a>
+<a href="#796" id="796">796</a>
+<a href="#797" id="797">797</a>
+<a href="#798" id="798">798</a>
+<a href="#799" id="799">799</a>
+<a href="#800" id="800">800</a>
+<a href="#801" id="801">801</a>
+<a href="#802" id="802">802</a>
+<a href="#803" id="803">803</a>
+<a href="#804" id="804">804</a>
+<a href="#805" id="805">805</a>
+<a href="#806" id="806">806</a>
+<a href="#807" id="807">807</a>
+</pre></div><pre class="rust"><code><span class="doccomment">//! Plotting utilities
+//!
+//! This module contains functions and data structures that can be used for plotting purposes
+//! (primarily with CPU).
+//!
+//! Plotted sectors can be written to plot and later [`read`](crate::reading) and/or
+//! [`audited`](crate::auditing)/[`proven`](crate::proving) using other modules of this crate.
+
+</span><span class="kw">use </span><span class="kw">crate</span>::sector::{
+    sector_record_chunks_size, sector_size, EncodedChunksUsed, RawSector, RecordMetadata,
+    SectorContentsMap, SectorMetadata, SectorMetadataChecksummed,
 };
 <span class="kw">use </span><span class="kw">crate</span>::segment_reconstruction::recover_missing_piece;
-<span class="kw">use </span><span class="kw">crate</span>::FarmerProtocolInfo;
-<span class="kw">use </span>async_trait::async_trait;
+<span class="kw">use crate</span>::{FarmerProtocolInfo, PieceGetter};
+<span class="kw">use </span>async_lock::Mutex <span class="kw">as </span>AsyncMutex;
 <span class="kw">use </span>backoff::future::retry;
 <span class="kw">use </span>backoff::{Error <span class="kw">as </span>BackoffError, ExponentialBackoff};
-<span class="kw">use </span>futures::stream::FuturesOrdered;
+<span class="kw">use </span>futures::stream::FuturesUnordered;
 <span class="kw">use </span>futures::StreamExt;
-<span class="kw">use </span>parity_scale_codec::Encode;
+<span class="kw">use </span>parity_scale_codec::{Decode, Encode};
 <span class="kw">use </span>parking_lot::Mutex;
-<span class="kw">use </span>std::error::Error;
+<span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
 <span class="kw">use </span>std::simd::Simd;
+<span class="kw">use </span>std::sync::atomic::{AtomicBool, Ordering};
 <span class="kw">use </span>std::sync::Arc;
 <span class="kw">use </span>std::time::Duration;
 <span class="kw">use </span>subspace_core_primitives::crypto::kzg::Kzg;
-<span class="kw">use </span>subspace_core_primitives::crypto::Scalar;
+<span class="kw">use </span>subspace_core_primitives::crypto::{blake3_hash, blake3_hash_parallel, Scalar};
 <span class="kw">use </span>subspace_core_primitives::{
-    ArchivedHistorySegment, Piece, PieceIndex, PieceOffset, PublicKey, Record, RecordCommitment,
-    RecordWitness, SBucket, SectorId, SectorIndex,
+    Blake3Hash, HistorySize, PieceIndex, PieceOffset, PosSeed, PublicKey, Record, SBucket,
+    SectorId, SectorIndex,
 };
 <span class="kw">use </span>subspace_erasure_coding::ErasureCoding;
-<span class="kw">use </span>subspace_proof_of_space::{Quality, Table, TableGenerator};
+<span class="kw">use </span>subspace_proof_of_space::{Table, TableGenerator};
 <span class="kw">use </span>thiserror::Error;
-<span class="kw">use </span>tokio::sync::Semaphore;
-<span class="kw">use </span>tracing::{debug, warn};
+<span class="kw">use </span>tokio::sync::{AcquireError, Semaphore};
+<span class="kw">use </span>tracing::{debug, trace, warn};
 
 <span class="kw">const </span>RECONSTRUCTION_CONCURRENCY_LIMIT: usize = <span class="number">1</span>;
 
@@ -502,69 +855,15 @@
     }
 }
 
-<span class="doccomment">/// Defines retry policy on error during piece acquiring.
-</span><span class="attr">#[derive(PartialEq, Eq, Clone, Debug, Copy)]
-</span><span class="kw">pub enum </span>PieceGetterRetryPolicy {
-    <span class="doccomment">/// Retry N times (including zero)
-    </span>Limited(u16),
-    <span class="doccomment">/// No restrictions on retries
-    </span>Unlimited,
-}
-
-<span class="kw">impl </span>Default <span class="kw">for </span>PieceGetterRetryPolicy {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        <span class="self">Self</span>::Limited(<span class="number">0</span>)
-    }
-}
-
-<span class="doccomment">/// Duplicate trait for the subspace_networking::PieceReceiver. The goal of this trait is
-/// simplifying dependency graph.
-</span><span class="attr">#[async_trait]
-</span><span class="kw">pub trait </span>PieceGetter {
-    <span class="kw">async fn </span>get_piece(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        piece_index: PieceIndex,
-        retry_policy: PieceGetterRetryPolicy,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;Piece&gt;, Box&lt;<span class="kw">dyn </span>Error + Send + Sync + <span class="lifetime">&#39;static</span>&gt;&gt;;
-}
-
-<span class="attr">#[async_trait]
-</span><span class="kw">impl</span>&lt;T&gt; PieceGetter <span class="kw">for </span>Arc&lt;T&gt;
-<span class="kw">where
-    </span>T: PieceGetter + Send + Sync,
-{
-    <span class="kw">async fn </span>get_piece(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        piece_index: PieceIndex,
-        retry_policy: PieceGetterRetryPolicy,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;Piece&gt;, Box&lt;<span class="kw">dyn </span>Error + Send + Sync + <span class="lifetime">&#39;static</span>&gt;&gt; {
-        <span class="self">self</span>.as_ref().get_piece(piece_index, retry_policy).<span class="kw">await
-    </span>}
-}
-
-<span class="attr">#[async_trait]
-</span><span class="kw">impl </span>PieceGetter <span class="kw">for </span>ArchivedHistorySegment {
-    <span class="kw">async fn </span>get_piece(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        piece_index: PieceIndex,
-        _retry_policy: PieceGetterRetryPolicy,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;Piece&gt;, Box&lt;<span class="kw">dyn </span>Error + Send + Sync + <span class="lifetime">&#39;static</span>&gt;&gt; {
-        <span class="prelude-val">Ok</span>(<span class="self">self
-            </span>.get(usize::try_from(u64::from(piece_index))<span class="question-mark">?</span>)
-            .map(Piece::from))
-    }
-}
-
 <span class="doccomment">/// Information about sector that was plotted
-</span><span class="attr">#[derive(Debug, Clone)]
+</span><span class="attr">#[derive(Debug, Clone, Encode, Decode)]
 </span><span class="kw">pub struct </span>PlottedSector {
     <span class="doccomment">/// Sector ID
     </span><span class="kw">pub </span>sector_id: SectorId,
     <span class="doccomment">/// Sector index
     </span><span class="kw">pub </span>sector_index: SectorIndex,
     <span class="doccomment">/// Sector metadata
-    </span><span class="kw">pub </span>sector_metadata: SectorMetadata,
+    </span><span class="kw">pub </span>sector_metadata: SectorMetadataChecksummed,
     <span class="doccomment">/// Indexes of pieces that were plotted
     </span><span class="kw">pub </span>piece_indexes: Vec&lt;PieceIndex&gt;,
 }
@@ -572,92 +871,205 @@
 <span class="doccomment">/// Plotting status
 </span><span class="attr">#[derive(Debug, Error)]
 </span><span class="kw">pub enum </span>PlottingError {
-    <span class="doccomment">/// Invalid erasure coding instance
-    </span><span class="attr">#[error(<span class="string">&quot;Invalid erasure coding instance&quot;</span>)]
-    </span>InvalidErasureCodingInstance,
+    <span class="doccomment">/// Records encoder error
+    </span><span class="attr">#[error(<span class="string">"Records encoder error: {error}"</span>)]
+    </span>RecordsEncoderError {
+        <span class="doccomment">/// Lower-level error
+        </span>error: Box&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync + <span class="lifetime">'static</span>&gt;,
+    },
     <span class="doccomment">/// Bad sector output size
-    </span><span class="attr">#[error(<span class="string">&quot;Bad sector output size: provided {provided}, expected {expected}&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"Bad sector output size: provided {provided}, expected {expected}"</span>)]
     </span>BadSectorOutputSize {
         <span class="doccomment">/// Actual size
         </span>provided: usize,
         <span class="doccomment">/// Expected size
         </span>expected: usize,
     },
-    <span class="doccomment">/// Bad sector metadata output size
-    </span><span class="attr">#[error(<span class="string">&quot;Bad sector metadata output size: provided {provided}, expected {expected}&quot;</span>)]
-    </span>BadSectorMetadataOutputSize {
-        <span class="doccomment">/// Actual size
-        </span>provided: usize,
-        <span class="doccomment">/// Expected size
-        </span>expected: usize,
-    },
-    <span class="doccomment">/// Piece not found, can&#39;t create sector, this should never happen
-    </span><span class="attr">#[error(<span class="string">&quot;Piece {piece_index} not found, can&#39;t create sector, this should never happen&quot;</span>)]
+    <span class="doccomment">/// Piece not found, can't create sector, this should never happen
+    </span><span class="attr">#[error(<span class="string">"Piece {piece_index} not found, can't create sector, this should never happen"</span>)]
     </span>PieceNotFound {
         <span class="doccomment">/// Piece index
         </span>piece_index: PieceIndex,
     },
-    <span class="doccomment">/// Can&#39;t recover missing piece
-    </span><span class="attr">#[error(<span class="string">&quot;Can&#39;t recover missing piece&quot;</span>)]
+    <span class="doccomment">/// Can't recover missing piece
+    </span><span class="attr">#[error(<span class="string">"Can't recover missing piece"</span>)]
     </span>PieceRecoveryFailed {
         <span class="doccomment">/// Piece index
         </span>piece_index: PieceIndex,
     },
     <span class="doccomment">/// Failed to retrieve piece
-    </span><span class="attr">#[error(<span class="string">&quot;Failed to retrieve piece {piece_index}: {error}&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"Failed to retrieve piece {piece_index}: {error}"</span>)]
     </span>FailedToRetrievePiece {
         <span class="doccomment">/// Piece index
         </span>piece_index: PieceIndex,
         <span class="doccomment">/// Lower-level error
-        </span>error: Box&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync + <span class="lifetime">&#39;static</span>&gt;,
+        </span>error: Box&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync + <span class="lifetime">'static</span>&gt;,
     },
+    <span class="doccomment">/// Failed to acquire permit
+    </span><span class="attr">#[error(<span class="string">"Failed to acquire permit: {error}"</span>)]
+    </span>FailedToAcquirePermit {
+        <span class="doccomment">/// Lower-level error
+        </span><span class="attr">#[from]
+        </span>error: AcquireError,
+    },
+    <span class="doccomment">/// Abort early
+    </span><span class="attr">#[error(<span class="string">"Abort early"</span>)]
+    </span>AbortEarly,
 }
 
-<span class="doccomment">/// Plot a single sector, where `sector` and `sector_metadata` must be positioned correctly at the
-/// beginning of the sector (seek to desired offset before calling this function and seek back
-/// afterwards if necessary).
+<span class="doccomment">/// Options for plotting a sector.
+///
+/// Sector output and sector metadata output should be either empty (in which case they'll be
+/// resized to correct size automatically) or correctly sized from the beginning or else error will
+/// be returned.
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>PlotSectorOptions&lt;<span class="lifetime">'a</span>, RE, PG&gt; {
+    <span class="doccomment">/// Public key corresponding to sector
+    </span><span class="kw">pub </span>public_key: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>PublicKey,
+    <span class="doccomment">/// Sector index
+    </span><span class="kw">pub </span>sector_index: SectorIndex,
+    <span class="doccomment">/// Getter for pieces of archival history
+    </span><span class="kw">pub </span>piece_getter: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>PG,
+    <span class="doccomment">/// Farmer protocol info
+    </span><span class="kw">pub </span>farmer_protocol_info: FarmerProtocolInfo,
+    <span class="doccomment">/// KZG instance
+    </span><span class="kw">pub </span>kzg: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Kzg,
+    <span class="doccomment">/// Erasure coding instance
+    </span><span class="kw">pub </span>erasure_coding: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>ErasureCoding,
+    <span class="doccomment">/// How many pieces should sector contain
+    </span><span class="kw">pub </span>pieces_in_sector: u16,
+    <span class="doccomment">/// Where plotted sector should be written, vector must either be empty (in which case it'll be
+    /// resized to correct size automatically) or correctly sized from the beginning
+    </span><span class="kw">pub </span>sector_output: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>Vec&lt;u8&gt;,
+    <span class="doccomment">/// Semaphore for part of the plotting when farmer downloads new sector, allows to limit memory
+    /// usage of the plotting process, permit will be held until the end of the plotting process
+    </span><span class="kw">pub </span>downloading_semaphore: <span class="prelude-ty">Option</span>&lt;Arc&lt;Semaphore&gt;&gt;,
+    <span class="doccomment">/// Semaphore for part of the plotting when farmer encodes downloaded sector, should typically
+    /// allow one permit at a time for efficient CPU utilization
+    </span><span class="kw">pub </span>encoding_semaphore: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>Semaphore&gt;,
+    <span class="doccomment">/// Proof of space table generators
+    </span><span class="kw">pub </span>records_encoder: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>RE,
+    <span class="doccomment">/// Whether encoding should be aborted early
+    </span><span class="kw">pub </span>abort_early: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>AtomicBool,
+}
+
+<span class="doccomment">/// Plot a single sector.
+///
+/// This is a convenient wrapper around [`download_sector`] and [`encode_sector`] functions.
 ///
 /// NOTE: Even though this function is async, it has blocking code inside and must be running in a
 /// separate thread in order to prevent blocking an executor.
-</span><span class="attr">#[allow(clippy::too_many_arguments)]
-</span><span class="kw">pub async fn </span>plot_sector&lt;PG, PosTable&gt;(
-    public_key: <span class="kw-2">&amp;</span>PublicKey,
-    sector_index: SectorIndex,
-    piece_getter: <span class="kw-2">&amp;</span>PG,
-    piece_getter_retry_policy: PieceGetterRetryPolicy,
-    farmer_protocol_info: <span class="kw-2">&amp;</span>FarmerProtocolInfo,
-    kzg: <span class="kw-2">&amp;</span>Kzg,
-    erasure_coding: <span class="kw-2">&amp;</span>ErasureCoding,
-    pieces_in_sector: u16,
-    sector_output: <span class="kw-2">&amp;mut </span>[u8],
-    sector_metadata_output: <span class="kw-2">&amp;mut </span>[u8],
-    table_generator: <span class="kw-2">&amp;mut </span>PosTable::Generator,
+</span><span class="kw">pub async fn </span>plot_sector&lt;RE, PG&gt;(
+    options: PlotSectorOptions&lt;<span class="lifetime">'_</span>, RE, PG&gt;,
 ) -&gt; <span class="prelude-ty">Result</span>&lt;PlottedSector, PlottingError&gt;
 <span class="kw">where
-    </span>PG: PieceGetter,
-    PosTable: Table,
+    </span>RE: RecordsEncoder,
+    PG: PieceGetter,
 {
-    <span class="kw">if </span>erasure_coding.max_shards() &lt; Record::NUM_S_BUCKETS {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(PlottingError::InvalidErasureCodingInstance);
+    <span class="kw">let </span>PlotSectorOptions {
+        public_key,
+        sector_index,
+        piece_getter,
+        farmer_protocol_info,
+        kzg,
+        erasure_coding,
+        pieces_in_sector,
+        sector_output,
+        downloading_semaphore,
+        encoding_semaphore,
+        records_encoder,
+        abort_early,
+    } = options;
+
+    <span class="kw">let </span>_downloading_permit = <span class="kw">match </span>downloading_semaphore {
+        <span class="prelude-val">Some</span>(downloading_semaphore) =&gt; <span class="prelude-val">Some</span>(downloading_semaphore.acquire_owned().<span class="kw">await</span><span class="question-mark">?</span>),
+        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
+    };
+
+    <span class="kw">let </span>download_sector_fut = download_sector(DownloadSectorOptions {
+        public_key,
+        sector_index,
+        piece_getter,
+        farmer_protocol_info,
+        kzg,
+        erasure_coding,
+        pieces_in_sector,
+    });
+
+    <span class="kw">let </span>_encoding_permit = <span class="kw">match </span>encoding_semaphore {
+        <span class="prelude-val">Some</span>(encoding_semaphore) =&gt; <span class="prelude-val">Some</span>(encoding_semaphore.acquire().<span class="kw">await</span><span class="question-mark">?</span>),
+        <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
+    };
+
+    <span class="kw">let </span>encoded_sector = encode_sector(
+        download_sector_fut.<span class="kw">await</span><span class="question-mark">?</span>,
+        EncodeSectorOptions::&lt;RE&gt; {
+            sector_index,
+            records_encoder,
+            abort_early,
+        },
+    )<span class="question-mark">?</span>;
+
+    <span class="kw">if </span>abort_early.load(Ordering::Acquire) {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(PlottingError::AbortEarly);
     }
 
-    <span class="kw">if </span>sector_output.len() &lt; sector_size(pieces_in_sector) {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(PlottingError::BadSectorOutputSize {
-            provided: sector_output.len(),
-            expected: sector_size(pieces_in_sector),
-        });
-    }
+    write_sector(<span class="kw-2">&amp;</span>encoded_sector, sector_output)<span class="question-mark">?</span>;
 
-    <span class="kw">if </span>sector_metadata_output.len() &lt; SectorMetadata::encoded_size() {
-        <span class="kw">return </span><span class="prelude-val">Err</span>(PlottingError::BadSectorMetadataOutputSize {
-            provided: sector_metadata_output.len(),
-            expected: SectorMetadata::encoded_size(),
-        });
-    }
+    <span class="prelude-val">Ok</span>(encoded_sector.plotted_sector)
+}
+
+<span class="doccomment">/// Opaque sector downloading result and ready for writing
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>DownloadedSector {
+    sector_id: SectorId,
+    piece_indices: Vec&lt;PieceIndex&gt;,
+    raw_sector: RawSector,
+    history_size: HistorySize,
+}
+
+<span class="doccomment">/// Options for sector downloading
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>DownloadSectorOptions&lt;<span class="lifetime">'a</span>, PG&gt; {
+    <span class="doccomment">/// Public key corresponding to sector
+    </span><span class="kw">pub </span>public_key: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>PublicKey,
+    <span class="doccomment">/// Sector index
+    </span><span class="kw">pub </span>sector_index: SectorIndex,
+    <span class="doccomment">/// Getter for pieces of archival history
+    </span><span class="kw">pub </span>piece_getter: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>PG,
+    <span class="doccomment">/// Farmer protocol info
+    </span><span class="kw">pub </span>farmer_protocol_info: FarmerProtocolInfo,
+    <span class="doccomment">/// KZG instance
+    </span><span class="kw">pub </span>kzg: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>Kzg,
+    <span class="doccomment">/// Erasure coding instance
+    </span><span class="kw">pub </span>erasure_coding: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>ErasureCoding,
+    <span class="doccomment">/// How many pieces should sector contain
+    </span><span class="kw">pub </span>pieces_in_sector: u16,
+}
+
+<span class="doccomment">/// Download sector for plotting.
+///
+/// This will identify necessary pieces and download them using provided piece getter, after which
+/// they can be encoded using [`encode_sector`] and written to the plot.
+</span><span class="kw">pub async fn </span>download_sector&lt;PG&gt;(
+    options: DownloadSectorOptions&lt;<span class="lifetime">'_</span>, PG&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;DownloadedSector, PlottingError&gt;
+<span class="kw">where
+    </span>PG: PieceGetter,
+{
+    <span class="kw">let </span>DownloadSectorOptions {
+        public_key,
+        sector_index,
+        piece_getter,
+        farmer_protocol_info,
+        kzg,
+        erasure_coding,
+        pieces_in_sector,
+    } = options;
 
     <span class="kw">let </span>sector_id = SectorId::new(public_key.hash(), sector_index);
 
-    <span class="kw">let </span>piece_indexes: Vec&lt;PieceIndex&gt; = (PieceOffset::ZERO..)
+    <span class="kw">let </span>piece_indices = (PieceOffset::ZERO..)
         .take(pieces_in_sector.into())
         .map(|piece_offset| {
             sector_id.derive_piece_index(
@@ -668,136 +1080,305 @@
                 farmer_protocol_info.recent_history_fraction,
             )
         })
-        .collect();
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
-    <span class="comment">// TODO: Downloading and encoding below can happen in parallel, but a bit tricky to implement
-    //  due to sync/async pairing
-
-    </span><span class="kw">let </span>raw_sector = Mutex::new(RawSector::new(pieces_in_sector));
-
-    retry(default_backoff(), || <span class="kw">async </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>raw_sector = raw_sector.lock();
-        raw_sector.records.clear();
-        raw_sector.metadata.clear();
-
-        <span class="kw">if let </span><span class="prelude-val">Err</span>(error) = download_sector(
-            <span class="kw-2">&amp;mut </span>raw_sector,
-            piece_getter,
-            piece_getter_retry_policy,
-            kzg,
-            <span class="kw-2">&amp;</span>piece_indexes,
-        )
-        .<span class="kw">await
-        </span>{
-            <span class="macro">warn!</span>(
-                %sector_index,
-                %error,
-                <span class="string">&quot;Sector plotting attempt failed, will retry later&quot;
-            </span>);
-
-            <span class="kw">return </span><span class="prelude-val">Err</span>(BackoffError::transient(error));
-        }
-
-        <span class="macro">debug!</span>(%sector_index, <span class="string">&quot;Sector downloaded successfully&quot;</span>);
-
-        <span class="prelude-val">Ok</span>(())
-    })
-    .<span class="kw">await</span><span class="question-mark">?</span>;
-
-    <span class="kw">let </span><span class="kw-2">mut </span>raw_sector = raw_sector.into_inner();
-
-    <span class="kw">let </span><span class="kw-2">mut </span>sector_contents_map = SectorContentsMap::new(pieces_in_sector);
-
-    (PieceOffset::ZERO..)
-        .zip(raw_sector.records.iter_mut())
-        .zip(sector_contents_map.iter_record_bitfields_mut())
-        <span class="comment">// TODO: Ideally, we&#39;d use parallelism here, but using `.par_bridge()` causes Chia table
-        //  derivation to only use a single thread, which slows everything to essentially
-        //  single-threaded
-        </span>.for_each(|((piece_offset, record), <span class="kw-2">mut </span>encoded_chunks_used)| {
-            <span class="comment">// Derive PoSpace table (use parallel mode because multiple tables concurrently will use
-            // too much RAM)
-            </span><span class="kw">let </span>pos_table = table_generator.generate_parallel(
-                <span class="kw-2">&amp;</span>sector_id.derive_evaluation_seed(piece_offset, farmer_protocol_info.history_size),
-            );
-
-            <span class="kw">let </span>source_record_chunks = record
-                .iter()
-                .map(|scalar_bytes| {
-                    Scalar::try_from(scalar_bytes).expect(
-                        <span class="string">&quot;Piece getter must returns valid pieces of history that contain \
-                                proper scalar bytes; qed&quot;</span>,
-                    )
-                })
-                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
-            <span class="comment">// Erasure code source record chunks
-            </span><span class="kw">let </span>parity_record_chunks = erasure_coding.extend(<span class="kw-2">&amp;</span>source_record_chunks).expect(
-                <span class="string">&quot;Instance was verified to be able to work with this many values earlier; qed&quot;</span>,
-            );
-
-            <span class="comment">// For every erasure coded chunk check if there is quality present, if so then encode
-            // with PoSpace quality bytes and set corresponding `quality_present` bit to `true`
-            </span><span class="kw">let </span>num_successfully_encoded_chunks = (SBucket::ZERO..=SBucket::MAX)
-                .zip(
-                    source_record_chunks
-                        .iter()
-                        .zip(<span class="kw-2">&amp;</span>parity_record_chunks)
-                        .flat_map(|(a, b)| [a, b]),
-                )
-                .zip(encoded_chunks_used.iter_mut())
-                .filter_map(|((s_bucket, record_chunk), <span class="kw-2">mut </span>encoded_chunk_used)| {
-                    <span class="kw">let </span>quality = pos_table.find_quality(s_bucket.into())<span class="question-mark">?</span>;
-
-                    <span class="kw-2">*</span>encoded_chunk_used = <span class="bool-val">true</span>;
-
-                    <span class="prelude-val">Some</span>(
-                        Simd::from(record_chunk.to_bytes())
-                            ^ Simd::from(quality.create_proof().hash()),
-                    )
-                })
-                <span class="comment">// Make sure above filter function (and corresponding `encoded_chunk_used` update)
-                // happen at most as many times as there is number of chunks in the record,
-                // otherwise `n+1` iterations could happen and update extra `encoded_chunk_used`
-                // unnecessarily causing issues down the line
-                </span>.take(record.iter().count())
-                .zip(record.iter_mut())
-                <span class="comment">// Write encoded chunk back so we can reuse original allocation
-                </span>.map(|(input_chunk, output_chunk)| {
-                    <span class="kw-2">*</span>output_chunk = input_chunk.to_array();
-                })
-                .count();
-
-            <span class="comment">// In some cases there is not enough PoSpace qualities available, in which case we add
-            // remaining number of unencoded erasure coded record chunks to the end
-            </span>source_record_chunks
-                .iter()
-                .zip(<span class="kw-2">&amp;</span>parity_record_chunks)
-                .flat_map(|(a, b)| [a, b])
-                .zip(encoded_chunks_used.iter())
-                <span class="comment">// Skip chunks that were used previously
-                </span>.filter_map(|(record_chunk, encoded_chunk_used)| {
-                    <span class="kw">if </span><span class="kw-2">*</span>encoded_chunk_used {
-                        <span class="prelude-val">None
-                    </span>} <span class="kw">else </span>{
-                        <span class="prelude-val">Some</span>(record_chunk)
-                    }
-                })
-                <span class="comment">// First `num_successfully_encoded_chunks` chunks are encoded
-                </span>.zip(record.iter_mut().skip(num_successfully_encoded_chunks))
-                <span class="comment">// Write necessary number of unencoded chunks at the end
-                </span>.for_each(|(input_chunk, output_chunk)| {
-                    <span class="kw-2">*</span>output_chunk = input_chunk.to_bytes();
-                });
-        });
+    <span class="kw">let </span>raw_sector = AsyncMutex::new(RawSector::new(pieces_in_sector));
 
     {
-        <span class="kw">let </span>(sector_contents_map_region, remainder) =
+        <span class="comment">// This list will be mutated, replacing pieces we have already processed with `None`
+        </span><span class="kw">let </span>incremental_piece_indices =
+            AsyncMutex::new(piece_indices.iter().copied().map(<span class="prelude-val">Some</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;());
+
+        retry(default_backoff(), || <span class="kw">async </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>raw_sector = raw_sector.lock().<span class="kw">await</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>incremental_piece_indices = incremental_piece_indices.lock().<span class="kw">await</span>;
+
+            <span class="kw">if let </span><span class="prelude-val">Err</span>(error) = download_sector_internal(
+                <span class="kw-2">&amp;mut </span>raw_sector,
+                piece_getter,
+                kzg,
+                erasure_coding,
+                <span class="kw-2">&amp;mut </span>incremental_piece_indices,
+            )
+            .<span class="kw">await
+            </span>{
+                <span class="kw">let </span>retrieved_pieces = incremental_piece_indices
+                    .iter()
+                    .filter(|maybe_piece_index| maybe_piece_index.is_none())
+                    .count();
+                <span class="macro">warn!</span>(
+                    %sector_index,
+                    %error,
+                    %pieces_in_sector,
+                    %retrieved_pieces,
+                    <span class="string">"Sector plotting attempt failed, will retry later"
+                </span>);
+
+                <span class="kw">return </span><span class="prelude-val">Err</span>(BackoffError::transient(error));
+            }
+
+            <span class="macro">debug!</span>(%sector_index, <span class="string">"Sector downloaded successfully"</span>);
+
+            <span class="prelude-val">Ok</span>(())
+        })
+        .<span class="kw">await</span><span class="question-mark">?</span>;
+    }
+
+    <span class="prelude-val">Ok</span>(DownloadedSector {
+        sector_id,
+        piece_indices,
+        raw_sector: raw_sector.into_inner(),
+        history_size: farmer_protocol_info.history_size,
+    })
+}
+
+<span class="doccomment">/// Records encoder for plotting purposes
+</span><span class="kw">pub trait </span>RecordsEncoder {
+    <span class="doccomment">/// Encode provided sector records
+    </span><span class="kw">fn </span>encode_records(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        sector_id: <span class="kw-2">&amp;</span>SectorId,
+        records: <span class="kw-2">&amp;mut </span>[Record],
+        history_size: HistorySize,
+        abort_early: <span class="kw-2">&amp;</span>AtomicBool,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;SectorContentsMap, Box&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync + <span class="lifetime">'static</span>&gt;&gt;;
+}
+
+<span class="doccomment">/// CPU implementation of [`RecordsEncoder`]
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>CpuRecordsEncoder&lt;<span class="lifetime">'a</span>, PosTable&gt;
+<span class="kw">where
+    </span>PosTable: Table,
+{
+    table_generators: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>[PosTable::Generator],
+    erasure_coding: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>ErasureCoding,
+    global_mutex: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>AsyncMutex&lt;()&gt;,
+}
+
+<span class="kw">impl</span>&lt;PosTable&gt; RecordsEncoder <span class="kw">for </span>CpuRecordsEncoder&lt;<span class="lifetime">'_</span>, PosTable&gt;
+<span class="kw">where
+    </span>PosTable: Table,
+{
+    <span class="kw">fn </span>encode_records(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        sector_id: <span class="kw-2">&amp;</span>SectorId,
+        records: <span class="kw-2">&amp;mut </span>[Record],
+        history_size: HistorySize,
+        abort_early: <span class="kw-2">&amp;</span>AtomicBool,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;SectorContentsMap, Box&lt;<span class="kw">dyn </span>std::error::Error + Send + Sync + <span class="lifetime">'static</span>&gt;&gt; {
+        <span class="kw">if </span><span class="self">self</span>.erasure_coding.max_shards() &lt; Record::NUM_S_BUCKETS {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
+                <span class="string">"Invalid erasure coding instance: {} shards needed, {} supported"</span>,
+                Record::NUM_S_BUCKETS,
+                <span class="self">self</span>.erasure_coding.max_shards()
+            )
+            .into());
+        }
+
+        <span class="kw">if </span><span class="self">self</span>.table_generators.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">"No table generators"</span>.into());
+        }
+
+        <span class="kw">let </span>pieces_in_sector = records
+            .len()
+            .try_into()
+            .map_err(|error| <span class="macro">format!</span>(<span class="string">"Failed to convert pieces in sector: {error}"</span>))<span class="question-mark">?</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>sector_contents_map = SectorContentsMap::new(pieces_in_sector);
+
+        {
+            <span class="kw">let </span>table_generators = <span class="kw-2">&amp;mut *</span><span class="self">self</span>.table_generators;
+            <span class="kw">let </span>global_mutex = <span class="self">self</span>.global_mutex;
+            <span class="kw">let </span>erasure_coding = <span class="self">self</span>.erasure_coding;
+
+            <span class="kw">let </span>iter = Mutex::new(
+                (PieceOffset::ZERO..)
+                    .zip(records.iter_mut())
+                    .zip(sector_contents_map.iter_record_bitfields_mut()),
+            );
+
+            rayon::scope(|scope| {
+                <span class="kw">for </span>table_generator <span class="kw">in </span>table_generators {
+                    scope.spawn(|_scope| {
+                        <span class="kw">let </span><span class="kw-2">mut </span>chunks_scratch = Vec::with_capacity(Record::NUM_S_BUCKETS);
+
+                        <span class="kw">loop </span>{
+                            <span class="comment">// Take mutex briefly to make sure encoding is allowed right now
+                            </span>global_mutex.lock_blocking();
+
+                            <span class="comment">// This instead of `while` above because otherwise mutex will be held
+                            // for the duration of the loop and will limit concurrency to 1 record
+                            </span><span class="kw">let </span><span class="prelude-val">Some</span>(((piece_offset, record), encoded_chunks_used)) =
+                                iter.lock().next()
+                            <span class="kw">else </span>{
+                                <span class="kw">return</span>;
+                            };
+                            <span class="kw">let </span>pos_seed =
+                                sector_id.derive_evaluation_seed(piece_offset, history_size);
+
+                            record_encoding::&lt;PosTable&gt;(
+                                <span class="kw-2">&amp;</span>pos_seed,
+                                record,
+                                encoded_chunks_used,
+                                table_generator,
+                                erasure_coding,
+                                <span class="kw-2">&amp;mut </span>chunks_scratch,
+                            );
+
+                            <span class="kw">if </span>abort_early.load(Ordering::Relaxed) {
+                                <span class="kw">return</span>;
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        <span class="prelude-val">Ok</span>(sector_contents_map)
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, PosTable&gt; CpuRecordsEncoder&lt;<span class="lifetime">'a</span>, PosTable&gt;
+<span class="kw">where
+    </span>PosTable: Table,
+{
+    <span class="doccomment">/// Create new instance
+    </span><span class="kw">pub fn </span>new(
+        table_generators: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>[PosTable::Generator],
+        erasure_coding: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>ErasureCoding,
+        global_mutex: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>AsyncMutex&lt;()&gt;,
+    ) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            table_generators,
+            erasure_coding,
+            global_mutex,
+        }
+    }
+}
+
+<span class="doccomment">/// Options for encoding a sector.
+///
+/// Sector output and sector metadata output should be either empty (in which case they'll be
+/// resized to correct size automatically) or correctly sized from the beginning or else error will
+/// be returned.
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>EncodeSectorOptions&lt;<span class="lifetime">'a</span>, RE&gt;
+<span class="kw">where
+    </span>RE: RecordsEncoder,
+{
+    <span class="doccomment">/// Sector index
+    </span><span class="kw">pub </span>sector_index: SectorIndex,
+    <span class="doccomment">/// Records encoding instance
+    </span><span class="kw">pub </span>records_encoder: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span>RE,
+    <span class="doccomment">/// Whether encoding should be aborted early
+    </span><span class="kw">pub </span>abort_early: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>AtomicBool,
+}
+
+<span class="doccomment">/// Mostly opaque sector encoding result ready for writing
+</span><span class="attr">#[derive(Debug)]
+</span><span class="kw">pub struct </span>EncodedSector {
+    <span class="doccomment">/// Information about sector that was plotted
+    </span><span class="kw">pub </span>plotted_sector: PlottedSector,
+    raw_sector: RawSector,
+    sector_contents_map: SectorContentsMap,
+}
+
+<span class="doccomment">/// Encode downloaded sector.
+///
+/// This function encodes downloaded sector records and returns sector encoding result that can be
+/// written using [`write_sector`].
+</span><span class="kw">pub fn </span>encode_sector&lt;RE&gt;(
+    downloaded_sector: DownloadedSector,
+    encoding_options: EncodeSectorOptions&lt;<span class="lifetime">'_</span>, RE&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;EncodedSector, PlottingError&gt;
+<span class="kw">where
+    </span>RE: RecordsEncoder,
+{
+    <span class="kw">let </span>DownloadedSector {
+        sector_id,
+        piece_indices,
+        <span class="kw-2">mut </span>raw_sector,
+        history_size,
+    } = downloaded_sector;
+    <span class="kw">let </span>EncodeSectorOptions {
+        sector_index,
+        records_encoder,
+        abort_early,
+    } = encoding_options;
+
+    <span class="kw">let </span>pieces_in_sector = raw_sector.records.len().try_into().expect(
+        <span class="string">"Raw sector can only be created in this crate and it is always done correctly; qed"</span>,
+    );
+
+    <span class="kw">let </span>sector_contents_map = records_encoder
+        .encode_records(
+            <span class="kw-2">&amp;</span>sector_id,
+            <span class="kw-2">&amp;mut </span>raw_sector.records,
+            history_size,
+            abort_early,
+        )
+        .map_err(|error| PlottingError::RecordsEncoderError { error })<span class="question-mark">?</span>;
+
+    <span class="kw">let </span>sector_metadata = SectorMetadataChecksummed::from(SectorMetadata {
+        sector_index,
+        pieces_in_sector,
+        s_bucket_sizes: sector_contents_map.s_bucket_sizes(),
+        history_size,
+    });
+
+    <span class="prelude-val">Ok</span>(EncodedSector {
+        plotted_sector: PlottedSector {
+            sector_id,
+            sector_index,
+            sector_metadata,
+            piece_indexes: piece_indices,
+        },
+        raw_sector,
+        sector_contents_map,
+    })
+}
+
+<span class="doccomment">/// Write encoded sector into sector output
+</span><span class="kw">pub fn </span>write_sector(
+    encoded_sector: <span class="kw-2">&amp;</span>EncodedSector,
+    sector_output: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;,
+) -&gt; <span class="prelude-ty">Result</span>&lt;(), PlottingError&gt; {
+    <span class="kw">let </span>EncodedSector {
+        plotted_sector: <span class="kw">_</span>,
+        raw_sector,
+        sector_contents_map,
+    } = encoded_sector;
+
+    <span class="kw">let </span>pieces_in_sector = raw_sector.records.len().try_into().expect(
+        <span class="string">"Raw sector can only be created in this crate and it is always done correctly; qed"</span>,
+    );
+
+    <span class="kw">let </span>sector_size = sector_size(pieces_in_sector);
+
+    <span class="kw">if </span>!sector_output.is_empty() &amp;&amp; sector_output.len() != sector_size {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(PlottingError::BadSectorOutputSize {
+            provided: sector_output.len(),
+            expected: sector_size,
+        });
+    }
+
+    sector_output.resize(sector_size, <span class="number">0</span>);
+
+    <span class="comment">// Write sector to disk in form of following regions:
+    // * sector contents map
+    // * record chunks as s-buckets
+    // * record metadata
+    // * checksum
+    </span>{
+        <span class="kw">let </span>(sector_contents_map_region, remaining_bytes) =
             sector_output.split_at_mut(SectorContentsMap::encoded_size(pieces_in_sector));
-        <span class="comment">// Write sector contents map so we can decode it later
-        </span>sector_contents_map_region.copy_from_slice(sector_contents_map.as_ref());
         <span class="comment">// Slice remaining memory into belonging to s-buckets and metadata
         </span><span class="kw">let </span>(s_buckets_region, metadata_region) =
-            remainder.split_at_mut(sector_record_chunks_size(pieces_in_sector));
+            remaining_bytes.split_at_mut(sector_record_chunks_size(pieces_in_sector));
+
+        <span class="comment">// Write sector contents map so we can decode it later
+        </span>sector_contents_map
+            .encode_into(sector_contents_map_region)
+            .expect(<span class="string">"Chunked into correct size above; qed"</span>);
 
         <span class="kw">let </span>num_encoded_record_chunks = sector_contents_map.num_encoded_record_chunks();
         <span class="kw">let </span><span class="kw-2">mut </span>next_encoded_record_chunks_offset = <span class="macro">vec!</span>[<span class="number">0_usize</span>; pieces_in_sector.into()];
@@ -807,7 +1388,7 @@
             .flat_map(|s_bucket| {
                 sector_contents_map
                     .iter_s_bucket_records(s_bucket)
-                    .expect(<span class="string">&quot;S-bucket guaranteed to be in range; qed&quot;</span>)
+                    .expect(<span class="string">"S-bucket guaranteed to be in range; qed"</span>)
             })
             .zip(s_buckets_region.array_chunks_mut::&lt;{ Scalar::FULL_BYTES }&gt;())
         {
@@ -819,7 +1400,7 @@
                 <span class="kw-2">&amp;mut </span>next_unencoded_record_chunks_offset[usize::from(piece_offset)];
 
             <span class="comment">// We know that s-buckets in `raw_sector.records` are stored in order (encoded first,
-            // then unencoded), hence we don&#39;t need to calculate the position, we can just store a
+            // then unencoded), hence we don't need to calculate the position, we can just store a
             // few cursors and know the position that way
             </span><span class="kw">let </span>chunk_position;
             <span class="kw">if </span>encoded_chunk_used {
@@ -832,96 +1413,203 @@
             output.copy_from_slice(<span class="kw-2">&amp;</span>raw_sector.records[usize::from(piece_offset)][chunk_position]);
         }
 
-        <span class="kw">for </span>(record_metadata, output) <span class="kw">in </span>raw_sector.metadata.into_iter().zip(
-            metadata_region.array_chunks_mut::&lt;{ RecordCommitment::SIZE + RecordWitness::SIZE }&gt;(),
-        ) {
-            <span class="kw">let </span>(commitment, witness) = output.split_at_mut(RecordCommitment::SIZE);
-            commitment.copy_from_slice(record_metadata.commitment.as_ref());
-            witness.copy_from_slice(record_metadata.witness.as_ref());
+        <span class="kw">let </span>metadata_chunks =
+            metadata_region.array_chunks_mut::&lt;{ RecordMetadata::encoded_size() }&gt;();
+        <span class="kw">for </span>(record_metadata, output) <span class="kw">in </span>raw_sector.metadata.iter().zip(metadata_chunks) {
+            record_metadata.encode_to(<span class="kw-2">&amp;mut </span>output.as_mut_slice());
         }
+
+        <span class="comment">// It would be more efficient to not re-read the whole sector again, but it makes above code
+        // significantly more convoluted and most likely not worth it
+        </span><span class="kw">let </span>(sector_contents, sector_checksum) =
+            sector_output.split_at_mut(sector_size - Blake3Hash::SIZE);
+        sector_checksum.copy_from_slice(blake3_hash_parallel(sector_contents).as_ref());
     }
 
-    <span class="comment">// TODO: Write commitments and witnesses
-    </span><span class="kw">let </span>sector_metadata = SectorMetadata {
-        sector_index,
-        pieces_in_sector,
-        s_bucket_sizes: sector_contents_map.s_bucket_sizes(),
-        history_size: farmer_protocol_info.history_size,
-    };
-
-    sector_metadata_output.copy_from_slice(<span class="kw-2">&amp;</span>sector_metadata.encode());
-
-    <span class="prelude-val">Ok</span>(PlottedSector {
-        sector_id,
-        sector_index,
-        sector_metadata,
-        piece_indexes,
-    })
+    <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">async fn </span>download_sector&lt;PG: PieceGetter&gt;(
+<span class="kw">fn </span>record_encoding&lt;PosTable&gt;(
+    pos_seed: <span class="kw-2">&amp;</span>PosSeed,
+    record: <span class="kw-2">&amp;mut </span>Record,
+    <span class="kw-2">mut </span>encoded_chunks_used: EncodedChunksUsed&lt;<span class="lifetime">'_</span>&gt;,
+    table_generator: <span class="kw-2">&amp;mut </span>PosTable::Generator,
+    erasure_coding: <span class="kw-2">&amp;</span>ErasureCoding,
+    chunks_scratch: <span class="kw-2">&amp;mut </span>Vec&lt;[u8; Scalar::FULL_BYTES]&gt;,
+) <span class="kw">where
+    </span>PosTable: Table,
+{
+    <span class="comment">// Derive PoSpace table
+    </span><span class="kw">let </span>pos_table = table_generator.generate_parallel(pos_seed);
+
+    <span class="comment">// Erasure code source record chunks
+    </span><span class="kw">let </span>parity_record_chunks = erasure_coding
+        .extend(
+            <span class="kw-2">&amp;</span>record
+                .iter()
+                .map(|scalar_bytes| {
+                    Scalar::try_from(scalar_bytes).expect(
+                        <span class="string">"Piece getter must returns valid pieces of history that contain \
+                        proper scalar bytes; qed"</span>,
+                    )
+                })
+                .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;(),
+        )
+        .expect(<span class="string">"Instance was verified to be able to work with this many values earlier; qed"</span>)
+        .into_iter()
+        .map(&lt;[u8; Scalar::FULL_BYTES]&gt;::from)
+        .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+    <span class="kw">let </span>source_record_chunks = record.to_vec();
+
+    chunks_scratch.clear();
+    <span class="comment">// For every erasure coded chunk check if there is proof present, if so then encode
+    // with PoSpace proof bytes and set corresponding `encoded_chunks_used` bit to `true`
+    </span>(u16::from(SBucket::ZERO)..=u16::from(SBucket::MAX))
+        .into_par_iter()
+        .map(SBucket::from)
+        .zip(
+            source_record_chunks
+                .par_iter()
+                .interleave(<span class="kw-2">&amp;</span>parity_record_chunks),
+        )
+        .map(|(s_bucket, record_chunk)| {
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(proof) = pos_table.find_proof(s_bucket.into()) {
+                (Simd::from(<span class="kw-2">*</span>record_chunk) ^ Simd::from(<span class="kw-2">*</span>proof.hash())).to_array()
+            } <span class="kw">else </span>{
+                <span class="comment">// Dummy value indicating no proof
+                </span>[<span class="number">0</span>; Scalar::FULL_BYTES]
+            }
+        })
+        .collect_into_vec(chunks_scratch);
+    <span class="kw">let </span>num_successfully_encoded_chunks = chunks_scratch
+        .drain(..)
+        .zip(encoded_chunks_used.iter_mut())
+        .filter_map(|(maybe_encoded_chunk, <span class="kw-2">mut </span>encoded_chunk_used)| {
+            <span class="comment">// No proof, see above
+            </span><span class="kw">if </span>maybe_encoded_chunk == [<span class="number">0</span>; Scalar::FULL_BYTES] {
+                <span class="prelude-val">None
+            </span>} <span class="kw">else </span>{
+                <span class="kw-2">*</span>encoded_chunk_used = <span class="bool-val">true</span>;
+
+                <span class="prelude-val">Some</span>(maybe_encoded_chunk)
+            }
+        })
+        <span class="comment">// Make sure above filter function (and corresponding `encoded_chunk_used` update)
+        // happen at most as many times as there is number of chunks in the record,
+        // otherwise `n+1` iterations could happen and update extra `encoded_chunk_used`
+        // unnecessarily causing issues down the line
+        </span>.take(record.len())
+        .zip(record.iter_mut())
+        <span class="comment">// Write encoded chunk back so we can reuse original allocation
+        </span>.map(|(input_chunk, output_chunk)| {
+            <span class="kw-2">*</span>output_chunk = input_chunk;
+        })
+        .count();
+
+    <span class="comment">// In some cases there is not enough PoSpace proofs available, in which case we add
+    // remaining number of unencoded erasure coded record chunks to the end
+    </span>source_record_chunks
+        .iter()
+        .zip(<span class="kw-2">&amp;</span>parity_record_chunks)
+        .flat_map(|(a, b)| [a, b])
+        .zip(encoded_chunks_used.iter())
+        <span class="comment">// Skip chunks that were used previously
+        </span>.filter_map(|(record_chunk, encoded_chunk_used)| {
+            <span class="kw">if </span><span class="kw-2">*</span>encoded_chunk_used {
+                <span class="prelude-val">None
+            </span>} <span class="kw">else </span>{
+                <span class="prelude-val">Some</span>(record_chunk)
+            }
+        })
+        <span class="comment">// First `num_successfully_encoded_chunks` chunks are encoded
+        </span>.zip(record.iter_mut().skip(num_successfully_encoded_chunks))
+        <span class="comment">// Write necessary number of unencoded chunks at the end
+        </span>.for_each(|(input_chunk, output_chunk)| {
+            <span class="kw-2">*</span>output_chunk = <span class="kw-2">*</span>input_chunk;
+        });
+}
+
+<span class="kw">async fn </span>download_sector_internal&lt;PG: PieceGetter&gt;(
     raw_sector: <span class="kw-2">&amp;mut </span>RawSector,
     piece_getter: <span class="kw-2">&amp;</span>PG,
-    piece_getter_retry_policy: PieceGetterRetryPolicy,
     kzg: <span class="kw-2">&amp;</span>Kzg,
-    piece_indexes: <span class="kw-2">&amp;</span>[PieceIndex],
+    erasure_coding: <span class="kw-2">&amp;</span>ErasureCoding,
+    piece_indexes: <span class="kw-2">&amp;mut </span>[<span class="prelude-ty">Option</span>&lt;PieceIndex&gt;],
 ) -&gt; <span class="prelude-ty">Result</span>&lt;(), PlottingError&gt; {
     <span class="comment">// TODO: Make configurable, likely allowing user to specify RAM usage expectations and inferring
     //  concurrency from there
     </span><span class="kw">let </span>recovery_semaphore = Semaphore::new(RECONSTRUCTION_CONCURRENCY_LIMIT);
 
     <span class="kw">let </span><span class="kw-2">mut </span>pieces_receiving_futures = piece_indexes
-        .iter()
-        .map(|piece_index| <span class="kw">async </span>{
-            <span class="kw">let </span>piece_index = <span class="kw-2">*</span>piece_index;
+        .iter_mut()
+        .zip(raw_sector.records.iter_mut().zip(<span class="kw-2">&amp;mut </span>raw_sector.metadata))
+        .map(|(maybe_piece_index, (record, metadata))| <span class="kw">async </span>{
+            <span class="comment">// We skip pieces that we have already processed previously
+            </span><span class="kw">let </span><span class="prelude-val">Some</span>(piece_index) = <span class="kw-2">*</span>maybe_piece_index <span class="kw">else </span>{
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+            };
 
-            <span class="kw">let </span>piece_result = piece_getter
-                .get_piece(piece_index, piece_getter_retry_policy)
-                .<span class="kw">await</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>piece_result = piece_getter.get_piece(piece_index).<span class="kw">await</span>;
 
             <span class="kw">let </span>succeeded = piece_result
                 .as_ref()
                 .map(|piece| piece.is_some())
                 .unwrap_or_default();
 
-            <span class="comment">// all retries failed
+            <span class="comment">// All retries failed
             </span><span class="kw">if </span>!succeeded {
                 <span class="kw">let </span>_permit = <span class="kw">match </span>recovery_semaphore.acquire().<span class="kw">await </span>{
                     <span class="prelude-val">Ok</span>(permit) =&gt; permit,
                     <span class="prelude-val">Err</span>(error) =&gt; {
-                        <span class="kw">return </span>(
-                            piece_index,
-                            <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Recovery semaphore was closed: {error}&quot;</span>).into()),
-                        );
+                        <span class="kw">let </span>error = <span class="macro">format!</span>(<span class="string">"Recovery semaphore was closed: {error}"</span>).into();
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(PlottingError::FailedToRetrievePiece { piece_index, error });
                     }
                 };
-                <span class="kw">let </span>recovered_piece =
-                    recover_missing_piece(piece_getter, kzg.clone(), piece_index).<span class="kw">await</span>;
+                <span class="kw">let </span>recovered_piece = recover_missing_piece(
+                    piece_getter,
+                    kzg.clone(),
+                    erasure_coding.clone(),
+                    piece_index,
+                )
+                .<span class="kw">await</span>;
 
-                <span class="kw">return </span>(piece_index, recovered_piece.map(<span class="prelude-val">Some</span>).map_err(Into::into));
+                piece_result = recovered_piece.map(<span class="prelude-val">Some</span>).map_err(Into::into);
             }
 
-            (piece_index, piece_result)
+            <span class="kw">let </span>piece = piece_result
+                .map_err(|error| PlottingError::FailedToRetrievePiece { piece_index, error })<span class="question-mark">?
+                </span>.ok_or(PlottingError::PieceNotFound { piece_index })<span class="question-mark">?</span>;
+
+            <span class="comment">// Fancy way to insert value in order to avoid going through stack (if naive de-referencing
+            // is used) and potentially causing stack overflow as the result
+            </span>record
+                .as_flattened_mut()
+                .copy_from_slice(piece.record().as_flattened());
+            <span class="kw-2">*</span>metadata = RecordMetadata {
+                commitment: <span class="kw-2">*</span>piece.commitment(),
+                witness: <span class="kw-2">*</span>piece.witness(),
+                piece_checksum: blake3_hash(piece.as_ref()),
+            };
+
+            <span class="comment">// We have processed this piece index, clear it
+            </span>maybe_piece_index.take();
+
+            <span class="prelude-val">Ok</span>(())
         })
-        .collect::&lt;FuturesOrdered&lt;<span class="kw">_</span>&gt;&gt;();
+        .collect::&lt;FuturesUnordered&lt;<span class="kw">_</span>&gt;&gt;();
 
-    <span class="kw">while let </span><span class="prelude-val">Some</span>((piece_index, piece_result)) = pieces_receiving_futures.next().<span class="kw">await </span>{
-        <span class="kw">let </span>piece = piece_result
-            .map_err(|error| PlottingError::FailedToRetrievePiece { piece_index, error })<span class="question-mark">?
-            </span>.ok_or(PlottingError::PieceNotFound { piece_index })<span class="question-mark">?</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>final_result = <span class="prelude-val">Ok</span>(());
 
-        <span class="kw">let </span>(record, commitment, witness) = piece.split();
-        <span class="comment">// Fancy way to insert value in order to avoid going through stack (if naive de-referencing
-        // is used) and potentially causing stack overflow as the result
-        </span>raw_sector
-            .records
-            .extend_from_slice(std::slice::from_ref(record));
-        raw_sector.metadata.push(RecordMetadata {
-            commitment: <span class="kw-2">*</span>commitment,
-            witness: <span class="kw-2">*</span>witness,
-        });
+    <span class="kw">while let </span><span class="prelude-val">Some</span>(result) = pieces_receiving_futures.next().<span class="kw">await </span>{
+        <span class="kw">if let </span><span class="prelude-val">Err</span>(error) = result {
+            <span class="macro">trace!</span>(%error, <span class="string">"Failed to download piece"</span>);
+
+            <span class="kw">if </span>final_result.is_ok() {
+                final_result = <span class="prelude-val">Err</span>(error);
+            }
+        }
     }
 
-    <span class="prelude-val">Ok</span>(())
+    final_result
 }
 </code></pre></div></section></main></body></html>
